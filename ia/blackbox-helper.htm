@@ -1,0 +1,165 @@
+<!DOCTYPE html><html><head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Black Box</title>
+
+<style type="text/css">
+
+.televid {
+  position: relative;
+  width: 64vw;
+  padding-bottom: 48vw;
+  overflow: hidden;
+  border: 2px solid red;
+  background-color: black;
+}
+
+.televid img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  margin: auto;
+  border: none;
+}
+
+iframe {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  border: none;
+  background-color: transparent;
+}
+
+table {
+  border: 3px solid green;
+}
+
+td {
+  text-align: center;
+  vertical-align: top;
+  padding: 0 6px 0 6px;
+  color: green;
+  font-size: 15px;
+}
+
+td.vidbox {
+  padding: 0;
+  text-align: initial;
+  vertical-align: middle;
+}
+
+td.textbox {
+  padding: 2px 6px 0 4px;
+  width: 30vw;
+}
+
+button {
+  width: auto;
+  height: 100%;
+  font-size: 13px;
+  background-color: powderblue;
+}
+
+b_ {color: blue;}
+r_ {color: crimson;}
+g_ {color: seagreen;}
+w_ {color: saddlebrown;}
+
+</style></head><body style="color: maroon; background-color: pink">
+
+<h1><g_>Black Box (BBC), Survival in the Sky (TLC)</g_></h1>
+
+<table><tr><td class=textbox>
+
+<button onclick="javascript:playit(0)">Play</button>
+<a href="" id="refer" target="_blank"><button>Play in Window</button></a>
+<button onclick="javascript:playit(1)">Clear</button>
+<p>
+<a href="https://archive.org/details/blackbox-TV-show" target="_blank">Home Page (archive.org)</a>
+
+<div style="text-align:left">
+
+<input type=radio name="box" onchange="javascript:pickit('EP1-deadly-weather.mp4')">
+  EP1 - <w_>Deadly Weather</w_> (Nov 26, 1996)
+<p>
+<input type=radio name="box" onchange="javascript:pickit('EP2-crash-detectives.mp4')">
+  EP2 - <w_>Crash Detectives</w_> (Dec 3, 1996)
+<p>
+<input type=radio name="box" onchange="javascript:pickit('EP3-wing-prayer.mp4')">
+  EP3 - <w_>A Wing and a Prayer</w_> (Dec 10, 1996)
+<p>
+<input type=radio name="box" onchange="javascript:pickit('EP4-blaming-pilot.mp4')">
+  EP4 - <w_>Blaming the Pilot</w_> (Dec 17, 1996)
+<p>
+<input type=radio name="box" onchange="javascript:pickit('EP5-TWA-800.mp4')">
+  EP5 - <w_>The Death of TWA 800</w_> (Jul 15, 1998)
+<p>
+<input type=radio name="box" onchange="javascript:pickit('EP6-sky-crimes.mp4')">
+  EP6 - <w_>Sky Crimes</w_> (Jul 22, 1998)
+
+</div><div style="padding:0 0 0 8px;text-align:left;font-size:16px">
+
+<a href="https://www.imdb.com/title/tt0163928/?ref_=ttrel_rel_tt"
+  target="_blank">Article on IMDB</a>
+<p>
+The series was also aired on The Learning Channel with the title <i>Survival in the Sky</i>.
+<p>
+<a href="https://en.wikipedia.org/wiki/Survival_in_the_Sky"
+  target="_blank">Article on Wikipedia</a>
+<p>
+Sources:
+<br>
+<a href="https://www.dailymotion.com/playlist/x68t9v"
+  target="_blank">EP 1-2-3-4-6</a>&nbsp;&nbsp;
+<a href="https://www.youtube.com/watch?v=OnCxdELH1UQ"
+  target="_blank">EP 5 - Part 1</a>&nbsp;
+<a href="https://www.youtube.com/watch?v=VqyO76KqNSc"
+  target="_blank">Part 2</a>
+<p></p>
+Four episodes of&nbsp;
+<a href="http://dvp-video-audio-archive.blogspot.com/2012/03/survival-in-sky.html"
+  target="_blank">Survival in the Sky</a>
+
+</div></td><td class=vidbox>
+
+<div class=televid><img src="https://archive.org/download/blackbox-TV-show/blackbox-TV-show.jpg">
+
+<iframe id="movie" autoplay allowfullscreen></iframe>
+
+</div></td></tr></table>
+
+<div style="width: 90vw; height: 25vw"></div>
+
+</body>
+
+<script>
+
+var pickit = function (id)
+{
+  document.getElementById ("refer").href = "https://archive.org/download/blackbox-TV-show/blackbox-" + id;
+}
+
+var playit = function (mode)
+{
+  var win = document.getElementById ("movie");
+  var url = document.getElementById ("refer").href;
+
+  if (mode || url == "") { win.src = "about:blank"; return; }
+
+  var insert = "<body style='margin:0;padding:0;background-color:black'><video" +
+  " style='position:absolute;width:100%;height:100%;border:none;outline:none'" +
+  " autoplay allowfullscreen controls src='" + url + "'></video></body>";
+
+  win = win.contentDocument; win.open(); win.write (insert); win.close();
+}
+
+</script>
+
+</html>
