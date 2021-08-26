@@ -11,32 +11,37 @@
 
 body {
   margin-top: 0; text-align: left;
-  font-size: 16px; line-height: 19px;
+  font-size: 16px; line-height: 18px;
   font-family: 'times new roman', serif;
   color: maroon; background-color: moccasin;
   border-color: darkorange;
 }
 
 .blurb {
-  margin: 5px 0 0 0; padding: 4px 8px;
-  text-align: center; line-height: 30px;
-  border: 3px double orange; border-radius: 2px;
-  color: saddlebrown; background-color: lightgoldenrodyellow;
-}
-
-.image {
-  margin: 5px 0; text-align: center;
+  margin: 3px 0; padding: 7px 10px; text-align: center;
+  border: 3px double darksalmon; border-radius: 2px;
+  background-color: lightgoldenrodyellow;
 }
 
 .panel {
-  margin: 3px 0; padding: 6px 6px 6px 8px;
+  margin: 3px 0; padding: 7px 10px;
   border: 2px solid tan; border-radius: 4px;
   background-color: lightgoldenrodyellow;
 }
 
+.image-lft {
+  height: inherit; float: left;
+  margin: 0 10px 0 -2px; outline: 1px solid red;
+}
+
+.image-rgt {
+  height: inherit; float: right;
+  margin: 0 -2px 0 10px; outline: 1px solid red;
+}
+
 .sideways {
   writing-mode: vertical-rl; text-orientation: upright;
-  vertical-align: middle; font-size: 3em;
+  vertical-align: middle; font-size: 2.25em;
   user-select: none;
 }
 
@@ -106,22 +111,19 @@ b_ { color: blue; }
 
 <body>
 
-<div class="blurb">
+<h2 style="text-align:center">Welcome to the <r_>Alleycat</r_> <g_>BBS</g_></h2>
 
-<b>Welcome to the new home of Alleycat Player - </b>Here you will find links to my programming projects and
-other stuff that I find interesting.
+<div class="blurb" style="height:250px">
+
+<img src="alleycat.jpg" class="image-rgt"></img>
 <br>
-<a href="news.html">Latest News</a> (not yet) --
+Here you will find links to my programming projects and other stuff that I find interesting.
+<br><br>
+(<b_>This website is 100% hand-coded HTML.</b_>)
+<br><br><hr><br>
+<a href="news.html">Latest News</a> (nothing yet) --
 <a href="Alleycat-Player/current/installation-v1.htm">Install Alleycat Player</a>
-
-</div><div class="image">
-
-<span class="sideways" style="margin-right:66px"><b_>ALLEYCAT</b_></span>
-<img src="alleycat.jpg" width="528" height="428"></img>
-<span class="sideways" style="margin-left:66px"><g_>B B S</g_></span>
-
-</div><div class="panel" style="text-align:center;border-color:inherit">
-
+<br><br>
 <g_>Alleycat Player</g_> was last updated on June 23, 2021 -
 <a href="Alleycat-Player/current/download-alleycat.htm">get version 4h</a>
 <br>
@@ -133,7 +135,7 @@ other stuff that I find interesting.
 
 </div><div class="panel">
 
-<u><b>A brief history of <b_>Alleycat</b_> <g_>BBS</g_></b></u>
+<b><b_>A brief history of the</b_> <r_>Alleycat</r_> <g_>BBS</g_></b>
 <br><br>
 The name comes from an old project I started in 1981 called "Alleycat BBS". This is of nostalgic value to me.
 <br><br>
@@ -148,19 +150,35 @@ The term "Bulletin Board System" has fallen out of favour over the years. While 
 more sophisticated than the boards from the 1980's, there is little difference in terms of the intended function.
 Posting messages and replying to messages is a tradition that goes back to the stone age of computers.
 
-</div><div class="panel" style="height:136px">
+</div><div class="panel" style="height:140px">
 
-<img src="toadstool.jpg" style="height:inherit;float:right"></img>
+<img src="toadstool.jpg" class="image-rgt"></img>
 
 <b>Links to my other Internet sites:</b>
 <br><br>
 <a href="https://8kun.top/alleycat/catalog.html">My board on 8kun</a> (also called "Alleycat BBS")
 <br><br>
-<a href="https://k00.fr/0asgwxc8">My Koofr archive site</a> (download some cool stuff)
+<a href="https://k00.fr/0asgwxc8">My Koofr archive site</a> (download what you like)
 <br><br>
 My repositories:
 <a href="https://archive.org/details/@8chananon">Internet Archive</a> -
 <a href="https://github.com/8chanAnon">Github</a>
+
+</div><div class="panel">
+
+<img src="film-icon.jpg" class="image-lft"></img>
+
+<b><b_>Alleycat Player</b_></b> is a browser-based application for extracting and viewing videos from websites. 
+<br><br>
+- Support for over 50 video sources including Youtube, Bitchute, Vimeo, Twitter, Facebook, Periscope, etc.
+<br>
+- Download or play videos or copy the video link for playback on an external player such as VLC or SMPlayer.
+<br>
+- Sources for free movies and TV shows. Many of these sources are unsafe but not with Alleycat Player.
+<br>
+- Over 250 Internet TV channels and Internet Radio. Quick and easy push-button access for channel surfing.
+<br>
+- Advanced video player controller with seek presets, brightness adjustment and more.
 
 </div><div class="panel" style="text-align:center;border-color:inherit">
 
