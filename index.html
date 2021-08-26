@@ -13,14 +13,26 @@ body {
   margin-top: 0; text-align: left;
   font-size: 16px; line-height: 19px;
   font-family: 'times new roman', serif;
-  color: maroon; background-color: blanchedalmond;
+  color: maroon; background-color: moccasin; border-color: lightcoral;
 }
 
 .blurb {
-  margin: 7px 0; padding: 4px;
+  margin: 7px 0; padding: 4px 8px;
   text-align: center; line-height: 30px;
+  border: 3px double darkorange; border-radius: 2px;
   color: saddlebrown; background-color: lightgoldenrodyellow;
-  border: 3px double sandybrown;
+}
+
+.panel {
+  margin: 3px 0; padding: 6px 8px;
+  border: 2px solid tan; border-radius: 4px;
+  background-color: lightgoldenrodyellow;
+}
+
+.sideways {
+  writing-mode: vertical-rl; text-orientation: upright;
+  vertical-align: middle; font-size: 3em;
+  user-select: none;
 }
 
 hr {
@@ -77,12 +89,6 @@ img {
   vertical-align: middle; background-color: goldenrod; border: none; outline: none;
 }
 
-.sideways {
-  writing-mode: vertical-rl; text-orientation: upright;
-  vertical-align: middle; font-size: 3em;
-  user-select: none;
-}
-
 ::selection {
   color: yellow; background-color: orchid;
 }
@@ -103,7 +109,7 @@ other stuff that I find interesting.
 <a href="news.html">Latest News</a> (not yet) --
 <a href="Alleycat-Player/current/installation-v1.htm">Install Alleycat Player</a>
 
-</div><div style="text-align:center">
+</div><div style="text-align:center;margin-bottom:7px">
 
 <span class="sideways" style="margin-right:80px"><b_>ALLEYCAT</b_></span>
 
@@ -111,7 +117,7 @@ other stuff that I find interesting.
 
 <span class="sideways" style="margin-left:80px"><g_>B B S</g_></span>
 
-</div><hr><p style="text-align:center">
+</div><div class="panel" style="text-align:center;border-color:inherit">
 
 <g_>Alleycat Player</g_> was last updated on June 23, 2021 -
 <a href="Alleycat-Player/current/download-alleycat.htm">get version 4h</a>
@@ -121,39 +127,41 @@ other stuff that I find interesting.
 <br>
 <g_>8kun Bread Launcher</g_> was last updated on May 8, 2021 -
 <a href="Alleycat-Player/current/download-launcher.htm">get version 1d</a>
-</p><hr><p>
+
+</div><div class="panel">
 
 <u><b>A brief history of <b_>Alleycat</b_> <g_>BBS</g_></b></u>
-<p>
+<br><br>
 The name comes from an old project I started in 1981 called "Alleycat BBS". This is of nostalgic value to me.
-<p>
+<br><br>
 The Alleycat BBS (Bulletin Board System) has disappeared into the fog of history. Nothing can be found about it
 in any archive. It was small with just 200 to 300 users. The computer which hosted it was also small. It was an
 Ohio Scientific Superboard with 8K of memory (later upgraded), a one-Mhz 6502 CPU and a 300-baud modem with a
 home-made phone pickup device. The code was written with a home-brew OS and a very basic machine code assembler.
 The service ran for three years and enjoyed a solid reputation. The name "Alleycat" was fondly regarded and, no
 doubt, persists in the minds of its former users. It seems only fitting to bring the name back to life. 
-<p>
+<br><br>
 The term "Bulletin Board System" has fallen out of favour over the years. While the boards of today are certainly
 more sophisticated than the boards from the 1980's, there is little difference in terms of the intended function.
 Posting messages and replying to messages is a tradition that goes back to the stone age of computers.
-</p><hr><p>
+
+</div><div class="panel">
 
 <b>Links to my other Internet sites:</b>
-<p>
+<br><br>
 <a href="https://8kun.top/alleycat/catalog.html">My board on 8kun</a> (also called "Alleycat BBS")
-<p>
+<br><br>
 <a href="https://k00.fr/0asgwxc8">My Koofr archive site</a> (download some cool stuff)
-<p>
+<br><br>
 My repositories:
 <a href="https://archive.org/details/@8chananon">Internet Archive</a> -
 <a href="https://github.com/8chanAnon">Github</a>
-</p><hr><p>
 
-<p style="text-align:center"><big><g_>This is a work in progress.</g_></big>
-</p><hr><p>
+</div><div class="panel" style="text-align:center;border-color:inherit">
 
-<div style="width:90vw;height:50vh"></div>
+<big><g_>This is a work in progress.</g_></big>
+
+</div><div style="width:90vw;height:50vh"></div>
 
 </body>
 
