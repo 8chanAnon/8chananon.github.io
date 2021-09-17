@@ -10,33 +10,10 @@
 <style type="text/css">
 
 body {
-  margin-top: 0; text-align: left;
+  margin-top: 0; text-align: center;
   font-size: 16px; line-height: 19px;
   font-family: 'times new roman', serif;
   color: maroon; background-color: moccasin;
-  border-color: darkorange;
-}
-
-.blurb {
-  margin: 3px 0; padding: 7px 10px; text-align: center;
-  border: 3px double darksalmon; border-radius: 2px;
-  background-color: lightgoldenrodyellow;
-}
-
-.panel {
-  margin: 3px 0; padding: 7px 10px;
-  border: 2px solid tan; border-radius: 4px;
-  background-color: lightgoldenrodyellow;
-}
-
-.image-lft {
-  height: inherit; float: left;
-  margin: 0 10px 0 -2px; outline: 1px solid red;
-}
-
-.image-rgt {
-  height: inherit; float: right;
-  margin: 0 -2px 0 10px; outline: 1px solid red;
 }
 
 .sideways {
@@ -45,16 +22,55 @@ body {
   user-select: none;
 }
 
+.blurb {
+  width: 100%; vertical-align:middle;
+  margin: 0 0 4px 0; padding: 0; text-align: center;
+  border: 3px double darksalmon; border-radius: 2px;
+  background-color: lightgoldenrodyellow;
+}
+
+.panel {
+  width: 100%; vertical-align:middle;
+  margin: 0 0 4px 0; padding: 0; text-align: left;
+  border: 2px solid tan; border-radius: 4px;
+  background-color: lightgoldenrodyellow;
+}
+
+.textbox {
+  width: 100%; padding: 4px 7px 5px 7px; vertical-align: top;
+}
+
+tr, td {
+  margin: 0; padding: 0;
+}
+
+.image-lft {
+  padding: 2px 0 2px 5px;
+}
+
+.image-rgt {
+  padding: 2px 5px 2px 0;
+}
+
+img {
+  margin: 2px 0 -2px 0; max-width: 35vw; border: none;
+  background-color: goldenrod; outline: 1px solid chocolate;
+}
+
 hr {
-  border-color: tan; border-style: solid;
+  border-color: tan; border-style: solid; margin: 7px 0 5px 0;
 }
 
 ul {
-  padding: 0 1em 0 1em; list-style: square;
+  padding: 0 1em 0 1em; list-style: disc;
 }
 
 li {
   margin: 5px 0 5px 0;
+}
+
+.squish li {
+  margin: 0;
 }
 
 input {
@@ -95,13 +111,11 @@ button {
   border-color: gainsboro; outline: none;
 }
 
-img {
-  vertical-align: middle; background-color: goldenrod; border: none; outline: none;
-}
-
 ::selection {
   color: yellow; background-color: orchid;
 }
+
+p { font-size: 12px; }
 
 r_ { color: crimson; }
 g_ { color: green; }
@@ -111,84 +125,115 @@ b_ { color: blue; }
 
 <body>
 
-<h2 style="text-align:center">Welcome to the <r_>Alleycat</r_> <g_>BBS</g_></h2>
+<h2>Welcome to the <r_>Alleycat</r_> <g_>BBS</g_></h2>
 
-<div class="blurb" style="height:250px">
+<!-- BLURB --><table class="blurb"><tr><td class="textbox">
 
-<img src="alleycat.jpg" class="image-rgt"></img>
-<br>
+<p></p>
 Here you will find links to my programming projects and other stuff that I find interesting.
-<br><br>
+<p></p>
 (<b_>This website is 100% hand-coded HTML.</b_>)
-<br><br><hr><br>
-<a href="news.html">Latest News</a> (September 15) --
+<p></p><hr><p></p>
+<a href="news.html">Latest News</a> (September 17) --
 <a href="Alleycat-Player/current/installation-v1.htm">Install Alleycat Player</a>
-<br><br>
-<g_>Alleycat Player</g_> was last updated on June 23, 2021 -
-<a href="Alleycat-Player/current/download-alleycat.htm">get version 4h</a>
+<p></p>
+<g_>Alleycat Player</g_> was last updated on June&nbsp;23,&nbsp;2021 -
+<a href="Alleycat-Player/current/download-alleycat.htm">get&nbsp;version&nbsp;4h</a>
 <br>
-<g_>Kraker Local Proxy Server</g_> was last updated on May 9, 2021 -
-<a href="Alleycat-Player/current/download-kraker.htm">get version 3a</a>
+<g_>Kraker Local Proxy Server</g_> was last updated on May&nbsp;9,&nbsp;2021 -
+<a href="Alleycat-Player/current/download-kraker.htm">get&nbsp;version&nbsp;3a</a>
 <br>
-<g_>8kun Bread Launcher</g_> was last updated on September 15, 2021 -
-<a href="Alleycat-Player/current/download-launcher.htm">get version 1e</a>
+<g_>8kun Bread Launcher</g_> was last updated on September&nbsp;15,&nbsp;2021 -
+<a href="Alleycat-Player/current/download-launcher.htm">get&nbsp;version&nbsp;1e</a>
+<p></p>
 
-</div><div class="panel">
+</td><td class="image-rgt"><img src="alleycat.jpg" width="308"></td></tr></table>
+
+<!-- PANEL --><table class="panel"><tr><td class="textbox">
 
 <b><b_>A brief history of the</b_> <r_>Alleycat</r_> <g_>BBS</g_></b>
-<br><br>
+<p></p>
 The name comes from an old project I started in 1981 called "Alleycat BBS". This is of nostalgic value to me.
-<br><br>
+<p></p>
 The Alleycat BBS (Bulletin Board System) has disappeared into the fog of history. Nothing can be found about it
 in any archive. It was small with just 200 to 300 users. The computer which hosted it was also small. It was an
 Ohio Scientific Superboard with 8K of memory (later upgraded), a one-Mhz 6502 CPU and a 300-baud modem with a
 home-made phone pickup device. The code was written with a home-brew OS and a very basic machine code assembler.
 The service ran for three years and enjoyed a solid reputation. The name "Alleycat" was fondly regarded and, no
 doubt, persists in the minds of its former users. It seems only fitting to bring the name back to life. 
-<br><br>
+<p></p>
 The term "Bulletin Board System" has fallen out of favour over the years. While the boards of today are certainly
 more sophisticated than the boards from the 1980's, there is little difference in terms of the intended function.
 Posting messages and replying to messages is a tradition that goes back to the stone age of computers.
 
-</div><div class="panel" style="height:140px">
+</td></tr></table>
 
-<img src="toadstool.jpg" class="image-rgt"></img>
+<!-- PANEL --><table class="panel"><tr><td class="textbox">
 
 <b>Links to my other Internet sites:</b>
-<br><br>
+<p></p>
 <a href="https://8kun.top/alleycat/catalog.html">My board on 8kun</a> (also called "Alleycat BBS")
-<br><br>
+<p></p>
 <a href="https://k00.fr/0asgwxc8">My Koofr archive site</a> (download what you like)
-<br><br>
+<p></p>
 My repositories:
 <a href="https://archive.org/details/@8chananon">Internet Archive</a> -
 <a href="https://github.com/8chanAnon">Github</a>
 
-</div><div class="panel" style="height:135px">
+</td><td class="image-rgt"><img src="toadstool.jpg" width="186px"></td></tr></table>
 
-<img src="film-icon.jpg" class="image-rgt" width="186"></img>
+<!-- PANEL --><table class="panel"><tr><td class="textbox">
 
-<b><b_>Alleycat Player</b_></b> is a browser-based application for extracting and viewing videos from websites. 
+<b><b_>Alleycat Player</b_></b> is a browser-based application for extracting and viewing videos from websites.
+<p></p>
+<ul class="squish" style="margin:0"><li>
+Support for over 50 video sources including Youtube, Bitchute, Vimeo, Twitter, Facebook, Periscope, etc.
+</li><li>
+Download or play videos or copy the video link for playback on an external player such as VLC or SMPlayer.
+</li><li>
+Sources for free movies and TV shows. Many of these sources are unsafe but not with Alleycat Player.
+</li><li>
+Over 250 Internet TV channels and Internet Radio. Quick and easy push-button access for channel surfing.
+</li><li>
+Advanced video player controller with seek presets, brightness adjustment and more.
+</li></ul>
+
+</td><td class="image-rgt"><img src="film-icon.jpg" width="186" style="height:130px"></td></tr></table>
+
+<!-- PANEL --><table class="panel"><tr><td class="textbox">
+
+<b><b_>Kraker Local Proxy Server</b_></b> is a tiny server based on Node.js which is a popular open-source web server
+development platform. The server is used by Alleycat Player to access websites which would normally be inaccessible
+due to browser cross-origin restrictions. This is fully explained in the installation instructions.
+<p></p>
+A recent upgrade provides an additional feature. This is a Socks5 tunnel proxy which you can use with your
+web browser to select your preferred DNS provider or to bypass the DNS altogether. You can also access the Tor Network
+automatically for ".onion" links. This requires installing the Tor Browser or the stand-alone Tor client.
+<hr>
+<b><b_>8kun Bread Launcher</b_></b> is an alternative method of accessing the website <g_>8kun.top</g_> which is a
+free speech site made famous by the activist known as Q (who is believed to be a military intelligence insider).
+<p></p>
+This is only a partial substitute for the website's default client since it does not (yet) support catalog access or
+posting. It is, however, an incredibly fast tool for browsing the discussion threads.
+
+</td></tr></table>
+
+<!-- BLURB --><table class="blurb"><tr><td class="textbox">
+
+<big>Please submit your suggestions, feature requests, bug reports or dumbass opinions
+<a href="https://8kun.top/alleycat/res/10.html">here</a>.</big>
+
+</td></tr></table>
+
+<!-- PAGE VIEW COUNTER -->
+
+<p></p>
+<img style="scale:130%;outline:none;margin-top:9px"
+  src="https://hits.seeyoufarm.com/api/incr/keep/badge.svg?url=8chananon.github.io&title=Page%20Views%20(daily/total)&count_bg=%2355B595&title_bg=%23B58555">
 <br><br>
-- Support for over 50 video sources including Youtube, Bitchute, Vimeo, Twitter, Facebook, Periscope, etc.
-<br>
-- Download or play videos or copy the video link for playback on an external player such as VLC or SMPlayer.
-<br>
-- Sources for free movies and TV shows. Many of these sources are unsafe but not with Alleycat Player.
-<br>
-- Over 250 Internet TV channels and Internet Radio. Quick and easy push-button access for channel surfing.
-<br>
-- Advanced video player controller with seek presets, brightness adjustment and more.
+View counter is provided by <a href="https://hits.seeyoufarm.com">HITS</a>.
 
-</div><div class="panel" style="text-align:center;border-color:inherit">
-
-<big><g_>This is a work in progress.</g_></big>
-
-</div><div style="text-align:center"><p>
-
-<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=8chananon.github.io&title=Page%20Views%20(daily/total)&count_bg=%2355B595&title_bg=%23B58555">
-
-</div><div style="width:90vw;height:50vh"></div>
+</div></div><div style="width:90vw;height:50vh"></div>
 
 </body>
 
