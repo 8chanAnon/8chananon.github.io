@@ -35,6 +35,31 @@ b_ { color: blue; }
 
 <p><hr><p>
 
+<b> On this day of September 17, 2021</b>
+<p>
+I encountered a peculiar artifact while I was revamping the HTML for the Alleycat main page. My goal was to keep
+the text in a panel separate from the image in the same panel such that, if you zoom in (or if the user forces a
+larger font), the text won't wrap around the image as the panel expands vertically. Also, the image will remain
+centered. The only practical way to achieve such is to use a table format. An odd thing happened due to the inclusion
+of a table inside the panel. A 5-pixel-tall space appeared below the bottom border of each panel.
+<p>
+It was not my CSS that caused this spatial displacement. There was absolutely no reason for it and the artifact
+appeared in different browsers. In Firefox, the spacing varied by a pixel (arrgh). Originally, the panels were
+constructed with a &lt;div&gt; tag so I simply built the table inside the div. Removing the div and transferring
+the CSS to the &lt;table&gt; tag cleared up the problem. I have no idea what went wrong but I guess I should be
+happy that it is now fixed.
+<p>
+I have a similar issue with Alleycat Player and it may be due to the way the table format conflicts with something
+else in the video viewers. All three viewers should be displayed exactly the same but they are not. There is
+one out of the three which has a slight difference somewhere. This varies with different browsers. It's been months
+and I still can't figure it out. Grrrrr.
+<p>
+<b>Addendum:</b> After writing the above, I discovered something else. The problem was caused by declaring
+"display:inline-block" in the CSS for the div. The artifact goes away with "display:block". Alternatively,
+the declaration "vertical-align:middle" also works. Why???
+
+<p><hr><p>
+
 <b>News item for September 15, 2021</b>
 <p>
 The <g_>8kun Bread Launcher</g_> has been updated in response to a recent change to the media server on 8kun. The media
