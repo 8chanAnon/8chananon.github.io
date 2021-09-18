@@ -331,21 +331,11 @@ try
   response = await fetch (url);
   textData = await response.text();
 
-  var s = 'downloadUrl="';
-  var n = textData.indexOf (s);
+  url = pullstring (textData, 'downloadUrl="', '"');
+  if (!url) url = pullstring (textData, '"directUrl":"', '"');
 
-  if (n < 0) url = ""; else
-  {
-    url = textData.substr (n + s.length, 100);
-    url = url.substr (0, url.indexOf ('"'));
-  }
-
-  s = '<source src="';
-  n = textData.indexOf (s); if (n < 0) throw ("!!!");
-
-  url = textData.substr (n + s.length, 200);
-  url = url.substr (0, url.indexOf ('"'));
-  if (url == "") throw ("!!!");
+  var s = pullstring (textData, '<source src="', '"');
+  if (s) url = s; if (!url) throw ("!!!");
 
   hls = 0; if (url.includes (".m3u8")) hls = 1;
 
