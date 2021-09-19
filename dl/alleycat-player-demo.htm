@@ -49,7 +49,7 @@ input {
 }
 
 input[type=radio] {
-  vertical-align: bottom; margin: 0 8px 1px 2px;
+  vertical-align: bottom; margin: 0 1px 1px 2px;
   filter: contrast(1.0) brightness(1.2) opacity(100%);
 }
 
@@ -74,14 +74,14 @@ table {
 }
 
 td {
-  font-size: 16px; line-height: 16px;
+  font-size: 17px; line-height: 19px;
   padding: 0 4px 0 6px; color: saddlebrown;
   text-align: left; vertical-align: middle;
 }
 
 td.textbox {
   max-width: 250px;
-  font-size: 14px; line-height: 17px;
+  font-size: 19px; line-height: 19px;
   width: 30vw; padding: 0 17px 0 17px;
   text-align: center; white-space: nowrap;
 }
@@ -102,7 +102,7 @@ button {
 }
 
 hr {
-  border-color: thistle; border-style: solid; margin: 14px 0;
+  border-color: thistle; border-style: solid; margin: 12px 0;
 }
 
 ul {
@@ -126,52 +126,52 @@ w_ { color: #A02000; }
 
 <body onload="javascript:load_all()" onunload="javascript:dump_all()">
 
-<h1 style="text-align:center;margin:15px 0 20px 0"><r_>Alleycat Player <g_>Demo</h1>
+<h1 style="text-align:center;margin:15px 0 17px 0"><r_>Alleycat Player <g_>Demo</h1>
 
-<table><tr><td class="textbox" style="font-size:20px;vertical-align:middle">
+<table><tr><td class="textbox">
 
 <button onclick="javascript:clear_video()">Clear</button>&nbsp;
 <button onclick="javascript:urlcopy()">Copy Link</button>
 <br><hr>
-<input type=radio name="format" value="18" checked>360p<br>
-<input type=radio name="format" value="19">480p<br>
-<input type=radio name="format" value="22">720p
+<input type=radio name="format" value="18" checked> 360p<br>
+<input type=radio name="format" value="19"> 480p<br>
+<input type=radio name="format" value="22"> 720p
 <br><hr>
 
-<table style="border:none;padding-bottom:8px">
+<table style="border:none;padding-bottom:4px;margin-top:-2px">
 <th style="padding-bottom:5px">Live TV</th><tr><td>
 <input type=radio name="tv" onclick="javascript:tv
-  ('https://cdn.klowdtv.net/803B48A/oan_aws_ms/OAN.m3u8')">One America News
+  ('https://cdn.klowdtv.net/803B48A/oan_aws_ms/OAN.m3u8')"> One America News
 </td></tr><tr><td>
 <input type=radio name="tv" onclick="javascript:tv
-  ('https://content.uplynk.com/channel/26bd482ffe364a1282bc3df28bd3c21f.m3u8')">Real America's Voice
+  ('https://content.uplynk.com/channel/26bd482ffe364a1282bc3df28bd3c21f.m3u8')"> Real America's Voice
 </td></tr><tr><td>
 <input type=radio name="tv" onclick="javascript:tv
-  ('https://dai2.xumo.com/amagi_hls_data_xumo1234A-lawcrime/CDN/master.m3u8')">Law & Crime
+  ('https://dai2.xumo.com/amagi_hls_data_xumo1234A-lawcrime/CDN/master.m3u8')"> Law & Crime
 </td></tr><tr><td>
 <input type=radio name="tv" onclick="javascript:tv
-  ('https://d2klx6wjx7p5vm.cloudfront.net/Rooster-teeth/ngrp:Rooster-teeth_all/playlist.m3u8')">Rooster Teeth
+  ('https://d2klx6wjx7p5vm.cloudfront.net/Rooster-teeth/ngrp:Rooster-teeth_all/playlist.m3u8')"> Rooster Teeth
 </td></tr><tr><td>
 <input type=radio name="tv" onclick="javascript:tv
-  ('https://mavtv-1-ca.samsung.wurl.com/manifest/playlist.m3u8')">MAV-TV Motosports
+  ('https://mavtv-1-ca.samsung.wurl.com/manifest/playlist.m3u8')"> MAV-TV Motosports
 </td></tr><tr><td>
 <input type=radio name="tv" onclick="javascript:tv
-  ('https://the-pet-collective-linear.sinclair.wurl.com/manifest/playlist.m3u8')">The Pet Collective
+  ('https://the-pet-collective-linear.sinclair.wurl.com/manifest/playlist.m3u8')"> The Pet Collective
 </td></tr><tr><td>
 <input type=radio name="tv" onclick="javascript:tv
-  ('https://d3s1xaoyhrialn.cloudfront.net/CAS/index.m3u8')">Classic Arts Showcase
+  ('https://d3s1xaoyhrialn.cloudfront.net/CAS/index.m3u8')"> Classic Arts Showcase
 </td></tr><tr><td>
 <input type=radio name="tv" onclick="javascript:tv
-  ('https://vcndstv.teleosmedia.com/stream/dstv/dstv/playlist.m3u8')">DanceStar TV
+  ('https://vcndstv.teleosmedia.com/stream/dstv/dstv/playlist.m3u8')"> DanceStar TV
 </td></tr><tr><td>
 <input type=radio name="tv" onclick="javascript:tv
-  ('https://dai2.xumo.com/amagi_hls_data_xumo1212A-xumostingrayqello/CDN/master.m3u8')">Stingray Qello
+  ('https://dai2.xumo.com/amagi_hls_data_xumo1212A-xumostingrayqello/CDN/master.m3u8')"> Stingray Qello
 </td></tr><tr><td>
 <input type=radio name="tv" onclick="javascript:tv
-  ('https://dai2.xumo.com/xumocdn/p=roku/amagi_hls_data_xumo1212A-filmriseclassictv/CDN/master.m3u8')">Filmrise Classic TV
+  ('https://dai2.xumo.com/xumocdn/p=roku/amagi_hls_data_xumo1212A-filmriseclassictv/CDN/master.m3u8')"> Filmrise Classic TV
 </td></tr><tr><td>
 <input type=radio name="tv" onclick="javascript:tv
-  ('https://dai2.xumo.com/xumocdn/p=roku/amagi_hls_data_xumo1212A-theasylum/CDN/master.m3u8')">The Asylum
+  ('https://dai2.xumo.com/xumocdn/p=roku/amagi_hls_data_xumo1212A-theasylum/CDN/master.m3u8')"> The Asylum
 </td></tr></table>
 
 </td><td class="vidbox">
@@ -191,7 +191,7 @@ w_ { color: #A02000; }
 
 <br><br>Scroll down for instructions.</p>
 
-<div style="width:90vw;height:25vh"></div><hr><div style="text-align:left">
+<div style="width:90vw;height:20vh"></div><hr><div style="text-align:left">
 
 This demo is tiny compared to the full version of Alleycat Player. It is not possible to provide more than a few
 sites for demonstration due to the Cross Origin Resource Sharing (CORS) issue which is fully explained in the
