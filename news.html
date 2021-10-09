@@ -35,6 +35,26 @@ b_ { color: blue; }
 
 <p><hr><p>
 
+<b>News item for October 9, 2021</b>
+<p>
+I am pleased to announce that the 8kun Bread Launcher finally supports posting. This is just a preliminary update.
+The posting feature is not yet full-featured but that'll come in the next week or so. Barring head-scratching
+complications, of course, and I've had a lot of them with this update. HTML and CSS never cease to present me
+with browser compatibility problems. For example, it turns out that Chrome browsers put a little blank space below
+the &lt;textarea&gt; element that should not be there. I had to hit the Internet to find a solution which was to
+add the setting "vertical-align:top" to the CSS for the element. Really??? Why do these things happen? Oh well. At
+least we are past the bad old days of Internet Explorer and Netscape.
+<p>
+Something is totally buggered with the "XMLHttpRequest" component. This is used to implement the posting operation.
+I could have used "fetch", which is what I would normally do, but I wanted to implement an upload progress indicator
+and that is not possible with "fetch". I got the indicator working but it doesn't actually work. I know it doesn't
+work in Firefox and I haven't bothered to test with the other browsers but my research on the net seems to indicate
+that this is a problem all around. The problem is with the "onprogress" callback which doesn't fire at
+regular intervals and often indicates the wrong amount of progress. I mean, it'll jump to 62% done right off the bat
+and then not fire again. Shit like that. Oh well, at least the uploading works.
+
+<p><hr><p>
+
 <b> On this day of September 17, 2021</b>
 <p>
 I encountered a peculiar artifact while I was revamping the HTML for the Alleycat main page. My goal was to keep
