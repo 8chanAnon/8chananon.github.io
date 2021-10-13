@@ -35,6 +35,25 @@ b_ { color: blue; }
 
 <p><hr><p>
 
+<b>News item for October 13, 2021</b>
+<p>
+I had to upload a new update for the 8kun Bread Launcher because I found some issues with Chrome-based browsers.
+The problem is that Chrome is a dog at opening new tabs and preparing the DOM. It reports that it is ready
+when it is not. This forces me to place extra checks and timeouts to make sure that the DOM is actually ready to be
+modified correctly. If I don't do this, I get the wrong values for things like the width or height of an element.
+This causes two problems when opening a new tab: the title in the status bar may not appear and images may be
+placed on the wrong side (the right instead of the left).
+<p>
+Another thing is that Chrome is stubborn about timers running in a page. It wants to slow them down when the page
+is in the background. That's fine. I understand how some web developers will abuse timers. However, a timer
+should only be slowed down if it consumes a lot of CPU. The auto-update timer in the Launcher does not consume CPU
+until it hits zero. There is no good reason to slow it down but Chrome is dumb and stupid about it. Anyway, the
+solution is to move the timer out of the main page and into the daughter page (because the main page is running
+in the background). It's just one line of code. Chrome will only slow it down if the daughter page goes to the
+background. Which is still wrong but it is at least tolerable.
+
+<p><hr><p>
+
 <b>News item for October 9, 2021</b>
 <p>
 I am pleased to announce that the 8kun Bread Launcher finally supports posting. This is just a preliminary update.
