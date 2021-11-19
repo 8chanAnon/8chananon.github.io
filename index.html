@@ -140,8 +140,8 @@ Here you will find links to my programming projects and other stuff that I find 
 <g_>Alleycat Player</g_> was last updated on November&nbsp;17,&nbsp;2021 -
 <a href="Alleycat-Player/current/download-alleycat.htm">get&nbsp;version&nbsp;5a</a>
 <br>
-<g_>Kraker Local Proxy Server</g_> was last updated on May&nbsp;9,&nbsp;2021 -
-<a href="Alleycat-Player/current/download-kraker.htm">get&nbsp;version&nbsp;3a</a>
+<g_>Kraker Local Proxy Server</g_> was last updated on November&nbsp;19,&nbsp;2021 -
+<a href="Alleycat-Player/current/download-kraker.htm">get&nbsp;version&nbsp;3b</a>
 <br>
 <g_>8kun Bread Launcher</g_> was last updated on November&nbsp;13,&nbsp;2021 -
 <a href="Alleycat-Player/current/download-launcher.htm">get&nbsp;version&nbsp;2d</a>
@@ -153,17 +153,15 @@ Here you will find links to my programming projects and other stuff that I find 
 
 <!-- PANEL --><table class="panel"><tr><td class="textbox">
 
-<r_>BIG PROBLEM!</r_> I just ran a test with Node.js version 16 and it does NOT work. I don't know why but I'm
-investigating to see what has changed so I can update Kraker with a fix. The latest version that does work is this
-one <a href="https://nodejs.org/download/release/v15.14.0/">here</a>. What I find interesting is that you can get
-Node.js as a single executable. I didn't know that.
+<r_>IMPORTANT!</r_> I ran a test with Node.js version 16 and it does NOT work with Kraker version 3a. The problem
+is with the timing of a certain callback which breaks all connections going through port 8080. This totally affects
+both Alleycat Player and the 8kun Bread Launcher. The installation zip has been updated with the correct version.
 <p></p>
 This issue has existed since April which is when version 16.0.0 came out. Omigod! And all this time, nobody has
-bothered to tell me. I don't know if this issue is only with Windows or not. If you have already installed Node.js
-then this does not affect you. Keep using whatever version you have.
+bothered to tell me. Please update your copy of Kraker with version 3b. Sorry for the trouble.
 
 </td></tr></table>
-  
+
 <!-- PANEL --><table class="panel"><tr>
 
 <td class="image-lft"><img src="img/installnodejs.png" width="186px"></td><td class="textbox">
