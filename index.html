@@ -115,6 +115,8 @@ button {
   color: yellow; background-color: orchid;
 }
 
+pre { font-size: 13px; line-height: 15px; }
+
 p { font-size: 12px; }
 
 r_ { color: crimson; }
@@ -150,6 +152,40 @@ Here you will find links to my programming projects and other stuff that I find 
 <r_>NEW!</r_> Test drive the <g_>Alleycat Player</g_> demo <a href="dl/alleycat-player-demo.htm">here</a>. &#128064;
 
 </td><td class="image-rgt"><img src="alleycat.jpg" width="308"></td></tr></table>
+
+<!-- PANEL --><table class="panel"><tr><td class="textbox">
+
+<b>Emergency Update</b> - The trio of Internet TV sources (<g_>ustv247.tv, ustvgo.tv and watchnewslive.tv</g_>) has
+revised their page format. Surprisingly, this is the first format change in about six months. I'm not ready to release
+an update at this time so you'll have to update your copy of Alleycat Player yourself in order to restore
+the US TV channels. All you need to do that is a text editor (like Notepad for Windows). Most of the sports channels
+are down because <g_>upstream.to</g_> has been kaput for several weeks and I guess it won't be coming back. I still
+have to find an alternate source.
+<p></p>
+<r_>Search for "const opentv_2" and replace the code block with this:</r_>
+<p></p><pre>
+const open_tv2 = async (frame, mode, f, fmt, url, src) =>
+{
+  var s, sub = "2," + url; if (is_busy (frame)) return;
+
+if (!cors_kraker) busy = 0; else if ((s = saved_path (sub))) url = s; else try
+{
+  url = cors_kraker + "**" + src + "/player.php?" + url;
+
+  response = await fetch (url);
+  textData = await response.text();
+
+  url = pullstring (textData, "hls_src='", "'"); if (!url) throw ("!!!");
+
+  freetv [sub] = the_time + " 0 " + url;
+
+} catch (err) { console.log (err); busy = 0; }
+
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
+}
+</pre>
+
+</td></tr></table>
 
 <!-- PANEL --><table class="panel"><tr><td class="textbox">
 
