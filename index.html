@@ -139,89 +139,35 @@ Here you will find links to my programming projects and other stuff that I find 
 <a href="news.html">Latest News</a> (November 17) --
 <a href="Alleycat-Player/current/installation-v2.htm">Install Alleycat Player</a>
 <p></p>
-<g_>Alleycat Player</g_> was last updated on November&nbsp;17,&nbsp;2021 -
-<a href="Alleycat-Player/current/download-alleycat.htm">get&nbsp;version&nbsp;5a</a>
+<g_>Alleycat Player</g_> was last updated on March&nbsp;25,&nbsp;2022 -
+<a href="Alleycat-Player/current/download-alleycat.htm">get&nbsp;version&nbsp;5b</a>
 <br>
 <g_>Kraker Local Proxy Server</g_> was last updated on November&nbsp;19,&nbsp;2021 -
 <a href="Alleycat-Player/current/download-kraker.htm">get&nbsp;version&nbsp;3b</a>
 <br>
 <g_>8kun Bread Launcher</g_> was last updated on November&nbsp;13,&nbsp;2021 -
 <a href="Alleycat-Player/current/download-launcher.htm">get&nbsp;version&nbsp;2d</a>
-<p></p><u><r_>The latest version of the Launcher supports auto-updating and posting. Get It Now!</r_></u>
+
 <p></p><hr><p></p>
-<r_>NEW!</r_> Test drive the <g_>Alleycat Player</g_> demo <a href="dl/alleycat-player-demo.htm">here</a>. &#128064;
+Test drive the <g_>Alleycat Player</g_> demo <a href="dl/alleycat-player-demo.htm">here</a>.
+ (Updated March 25, 2022) &#128064;
+<p></p>
+<r_>Coming soon:</r_> updates for the <g_>8kun Bread Launcher</g_> and the <g_>Kraker Local Proxy Server</g_>
 
 </td><td class="image-rgt"><img src="alleycat.jpg" width="308"></td></tr></table>
 
 <!-- PANEL --><table class="panel"><tr><td class="textbox">
 
-<b>From the Department of <r_>Who The Hell Cares</r_></b> - Damn, I didn't make my self-imposed deadline that I set three weeks ago. Oh well.
-I had some issues with the new proxy server code. Found out that Pale Moon uses HTTP pipelining which no other browser
-apparently does. Also, a crash issue with Node.js that had something to do with TLS session reuse. Both issues have been
-addressed plus I added yet another new feature. Without going into details, this upgrade for the Kraker Local Proxy
-Server has to do with a slew of new hacking tools which aren't really relevant to an app like Alleycat Player except
-that they will help me to crack websites.
-<p></p>
-Right now, VidNode is a problem because of some seriously obfuscated
-Javascript. I need to figure out the JS in order to figure out the encryption method used to hide the video link.
-Not sure if the effort is worth it. Might just drop that site. It's been in constant need of revision so maybe I'll
-just find some other sites that aren't such a maintenance headache. Too bad, I really like the site and I've been
-using it almost exclusively for my movies and TV shows (though I haven't been watching much lately).
-<p></p>
-Anyway, if there's anybody out there to whom any of this matters then drop me a note at
-<a href="https://8kun.top/alleycat/res/10.html">my board</a> on 8kun. That's the only way to talk to me.
-I'll update again in a few days.
-
-</td></tr></table>
-
-<!-- PANEL --><table class="panel"><tr><td class="textbox">
-
-<b>Upcoming events</b> - It's been a while since my last update. It is now February 25 and a lot has been happening in
-the world in just the last month. The trucker convoys which started in Canada (my home) have become an international
-phenom. Russia just took control of Ukraine. The Cabal is falling. Good times are ahead.
-<p></p>
-I've been working on a serious update for the Kraker Local Proxy Server. Some new features for the 8kun Bread
-Launcher. Alleycat Player is due for some routine fixes but there won't be any major change. The visit count on this
-page keeps going up but hardly anyone is downloading the latest updates. Are these people just wandering in or are
-people looking to see what's new? I should be doing more to keep this page fresh but the news exhausts me these days
-and I haven't really seen much enthusiasm for my work so it's hard to keep going. Never fear. I am dedicated to my
-software projects and nothing short of death will keep me away. I expect (but I won't promise) to have something
-for you in the next week or so. I have a lot of documentation to write up for the Local Proxy Server because the
-update is huge. Stay tuned, folks.
-
-</td></tr></table>
-
-<!-- PANEL --><table class="panel"><tr><td class="textbox">
-
-<b>Emergency Update</b> - The trio of Internet TV sources (<g_>ustv247.tv, ustvgo.tv and watchnewslive.tv</g_>) has
-revised their page format. Surprisingly, this is the first format change in about six months. I'm not ready to release
-an update at this time so you'll have to update your copy of Alleycat Player yourself in order to restore
-the US TV channels. All you need to do that is a text editor (like Notepad for Windows). Most of the sports channels
-are down because <g_>upstream.to</g_> has been kaput for several weeks and I guess it won't be coming back. I still
-have to find an alternate source.
-<p></p>
-<r_>Search for "const open_tv2" and replace the code block with this:</r_>
-<p></p><pre>
-const open_tv2 = async (frame, mode, f, fmt, url, src) =>
-{
-  var s, sub = "2," + url; if (is_busy (frame)) return;
-
-if (!cors_kraker) busy = 0; else if ((s = saved_path (sub))) url = s; else try
-{
-  url = cors_kraker + "**" + src + "/player.php?" + url;
-
-  response = await fetch (url);
-  textData = await response.text();
-
-  url = pullstring (textData, "hls_src='", "'"); if (!url) throw ("!!!");
-
-  freetv [sub] = the_time + " 0 " + url;
-
-} catch (err) { console.log (err); busy = 0; }
-
-  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
-}
-</pre>
+<b><r_>Alleycat Player has been updated (finally)</r_></b> - This is just a maintenance update to fix broken links.
+The new <g_>Kraker Local Proxy Server</g_> code is done and is working wonderfully. I just need to write a bunch of
+documentation (groan). Note that <g_>Alleycat Player</g_> does NOT require a Kraker update but you should get it
+when it is ready because I made a few performance improvements. The <g_>8kun Bread Launcher</g_> will also be
+getting an update. For board owners and board volunteers, I have added moderator support. For the peons, you can
+now monitor post deletions in real time. Existing functionality has not changed because it is all working perfectly.
+However, I have noted some major problems with NoScript on Firefox which breaks the Launcher in strange ways (this
+occassionally breaks Alleycat as well). For this reason, I am using
+<a href="https://addons.mozilla.org/en-US/firefox/addon/umatrix">uMatrix</a> instead.
+Seems pretty solid and more useful than NoScript. I'll have more to say about it later.
 
 </td></tr></table>
 
