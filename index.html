@@ -158,6 +158,27 @@ Test drive the <g_>Alleycat Player</g_> demo <a href="dl/alleycat-player-demo.ht
 
 <!-- PANEL --><table class="panel"><tr><td class="textbox">
 
+<b>Emergency update</b> - Rumble has changed its video ID length to 7 characters (up from 6 characters). This breaks
+any video dated later than April 27. There are two changes to be made to the Alleycat Player source code
+(<g_>alleycat-player-v5b.htm</g_>). Open your copy of the file in a text editor (like Notepad),
+make the changes, save the file and then restart Alleycat Player.
+<p></p>
+Find the following two lines:<br>
+<r_>Line #2557:</r_> <code><g_>if (src == 14 && (url = getid (url, 6))) req_rumble (url, frame, fmt); else</g_></code><br>
+<r_>Line #3397:</r_> <code><g_>if (url.length < 5 || url.length > 6) throw ("!!!");</g_></code>
+<p></p>
+Change the "6" in the first line to "-7". Change the "6" in the second line to "7". Like this:<br>
+<r_>Line #2557:</r_> <code><g_>if (src == 14 && (url = getid (url, -7))) req_rumble (url, frame, fmt); else</g_></code><br>
+<r_>Line #3397:</r_> <code><g_>if (url.length < 5 || url.length > 7) throw ("!!!");</g_></code>
+<p></p>
+Rumble is no doubt anticipating higher traffic volume in the coming months so I guess they decided that the video ID
+length was too short to cover it (they should have planned for that). Truth Social is merging with Rumble while Youtube
+is committing suicide (get woke, go broke).
+
+</td></tr></table>
+
+<!-- PANEL --><table class="panel"><tr><td class="textbox">
+
 <b><r_>Alleycat Player has been updated (finally)</r_></b> - This is just a maintenance update to fix broken links.
 The new <g_>Kraker Local Proxy Server</g_> code is done and is working wonderfully. I just need to write a bunch of
 documentation (groan). Note that <g_>Alleycat Player</g_> does NOT require a Kraker update but you should get it
@@ -295,7 +316,7 @@ to come. The time is NOW to get this super-fast and ultra-efficient replacement 
 
 <p></p>
 <img style="scale:130%;margin-top:9px;outline:none;background-color:transparent"
-  src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=8chananon.github.io&title=Page%20Views%20(daily/total)&count_bg=%2355B595&title_bg=%23B58555">
+  src="https://hits.seeyoufarm.com/api/incr/keep/badge.svg?url=8chananon.github.io&title=Page%20Views%20(daily/total)&count_bg=%2355B595&title_bg=%23B58555">
 <br><br>
 View counter is provided by <a href="https://hits.seeyoufarm.com">HITS</a>.
 
