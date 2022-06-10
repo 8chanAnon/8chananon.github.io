@@ -1,0 +1,196 @@
+<!DOCTYPE html><html><head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Black Box</title>
+
+<style type="text/css">
+
+body {
+  color: brown; background-color: pink;
+}
+
+.televid {
+  position: relative;
+  width: 56vw;
+  padding-bottom: 42vw;
+  overflow: hidden;
+  border: 2px solid red;
+  background-color: black;
+}
+
+.televid img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  margin: auto;
+  border: none;
+}
+
+iframe {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  border: none;
+  background-color: transparent;
+}
+
+table {
+  border: 3px solid green;
+}
+
+td {
+  text-align: center;
+  vertical-align: top;
+  padding: 0 6px 0 6px;
+  font-size: 15px;
+}
+
+td.vidbox {
+  padding: 0;
+  text-align: initial;
+  vertical-align: middle;
+}
+
+td.textbox {
+  padding: 2px 10px 0 10px;
+  width: 38vw;
+}
+
+button {
+  width: auto; height: auto;
+  padding: 1px 6px 0 6px; margin: 0;
+  font-size: 12px; line-height: 18px;
+  font-family: 'helvetica', sans-serif;
+  color: darkblue; background-color: powderblue;
+  outline: none; border-style: solid;
+  border-color: #e8e8e8 #9c9c9c #9c9c9c #ececec;
+}
+
+button:hover:active {
+  border-color: #a8a8a8 #f8f8f8 #f4f4f4 #acacac;
+}
+
+p {
+  margin: 10px 0;
+}
+
+b_ {color: blue;}
+r_ {color: crimson;}
+g_ {color: seagreen;}
+w_ {color: saddlebrown;}
+
+</style></head>
+
+<body onload="javascript:load_all()" onunload="javascript:dump_all()">
+
+<table><tr><td class=textbox>
+
+<button onclick="javascript:playit(0)">Play</button>
+<a href="" id="refer" target="_blank"><button>Play in Window</button></a>
+<button onclick="javascript:playit(1)">Clear</button>
+<p></p>
+<a href="https://archive.org/details/blackbox-TV-show" target="_blank">Home Page (archive.org)</a>
+<br><br>
+
+<div style="text-align:left">
+
+<input type=radio name="box" onclick="javascript:pickit('EP1-deadly-weather.mp4')">
+  <g_>EP1</g_> - Deadly Weather - <g_>Nov 26, 1996</g_>
+<p></p>
+<input type=radio name="box" onclick="javascript:pickit('EP2-crash-detectives.mp4')">
+  <g_>EP2</g_> - Crash Detectives - <g_>Dec 3, 1996</g_>
+<p></p>
+<input type=radio name="box" onclick="javascript:pickit('EP3-wing-prayer.mp4')">
+  <g_>EP3</g_> - A Wing and a Prayer - <g_>Dec 10, 1996</g_>
+<p></p>
+<input type=radio name="box" onclick="javascript:pickit('EP4-blaming-pilot.mp4')">
+  <g_>EP4</g_> - Blaming the Pilot - <g_>Dec 17, 1996</g_>
+<p></p>
+<input type=radio name="box" onclick="javascript:pickit('EP5-TWA-800.mp4')">
+  <g_>EP5</g_> - The Death of TWA 800 - <g_>Jul 15, 1998</g_>
+<p></p>
+<input type=radio name="box" onclick="javascript:pickit('EP6-sky-crimes.mp4')">
+  <g_>EP6</g_> - Sky Crimes - <g_>Jul 22, 1998</g_>
+<p></p>
+
+</div><div style="text-align:left;padding:3px 4px">
+
+<a href="https://www.imdb.com/title/tt0163928/?ref_=ttrel_rel_tt"
+  target="_blank">Article on IMDB</a>
+<p></p>
+The series was also aired on The Learning Channel with the title <i>Survival in the Sky</i>.
+<p></p>
+<a href="https://en.wikipedia.org/wiki/Survival_in_the_Sky"
+  target="_blank">Article on Wikipedia</a>
+<p></p>
+Sources:
+<br>
+<a href="https://www.dailymotion.com/playlist/x68t9v"
+  target="_blank">EP 1-2-3-4-6</a>&nbsp;&nbsp;
+<a href="https://www.youtube.com/watch?v=OnCxdELH1UQ"
+  target="_blank">EP 5 - Part 1</a>&nbsp;
+<a href="https://www.youtube.com/watch?v=VqyO76KqNSc"
+  target="_blank">Part 2</a>
+<p></p>
+Four episodes of&nbsp;
+<a href="http://dvp-video-audio-archive.blogspot.com/2012/03/survival-in-sky.html"
+  target="_blank">Survival in the Sky</a>
+
+</div></td><td class=vidbox>
+
+<div class=televid><img src="https://archive.org/download/blackbox-TV-show/blackbox-TV-show.jpg">
+
+<iframe id="movie" autoplay allowfullscreen></iframe>
+
+</div></td></tr></table>
+
+<h2 style="margin:8px 0;text-align:center"><g_>Black Box (BBC) - Survival in the Sky (TLC)</g_></h2>
+
+<div style="width: 90vw; height: 20vw"></div>
+
+</body>
+
+<script>
+
+var load_all = function ()
+{
+  var m = document.getElementsByName ("box");
+  m [0].checked = true; pickit ("EP1-deadly-weather.mp4");
+}
+
+var dump_all = function ()
+{
+  var m = document.getElementById ("movie");
+  m.src = "about:blank"; m.parentNode.removeChild (m);
+}
+
+var pickit = function (id)
+{
+  document.getElementById ("refer").href = "https://archive.org/download/blackbox-TV-show/blackbox-" + id;
+}
+
+var playit = function (mode)
+{
+  var win = document.getElementById ("movie");
+  var url = document.getElementById ("refer").href;
+
+  if (mode || url == "") { win.src = "about:blank"; return; }
+
+  var insert = "<body style='margin:0;padding:0;background-color:black'><video" +
+  " style='position:absolute;width:100%;height:100%;border:none;outline:none'" +
+  " autoplay allowfullscreen controls id='video'></video></body>";
+
+  win = win.contentDocument; win.open(); win.write ("<!DOCTYPE html>" + insert);
+  win.close(); win.getElementById ("video").src = url;
+}
+
+</script>
+
+</html>
