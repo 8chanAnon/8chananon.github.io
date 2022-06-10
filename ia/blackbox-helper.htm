@@ -7,10 +7,14 @@
 
 <style type="text/css">
 
+body {
+  color: brown; background-color: pink;
+}
+
 .televid {
   position: relative;
-  width: 64vw;
-  padding-bottom: 48vw;
+  width: 56vw;
+  padding-bottom: 42vw;
   overflow: hidden;
   border: 2px solid red;
   background-color: black;
@@ -45,7 +49,6 @@ td {
   text-align: center;
   vertical-align: top;
   padding: 0 6px 0 6px;
-  color: green;
   font-size: 15px;
 }
 
@@ -56,15 +59,26 @@ td.vidbox {
 }
 
 td.textbox {
-  padding: 2px 6px 0 4px;
-  width: 30vw;
+  padding: 2px 10px 0 10px;
+  width: 38vw;
 }
 
 button {
-  width: auto;
-  height: 100%;
-  font-size: 13px;
-  background-color: powderblue;
+  width: auto; height: auto;
+  padding: 1px 6px 0 6px; margin: 0;
+  font-size: 12px; line-height: 18px;
+  font-family: 'helvetica', sans-serif;
+  color: darkblue; background-color: powderblue;
+  outline: none; border-style: solid;
+  border-color: #e8e8e8 #9c9c9c #9c9c9c #ececec;
+}
+
+button:hover:active {
+  border-color: #a8a8a8 #f8f8f8 #f4f4f4 #acacac;
+}
+
+p {
+  margin: 10px 0;
 }
 
 b_ {color: blue;}
@@ -72,48 +86,50 @@ r_ {color: crimson;}
 g_ {color: seagreen;}
 w_ {color: saddlebrown;}
 
-</style></head><body style="color: maroon; background-color: pink">
+</style></head>
 
-<h1><g_>Black Box (BBC), Survival in the Sky (TLC)</g_></h1>
+<body onload="javascript:load_all()" onunload="javascript:dump_all()">
 
 <table><tr><td class=textbox>
 
 <button onclick="javascript:playit(0)">Play</button>
 <a href="" id="refer" target="_blank"><button>Play in Window</button></a>
 <button onclick="javascript:playit(1)">Clear</button>
-<p>
+<p></p>
 <a href="https://archive.org/details/blackbox-TV-show" target="_blank">Home Page (archive.org)</a>
+<br><br>
 
 <div style="text-align:left">
 
-<input type=radio name="box" onchange="javascript:pickit('EP1-deadly-weather.mp4')">
-  EP1 - <w_>Deadly Weather</w_> (Nov 26, 1996)
-<p>
-<input type=radio name="box" onchange="javascript:pickit('EP2-crash-detectives.mp4')">
-  EP2 - <w_>Crash Detectives</w_> (Dec 3, 1996)
-<p>
-<input type=radio name="box" onchange="javascript:pickit('EP3-wing-prayer.mp4')">
-  EP3 - <w_>A Wing and a Prayer</w_> (Dec 10, 1996)
-<p>
-<input type=radio name="box" onchange="javascript:pickit('EP4-blaming-pilot.mp4')">
-  EP4 - <w_>Blaming the Pilot</w_> (Dec 17, 1996)
-<p>
-<input type=radio name="box" onchange="javascript:pickit('EP5-TWA-800.mp4')">
-  EP5 - <w_>The Death of TWA 800</w_> (Jul 15, 1998)
-<p>
-<input type=radio name="box" onchange="javascript:pickit('EP6-sky-crimes.mp4')">
-  EP6 - <w_>Sky Crimes</w_> (Jul 22, 1998)
+<input type=radio name="box" onclick="javascript:pickit('EP1-deadly-weather.mp4')">
+  <g_>EP1</g_> - Deadly Weather - <g_>Nov 26, 1996</g_>
+<p></p>
+<input type=radio name="box" onclick="javascript:pickit('EP2-crash-detectives.mp4')">
+  <g_>EP2</g_> - Crash Detectives - <g_>Dec 3, 1996</g_>
+<p></p>
+<input type=radio name="box" onclick="javascript:pickit('EP3-wing-prayer.mp4')">
+  <g_>EP3</g_> - A Wing and a Prayer - <g_>Dec 10, 1996</g_>
+<p></p>
+<input type=radio name="box" onclick="javascript:pickit('EP4-blaming-pilot.mp4')">
+  <g_>EP4</g_> - Blaming the Pilot - <g_>Dec 17, 1996</g_>
+<p></p>
+<input type=radio name="box" onclick="javascript:pickit('EP5-TWA-800.mp4')">
+  <g_>EP5</g_> - The Death of TWA 800 - <g_>Jul 15, 1998</g_>
+<p></p>
+<input type=radio name="box" onclick="javascript:pickit('EP6-sky-crimes.mp4')">
+  <g_>EP6</g_> - Sky Crimes - <g_>Jul 22, 1998</g_>
+<p></p>
 
-</div><div style="padding:0 0 0 8px;text-align:left;font-size:16px">
+</div><div style="text-align:left;padding:3px 4px">
 
 <a href="https://www.imdb.com/title/tt0163928/?ref_=ttrel_rel_tt"
   target="_blank">Article on IMDB</a>
-<p>
+<p></p>
 The series was also aired on The Learning Channel with the title <i>Survival in the Sky</i>.
-<p>
+<p></p>
 <a href="https://en.wikipedia.org/wiki/Survival_in_the_Sky"
   target="_blank">Article on Wikipedia</a>
-<p>
+<p></p>
 Sources:
 <br>
 <a href="https://www.dailymotion.com/playlist/x68t9v"
@@ -135,11 +151,25 @@ Four episodes of&nbsp;
 
 </div></td></tr></table>
 
-<div style="width: 90vw; height: 25vw"></div>
+<h2 style="margin:8px 0;text-align:center"><g_>Black Box (BBC) - Survival in the Sky (TLC)</g_></h2>
+
+<div style="width: 90vw; height: 20vw"></div>
 
 </body>
 
 <script>
+
+var load_all = function ()
+{
+  var m = document.getElementsByName ("box");
+  m [0].checked = true; pickit ("EP1-deadly-weather.mp4");
+}
+
+var dump_all = function ()
+{
+  var m = document.getElementById ("movie");
+  m.src = "about:blank"; m.parentNode.removeChild (m);
+}
 
 var pickit = function (id)
 {
@@ -155,9 +185,10 @@ var playit = function (mode)
 
   var insert = "<body style='margin:0;padding:0;background-color:black'><video" +
   " style='position:absolute;width:100%;height:100%;border:none;outline:none'" +
-  " autoplay allowfullscreen controls src='" + url + "'></video></body>";
+  " autoplay allowfullscreen controls id='video'></video></body>";
 
-  win = win.contentDocument; win.open(); win.write (insert); win.close();
+  win = win.contentDocument; win.open(); win.write ("<!DOCTYPE html>" + insert);
+  win.close(); win.getElementById ("video").src = url;
 }
 
 </script>
