@@ -35,6 +35,59 @@ b_ { color: blue; }
 
 <p><hr><p>
 
+<b> On this day of June 10, 2022</b>
+<p>
+Time for a rant. This is about Node.js which is the development tool that I use to implement the Kraker Local
+Proxy Server. I have one favourable comment about this tool: it works flawlessly once you figure out what to do and what
+not to do. So far, no mysterious crashes or hangups that can't be traced to something that I did "wrong". On the other
+hand, the documentation is FUBAR (fucked up beyond all repair). Half of the specs don't actually apply, perhaps because
+the tool has gone through too many revisions. Event handling is the biggest headache. Also, it is difficult to understand
+where memory leaks come from because important stuff like proper socket destruction is barely touched on. You are given
+the impression that everything just works so you don't need to worry your little head with picayune details like
+"did I close that socket properly or not?". The biggest snafu is the HTTP Request module. What a mess. Important
+revisions took place with Node.js v13 and v16 that aren't documented. You're just supposed to know about them by
+following the developer forum, I guess.
+<p>
+These revisions are anything but minor. They are code-breaking and figuring out how to get around that can involve
+a lot of experimentation to find the differences so that the code can be reworked to compensate. With v13, the timing
+of some events was changed. When an HTTP transaction is passed down from the HTTP server, there are two forks: the
+request fork and the response fork. The first one receives the headers and data FROM the caller while the second
+sends the headers and data back TO the caller. It's a good division of labour and I'm not complaining about that. The
+difficulty lies in knowing when one or the other has completed processing. This is what events are for. They signal
+when something important has occurred. Now, don't get me wrong. The changes in v13 are justified and I'm surprised
+that it took so many versions between 10.0.0 and 13.0.0 to figure this shit out.
+<p>
+The important difference for me is that the response fork issues a "close" event in v10 only when the response is
+aborted (usually because the destination server closed the socket). In v13, the event is issued always when the
+response completes. Big difference if your code is relying on the event to detect an aborted as opposed to a
+completed transaction. Another change occurred in v16. An aborted HTTP transaction <b>no longer closes the
+underlying sockets</b>. This is a biggie and I can't understand why they made such a change so late in the game.
+This behavioural change should have been made optional because it is abso-fucking-lutely code-breaking. I wasted
+several hours of my time trying to figure out an elegant solution to this which won't break compatibility with
+earlier versions. My code is designed to be compatible with all Node.js versions from v10 up to the latest version.
+I need to carefully craft the code to handle any discrepancies between versions. I refuse to be put in the situation
+of having to inform my users that, hey, you should upgrade your copy of Node.js because I'm too lazy to fix my code.
+I just don't operate that way unless I can find no other alternative.
+<p>
+End of rant. I'm quite pleased with the final outcome. I have finally rid the code of all traces of memory leakage
+(crosses fingers). My goal of maintaining a memory footprint of around 15MB seems to have been achieved. Now, this
+is actually pretty important. I have read many complaints about excessive memory usage and I have no doubt that
+this is due to a lack of understanding of how Node.js handles events and socket closures. The horror stories of
+Node.js apps consuming hundreds of megabytes can be traced to these memory leaks. It's the same problem that I've
+been struggling with over the last few versions of my proxy server app. When I first built the proxy, it was only
+for the sake of Alleycat Player so the actual usage was low and thus the opportunity for memory leaks was low also.
+With the inclusion of the Socks5 proxy, DNS support and other features, I now have ALL activity from my web browser
+streaming through the proxy server. Memory leakage is therefore a more important issue than it was.
+<p>
+Granted, the browser consumes 20 to 50 times the memory but I'm a stickler for perfection. Anyway, if you're a
+budding amateur developer who has dabbled with or is planning to dabble with Node.js then you should think seriously
+about carefully studying my code. It might help you to understand what you're doing wrong before you do it.
+Good luck and please don't hesitate to drop me an email with any questions you may have. After all, what is the point
+of doing what I'm doing if it is not to help someone (hopefully a lot of someones)?
+
+
+<p><hr><p>
+
 <b>News item for June 9, 2022</b>
 <p>
 Oh my goodness! The DMCA notice references the blobs in my repository rather than the canonical paths. What this
