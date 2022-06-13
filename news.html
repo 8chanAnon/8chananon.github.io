@@ -35,7 +35,28 @@ b_ { color: blue; }
 
 <p><hr><p>
 
-<b> On this day of June 10, 2022</b>
+<b>News item for June 13, 2022</b>
+<p>
+Kraker v4b is now available. This is a code fix (see my June 11 rant). It is a truly powerful proxy server that goes way
+beyond the needs of Alleycat Player (which still does not require a Kraker version later than the first one). The
+Kraker proxy is a product that now stands on its own merit and not just as an addon for the player. It is likely the
+most powerful proxy server designed for personal use. I just need to figure out how to attract some attention
+to it. As it is, very few people know or care. Well, that seems to be true for all of my software projects since I
+have started working on them.
+<p>
+Funny thing happened. There are two projects in my archive.org repository that suddenly got a lot of attention without
+any action on my part. The Black Box project (old BBC TV program) has 5 stars and almost a thousand page views. I
+have no bleeping idea where this interest came from. My Europa project has 15 stars and is nearing 5000 page views.
+The interest started around February and it might be because of a comment to a Youtube video (no idea what video). What
+does this mean? Should I get an account on Youtube and start posting comments? Like where should I post to get traffic
+to this site? Meh. I don't relish the idea of running around promoting this. Fame isn't my goal and I'm not sure that
+I really want to manage a horde of curious people who don't have the mental capacity to understand what I'm offering.
+Not that I think people are really stupid. It's just that most of them make no effort to understand something before
+trashing, commending or criticizing. I'm not a cat herder.
+
+<p><hr><p>
+
+<b> On this day of June 11, 2022</b>
 <p>
 Time for a rant. This is about Node.js which is the development tool that I use to implement the Kraker Local
 Proxy Server. I have one favourable comment about this tool: it works flawlessly once you figure out what to do and what
@@ -57,8 +78,8 @@ difficulty lies in knowing when one or the other has completed processing. This 
 when something important has occurred. Now, don't get me wrong. The changes in v13 are justified and I'm surprised
 that it took so many versions between 10.0.0 and 13.0.0 to figure this shit out.
 <p>
-The important difference for me is that the response fork issues a "close" event in v10 only when the response is
-aborted (usually because the destination server closed the socket). In v13, the event is issued always when the
+The important difference for me is that the response fork emits a "close" event in v10 only when the response is
+aborted (usually because the destination server closed the socket). In v13, the event is emitted always when the
 response completes. Big difference if your code is relying on the event to detect an aborted as opposed to a
 completed transaction. Another change occurred in v16. An aborted HTTP transaction <b>no longer closes the
 underlying sockets</b>. This is a biggie and I can't understand why they made such a change so late in the game.
