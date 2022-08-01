@@ -2,7 +2,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<base href="https://8chananon.github.io/" target="_blank">
+<base target="_blank">
 <link rel="icon" href="favicon.ico">
 
 <title>Alleycat News</title>
@@ -32,6 +32,54 @@ b_ { color: blue; }
 </style></head><body>
 
 <h1 style="text-align:center"><r_>Alleycat</r_> <g_>News</g_></h1>
+
+<p><hr><p>
+
+<b>On this day of August 1, 2022</b>
+<p>
+I just completed the final touches on the documentation for the <g_>Kraker Local Proxy Server</g_>. Huge sigh of
+relief because I won't be having to work on the docs anymore. I don't much enjoy writing docs because I'm not a
+writer and I have trouble finding the right words sometimes (and I'm never sure that I've succeeded). Anyway, I
+ended with a little rant about Cloudflare and their goddamn Bot Fight Mode. Here it is:
+<p>
+I hate (HATE!) the Cloudflare bot protection. In the case of an HTTP connection, it is no protection at all, really.
+I discovered that Cloudflare looks at certain header names for proper case usage. The affected headers are: Host,
+User-Agent, Accept, Accept-Encoding, Accept-Language and Connection. I wrote some code to correct these headers and
+put them at the beginning of the header stack.
+<p>
+Header names are converted to lower case by Node.js and this makes sense since the HTTP specifications state that
+case in header names is not significant. It also makes my code easier to write since case does not need to be
+considered. A server is not supposed to reject an HTTP transaction based on the case of header names but we're not
+talking about normality anymore. It is war out there and Cloudflare is determined to win no matter what sort of
+inconvenience that incurs. Ignore the specs? Sure, why not? I shouldn't be having to do this.
+<p>
+My main target is <g_>https://banned.video</g_>. This is an Infowars site and it gave me a problem a while back
+until I discovered an alternative domain (Infowars has a lot of them). Without fixing the headers, the HTTP
+version of the site simply returns a status 403 and no data. With the header fix, the site will relocate to the
+HTTPS version. That's progress since I can access another unrelated site that doesn't mind doing HTTP. However,
+I cannot get into the HTTPS version of that other site. I get stopped dead with not even a bot challenge to solve.
+<p>
+The problem with HTTPS is the negotiation (or TLS handshake) that is needed to establish an encrypted connection.
+The negotiation protocol is open-ended, meaning that there are a million ways to do it. This means that the
+specifics of the negotiation can be used to "fingerprint" the incoming connection. In much the same way, browsers
+can be fingerprinted based on the details of HTML rendering. So Cloudflare takes a fingerprint of the TLS handshake
+and will reject the connection if the handshake doesn't look like it is coming from a web browser. This is a big deal
+because it locks out Node.js and, really, any tool which is not based on browser code. It locks out non-transparent
+proxy servers so banned.video cannot be accessed through a corporate proxy and I don't know why Infowars
+doesn't care about that customer base. For that matter, I don't understand what the problem is in the first place.
+It's been like this for two years but I never heard of a bot attack on Infowars. I'm sure they get attacked from
+time to time but sheesh.
+<p>
+There are actually very few sites that do this. Most of the ones that I have seen are pirate video sites. That seems
+to be a pattern since Banned Video is also a video site. It suggests that web scraping might be the issue and not
+any kind of attack. Whatever. I can't figure out how to get into the site. There is no bot challenge, just a hard
+stop. There is currently no tool to modify the TLS handshake in Node.js and this seems to apply across the board
+though it apparently can be done with Golang (also known as Go). In any case, I'm not inclined to bother with trying
+to solve the Cloudflare bot challenge since I'm not even getting that far with the sites that I want to hack.
+Whatever. This is <b_>The End</b_> for now.
+<p>
+The HTTP Toolkit guy has more info <a href="https://httptoolkit.tech/blog/tls-fingerprinting-node-js/">here</a>.
+(Note: his advise on bypassing the fuckery is outdated. Unfortunately.)
 
 <p><hr><p>
 
