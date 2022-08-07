@@ -139,8 +139,8 @@ Here you will find links to my programming projects and other stuff that I find 
 <a href="news.html">Latest News</a> (August 1) --
 <a href="Alleycat-Player/current/installation-v2.htm">Install Alleycat Player</a>
 <p></p>
-<g_>Alleycat Player</g_> was last updated on March&nbsp;25,&nbsp;2022 -
-<a href="Alleycat-Player/current/download-alleycat.htm">get&nbsp;version&nbsp;5b</a>
+<g_>Alleycat Player</g_> was last updated on August&nbsp;7,&nbsp;2022 -
+<a href="Alleycat-Player/current/download-alleycat.htm">get&nbsp;version&nbsp;5c</a>
 <br>
 <g_>Kraker Local Proxy Server</g_> was last updated on August&nbsp;1,&nbsp;2022 -
 <a href="Alleycat-Player/current/download-kraker.htm">get&nbsp;version&nbsp;4c</a>
@@ -158,6 +158,14 @@ Test drive the <g_>Alleycat Player</g_> demo <a href="dl/alleycat-player-demo.ht
 
 <!-- PANEL --><table class="panel"><tr><td class="textbox">
 
+<b>Version 5c of the <r_>Alleycat Player</r_> is now available!</b>
+<p></p>
+This is a maintenance update. Lots of broken stuff has been fixed.
+
+</td></tr></table>
+
+<!-- PANEL --><table class="panel"><tr><td class="textbox">
+
 <b>Version 4c of the <r_>Kraker Local Proxy Server</r_> is an important update!</b>
 <p></p>
 The previous version has been working like a charm with no performance issues whatsoever. This update addresses
@@ -169,27 +177,6 @@ but I know that's not true. If you're just passing through and have decided to m
 yourself what you might be missing. Just a thought. Carry on.
 <p></p>
 <a href="Alleycat-Player/current/manual-kraker-v3.htm">Latest Documentation</a> - I worked really hard on this!
-
-</td></tr></table>
-
-<!-- PANEL --><table class="panel"><tr><td class="textbox">
-
-<b>Emergency update</b> - Rumble has changed its video ID length to 7 characters (up from 6 characters). This breaks
-any video dated later than April 27. There are two changes to be made to the Alleycat Player source code
-(<g_>alleycat-player-v5b.htm</g_>). Open your copy of the file in a text editor (like Notepad),
-make the changes, save the file and then restart Alleycat Player.
-<p></p>
-Find the following two lines:<br>
-<r_>Line #2557:</r_> <code><g_>if (src == 14 && (url = getid (url, 6))) req_rumble (url, frame, fmt); else</g_></code><br>
-<r_>Line #3397:</r_> <code><g_>if (url.length < 5 || url.length > 6) throw ("!!!");</g_></code>
-<p></p>
-Change the "6" in the first line to "-7". Change the "6" in the second line to "7". Like this:<br>
-<r_>Line #2557:</r_> <code><g_>if (src == 14 && (url = getid (url, -7))) req_rumble (url, frame, fmt); else</g_></code><br>
-<r_>Line #3397:</r_> <code><g_>if (url.length < 5 || url.length > 7) throw ("!!!");</g_></code>
-<p></p>
-Rumble is no doubt anticipating higher traffic volume in the coming months so I guess they decided that the video ID
-length was too short to cover it (they should have planned for that). Truth Social is merging with Rumble while Youtube
-is committing suicide (get woke, go broke).
 
 </td></tr></table>
 
