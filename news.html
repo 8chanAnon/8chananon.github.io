@@ -35,6 +35,60 @@ b_ { color: blue; }
 
 <p><hr><p>
 
+<b>On this day of September 29, 2022</b>
+<p>
+So I have a new version of the <g_>8kun Bread Launcher</g_> ready to go and a new app called <g_>Meme Finder</g_>.
+Both of these use the new "shadow port" feature on the <g_>Kraker Local Proxy Server</g_>. The last version (2e) of
+the Bread Launcher works fine from a local file (with stated limitations) and that won't change for the next version.
+The Meme Finder will absolutely require the proxy server although you won't be required to proxy all of your browser
+activity through it (but you should because it's great for DNS). The Finder comes with a really nifty image gallery
+viewer and will handle any number of folders as long as you don't have too many memes in any one folder (you should
+be fine with a few thousand but 10,000 is crazy).
+<p>
+I discovered that, contrary to my expectations, the last version of the Bread Launcher does not work on Chrome-based
+browsers (I use Brave for testing). Works just fine on Firefox and that's what I use. Mozilla isn't a bitch trying to
+piss all over developers like the Chrome guys. I don't know how much influence Google has on Chrome development but
+I'm certainly not willing to give them the benefit of the doubt. It smells like Google has something up their sleeve
+with this obsession with third-party cookies.
+<p>
+But I'm getting ahead of myself. The problem with third-party cookies is that a lot of websites use them
+indiscriminately to track people around the Internet. I'm not seeing what the big deal is since browsers are already
+blocking trackers of all kinds so why don't they just block these suspicious cookies? Instead of doing that, Chrome
+is going for the big guns and killing third-party cookies altogether. They've been talking about this for a while but
+I haven't paid any attention because I didn't really care. Now I care because it's causing me grief with the Bread
+Launcher and the cookies that 8kun is using for the captcha. Firefox is not fussy about third-party cookies so it
+works fine but Brave is being a bastard. I wouldn't mind so much if I could use a site permission to get around the
+issue but, nah, no soup for you. Why not?
+<p>
+The whole motivation for developing the proxy server for <g_>Alleycat Player</g_> is the
+inability to flag local files as trusted. I wouldn't even mind if the permission had to be on the basis of
+individual files because Alleycat is just one damn file anyway. There should be a checkbox somewhere that says "let
+this app do whatever it damn well pleases". Drop all restrictions and let the app fly. After all, if I build a
+desktop app, there would not be any such restrictions. Why can't I have free rein on my browser? Why do the browser
+makers have to be so bitchy about it?
+<p>
+I'll tell you why. They think you are too stupid to be trusted. They think you'll get scammed by some Nigerian prince
+with a money problem and that he'll convince you to install something that fucks up your system. What else could it be?
+I can't have a checkbox for my apps because they think I'm stupid. Quite frankly, I don't care all that much if other
+people use my apps. I just want to build them how I want and not have to bend over backwards because of browser
+restrictions. This is the sort of shit that leads to workarounds like extensions (which they want to block too)
+and my <g_>Kraker Local Proxy Server</g_> which wouldn't be needed at all except that I can't have that checkbox.
+<p>
+Enough ranting. I love my proxy server and I don't want to be without it. Whatever the cunts at Mozilla and
+Google decide to do, I'll find a workaround. Anyway, the issue with third-party cookies being blocked on Brave means
+that full functionality isn't possible without faking an <g_>8kun.top</g_> domain using a shadow port. I call it
+<g_>get.8kun.top</g_> and Brave thinks it's a real 8kun domain and so it doesn't block the cookies. It's pretty trivial
+to set up the shadow ports (one is also needed for <g_>sys.8kun.top</g_>). I had to make a fix in the proxy server
+for the cookie problem and now there is a new fix needed for proper Youtube playback because Brave doesn't allow access
+to "localhost" under the 8kun domain (another thing that Firefox is lax about).
+<p>
+In order for all of this to work, the browser needs to proxy all content through the proxy server. It's the only way.
+The bonus is that you get a great DNS manager and other features as part of the deal so it's not like you'll be tied
+down to the proxy just for the sake of using one or two of my apps. Besides that, you'll be planning for the future.
+Whatever happens to the Internet, I'll be here countering the totalitarian tendencies of our overseers. 
+
+<p><hr><p>
+
 <b>On this day of August 1, 2022</b>
 <p>
 I just completed the final touches on the documentation for the <g_>Kraker Local Proxy Server</g_>. Huge sigh of
@@ -79,7 +133,7 @@ to solve the Cloudflare bot challenge since I'm not even getting that far with t
 Whatever. This is <b_>The End</b_> for now.
 <p>
 The HTTP Toolkit guy has more info <a href="https://httptoolkit.tech/blog/tls-fingerprinting-node-js/">here</a>.
-(Note: his advise on bypassing the fuckery is outdated. Unfortunately.)
+(Note: his advice on bypassing the fuckery is outdated. Unfortunately.)
 
 <p><hr><p>
 
