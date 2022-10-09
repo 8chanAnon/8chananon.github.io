@@ -1,0 +1,251 @@
+// Decompiled with JetBrains decompiler
+// Type: Auth8kun.Authenticator
+// Assembly: Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+// MVID: 0DB9561F-F7D7-468F-862E-9AE92B37BB89
+// Assembly location: C:\Users\User\AppData\Local\Temp\Tabekyg\e9137bc3b6\assets\bin\Data\Managed\Assembly-CSharp.dll
+
+using System;
+using System.Collections;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+using TMPro;
+using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+namespace Auth8kun
+{
+  public class Authenticator : MonoBehaviour
+  {
+    [SerializeField]
+    protected TMP_Text init;
+    [SerializeField]
+    protected TMP_Text totp;
+    [SerializeField]
+    protected Button getCode;
+    [SerializeField]
+    protected Image timer;
+    [SerializeField]
+    protected GameObject alert;
+    [SerializeField]
+    protected GameObject notice;
+    [SerializeField]
+    protected TMP_Text error;
+    [SerializeField]
+    protected Image loading;
+    [SerializeField]
+    [TextArea]
+    protected string[] alerts;
+    protected bool isNetworkAvailable;
+    protected static int serverTimer = 90;
+    protected static string serverAPI = "https://auth.128ducks.com/auth/api";
+    protected static string appToken = "SADAYONKOMUNGADTOSAAKONGHINIGUGMA";
+    protected static string encPassword = "dkjsh34thergtre2knewfejkz40bjke";
+    protected static byte[] encIV = new byte[16];
+    protected byte[] encKey;
+    protected static DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+    protected IEnumerator displayLoadingCo;
+    protected IEnumerator totpCo;
+    protected IEnumerator timerCo;
+    protected Canvas canvas;
+    protected int startHeight;
+    protected int startWidth;
+
+    protected void Awake()
+    {
+      this.canvas = this.GetComponent<Canvas>();
+      this.startHeight = Screen.height;
+      this.startWidth = Screen.width;
+      if (Screen.height > Screen.width)
+        this.canvas.GetComponent<CanvasScaler>().matchWidthOrHeight = 0.0f;
+      else
+        this.canvas.GetComponent<CanvasScaler>().matchWidthOrHeight = 0.5f;
+      this.encKey = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(Authenticator.encPassword));
+      this.isNetworkAvailable = false;
+      this.StartCoroutine(this.GetAuthenticator());
+    }
+
+    protected void Update()
+    {
+      if (this.startWidth == Screen.width && this.startHeight == Screen.height)
+        return;
+      this.startHeight = Screen.height;
+      this.startWidth = Screen.width;
+      if (Screen.height > Screen.width)
+        this.canvas.GetComponent<CanvasScaler>().matchWidthOrHeight = 0.0f;
+      else
+        this.canvas.GetComponent<CanvasScaler>().matchWidthOrHeight = 0.5f;
+    }
+
+    protected IEnumerator GetAuthenticator()
+    {
+      this.DisplayLoading();
+      yield return (object) this.StartCoroutine(this.CheckInternetAvailability());
+      if (this.isNetworkAvailable)
+        this.GetTOTP();
+      else
+        this.DisplayNotice();
+    }
+
+    protected void DisplayNotice(int index = 0)
+    {
+      if (this.displayLoadingCo != null)
+        this.StopCoroutine(this.displayLoadingCo);
+      this.loading.gameObject.SetActive(false);
+      this.alert.gameObject.SetActive(true);
+      this.error.text = this.alerts[index];
+      this.notice.gameObject.SetActive(true);
+    }
+
+    public void GetTOTP(int mode = 0)
+    {
+      if (mode == 1)
+        this.DisplayLoading();
+      if (this.totpCo != null)
+        this.StopCoroutine(this.totpCo);
+      this.totpCo = this.GetTOTPExe();
+      this.StartCoroutine(this.totpCo);
+    }
+
+    protected IEnumerator GetTOTPExe()
+    {
+      yield return (object) new WaitForSeconds(3f);
+      int cur_time = (int) (DateTime.UtcNow - Authenticator.epochStart).TotalSeconds;
+      string encrypted = this.EncryptAuth(Authenticator.appToken + "|||" + SystemInfo.deviceUniqueIdentifier + "|||" + cur_time.ToString(), this.encKey, Authenticator.encIV);
+      WWWForm formData = new WWWForm();
+      formData.AddField("token", encrypted);
+      using (UnityWebRequest request = UnityWebRequest.Post(Authenticator.serverAPI, formData))
+      {
+        request.timeout = 30;
+        yield return (object) request.SendWebRequest();
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+          AuthInfo authInfo = JsonUtility.FromJson<AuthInfo>(request.downloadHandler.text);
+          if (authInfo.result == "err_001")
+            this.DisplayNotice(1);
+          else
+            this.DisplayTOTP(authInfo.result);
+          authInfo = (AuthInfo) null;
+        }
+        else if (request.result == UnityWebRequest.Result.ConnectionError)
+          this.DisplayNotice();
+        else
+          this.DisplayNotice(1);
+      }
+    }
+
+    protected void DisplayTOTP(string textCode)
+    {
+      this.alert.gameObject.SetActive(false);
+      this.notice.gameObject.SetActive(false);
+      this.loading.gameObject.SetActive(false);
+      this.getCode.gameObject.SetActive(false);
+      this.totp.text = textCode;
+      this.init.gameObject.SetActive(false);
+      this.totp.color = Color.green;
+      this.totp.gameObject.SetActive(true);
+      this.DisplayTimer();
+    }
+
+    protected void DisplayTimer()
+    {
+      if (this.timerCo != null)
+        this.StopCoroutine(this.timerCo);
+      this.timerCo = this.TimerExe();
+      this.StartCoroutine(this.timerCo);
+    }
+
+    protected IEnumerator TimerExe()
+    {
+      this.timer.gameObject.SetActive(true);
+      float counter = 0.0f;
+      int cur_time = (int) (DateTime.UtcNow - Authenticator.epochStart).TotalSeconds;
+      int durationL = Authenticator.serverTimer - cur_time % Authenticator.serverTimer;
+      Debug.Log((object) durationL);
+      do
+      {
+        counter += Time.deltaTime / (float) durationL;
+        this.timer.fillAmount = Mathf.Lerp((float) durationL / (float) Authenticator.serverTimer, 0.0f, counter);
+        yield return (object) null;
+      }
+      while ((double) this.timer.fillAmount != 0.0);
+      this.totp.color = Color.red;
+      this.getCode.gameObject.SetActive(true);
+      this.timer.gameObject.SetActive(false);
+    }
+
+    protected IEnumerator CheckInternetAvailability()
+    {
+      yield return (object) new WaitForSeconds(1f);
+      using (UnityWebRequest request = UnityWebRequest.Head("https://google.com"))
+      {
+        request.timeout = 3;
+        yield return (object) request.SendWebRequest();
+        this.isNetworkAvailable = request.result == UnityWebRequest.Result.Success;
+        yield return (object) new WaitForEndOfFrame();
+      }
+    }
+
+    public void TryAgain()
+    {
+      this.alert.SetActive(false);
+      this.notice.SetActive(false);
+      SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    protected void DisplayLoading()
+    {
+      this.alert.gameObject.SetActive(true);
+      this.notice.gameObject.SetActive(false);
+      if (this.displayLoadingCo != null)
+        this.StopCoroutine(this.displayLoadingCo);
+      this.displayLoadingCo = this.DisplayLoadingExe();
+      this.StartCoroutine(this.displayLoadingCo);
+    }
+
+    protected IEnumerator DisplayLoadingExe()
+    {
+      this.loading.gameObject.SetActive(true);
+      this.loading.fillClockwise = true;
+      this.loading.fillAmount = 0.0f;
+      int startL = 0;
+      int endL = 1;
+      float counter = 0.0f;
+      float durationL = 1f;
+      while (true)
+      {
+        counter += Time.deltaTime / durationL;
+        this.loading.fillAmount = Mathf.Lerp((float) startL, (float) endL, counter);
+        if ((double) counter > (double) durationL)
+        {
+          counter = 0.0f;
+          int holderL = startL;
+          startL = endL;
+          endL = holderL;
+          this.loading.fillClockwise = !this.loading.fillClockwise;
+        }
+        yield return (object) null;
+      }
+    }
+
+    public string EncryptAuth(string plainText, byte[] key, byte[] iv)
+    {
+      Aes aes = Aes.Create();
+      aes.Mode = CipherMode.CBC;
+      aes.Key = key;
+      aes.IV = iv;
+      MemoryStream memoryStream = new MemoryStream();
+      ICryptoTransform encryptor = aes.CreateEncryptor();
+      CryptoStream cryptoStream = new CryptoStream((Stream) memoryStream, encryptor, CryptoStreamMode.Write);
+      byte[] bytes = Encoding.UTF8.GetBytes(plainText);
+      cryptoStream.Write(bytes, 0, bytes.Length);
+      cryptoStream.FlushFinalBlock();
+      byte[] array = memoryStream.ToArray();
+      memoryStream.Close();
+      cryptoStream.Close();
+      return Convert.ToBase64String(array, 0, array.Length);
+    }
+  }
+}
