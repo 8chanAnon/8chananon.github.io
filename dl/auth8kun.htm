@@ -19,11 +19,9 @@ body {
 input {
   height: 17px; font-size: 16px; outline: none;
   font-family: 'consolas', 'lucida console', monospace;
-  border-width: 2px; border-style: solid;
-  border-color: tan lemonchiffon lightyellow burlywood;
   padding: 3px 5px 3px 5px; caret-color: navy;
-  color: firebrick; background-color: seashell;
-  text-align: center;
+  color: crimson; background-color: seashell;
+  border: 2px solid burlywood; border-radius: 4px; text-align: center;
 }
 
 button {
@@ -31,7 +29,7 @@ button {
   font-size: 15px; line-height: 19px;
   padding: 1px 6px 0 6px; margin: 0;
   font-family: 'helvetica', sans-serif;
-  color: darkblue; background-color: powderblue;
+  color: purple; background-color: powderblue;
   outline: none; border-color: #e8e8e8 #9c9c9c #9c9c9c #ececec;
 }
 
@@ -43,15 +41,20 @@ h1 {
   margin: 20px 0 30px 0;
 }
 
+::selection {
+  color: yellow; background-color: orchid;
+}
+
 r_ { color: crimson; }
 g_ { color: green; }
 b_ { color: blue; }
 
 </style></head><body><h1><g_>8kun Authentigator</g_></h1>
 
-<input type=text style="width:150px" disabled> &nbsp;
-<button onclick="javascript:hitme()">Hit Me!</button><br><br><br>
-<r_>The authentication server is wonky. If you get "err_001" then wait a half minute to a minute and try again.</r_>
+<input type=text style="width:196px"><br><br>
+<button onclick="javascript:hitme()">Hit Me!</button> &nbsp
+<button onclick="javascript:copyme()">Copy</button><br><br><br>
+<r_>The authentication server is wonky. If you get "err_001" then you might need to wait a bit before trying again.</r_>
 
 </body>
 
@@ -62,15 +65,21 @@ b_ { color: blue; }
 var resp, data;
 
 var auth_url  = "https://auth.128ducks.com/auth/xMtkntWveZiCCC";
-var proxyhost = "https://xyss5.herokuapp.com/";
+var proxyhost = "http://localhost:8080/**https://xyss5.herokuapp.com/";
 
 var appToken = "Je44n4mNaNqbdj3nsk3bHeb56mdMen49sk3k";
 var password = "n4nebdLwmUedniqNebldnI3em3Nerkdd";
-var deviceID = "d50cdb5ce8d055a3";
+
+var copyme = function ()
+{
+  document.getElementsByTagName ("input")[0].select();
+  document.execCommand ("copy");
+}
 
 var hitme = async () =>
 {
   document.getElementsByTagName ("input")[0].value = "Working...";
+  var deviceID = CryptoJS.enc.Hex.stringify (CryptoJS.lib.WordArray.random (8));
 
   var key = password, time = Math.trunc (Date.now() / 1000);
   var msg = appToken + "|||" + deviceID + "|||" + time.toString();
