@@ -10,7 +10,7 @@
 <style type="text/css">
 
 body {
-  text-align: center; padding: 0 80px;
+  text-align: center; padding: 0 30px;
   font-size: 16px; line-height: 19px;
   font-family: 'times new roman', serif;
   color: brown; background-color: navajowhite;
@@ -64,7 +64,7 @@ You will need to install a CORS unblocking extension: <g_>Allow CORS</g_> --
   target=_blank>Chrome-based</a>
 <p>
 Once you have the extension in your tool bar, click on it and select "Open options page".<br>
-The option called "Access-Control-Allow-Headers" needs to be checked. The rest should be okay.<br>
+The option called "Access-Control-Allow-Headers" needs to be checked. The rest should be okay.
 <p>
 Enable the extension to use the 8kun Authentigator.<br>
 <r_>Note that some web sites may malfunction if it is left enabled.</r_>
@@ -78,8 +78,8 @@ Enable the extension to use the 8kun Authentigator.<br>
 var resp, data;
 
 var auth_url  = "https://auth.128ducks.com/auth/xMtkntWveZiCCC";
-//var proxyhost = "https://xyss5.herokuapp.com/";
 //var proxyhost = "http://localhost:8080/";
+var proxyhost = "";
 
 var appToken = "Je44n4mNaNqbdj3nsk3bHeb56mdMen49sk3k";
 var password = "n4nebdLwmUedniqNebldnI3em3Nerkdd";
@@ -107,7 +107,7 @@ var hitme = async () =>
   data = '{"token":"' + data.toString() + '"}';
 
   try {
-    resp = await fetch (auth_url, { method: 'POST', headers: head, body: data });
+    resp = await fetch (proxyhost + auth_url, { method: 'POST', headers: head, body: data });
     data = await resp.json();
   } catch (e) { data = ""; }
 
