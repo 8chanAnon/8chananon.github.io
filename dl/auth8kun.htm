@@ -55,19 +55,26 @@ b_ { color: blue; }
 <button onclick="javascript:hitme()">Hit Me!</button> &nbsp
 <button onclick="javascript:copyme()">Copy</button>
 <p><br>
-<r_>The proxy server that was used to bypass the browser cross-origin restrictions got flagged as a spambot.</r_>
+It appears that someone is actively trying to defeat the 8kun Authentigator.
 <p>
-You will need to install a CORS unblocking extension: <g_>Allow CORS</g_> --
-<a href="https://addons.mozilla.org/en-US/firefox/addon/access-control-allow-origin/"
-  target=_blank>Firefox</a> or
-<a href="https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf"
-  target=_blank>Chrome-based</a>
+The proxy server that was originally used to bypass the browser cross-origin restrictions got flagged as a spambot.
+<br>Also, I posted an update recommending the installation of a CORS unblocking extension which worked at the time
+but now the authentication server disallows the "Content-Type" header in the OPTIONS pre-flight request. This header
+needs to be set to "application/json" else the POST request won't work (status 404). This is a problem which a
+simple CORS unblocker is not designed to solve.
 <p>
-Once you have the extension in your tool bar, click on it and select "Open options page".<br>
-The option called "Access-Control-Allow-Headers" needs to be checked. The rest should be okay.
+<b>All is not lost but the next step is a big one. This will require the installation of a local proxy server.</b>
+<p> The server
+is designed to deal with situations like this (and much more). The later versions include a DNS manager and an .onion
+redirector so you won't be installing this just to run the Authentigator. The proxy server requires the installation
+of Node.js but it's a pretty basic one-time thing.
 <p>
-Enable the extension to use the 8kun Authentigator.<br>
-<r_>Note that some web sites may malfunction if it is left enabled.</r_>
+Click <a href="https://8chananon.github.io/Alleycat-Player/current/installation-v2.htm">here</a>
+for the installation instructions (the server was originally designed to run my Alleycat Player app).
+<p>
+Save the 8kun Authentigator (this file) in the same folder as the proxy server (not in the Node.js folder).
+<p>
+Load the app with <g_>http://localhost:8080/auth8kun.htm</g_> and it will work as intended.
 
 </body>
 
@@ -78,8 +85,7 @@ Enable the extension to use the 8kun Authentigator.<br>
 var resp, data;
 
 var auth_url  = "https://auth.128ducks.com/auth/xMtkntWveZiCCC";
-//var proxyhost = "http://localhost:8080/";
-var proxyhost = "";
+var proxyhost = "http://localhost:8080/";
 
 var appToken = "Je44n4mNaNqbdj3nsk3bHeb56mdMen49sk3k";
 var password = "n4nebdLwmUedniqNebldnI3em3Nerkdd";
