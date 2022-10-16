@@ -54,7 +54,8 @@ b_ { color: blue; }
 <input type=text style="width:196px"><br><br>
 <button onclick="javascript:hitme()">Hit Me!</button> &nbsp
 <button onclick="javascript:copyme()">Copy</button><br><br><br>
-<r_>The authentication server is wonky. If you get "err_001" then you might need to wait a bit before trying again.</r_>
+<r_>The proxy server that is used to bypass browser cross-origin restrictions is being flagged as a spambot.
+<br>This app may or may not work depending on time of day and number of users.</r_>
 
 </body>
 
@@ -66,6 +67,7 @@ var resp, data;
 
 var auth_url  = "https://auth.128ducks.com/auth/xMtkntWveZiCCC";
 var proxyhost = "https://xyss5.herokuapp.com/";
+//var proxyhost = "http://localhost:8080/";
 
 var appToken = "Je44n4mNaNqbdj3nsk3bHeb56mdMen49sk3k";
 var password = "n4nebdLwmUedniqNebldnI3em3Nerkdd";
