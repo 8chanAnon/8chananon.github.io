@@ -55,7 +55,8 @@ b_ { color: blue; }
 <button onclick="javascript:hitme()">Hit Me!</button> &nbsp
 <button onclick="javascript:copyme()">Copy</button>
 <p><br>
-It appears that someone is actively trying to defeat the 8kun Authentigator.
+It appears that someone is actively trying to defeat the 8kun Authentigator.<br>
+<r_>This app updated (3pm EST on Oct 17, 2020) to get around another blocking attempt.</r_>
 <p>
 The proxy server that was originally used to bypass the browser cross-origin restrictions got flagged as a spambot.
 <br>Also, I posted an update recommending the installation of a CORS unblocking extension which worked at the time
@@ -112,9 +113,10 @@ var hitme = async () =>
   var head = { 'Content-Type': 'application/json' };
   data = CryptoJS.AES.encrypt (msg, key, { iv: iv });
   data = '{"token":"' + data.toString() + '"}';
-
+  msg = "user-agent=|*";
+	
   try {
-    resp = await fetch (proxyhost + auth_url, { method: 'POST', headers: head, body: data });
+    resp = await fetch (proxyhost + msg + auth_url, { method: 'POST', headers: head, body: data });
     data = await resp.json();
   } catch (e) { data = ""; }
 
