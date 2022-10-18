@@ -47,7 +47,7 @@ class auth8kun
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
     conn.setRequestMethod("POST");
-    conn.setRequestProperty("Accept", "application/json");
+    conn.setRequestProperty("User-Agent", "okhttp/5.0.0-alpha.10");
     conn.setRequestProperty("Content-Type", "application/json");
     conn.setDoOutput(true);
 
