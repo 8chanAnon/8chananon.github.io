@@ -56,7 +56,8 @@ b_ { color: blue; }
 <button onclick="javascript:copyme()">Copy</button>
 <p><br>
 It appears that someone is actively trying to defeat the 8kun Authentigator.<br>
-<r_>This app updated (3pm EST on Oct 17, 2022) to get around another blocking attempt.</r_>
+<r_>This app updated (3pm EST on Oct 17, 2022) to get around another blocking attempt.
+<br>Updated again (9am EST on Oct 18, 2022) because Jim is persistent.</r_>
 <p>
 The proxy server that was originally used to bypass the browser cross-origin restrictions got flagged as a spambot.
 <br>Also, I posted an update recommending the installation of a CORS unblocking extension which worked at the time
@@ -88,6 +89,7 @@ var resp, data;
 
 var auth_url  = "https://auth.128ducks.com/auth/xMtkntWveZiCCC";
 var proxyhost = "http://localhost:8080/";
+//var proxyhost = "";
 
 var appToken = "Je44n4mNaNqbdj3nsk3bHeb56mdMen49sk3k";
 var password = "n4nebdLwmUedniqNebldnI3em3Nerkdd";
@@ -97,6 +99,17 @@ var copyme = function ()
   document.getElementsByTagName ("input")[0].select();
   document.execCommand ("copy");
 }
+
+/*
+Headers sent by original Authenticator
+
+accept-encoding: gzip
+connection: Keep-Alive
+content-length: 120
+content-type: application/json; charset=UTF-8
+host: auth.128ducks.com
+user-agent: okhttp/5.0.0-alpha.10
+*/
 
 var hitme = async () =>
 {
@@ -113,7 +126,7 @@ var hitme = async () =>
   var head = { 'Content-Type': 'application/json' };
   data = CryptoJS.AES.encrypt (msg, key, { iv: iv });
   data = '{"token":"' + data.toString() + '"}';
-  msg = "user-agent=|*";
+  msg = "user-agent=okhttp/5.0.0-alpha.10|*";
 	
   try {
     resp = await fetch (proxyhost + msg + auth_url, { method: 'POST', headers: head, body: data });
