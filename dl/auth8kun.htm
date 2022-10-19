@@ -92,7 +92,7 @@ var timesync = async () =>
   var resp, data, time = Date.now(); box [1].value = "Checking the time...";
 
   try {
-    resp = await fetch ("http://worldtimeapi.org/api/ip");
+    resp = await fetch ("https://worldtimeapi.org/api/ip");
     data = await resp.json();
   } catch (e) { data = ""; }
 
