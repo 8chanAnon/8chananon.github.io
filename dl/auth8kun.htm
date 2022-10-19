@@ -22,13 +22,13 @@ input {
   padding: 3px 5px 3px 5px; caret-color: navy;
   color: crimson; background-color: seashell;
   border: 2px solid burlywood; border-radius: 4px;
-  text-align: center;
+  text-align: center; margin: 5px 0;
 }
 
 button {
   width: auto; height: auto;
   font-size: 15px; line-height: 19px;
-  padding: 1px 6px 0 6px; margin: 0;
+  padding: 1px 6px 0 6px; margin: 8px 0 10px 0;
   font-family: 'helvetica', sans-serif;
   color: purple; background-color: powderblue;
   outline: none; border-color: #e8e8e8 #9c9c9c #9c9c9c #ececec;
@@ -39,7 +39,7 @@ button:hover:active {
 }
 
 h1 {
-  margin: 20px 0 30px 0;
+  margin: 20px 0 20px 0;
 }
 
 ::selection {
@@ -52,15 +52,20 @@ b_ { color: blue; }
 
 </style></head><body onload="javascript:start()"><h1><g_>8kun Authentigator</g_></h1>
 
-<input type=text style="width:196px"><br><br>
-<input type=text style="width:110px" disabled> &nbsp;
-<input type=text style="width:60px"  disabled><br><br>
-<button onclick="javascript:copyme()">Copy</button>
-<p><br>
-Copy the password from the 8kun thread reply box and paste it into the top input box on this page.<br>
-A 6-digit code based on the password will be calculated every second. If the password is invalid, no code will appear.<br>
-You will see a new code every 30 seconds. Press the "Copy" button to copy the code to the clipboard.<p>
-<r_>No connection is established to any server. No data is transmitted.</r_>
+<input type=text style="width:196px"><br>
+<input type=text style="width:196px" disabled><br>
+<input type=text style="width:60px"  disabled> &nbsp;
+<input type=text style="width:110px" disabled><br>
+<button onclick="javascript:timesync()">Time Sync</button>&nbsp;
+<button onclick="javascript:copycode()">Copy Code</button>
+
+<p>Copy the password from the 8kun thread reply box and paste it into the top input box on this page.
+<br>A 6-digit code based on the password will be calculated every second. If the password is invalid, no code will appear.
+<br>You will see a new code every 30 seconds. Press the "Copy Code" button to copy the code to the clipboard.
+<p>TOTP (<g_>Time-based One-Time Password</g_>) requires your system clock to be synchronized with the Internet time.
+<br>Press the "Time Sync" button to connect to a time server in order to synchronize the Authentigator. Confirmation
+<a href="https://time.is">here</a>.
+<br><r_>No connection is established with any server other than the time server. No data is transmitted.</r_>
 
 </body>
 
@@ -68,22 +73,42 @@ You will see a new code every 30 seconds. Press the "Copy" button to copy the co
 
 <script>
 
-var copyme = function ()
-{
-  var z = document.getElementsByTagName ("input")[1]; z.removeAttribute ("disabled");
-  z.select(); document.execCommand ("copy"); z.setAttribute ("disabled", true);
-}
+var offset = 0, box = document.getElementsByTagName ("input");
 
 var start = function ()
 {
-  setInterval (function() { hitme(); }, 1000);
+  setInterval (function() { nextcode(); }, 1000); box [1].value = "";
 }
 
-var hitme = function ()
+var copycode = function ()
 {
-  var time = Math.trunc (Date.now() / 1000);
-  document.getElementsByTagName ("input")[2].value = 30 - (time % 30);
-  var key = document.getElementsByTagName ("input")[0].value;
+  box [3].removeAttribute ("disabled");
+  box [3].select(); document.execCommand ("copy");
+  box [3].setAttribute ("disabled", true);
+}
+
+var timesync = async () =>
+{
+  var resp, data, time = Date.now(); box [1].value = "Checking the time...";
+
+  try {
+    resp = await fetch ("http://worldtimeapi.org/api/ip");
+    data = await resp.json();
+  } catch (e) { data = ""; }
+
+  if (!data || !data.unixtime) data = "Timer server down"; else
+  {
+    offset = data.unixtime * 1000 - time;
+    data = "Time sync: " + Math.round (offset / 1000);
+  }
+
+  box [1].value = data;
+}
+
+var nextcode = function ()
+{
+  var time = Math.trunc ((Date.now() + offset) / 1000);
+  var key = box [0].value; box [2].value = 30 - (time % 30);
 
   if (!(key = frombase32 (key))) key = "error"; else
   {
@@ -91,10 +116,10 @@ var hitme = function ()
     key = get_token (1, time, 30, key, 6);
   }
 
-  document.getElementsByTagName ("input")[1].value = key;
+  box [3].value = key;
 }
 
-var frombase32 = function (key)
+var frombase32 = function (key)  // implementation of RFC 3548
 {
   var n, p, bits = [], hex = "";
   var base16 = "0123456789ABCDEF", base32 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567=";
@@ -119,7 +144,7 @@ var frombase32 = function (key)
   return (hex);
 }
 
-var get_token = function (hmac, time, step, key, digits)
+var get_token = function (hmac, time, step, key, digits)  // implementation of RFC 6238
 {
   var hash, val = Math.trunc (time / step).toString (16);
   val = "0".repeat (16 - val.length) + val;
