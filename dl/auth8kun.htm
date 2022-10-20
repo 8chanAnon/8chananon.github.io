@@ -10,7 +10,7 @@
 <style type="text/css">
 
 body {
-  text-align: center; padding: 0 30px;
+  text-align: center;
   font-size: 16px; line-height: 19px;
   font-family: 'times new roman', serif;
   color: brown; background-color: navajowhite;
@@ -39,7 +39,19 @@ button:hover:active {
 }
 
 h1 {
-  margin: 20px 0 20px 0;
+  margin: 10px 0 10px 0; line-height: 1em;
+}
+
+.input1, .input2 {
+  min-width: 174px; max-width: 196px; width: 60vw;
+}
+
+.input3 {
+  min-width: 55px; max-width: 64px; width: calc(23vw - 13px);
+}
+
+.input4 {
+  min-width: 93px; max-width: 106px; width: calc(37vw - 13px);
 }
 
 ::selection {
@@ -52,10 +64,10 @@ b_ { color: blue; }
 
 </style></head><body onload="javascript:start()"><h1><g_>8kun Authentigator</g_></h1>
 
-<input type=text style="width:196px"><br>
-<input type=text style="width:196px" disabled><br>
-<input type=text style="width:60px"  disabled> &nbsp;
-<input type=text style="width:110px" disabled><br>
+<input type=text class="input1"><br>
+<input type=text class="input2" disabled><br>
+<input type=text class="input3" disabled value="30"> &nbsp;
+<input type=text class="input4" disabled value="123456"><br>
 <button onclick="javascript:timesync()">Time Sync</button>&nbsp;
 <button onclick="javascript:copycode()">Copy Code</button>
 
@@ -96,7 +108,7 @@ var timesync = async () =>
     data = await resp.json();
   } catch (e) { data = ""; }
 
-  if (!data || !data.unixtime) data = "Timer server down"; else
+  if (!data || !data.unixtime) data = "Time server down"; else
   {
     offset = data.unixtime * 1000 - time;
     data = "Time sync: " + Math.round (offset / 1000);
