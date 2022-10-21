@@ -1,0 +1,188 @@
+<!DOCTYPE html><html><head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<base target="_blank">
+
+<title>8kun Authentigator</title>
+
+<style type="text/css">
+
+body {
+  text-align: center;
+  font-size: 16px; line-height: 19px;
+  font-family: 'times new roman', serif;
+  color: brown; background-color: navajowhite;
+}
+
+input {
+  height: 17px; font-size: 16px; outline: none;
+  font-family: 'consolas', 'lucida console', monospace;
+  padding: 3px 5px 3px 5px; caret-color: navy;
+  color: crimson; background-color: seashell;
+  border: 2px solid orange; border-radius: 4px;
+  text-align: center; margin: 5px 0;
+}
+
+button {
+  width: auto; height: auto;
+  font-size: 15px; line-height: 19px;
+  padding: 1px 6px 0 6px; margin: 5px 0px;
+  font-family: 'helvetica', sans-serif;
+  color: purple; background-color: powderblue;
+  outline: none; border-color: #e8e8e8 #9c9c9c #9c9c9c #ececec;
+}
+
+button:hover:active {
+  border-color: #a8a8a8 #f8f8f8 #f4f4f4 #acacac;
+}
+
+h1 {
+  margin: 10px 0 10px 0; line-height: 1em;
+}
+
+.input1 { width: 172px; }
+
+.input2 { width: 172px; }
+
+.input3 { width: 60px; }
+
+.input4 { width: 100px; }
+
+div {
+  display: inline-block; vertical-align: top;
+  text-align: center; margin: 0 5px;
+}
+
+::selection {
+  color: yellow; background-color: orchid;
+}
+
+r_ { color: crimson; }
+g_ { color: green; }
+b_ { color: blue; }
+
+</style></head><body onload="javascript:start()">
+<h1><g_>8kun Authentigator</g_></h1>
+
+<div>
+<input type=text class="input1" style="border-color:darkorange"><br>
+<input type=text class="input2" disabled><br>
+<button onclick="javascript:timesync()">Time Sync</button>&nbsp; &nbsp; &nbsp;
+<input type=text class="input3" disabled value="30">
+</div><div>
+<input type=text class="input4" disabled>&nbsp;
+  <button onclick="javascript:copycode(3)">Copy 3</button><br>
+<input type=text class="input4" disabled>&nbsp;
+  <button onclick="javascript:copycode(2)">Copy 2</button><br>
+<input type=text class="input4" disabled>&nbsp;
+  <button onclick="javascript:copycode(1)">Copy 1</button>
+</div>
+<p>Copy the password from the 8kun thread reply box and paste it into the top input box on this page.
+<br>A 6-digit code based on the password will be calculated every second for each of 3 progressive time steps.
+<br>You will see a new code every 30 seconds. Press the "Copy" button to copy a code to the clipboard.
+<p>TOTP (<g_>Time-based One-Time Password</g_>) requires your system clock to be synchronized with the Internet time.
+<br>Press the "Time Sync" button to connect to a time server in order to synchronize the Authentigator. Confirmation
+<a href="https://time.is">here</a>.
+<br><r_>No connection is established with any server other than the time server. No data is transmitted.</r_>
+
+</body>
+
+<script src="crypto.js"></script>
+
+<script>
+
+var offset = 0, time_step = 30, box = document.getElementsByTagName ("input");
+
+var start = function ()
+{
+  box [1].value = ""; setInterval (function() { nextcode(); }, 1000);
+}
+
+var copycode = function (num)
+{
+  num = 6 - num;
+  box [num].removeAttribute ("disabled");
+  box [num].select(); document.execCommand ("copy");
+  box [num].setAttribute ("disabled", true);
+}
+
+var timesync = async () =>
+{
+  var resp, data, time = Date.now(); box [1].value = "Checking the time...";
+
+  try {
+    resp = await fetch ("https://worldtimeapi.org/api/ip");
+    data = await resp.json();
+  } catch (e) { data = ""; }
+
+  if (!data || !data.unixtime) data = "Time server down"; else
+  {
+    offset = data.unixtime * 1000 - time;
+    data = "Time sync: " + Math.round (offset / 1000);
+  }
+  box [1].value = data;
+}
+
+var nextcode = function ()
+{
+  var key = box [0].value, time = Math.trunc ((Date.now() + offset) / 1000);
+  if (key = base32_hex (key)) key = CryptoJS.enc.Hex.parse (key);
+  box [2].value = time_step - (time % time_step);
+
+  for (var m, n = 0; n < 3; n++)
+  {
+    if (key) m = get_token (1, time, time_step, key, 6);
+    time += time_step; box [5 - n].value = key ? m : "error";
+  }
+}
+
+var base32_hex = function (key)  // implementation of RFC 3548
+{
+  var n, p, hex = "", bits = [];
+  var base16 = "0123456789ABCDEF";
+  var base32 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567=";
+
+  for (n = 0; n < key.length; n++)
+  {
+    p = base32.indexOf (key [n]);
+    if (p < 0) return (""); if (p == 32) p = 0; bits.push (p);
+  }
+  if (bits.length & 7) return ("");
+
+  for (n = 0; n < bits.length; n += 4)
+  {
+    hex += base16 [bits [n+0] >> 1];
+    hex += base16 [((bits [n+0] & 1) << 3) + (bits [n+1] >> 2)];
+    hex += base16 [((bits [n+1] & 3) << 2) + (bits [n+2] >> 3)];
+    hex += base16 [((bits [n+2] & 7) << 1) + (bits [n+3] >> 4)];
+    hex += base16 [bits [n+3] & 15];
+  }
+  return (hex);
+}
+
+var get_token = function (hmac, time, step, key, digits)  // implementation of RFC 6238
+{
+  var hash, val = Math.trunc (time / step).toString (16);
+  val = "0".repeat (16 - val.length) + val;
+  val = CryptoJS.enc.Hex.parse (val);
+
+  if (hmac == 1) hash = CryptoJS.HmacSHA1   (val, key).toString();
+  if (hmac == 2) hash = CryptoJS.HmacSHA256 (val, key).toString();
+  if (hmac == 3) hash = CryptoJS.HmacSHA512 (val, key).toString();
+
+  var hex2dec = function (val) { return (parseInt (val, 16)); }
+
+  var z = hex2dec (hash.substr (-1)) * 2;
+  var a = hex2dec (hash.substr (z + 0, 2));
+  var b = hex2dec (hash.substr (z + 2, 2));
+  var c = hex2dec (hash.substr (z + 4, 2));
+  var d = hex2dec (hash.substr (z + 6, 2));
+
+  z = ((a & 127) << 24) + (b << 16) + (c << 8) + d;
+  z = (z % (Math.pow (10, digits))).toString();
+  return ("0".repeat (digits - z.length) + z);
+}
+
+</script></html>
