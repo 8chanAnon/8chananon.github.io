@@ -94,7 +94,7 @@ then use the "request_totp" option in the reply box.
 
 <script>
 
-var resp, data, count, token = email = seq = "", busy = 0;
+var resp, data, time, token = email = seq = "", busy = 0;
 
 var proxy_url = "https://xyss5.herokuapp.com/";
 var email_url = "https://api.guerrillamail.com/ajax.php?";
@@ -172,13 +172,14 @@ var update_email = async (timer) =>
       
   busy = 0; if (!code) { message ("Email checked."); return; }
 
-  box [2].value = code; message ("TOTP Code found."); count = 300; countdown();
+  box [2].value = code; message ("TOTP Code found."); countdown (Date.now());
 }
 
-var countdown = function ()
+var countdown = function (now)
 {
-  if (!count) return; box [1].value = --count;
-  setTimeout (function() { countdown(); }, 1000);
+  if (now) time = now + 300000; else now = Date.now();
+  now = Math.trunc ((time - now) / 1000); box [1].value = now;
+  if (now > 0) setTimeout (function() { countdown (0); }, 1000);
 }
 
 </script></html>
