@@ -61,7 +61,7 @@ b_ { color: blue; }
 </style></head><body onload="javascript:start()">
 <h1><g_>8kun Authentigator</g_></h1>
 
-<input type=text style="width:300px" disabled>
+<input type=text style="width:300px">
 <br>
 <button onclick="javascript:get_address()">Get Address</button>&nbsp;
 <button onclick="javascript:request_code()">Request Code</button>&nbsp;
@@ -69,7 +69,7 @@ b_ { color: blue; }
 <br><textarea style="width:350px;height:48px"></textarea>
 <br><g_>Time left:</g_>
 <input type=text style="width:44px" disabled>&nbsp;
-<input type=text style="width:82px" disabled>
+<input type=text style="width:82px">
 <button onclick="javascript:copycode()">Copy Code</button>
 
 <div style="text-align:left"><p>
@@ -110,9 +110,9 @@ var start = function ()
 
 var copycode = function ()
 {
-  box [2].removeAttribute ("disabled");
+//  box [2].removeAttribute ("disabled");
   box [2].select(); document.execCommand ("copy");
-  box [2].setAttribute ("disabled", true);
+//  box [2].setAttribute ("disabled", true);
 }
 
 var message = function (msg)
