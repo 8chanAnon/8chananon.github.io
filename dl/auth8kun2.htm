@@ -70,7 +70,10 @@ b_ { color: blue; }
 <input type=text style="width:82px" readonly>
 <button onclick="javascript:copycode()">Copy Code</button>
 
-<div style="text-align:left"><p>
+<p><r_><b>That's it, folks. For now anyway. The mail server has been blocked!</b></r_>
+
+<div style="text-align:left">
+<p>
 The 8kun Authentigator uses an <a href="https://www.guerrillamail.com/inbox">anonymous email server</a> which requires
 no registration, no account details and no password. Press <g_>Get Address</g_> to receive your anonymous email
 address.You should only do this once. Copy the address to the 8kun reply box. Next, press <g_>Request Code</g_>
@@ -92,7 +95,7 @@ then use the "request_totp" option in the reply box.
 
 <script>
 
-var resp, data, time, expiry, token = email = seq = "", busy = 0;
+var resp, data, head, time, timeout, expiry, token = email = seq = "", busy = 0;
 
 var proxy_url = "https://xyss5.herokuapp.com/";
 var email_url = "https://api.guerrillamail.com/ajax.php?";
@@ -125,7 +128,7 @@ var get_address = async () =>
     resp = await fetch (email_url + "f=get_email_address&sid_token=" + token);
     data = await resp.json(); } catch (e) { data = ""; }
 
-  email = data.email_addr || ""; token = data.sid_token || ""; expiry = Date.now() + 900000;
+  email = data.email_addr || ""; token = data.sid_token || ""; expiry = Date.now();
 
   busy = 0; box [0].value = email; message (email ? "Got email address." : "Sum Ting Wong!");
 }
@@ -134,8 +137,8 @@ var request_code = async () =>
 {
   if (busy) return; if (!email) { message ("#Need email address."); return; }
 
-  var head = { 'content-type': 'application/x-www-form-urlencoded' };
   busy = 1; data = "email=" + email; message ("#Submitting email request...");
+  head = { 'content-type': 'application/x-www-form-urlencoded' };
 
   try {
     resp = await fetch (proxy_url + post_8kun, { method: 'POST', headers: head, body: data });
@@ -154,9 +157,9 @@ var update_email = async (timer) =>
   busy = 1; message ("#Timeout: " + timer--);
   if (timer >= 0) { setTimeout (function() { update_email (timer); }, 1000); return; }
 
-  var code; message ("#Checking email...");
+  var code; time = Date.now(); message ("#Checking email...");
 
-  if ((timer = Date.now()) > expiry)
+  if (time > expiry + 900000)
   {
     data = email.substr (0, email.indexOf ("@"));
 
@@ -164,7 +167,7 @@ var update_email = async (timer) =>
       resp = await fetch (email_url + "f=set_email_user&sid_token=" + token + "&email_user=" + data);
       data = await resp.json(); } catch (e) { data = ""; }
 
-    if (data.sid_token) { token = data.sid_token; expiry = timer; }
+    if (data.sid_token) { token = data.sid_token; expiry = time; }
   }
 
   try {
@@ -177,13 +180,13 @@ var update_email = async (timer) =>
       
   busy = 0; if (!code) { message ("Email checked."); return; }
 
-  box [2].value = code; message ("TOTP Code found."); countdown (timer);
+  box [2].value = code; message ("TOTP Code found."); countdown (time);
 }
 
 var countdown = function (now)
 {
-  if (now) time = now + 300000; else now = Date.now();
-  now = Math.trunc ((time - now) / 1000); box [1].value = now;
+  if (now) timeout = now + 300000; else now = Date.now();
+  now = Math.trunc ((timeout - now) / 1000); box [1].value = now;
   if (now > 0) setTimeout (function() { countdown (0); }, 1000);
 }
 
