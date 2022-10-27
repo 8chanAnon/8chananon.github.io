@@ -58,18 +58,16 @@ r_ { color: crimson; }
 g_ { color: green; }
 b_ { color: blue; }
 
-</style></head><body onload="javascript:start()">
-<h1><g_>8kun Authentigator</g_></h1>
+</style></head><body onload="javascript:start()"><h1><g_>8kun Authentigator</g_></h1>
 
-<input type=text style="width:300px">
-<br>
+<input type=text style="width:300px" readonly><br>
 <button onclick="javascript:get_address()">Get Address</button>&nbsp;
 <button onclick="javascript:request_code()">Request Code</button>&nbsp;
 <button onclick="javascript:check_email()">Check Email</button>
-<br><textarea style="width:350px;height:48px"></textarea>
+<br><textarea style="width:350px;height:48px" readonly></textarea>
 <br><g_>Time left:</g_>
-<input type=text style="width:44px" disabled>&nbsp;
-<input type=text style="width:82px">
+<input type=text style="width:44px" readonly>&nbsp;
+<input type=text style="width:82px" readonly>
 <button onclick="javascript:copycode()">Copy Code</button>
 
 <div style="text-align:left"><p>
@@ -94,7 +92,7 @@ then use the "request_totp" option in the reply box.
 
 <script>
 
-var resp, data, time, token = email = seq = "", busy = 0;
+var resp, data, time, expiry, token = email = seq = "", busy = 0;
 
 var proxy_url = "https://xyss5.herokuapp.com/";
 var email_url = "https://api.guerrillamail.com/ajax.php?";
@@ -110,9 +108,7 @@ var start = function ()
 
 var copycode = function ()
 {
-//  box [2].removeAttribute ("disabled");
   box [2].select(); document.execCommand ("copy");
-//  box [2].setAttribute ("disabled", true);
 }
 
 var message = function (msg)
@@ -129,7 +125,7 @@ var get_address = async () =>
     resp = await fetch (email_url + "f=get_email_address&sid_token=" + token);
     data = await resp.json(); } catch (e) { data = ""; }
 
-  email = data.email_addr || ""; token = data.sid_token || "";
+  email = data.email_addr || ""; token = data.sid_token || ""; expiry = Date.now() + 900000;
 
   busy = 0; box [0].value = email; message (email ? "Got email address." : "Sum Ting Wong!");
 }
@@ -145,7 +141,7 @@ var request_code = async () =>
     resp = await fetch (proxy_url + post_8kun, { method: 'POST', headers: head, body: data });
     data = await resp.text(); } catch (e) { data = ""; }
 
-  busy = 0; message (data ? data : "No response.");
+  busy = 0; if (data.includes ("DOCTYPE")) data = ""; message (data ? data : "No response.");
 }
 
 var check_email = function ()
@@ -160,11 +156,20 @@ var update_email = async (timer) =>
 
   var code; message ("#Checking email...");
 
+  if ((timer = Date.now()) > expiry)
+  {
+    data = email.substr (0, email.indexOf ("@"));
+
+    try {
+      resp = await fetch (email_url + "f=set_email_user&sid_token=" + token + "&email_user=" + data);
+      data = await resp.json(); } catch (e) { data = ""; }
+
+    if (data.sid_token) { token = data.sid_token; expiry = timer; }
+  }
+
   try {
     resp = await fetch (email_url + "f=check_email&sid_token=" + token + "&seq=" + seq);
     data = await resp.json(); } catch (e) { data = ""; }
-
-  if (data.sid_token) token = data.sid_token;
 
   if (data.list) for (var m, n = 0; n < data.list.length; n++)
     if ((m = data.list [n].mail_subject) && m.substr (0,4) == "TOTP")
@@ -172,7 +177,7 @@ var update_email = async (timer) =>
       
   busy = 0; if (!code) { message ("Email checked."); return; }
 
-  box [2].value = code; message ("TOTP Code found."); countdown (Date.now());
+  box [2].value = code; message ("TOTP Code found."); countdown (timer);
 }
 
 var countdown = function (now)
