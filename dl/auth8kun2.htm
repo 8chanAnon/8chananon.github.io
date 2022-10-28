@@ -148,8 +148,7 @@ var get_address = async () =>
     resp = await fetch (email_url + "f=get_email_address");
     data = await resp.json(); } catch (e) { data = ""; }
 
-  email = last_email = data.email_addr || "";
-  token = data.sid_token || ""; expiry = Date.now(); seq = "";
+  email = last_email = data.email_addr || ""; token = data.sid_token || ""; expiry = Date.now();
 
   busy = 0; box [0].value = email; message (email ? "Got email address." : "Sum Ting Wong!");
 }
@@ -188,10 +187,7 @@ var update_email = async (timer) =>
       resp = await fetch (email_url + "f=set_email_user&sid_token=" + token + "&email_user=" + data);
       data = await resp.json(); } catch (e) { data = ""; }
 
-    if (data.sid_token)
-    {
-      if (email != last_email) seq = ""; last_email = email; token = data.sid_token; expiry = time;
-    }
+    if (data.sid_token) { last_email = email; token = data.sid_token; expiry = time; }
   }
 
   try {
