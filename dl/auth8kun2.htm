@@ -148,7 +148,8 @@ var get_address = async () =>
     resp = await fetch (email_url + "f=get_email_address");
     data = await resp.json(); } catch (e) { data = ""; }
 
-  email = last_email = data.email_addr || ""; token = data.sid_token || ""; expiry = Date.now();
+  email = last_email = data.email_addr || "";
+  token = data.sid_token || ""; expiry = Date.now(); seq = "";
 
   busy = 0; box [0].value = email; message (email ? "Got email address." : "Sum Ting Wong!");
 }
