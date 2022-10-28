@@ -61,42 +61,41 @@ b_ { color: blue; }
 </style></head><body onload="javascript:start()"><h1><g_>8kun Authentigator</g_></h1>
 
 <input type=text style="width:300px"><br>
-<input type=text style="width:300px"><br>
-<button onclick="javascript:get_address()">Get Address</button>&nbsp;
-<button onclick="javascript:request_code()">Request Code</button>&nbsp;
+<input type=text style="display:none;width:300px">
+<button onclick="javascript:get_address()">Get Address</button> &nbsp; &nbsp;
+<!-- <button onclick="javascript:request_code()">Request Code</button>&nbsp; -->
 <button onclick="javascript:check_email()">Check Email</button>
 <br><textarea style="width:350px;height:48px" readonly></textarea>
 <br><g_>Time left:</g_>
 <input type=text style="width:44px" readonly>&nbsp;
 <input type=text style="width:82px" readonly>
 <button onclick="javascript:copycode()">Copy Code</button>
+<p>
+<r_>I have not given up, folks. Read further.</r_>
 
 <div style="text-align:left">
 <p>
 The 8kun Authentigator uses an <a href="https://www.guerrillamail.com/inbox">anonymous email server</a> which requires
-no registration, no account details and no password. Press <g_>Get Address</g_> to receive your anonymous email
-address. The address will appear in the top input line. For now, leave the second input line blank. Next, press
-<g_>Request Code</g_> to send an email request to the 8kun server. If the server tells you that a code was sent
-to your mailbox then press <g_>Check Email</g_> to probe the mail server for your TOTP code. If successful,
-press <g_>Copy Code</g_> and paste the code to the reply box along with the email address.
+no registration and no password. However, Guerilla Mail has been banned by the 8kun administration. The only way to
+reach it is through a mail forwarder. I tried <a href="https://bump.email">Bump Email</a> and that worked for a while.
+8kun blocked Bump but then unblocked it and instead blocked the proxy server used to bypass the browser cross-origin
+restriction. That's okay. We don't actually need the proxy. I'm not recommending Bump but I am recommending
+<a href="https://www.gmx.com">GMX Mail</a> because it is free and anonymous and it supports mail forwarding
+(go to the "Filter Rules" section in the email settings). So, how will this work now?
 <p>
-Now here is where it gets tricky. The Guerilla mail server seems to be blocked though the 8kun server pretends that
-it sent the email. How to unblock the email? This is where a mail forwarding service comes in handy. I'm using
-<a href="https://bump.email">Bump Email</a> because it is free and anonymous
-(<a href="https://en.wikipedia.org/wiki/Email_forwarding#Commercial_products_facilitating_mail_forward">more here</a>).
-Set up your forwarding service to send email to the address that was generated earlier. Then copy and paste the email
-address of your forwarding mailbox to the second input line. If you set everything up correctly, it should work like
-magic. Don't forget to save the addresses for later because the Authentigator won't save them for you. You will need
-to use the forwarding mailbox address instead of the Guerilla address in the 8kun reply box.
+Press <g_>Get Address</g_> to receive an anonymous Guerilla email address. This is the address to which you will
+forward the email sent to you by the 8kun server. Set that up in Bump Email or GMX Mail. The address of the forwarding
+mailbox is the one you will use in the 8kun reply box. Paste the address there and click "request_totp". If the server
+tells you that a code was sent to your mailbox then come back here and press <g_>Check Email</g_> to probe the Guerilla
+mail server for your TOTP code. If you set everything up correctly, it should work like magic. Don't forget to save the
+Guerilla mailbox address because the Authentigator won't save it for you. Next time you open this page, copy the address
+to the top input line and you're all set.
 <p>
-A fresh code is good for about 5 minutes. The countdown timer starts from the time when you get the code from the
-mailbox, not the time when you send the email request to 8kun. The code expires about 30 seconds before you are allowed
-to request a new one.
-<p>
-A remote proxy server (<g_>xyss5.herokuapp.com</g_>) is used to bypass the browser cross-origin restriction when
-accessing 8kun. The proxy is non-anonymizing, meaning that it passes your IP address to the 8kun server in an HTTP
-header. This is important because the TOTP is associated with your IP address. If the proxy server is not working
-then use the "request_totp" option in the reply box.
+<b>Notes on forwarding with GMX Mail:</b> GMX will ask for permission to forward email to the Guerilla mailbox. Open
+<a href="https://www.guerrillamail.com/inbox">Guerilla Mail</a> and click on the button that displays the username.
+Replace with the username that was assigned to you. Now you can reply to the GMX email. By the way, when
+you set up the mail forwarding, you should add a filter rule to move the email to the trash. The email address to
+filter is "noreply@isitwetyet.com".
 
 </div></body>
 
@@ -105,7 +104,7 @@ then use the "request_totp" option in the reply box.
 var resp, data, head, time, timeout;
 var token = email = last_email = seq = "", busy = expiry = 0;
 
-var proxy_url = "https://xyss5.herokuapp.com/";
+var proxy_url = "http://localhost:8080/**";
 var email_url = "https://api.guerrillamail.com/ajax.php?";
 var post_8kun = "https://sys.8kun.top/_sm.php";
 
@@ -136,8 +135,15 @@ var email_addr = function ()
 
 var forward_addr = function ()
 {
-  email = box [1].value.trim() || box [0].value.trim();
+  email = box [1].value.trim() || box [1].value.trim();
   if (!email.includes ("@")) email = ""; return (email);
+}
+
+var pullstring = function (s, t, u)
+{
+  var m = t.length, n = s.indexOf (t) + m;
+  m = n < m ? -1 : (u ? s.indexOf (u, n) : s.length);
+  return (m < 0 ? "" : s.substr (n, m - n));
 }
 
 var get_address = async () =>
@@ -148,7 +154,8 @@ var get_address = async () =>
     resp = await fetch (email_url + "f=get_email_address");
     data = await resp.json(); } catch (e) { data = ""; }
 
-  email = last_email = data.email_addr || ""; token = data.sid_token || ""; expiry = Date.now();
+  email = last_email = data.email_addr || "";
+  token = data.sid_token || ""; expiry = Date.now();
 
   busy = 0; box [0].value = email; message (email ? "Got email address." : "Sum Ting Wong!");
 }
@@ -195,9 +202,12 @@ var update_email = async (timer) =>
     data = await resp.json(); } catch (e) { data = ""; }
 
   if (data.list) for (var m, n = 0; n < data.list.length; n++)
-    if ((m = data.list [n].mail_subject) && m.substr (0,4) == "TOTP")
-      { seq = data.list [n].mail_id; code = m.substr (6); break; }
-      
+  {
+    m = data.list [n]; code = pullstring (m.mail_subject, "TOTP: ", "");
+    if (!code) code = pullstring (m.mail_excerpt, "PIN is ", ".");
+    if (code) { seq = m.mail_id; break; }
+  }
+
   busy = 0; if (!code) { message ("Email checked."); return; }
 
   box [3].value = code; message ("TOTP Code found."); countdown (time);
