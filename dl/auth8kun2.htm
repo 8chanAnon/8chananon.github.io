@@ -60,7 +60,8 @@ b_ { color: blue; }
 
 </style></head><body onload="javascript:start()"><h1><g_>8kun Authentigator</g_></h1>
 
-<input type=text style="width:300px" readonly><br>
+<input type=text style="width:300px"><br>
+<input type=text style="width:300px"><br>
 <button onclick="javascript:get_address()">Get Address</button>&nbsp;
 <button onclick="javascript:request_code()">Request Code</button>&nbsp;
 <button onclick="javascript:check_email()">Check Email</button>
@@ -70,21 +71,27 @@ b_ { color: blue; }
 <input type=text style="width:82px" readonly>
 <button onclick="javascript:copycode()">Copy Code</button>
 
-<p><r_><b>That's it, folks. For now anyway. The mail server has been blocked!</b></r_>
-
 <div style="text-align:left">
 <p>
 The 8kun Authentigator uses an <a href="https://www.guerrillamail.com/inbox">anonymous email server</a> which requires
 no registration, no account details and no password. Press <g_>Get Address</g_> to receive your anonymous email
-address.You should only do this once. Copy the address to the 8kun reply box. Next, press <g_>Request Code</g_>
-to send an email request to the 8kun server. If the server tells you that a code was sent to your mailbox then press
-<g_>Check Email</g_> to probe the mail server for your TOTP code. If successful, press <g_>Copy Code</g_> and paste the
-code to the reply box.
+address. The address will appear in the top input line. For now, leave the second input line blank. Next, press
+<g_>Request Code</g_> to send an email request to the 8kun server. If the server tells you that a code was sent
+to your mailbox then press <g_>Check Email</g_> to probe the mail server for your TOTP code. If successful,
+press <g_>Copy Code</g_> and paste the code to the reply box along with the email address.
+<p>
+Now here is where it gets tricky. The Guerilla mail server seems to be blocked though the 8kun server pretends that
+it sent the email. How to unblock the email? This is where a mail forwarding service comes in handy. I'm using
+<a href="https://bump.email">Bump Email</a> because it is free and anonymous
+(<a href="https://en.wikipedia.org/wiki/Email_forwarding#Commercial_products_facilitating_mail_forward">more here</a>).
+Set up your forwarding service to send email to the address that was generated earlier. Then copy and paste the email
+address of your forwarding mailbox to the second input line. If you set everything up correctly, it should work like
+magic. Don't forget to save the addresses for later because the Authentigator won't save them for you. You will need
+to use the forwarding mailbox address instead of the Guerilla address in the 8kun reply box.
 <p>
 A fresh code is good for about 5 minutes. The countdown timer starts from the time when you get the code from the
 mailbox, not the time when you send the email request to 8kun. The code expires about 30 seconds before you are allowed
-to request a new one. Avoid changing the email address since this can invalidate the code, forcing you to wait
-5 minutes to get a new one.
+to request a new one.
 <p>
 A remote proxy server (<g_>xyss5.herokuapp.com</g_>) is used to bypass the browser cross-origin restriction when
 accessing 8kun. The proxy is non-anonymizing, meaning that it passes your IP address to the 8kun server in an HTTP
@@ -95,7 +102,8 @@ then use the "request_totp" option in the reply box.
 
 <script>
 
-var resp, data, head, time, timeout, expiry, token = email = seq = "", busy = 0;
+var resp, data, head, time, timeout;
+var token = email = last_email = seq = "", busy = expiry = 0;
 
 var proxy_url = "https://xyss5.herokuapp.com/";
 var email_url = "https://api.guerrillamail.com/ajax.php?";
@@ -106,12 +114,12 @@ var txt = document.getElementsByTagName ("textarea")[0];
 
 var start = function ()
 {
-  box [0].value = box [1].value = box [2].value = txt.value = "";
+  box [2].value = box [3].value = txt.value = "";
 }
 
 var copycode = function ()
 {
-  box [2].select(); document.execCommand ("copy");
+  box [3].select(); document.execCommand ("copy");
 }
 
 var message = function (msg)
@@ -120,22 +128,34 @@ var message = function (msg)
   if (txt.value) msg = "\n>> " + msg; txt.value += msg;
 }
 
+var email_addr = function ()
+{
+  email = box [0].value.trim();
+  if (!email.includes ("@")) email = ""; return (email);
+}
+
+var forward_addr = function ()
+{
+  email = box [1].value.trim() || box [0].value.trim();
+  if (!email.includes ("@")) email = ""; return (email);
+}
+
 var get_address = async () =>
 {
   if (busy) return; busy = 1; message ("#Waiting for email address...");
 
   try {
-    resp = await fetch (email_url + "f=get_email_address&sid_token=" + token);
+    resp = await fetch (email_url + "f=get_email_address");
     data = await resp.json(); } catch (e) { data = ""; }
 
-  email = data.email_addr || ""; token = data.sid_token || ""; expiry = Date.now();
+  email = last_email = data.email_addr || ""; token = data.sid_token || ""; expiry = Date.now();
 
   busy = 0; box [0].value = email; message (email ? "Got email address." : "Sum Ting Wong!");
 }
 
 var request_code = async () =>
 {
-  if (busy) return; if (!email) { message ("#Need email address."); return; }
+  if (busy) return; if (!forward_addr()) { message ("#Need email address."); return; }
 
   busy = 1; data = "email=" + email; message ("#Submitting email request...");
   head = { 'content-type': 'application/x-www-form-urlencoded' };
@@ -149,7 +169,7 @@ var request_code = async () =>
 
 var check_email = function ()
 {
-  if (!busy) if (email) update_email (5); else message ("#Need email address.");
+  if (!busy) if (email_addr()) update_email (5); else message ("#Need email address.");
 }
 
 var update_email = async (timer) =>
@@ -159,7 +179,7 @@ var update_email = async (timer) =>
 
   var code; time = Date.now(); message ("#Checking email...");
 
-  if (time > expiry + 900000)
+  if (email != last_email || time > expiry + 900000)
   {
     data = email.substr (0, email.indexOf ("@"));
 
@@ -167,7 +187,7 @@ var update_email = async (timer) =>
       resp = await fetch (email_url + "f=set_email_user&sid_token=" + token + "&email_user=" + data);
       data = await resp.json(); } catch (e) { data = ""; }
 
-    if (data.sid_token) { token = data.sid_token; expiry = time; }
+    if (data.sid_token) { token = data.sid_token; last_email = email; expiry = time; }
   }
 
   try {
@@ -180,13 +200,13 @@ var update_email = async (timer) =>
       
   busy = 0; if (!code) { message ("Email checked."); return; }
 
-  box [2].value = code; message ("TOTP Code found."); countdown (time);
+  box [3].value = code; message ("TOTP Code found."); countdown (time);
 }
 
 var countdown = function (now)
 {
   if (now) timeout = now + 300000; else now = Date.now();
-  now = Math.trunc ((timeout - now) / 1000); box [1].value = now;
+  now = Math.trunc ((timeout - now) / 1000); box [2].value = now;
   if (now > 0) setTimeout (function() { countdown (0); }, 1000);
 }
 
