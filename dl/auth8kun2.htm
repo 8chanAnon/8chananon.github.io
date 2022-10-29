@@ -45,7 +45,7 @@ h1 {
 textarea {
   box-sizing: border-box; resize: none; padding: 3px 8px; margin: 6px 0;
   vertical-align: top; white-space: pre-wrap; outline: none;
-  font-size: 13px; line-height: 18px; font-family: 'verdana', san-serif;
+  font-size: 13px; line-height: 19px; font-family: 'verdana', san-serif;
   caret-color: maroon; border: 2px solid burlywood; border-radius: 4px;
   color: mediumblue; background-color: snow;
 }
@@ -65,10 +65,10 @@ b_ { color: blue; }
 <button onclick="javascript:get_address()">Get Address</button> &nbsp; &nbsp;
 <!-- <button onclick="javascript:request_code()">Request Code</button>&nbsp; -->
 <button onclick="javascript:check_email()">Check Email</button>
-<br><textarea style="width:350px;height:48px" readonly></textarea>
+<br><textarea style="width:350px;height:50px" readonly></textarea>
 <br><g_>Time left:</g_>
-<input type=text style="width:44px" readonly>&nbsp;
-<input type=text style="width:82px" readonly>
+<input type=text style="width:40px" readonly>&nbsp;
+<input type=text style="width:80px" readonly>
 <button onclick="javascript:copycode()">Copy Code</button>
 <p>
 <r_>I have not given up, folks. Read further.</r_>
@@ -76,23 +76,23 @@ b_ { color: blue; }
 <div style="text-align:left">
 <p>
 The 8kun Authentigator uses an <a href="https://www.guerrillamail.com/inbox">anonymous email server</a> which requires
-no registration and no password. However, Guerilla Mail has been banned by the 8kun administration. The only way to
+no registration and no password. However, Guerrilla Mail has been banned by the 8kun administration. The only way to
 reach it is through a mail forwarder. I tried <a href="https://bump.email">Bump Email</a> and that worked for a while.
 8kun blocked Bump but then unblocked it and instead blocked the proxy server used to bypass the browser cross-origin
 restriction. That's okay. We don't actually need the proxy. I'm not recommending Bump but I am recommending
 <a href="https://www.gmx.com">GMX Mail</a> because it is free and anonymous and it supports mail forwarding
 (go to the "Filter Rules" section in the email settings). So, how will this work now?
 <p>
-Press <g_>Get Address</g_> to receive an anonymous Guerilla email address. This is the address to which you will
+Press <g_>Get Address</g_> to receive an anonymous Guerrilla email address. This is the address to which you will
 forward the email sent to you by the 8kun server. Set that up in Bump Email or GMX Mail. The address of the forwarding
 mailbox is the one you will use in the 8kun reply box. Paste the address there and click "request_totp". If the server
-tells you that a code was sent to your mailbox then come back here and press <g_>Check Email</g_> to probe the Guerilla
+tells you that a code was sent to your mailbox then come back here and press <g_>Check Email</g_> to probe the Guerrilla
 mail server for your TOTP code. If you set everything up correctly, it should work like magic. Don't forget to save the
-Guerilla mailbox address because the Authentigator won't save it for you. Next time you open this page, copy the address
+Guerrilla mailbox address because the Authentigator won't save it for you. Next time you open this page, copy the address
 to the top input line and you're all set.
 <p>
-<b>Notes on forwarding with GMX Mail:</b> GMX will ask for permission to forward email to the Guerilla mailbox. Open
-<a href="https://www.guerrillamail.com/inbox">Guerilla Mail</a> and click on the button that displays the username.
+<b>Notes on forwarding with GMX Mail:</b> GMX will ask for permission to forward email to the Guerrilla mailbox. Open
+<a href="https://www.guerrillamail.com/inbox">Guerrilla Mail</a> and click on the button that displays the username.
 Replace with the username that was assigned to you. Now you can reply to the GMX email. By the way, when
 you set up the mail forwarding, you should add a filter rule to move the email to the trash. The email address to
 filter is "noreply@isitwetyet.com".
@@ -135,7 +135,7 @@ var email_addr = function ()
 
 var forward_addr = function ()
 {
-  email = box [1].value.trim() || box [1].value.trim();
+  email = box [1].value.trim() || box [0].value.trim();
   if (!email.includes ("@")) email = ""; return (email);
 }
 
