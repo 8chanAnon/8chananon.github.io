@@ -1,0 +1,227 @@
+<!DOCTYPE html><html><head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="origin">
+<base target="_blank">
+
+<title>8kun Authentigator</title>
+
+<style type="text/css">
+
+body {
+  text-align: center; margin: 0 15px;
+  font-size: 16px; line-height: 19px;
+  font-family: 'times new roman', serif;
+  color: brown; background-color: navajowhite;
+}
+
+input {
+  height: 17px; font-size: 16px; outline: none;
+  font-family: 'consolas', 'lucida console', monospace;
+  padding: 3px 5px 3px 5px; caret-color: navy;
+  color: crimson; background-color: seashell;
+  border: 2px solid orange; border-radius: 4px;
+  text-align: center; margin: 6px 1px;
+}
+
+button {
+  width: auto; height: auto;
+  font-size: 15px; line-height: 19px;
+  padding: 1px 6px 0 6px; margin: 6px 1px;
+  font-family: 'helvetica', sans-serif;
+  color: purple; background-color: powderblue;
+  outline: none; border-color: #e8e8e8 #9c9c9c #9c9c9c #ececec;
+}
+
+button:hover:active {
+  border-color: #a8a8a8 #f8f8f8 #f4f4f4 #acacac;
+}
+
+h1 {
+  margin: 10px 0 10px 0; line-height: 1em;
+}
+
+textarea {
+  box-sizing: border-box; resize: none; padding: 3px 8px; margin: 6px 0;
+  vertical-align: top; white-space: pre-wrap; outline: none;
+  font-size: 13px; line-height: 19px; font-family: 'verdana', san-serif;
+  caret-color: maroon; border: 2px solid burlywood; border-radius: 4px;
+  color: mediumblue; background-color: snow;
+}
+
+::selection {
+  color: yellow; background-color: orchid;
+}
+
+r_ { color: crimson; }
+g_ { color: green; }
+b_ { color: blue; }
+
+</style></head><body onload="javascript:start()"><h1><g_>8kun Authentigator</g_></h1>
+
+<input type=text style="width:300px"><br>
+<input type=text style="display:none;width:300px">
+<button onclick="javascript:get_address()">Get Address</button> &nbsp; &nbsp;
+<!-- <button onclick="javascript:request_code()">Request Code</button>&nbsp; -->
+<button onclick="javascript:check_email()">Check Email</button>
+<br><textarea style="width:350px;height:50px" readonly></textarea>
+<br><g_>Time left:</g_>
+<input type=text style="width:40px" readonly>&nbsp;
+<input type=text style="width:80px" readonly>
+<button onclick="javascript:copycode()">Copy Code</button>
+<p>
+<r_>I have not given up, folks. Read further.</r_>
+
+<div style="text-align:left">
+<p>
+The 8kun Authentigator uses an <a href="https://www.guerrillamail.com/inbox">anonymous email server</a> which requires
+no registration and no password. However, Guerrilla Mail has been banned by the 8kun administration. The only way to
+reach it is through a mail forwarder. I tried <a href="https://bump.email">Bump Email</a> and that worked for a while.
+8kun blocked Bump but then unblocked it and instead blocked the proxy server used to bypass the browser cross-origin
+restriction. That's okay. We don't actually need the proxy. I'm not recommending Bump but I am recommending
+<a href="https://www.gmx.com">GMX Mail</a> because it is free and anonymous and it supports mail forwarding
+(go to the "Filter Rules" section in the email settings). So, how will this work now?
+<p>
+Press <g_>Get Address</g_> to receive an anonymous Guerrilla email address. This is the address to which you will
+forward the email sent to you by the 8kun server. Set that up in Bump Email or GMX Mail. The address of the forwarding
+mailbox is the one you will use in the 8kun reply box. Paste the address there and click "request_totp". If the server
+tells you that a code was sent to your mailbox then come back here and press <g_>Check Email</g_> to probe the Guerrilla
+mail server for your TOTP code. If you set everything up correctly, it should work like magic. Don't forget to save the
+Guerrilla mailbox address because the Authentigator won't save it for you. Next time you open this page, copy the address
+to the top input line and you're all set.
+<p>
+<b>Expert tip:</b> You can make up your own username if you're careful about choosing something unique. Guerrilla will
+accept any sequence of eight letters and/or digits. Try it out. In the address input box you can just put something
+like "abc45fgh@". The domain name is not significant.
+<p>
+<b>Notes on forwarding with GMX Mail:</b> GMX will ask for permission to forward email to the Guerrilla mailbox. Open
+<a href="https://www.guerrillamail.com/inbox">Guerrilla Mail</a> and click on the button that displays the username.
+Replace with the username that was assigned to you. Now you can reply to the GMX email. By the way, when
+you set up the mail forwarding, you should add a filter rule to move the email to the trash. The email address to
+filter is "noreply@isitwetyet.com".
+
+</div></body>
+
+<script>
+
+var resp, data, head, time, timeout;
+var token = email = last_email = seq = "", busy = expiry = 0;
+
+var proxy_url = "http://localhost:8080/**";
+var email_url = "https://api.guerrillamail.com/ajax.php?";
+var post_8kun = "https://sys.8kun.top/_sm.php";
+
+var box = document.getElementsByTagName ("input");
+var txt = document.getElementsByTagName ("textarea")[0];
+
+var start = function ()
+{
+  box [2].value = box [3].value = txt.value = "";
+}
+
+var copycode = function ()
+{
+  box [3].select(); document.execCommand ("copy");
+}
+
+var message = function (msg)
+{
+  if (msg [0] == "#") { txt.value = ""; msg = msg.substr (1); }
+  if (txt.value) msg = "\n>> " + msg; txt.value += msg;
+}
+
+var email_addr = function ()
+{
+  email = box [0].value.trim();
+  if (!email.includes ("@")) email = ""; return (email);
+}
+
+var forward_addr = function ()
+{
+  email = box [1].value.trim() || box [0].value.trim();
+  if (!email.includes ("@")) email = ""; return (email);
+}
+
+var pullstring = function (s, t, u)
+{
+  var m = t.length, n = s.indexOf (t) + m;
+  m = n < m ? -1 : (u ? s.indexOf (u, n) : s.length);
+  return (m < 0 ? "" : s.substr (n, m - n));
+}
+
+var get_address = async () =>
+{
+  if (busy) return; busy = 1; message ("#Waiting for email address...");
+
+  try {
+    resp = await fetch (email_url + "f=get_email_address");
+    data = await resp.json(); } catch (e) { data = ""; }
+
+  email = last_email = data.email_addr || "";
+  token = data.sid_token || ""; expiry = Date.now();
+
+  busy = 0; box [0].value = email; message (email ? "Got email address." : "Sum Ting Wong!");
+}
+
+var request_code = async () =>
+{
+  if (busy) return; if (!forward_addr()) { message ("#Need email address."); return; }
+
+  busy = 1; data = "email=" + email; message ("#Submitting email request...");
+  head = { 'content-type': 'application/x-www-form-urlencoded' };
+
+  try {
+    resp = await fetch (proxy_url + post_8kun, { method: 'POST', headers: head, body: data });
+    data = await resp.text(); } catch (e) { data = ""; }
+
+  busy = 0; if (data.includes ("DOCTYPE")) data = ""; message (data ? data : "No response.");
+}
+
+var check_email = function ()
+{
+  if (!busy) if (email_addr()) update_email (5); else message ("#Need email address.");
+}
+
+var update_email = async (timer) =>
+{
+  busy = 1; message ("#Timeout: " + timer--);
+  if (timer >= 0) { setTimeout (function() { update_email (timer); }, 1000); return; }
+
+  var code; time = Date.now(); message ("#Checking email...");
+
+  if (email != last_email || time > expiry + 900000)
+  {
+    data = email.substr (0, email.indexOf ("@"));
+
+    try {
+      resp = await fetch (email_url + "f=set_email_user&sid_token=" + token + "&email_user=" + data);
+      data = await resp.json(); } catch (e) { data = ""; }
+
+    if (data.sid_token) { last_email = email; token = data.sid_token; expiry = time; }
+  }
+
+  try {
+    resp = await fetch (email_url + "f=check_email&sid_token=" + token + "&seq=" + seq);
+    data = await resp.json(); } catch (e) { data = ""; }
+
+  if (data.list) for (var m, n = 0; n < data.list.length; n++)
+  {
+    m = data.list [n]; code = pullstring (m.mail_subject, "TOTP: ", "");
+    if (!code) code = pullstring (m.mail_excerpt, "PIN is ", ".");
+    if (code) { seq = m.mail_id; break; }
+  }
+
+  busy = 0; if (!code) { message ("Email checked."); return; }
+
+  box [3].value = code; message ("TOTP Code found."); countdown (time);
+}
+
+var countdown = function (now)
+{
+  if (now) timeout = now + 300000; else now = Date.now();
+  now = Math.trunc ((timeout - now) / 1000); box [2].value = now;
+  if (now > 0) setTimeout (function() { countdown (0); }, 1000);
+}
+
+</script></html>
