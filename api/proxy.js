@@ -2,7 +2,7 @@
 Remote Proxy Server based on Kraker Local Proxy Server
 */
 
-export default function proxythis (req, res) { http_handler (req, res); }
+export default function proxythis (req, res) { temp_handler (req, res); }
 
 const fs    = require ('fs');
 const http  = require ('http');
@@ -177,6 +177,21 @@ function mime_type (url)
   return ((url = mime_list [url]) ? url : "");
 }
 
+function temp_handler (request, response)
+{
+  var m, n, portnum, proxy, local = 0;
+  var host, origin, referral, refer, head, head1, head2, head3;
+  host = origin = referral = refer = head = head1 = head2 = head3 = "";
+
+  var method = request.method, ssl = request.socket.encrypted;
+  var localhost = server_name + (ssl ? https_port : http_port);
+  var shadow = (ssl ? "https://" : "http://") + (request.headers ["host"] || localhost);
+
+  var url = request.url;
+
+  proc_done (response, shadow + " " + url, "text/plain", 0);
+}
+
 //////////////////////////////////
 ///// function: http_handler /////
 //////////////////////////////////
@@ -200,8 +215,6 @@ function http_handler (request, response)
   url = (url.substr (0, n)).replace (/\\/g, "/").replace (/%7C/g, "|");
 
   if (url [0] == "/") url = url.substr (1);
-
-  proc_done (response, shadow + " " + url, "text/plain", 0); return;
 
   if (!url || url [0] == ".")  // filter out ".well-known"
   {
