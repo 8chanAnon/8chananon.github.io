@@ -2,7 +2,7 @@
 Remote Proxy Server based on Kraker Local Proxy Server
 */
 
-module.exports = (req, res) => { http_handler (req, res); }
+export default function proxythis (req, res) { http_handler (req, res); }
 
 const fs    = require ('fs');
 const http  = require ('http');
