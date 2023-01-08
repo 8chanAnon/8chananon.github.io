@@ -19,8 +19,6 @@ process.on ("uncaughtException", function (error, origin)
 
 var proxy_name = "Kraker-v1", server_name = "kraker-remote.vercel.app";
 
-var http_port = 8082, https_port = 8083;
-
 var mime_list = {
   txt: "text/plain", htm: "text/html", html: "text/html", js: "application/javascript", json: "application/json",
   gif: "image/gif", jpeg: "image/jpeg", jpg: "image/jpeg", png: "image/png", mp3: "audio/mpeg", mp4: "video/mp4",
@@ -33,26 +31,7 @@ var camel_case = [
   "connection", "Connection", "cookie", "Cookie"
 ];
 
-//http.createServer (http_handler).listen (http_port);
-
 console.log ("Kraker Remote Proxy Server");
-
-////////////////////////////////////////
-///// function: start_https_server /////
-////////////////////////////////////////
-
-function start_https_server (keyfile, crtfile)
-{
-  if (!keyfile) keyfile = "_https_key.pem";
-  if (!crtfile) crtfile = "_https_crt.pem";
-
-  var ssl_key = null; try { ssl_key = fs.readFileSync (keyfile); } catch(e) {};
-  var ssl_crt = null; try { ssl_crt = fs.readFileSync (crtfile); } catch(e) {};
-
-  var ssl = { key: ssl_key, cert: ssl_crt, requestCert: false, rejectUnauthorized: false };
-
-  return (https.createServer (ssl, http_handler).listen (https_port));
-}
 
 /////////////////////////////////////
 ///// function: default_handler /////
@@ -221,6 +200,8 @@ function http_handler (request, response)
   url = (url.substr (0, n)).replace (/\\/g, "/").replace (/%7C/g, "|");
 
   if (url [0] == "/") url = url.substr (1);
+
+  proc_done (response, shadow + " " + url, "text/plain", 0); return;
 
   if (!url || url [0] == ".")  // filter out ".well-known"
   {
