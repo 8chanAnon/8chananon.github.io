@@ -1,3 +1,4 @@
 {
+  "license": "MIT",
   "scripts": { "start": "node proxy_v1.js" }
 }
