@@ -2024,7 +2024,7 @@ var fetchpost = function (win, url)
 var fetchbread = async (win, url) =>
 {
   var m, n, data, lastid = "", target = ""; if (!win) return;
-console.log(url);
+
   createwindow (win, url); if (!opentabs.includes (win)) opentabs.push (win);
   for (n = live.length - 1; n >= 0; n--) if (win == live [n].win) live.splice (n, 1);
   if (busy < 0) { message ("Busy - please retry", win); return; }
@@ -2598,7 +2598,7 @@ const sendform = async (top, win, doc, thread) =>
     box.innerHTML = msg; box.style.backgroundColor = "yellow";
   }}
 
-  if (!cors_kraker) { err_message ("Need local proxy server to post."); return; }
+//  if (!cors_kraker) { err_message ("Need local proxy server to post."); return; }
 
   if (!get_checked ("moderator", 0)) q = ""; else
     if (q = cookies ["moderator"]) frm [6].value = "1"; else
