@@ -2613,7 +2613,7 @@ const sendform = async (top, win, doc, thread) =>
   head = { method: 'POST', headers: { accept: "**" + q }, body: data };
 
   try {
-    resp = await fetch (cors_kraker + get_posting_url(), head);
+    resp = await fetch (cors_bypass + get_posting_url(), head);
     data = await resp.text(); } catch (e) { data = ""; }
 
   if (data)
