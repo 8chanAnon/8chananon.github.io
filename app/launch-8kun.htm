@@ -2159,7 +2159,8 @@ const updatebread = async (win, url, mode) =>
   w [0].innerHTML = w [2].innerHTML = "--"; doc.title = "BREAD (update)";
 
   setup_cors(); p = get_checked ("html-json", 0) ? "json" : "html";
-  q = (mode < 2 ? cors_kraker : cors_bypass) + domain_8kun + url.substr (1) + "." + p;
+//  q = (mode < 2 ? cors_kraker : cors_bypass) + domain_8kun + url.substr (1) + "." + p;
+  q = cors_bypass + domain_8kun + url.substr (1) + "." + p;
 
   try
   {
