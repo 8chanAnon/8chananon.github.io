@@ -1,0 +1,588 @@
+<!DOCTYPE html><html><head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="launch-8kun.ico">
+<base target="_blank">
+
+<title>Viewer</title>
+
+<style type="text/css">
+
+body {
+  font-size: 16px; line-height: 19px;
+  font-family: 'times new roman', serif; vertical-align: top;
+  margin: 0; padding: 0; text-align: center;
+  color: saddlebrown; background-color: cornflowerblue;
+}
+
+.status {
+  padding: 1px; margin: 0; background-color: pink;
+  border: 1px solid hotpink; border-top: none; visibility: hidden;
+}
+
+.imagebox {
+  width: 100vw; height: calc(100vh - 31px); overflow: hidden;
+  color: yellow; background-color: transparent; vertical-align: top;
+  border: none; outline: none; padding: 0; margin: 0;
+}
+
+.frame, img, video {
+  width: auto; height: auto; vertical-align: top;
+  border: none; outline: none; margin: 4px 5px 5px 5px; padding: 0;
+}
+
+.frame {
+  width: calc(100% - 10px); height: calc(100% - 9px);
+}
+
+input {
+  height: 16px; font-size: 13px; outline: none; font-family: 'helvetica', sans-serif;
+  padding: 3px 5px 3px 5px; caret-color: navy; color: firebrick; background-color: cornsilk;
+  border: 2px solid burlywood; border-radius: 4px; text-align: center; margin: 1px 0;
+}
+
+button {
+  width: auto; height: auto; padding: 0 4px; margin: 0;
+  font-size: 14px; line-height: 18px; font-family: 'helvetica', sans-serif;
+  color: darkgreen; background-color: burlywood; outline: none;
+  border-color: #e8e8e8 #9c9c9c #9c9c9c #ececec;
+}
+
+button:hover:active {
+  border-color: #a8a8a8 #f8f8f8 #f4f4f4 #acacac;
+}
+
+.tweetbox {
+  display: inline-block; width: 85vw; height: calc(100% - 20px);
+  margin: 4px; padding: 3px; outline: none; border: 2px solid lightsalmon;
+  font-size: 14px; line-height: 19px; font-family: 'verdana', sans-serif; 
+  text-align: left; white-space: pre-wrap; word-wrap: break-word;
+  color: maroon; background-color: papayawhip;
+  overflow-x: hidden; overflow-y: scroll;
+}
+
+.clonebox {
+  width: auto; min-width: 600px; height: auto; margin: 0; border: 4px solid cornflowerblue;
+}
+
+.tw-itembox {
+  display: block; margin-bottom: 2px; border: 2px solid tan;
+}
+
+.tw-itembox[checked="1"] {
+  border: 2px dashed forestgreen;
+}
+
+.tw-itembox[checked="2"] {
+  border: 2px dashed firebrick; background-color: mistyrose;
+}
+
+.tw-header {
+  display: block; min-height: 54px; line-height: 26px;
+  background-color: floralwhite; border-bottom: 1px solid tan;
+}
+
+.tw-header[checked="1"] {
+  background-color: lightcyan;
+}
+
+.tw-header[checked="2"] {
+  background-color: lemonchiffon;
+}
+
+.tw-info {
+  display: flex; flex-direction: column; justify-content: space-around;
+  text-align: center; min-width: 54px; min-height: 50px; padding: 1px 0 3px;
+  font-size: 9px; line-height: 12px; border-right: 2px solid tan;
+  color: firebrick; background-color: lemonchiffon;
+  user-select: none;
+}
+
+.tw-info[checked="1"] {
+  background-color: wheat;
+}
+
+.tw-image {
+  width: 48px; height: 48px; padding: 3px; margin: 0 6px 0 0;
+  float: left; border-right: 2px solid tan; background-color: honeydew;
+  user-select: none;
+}
+
+.tw-thread {
+  margin: 0 6px; float: right;
+}
+
+.tw-text {
+  display: flex; flex-direction: column; justify-content: space-around;
+  text-align: left; padding: 3px 6px 4px 6px;
+}
+
+p {
+  margin: 8px 0;
+}
+
+a:link {
+  color: teal;
+}
+
+a:visited {
+  color: crimson;
+}
+
+r_ { color: crimson; }
+g_ { color: green; }
+b_ { color: mediumblue; }
+v_ { color: mediumblue; user-select: none; }
+w_ { }
+
+</style></head>
+
+<body onload="javascript:start()" onhashchange="javascript:start()" onclick="javascript:toggle(event)">
+
+<div class="status">
+<span style="margin:0 4px 0 5px"><a target=_self href=""
+  onclick="javascript:action(); return false" style="color:firebrick">Save file</a>:
+<input type=text style="width:calc(100% - 700px);min-width:314px;text-align:left"></span>
+<span style="display:inline-block;margin:0 4px">Size:
+<input type=text style="width:80px" disabled>&nbsp;
+<button onclick="javascript:resize(1)">&lt;</button>
+<input type=text style="width:38px" disabled>
+<button onclick="javascript:resize(2)">&gt;</button>&nbsp;&nbsp;
+Brightness: &nbsp;<button onclick="javascript:brightness(1)">&lt;</button>
+<input type=text style="width:24px" disabled>
+<button onclick="javascript:brightness(2)">&gt;</button></span>
+</div><div class="imagebox"></div>
+
+<script>
+
+var origin, link, type, orig_w, orig_h, thread, t_total, t_count;
+
+var tweet_embed = "https://platform.twitter.com/embed/Tweet.html?id=";
+var profile_img = "https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png";
+
+var pullstring = function (s, t, u)
+{
+  var m = t.length, n = s.indexOf (t) + m;
+  m = n < m ? -1 : (u ? s.indexOf (u, n) : s.length);
+  return (m < 0 ? "" : s.substr (n, m - n));
+}
+
+var toggle = function (event)
+{
+  var n, t = event.target;
+
+  while (n = t.nodeName) if (n == "BODY") return; else
+    if (n != "SPAN" || t.classList [0] != 'tw-info') t = t.parentNode; else break;
+
+  t.setAttribute ("checked", t.getAttribute ("checked") == 1 ? 0 : 1);
+}
+
+var action = function ()
+{
+  var msg = document.getElementsByTagName ("input")[0], cmd = msg.value.trim();
+
+  if (type != "tweet")
+  {
+    msg.value = link ? "Use right-click to save" : "Nothing to save"; return;
+  }
+
+  if (cmd.substr (0, 10) == "[snapshot]") cmd = cmd.substr (10).trim();
+
+  if (cmd) { start ("?tweet#" + cmd); return; }
+
+  msg.value = ('fuck off');
+/*
+  var box = document.createElement ("DIV");
+  box.classList.add ("tweetbox"); box.classList.add ("clonebox");
+  var i, j, k, doc = document.getElementsByTagName ("div")[1].firstChild;
+
+  for (i = 0; i < doc.children.length - 1; i++)
+  {
+    j = doc.children [i]; k = j.children [1].children [0];
+    if (k.getAttribute ("checked") == 1) box.appendChild (j.cloneNode (true));
+  }
+
+  if (!box.children.length) for (i = 0; i < doc.children.length - 1; i++)
+  {
+    j = doc.children [i].cloneNode (true); box.appendChild (j);
+  }
+
+  j = document.head.innerHTML;
+  j = j.replace ('[checked="1"]', '[checked="2"]');
+  j = j.replace (/<title>.*</, "<title>Snapshot<");
+  k = box.outerHTML;
+  k = k.replace (RegExp (origin + "\\?(image|video)=", 'g'), "");
+  k = k.replace (RegExp (origin + "\\?tweet=", 'g'), "https://twitter.com/i/status/");
+
+  k = "<!DOCTYPE html><html>" + j + "<body>" + k + "</body>";
+  fetch ("/+test", { method: 'PUT', body: k });
+//  doc = window.open().document; doc.write (k); doc.close();
+*/
+}
+
+var oops = function ()
+{
+  document.getElementsByTagName ("input")[1].value = "ERROR";
+}
+
+var start = function (cmd)
+{
+  var m, url = cmd || location.href; url = pullstring (url, "?", "");
+  type = pullstring (url, "", "#"); link = pullstring (url, "#", "");
+  origin = location.origin + location.pathname;
+
+  var doc = document.getElementsByTagName ("div");
+  var msg = document.getElementsByTagName ("input");
+  var ref = document.getElementsByTagName ("a")[0];
+
+  if (m = pullstring (link, "", "#")) link = m;
+  if (m = pullstring (link, "", "?"))  url = m; else url = link;
+  if (url.substr (-1) == "/") url = url.substr (0, url.length - 1);
+  m = url.lastIndexOf ("/"); if (m >= 0) url = url.substr (m + 1);
+
+  if (type == "tweet")
+  {
+    link = ""; ref.innerHTML = "Tweet"; if (m = pullstring (url, "", ".")) url = m;
+  }
+
+  doc [0].style.visibility = "visible"; doc [1].style.visibility = "hidden";
+  doc = doc [1]; ref.href = link; if (!type || !url) return;
+
+  msg [1].value = "Loading..."; msg [3].value = "0";
+  msg [0].value = msg [0].title = document.title = url;
+
+  if (type == "tweet")
+  {
+    location.replace ("#" + url);
+    fetchtweet (doc, msg, url); return;
+//    if (location.hostname == "localhost") { fetchtweet (doc, msg, url); return; }
+//    type = "file"; url = tweet_embed + url;
+  }
+  else if (!link.includes (".128ducks.")) url = link; else
+  {
+    url = link.replace ("/file_dl/", "/file_store/");
+    if (url.length != link.length) url = url.substr (0, m + 3);
+  }	
+
+  if (type == "image")
+  {
+    doc.innerHTML = "<img id='image' src='" + url + "'" +
+      " onload='javascript:resize(0)' onerror='javascript:oops()'>";
+  }
+  else if (type == "video")
+  {
+    doc.innerHTML = "<video controls autoplay id='image' src='" + url + "'" +
+      " onloadedmetadata='javascript:resize(0)' onerror='javascript:oops()'></video>";
+  }
+  else if (type == "frame" || type == "file")
+  {
+    doc.innerHTML = "<iframe id='image' class='frame' src='" + url + "'></iframe>"; resize (0);
+  }
+  else { type = ""; msg [1].value = "Error"; }
+}
+
+var resize = function (mode)
+{
+  var p, q, r, s, t;
+  var img = document.getElementById ("image"); if (!type || !img) return;
+
+  var a = document.getElementsByTagName ("input"), b = a[1]; a = a[2];
+  var c = img.parentNode, w = img.clientWidth, h = img.clientHeight;
+
+  if (type == "video") { w = img.videoWidth; h = img.videoHeight; }
+
+  if (mode) { w = orig_w; h = orig_h; } else
+  {
+    orig_w = w; orig_h = h; b.value = w + " x " + h;
+    c.style.overflow = "auto"; c.style.visibility = "visible";
+  }
+
+  if (type == "file") { a.value = b.value = ""; return; }
+  if (w <= 0 || h <= 0) { b.value = "Invalid"; return; }
+
+  if (type == "frame") { p = 1; q = 100; b.value = ""; } else
+  {
+    p = (c.offsetWidth - 10) / w; q = (c.offsetHeight - 9) / h;
+    if (p > q) p = q; q = Math.trunc (Math.round (p * 100));
+  }
+
+  if (!mode) r = q; else
+  {
+    r = a.value; r = r.substr (0, r.length - 1) * 1;
+    s = r; if (r == q) t = 5.5; else t = r > 199 ? 20 : 10;
+    if (mode == 1 && r >  19) { r -= t; if (r < q && s > q) s = 0; }
+    if (mode == 2 && r < 481) { r += t; if (r > q && s < q) s = 0; }
+    r = s ? Math.round (r / 10) * 10 : q;
+  }
+
+  w = c.scrollWidth; h = c.scrollHeight;
+  a.value = r + "%"; if (r == q) r = p; else r *= 0.01;
+  img.style.width = r * orig_w + "px"; img.style.height = r * orig_h + "px";
+
+  w = (c.scrollWidth - w) * 0.5; h = (c.scrollHeight - h) * 0.5;
+  c.scrollLeft += w; c.scrollTop += h; c.focus();
+}
+
+var brightness = async (mode) =>
+{
+  var a = document.getElementsByTagName ("input")[3], lvl = a.value * 1;
+  var b = document.getElementById ("image"); if (!b) return;
+
+  if (mode == 1) if ((lvl -= 1) < -9) lvl = -9;
+  if (mode == 2) if ((lvl += 1) >  9) lvl =  9;
+
+  a.value = (lvl > 0 ? "+" : "") + lvl; lvl = lvl * 0.05 + 1;
+  var sat = (3 - lvl) / 2, con = (2 - lvl * (3 - lvl)) + 1;
+
+  lvl = lvl.toFixed (3); con = con.toFixed (3); sat = sat.toFixed (3);
+  b.style.filter = "brightness(" + lvl + ") contrast(" + con + ") saturate(" + sat + ")";
+}
+
+const fetchtweet = async (doc, msg, id) =>
+{
+  doc.innerHTML = "<span class='tweetbox'></span>"; var box = doc.firstChild;
+
+//  var url = "/~*https://twitter.com*https://api.twitter.com/";
+  var url = "https://kraker-remote.vercel.app/?url=*https://twitter.com*https://api.twitter.com/";
+  var b = "Bearer AAAAAAAAAAAAAAAAAAAAAPYXBAAAAAAACLXUNDekMxqa8h" +
+    "%2F40K4moUkGsoc%3DTYfbDKbT3jJPCEVnMYqilB28NHfOPqkca3qaAxGfsyKCs0wRbw";
+
+try
+{
+  var u = url + "1.1/guest/activate.json";
+  var resp = await fetch (u, { method: 'POST', headers: { 'Authorization': b } });
+  var data = await resp.json();
+
+  var g = data.guest_token; if (!g) throw ("!!!");
+
+  var m, n, p, q, r, s, t, twitlist, replies, twits = {}, users = {};
+  var this_id = sort_id = id; while (sort_id.length < 19) sort_id = "0" + sort_id;
+  var next_id = sort_id, tw_convo, tw_reply, cursor = "";
+
+  for (n = 0; n < 20; n++)
+  {
+    r = "&include_reply_count=1" + (cursor ? "&cursor=" + r : "");
+    u = url + "2/timeline/conversation/" + this_id + ".json?tweet_mode=extended" + r;
+    resp = await fetch (u, { headers: { 'Authorization': b, 'x-guest-token': g } });
+    data = await resp.json();
+
+    twits = Object.assign (twits, data.globalObjects.tweets);
+    users = Object.assign (users, data.globalObjects.users);
+
+    thread = (m = twits [id].self_thread) ? m.id_str : "";
+    tw_reply = twits [id].in_reply_to_status_id_str;
+    tw_convo = twits [id].conversation_id_str;
+    twitlist = []; t_total = t_count = 0;
+
+    for (p in twits)
+    {
+      q = p; while (q.length < 19) q = "0" + q;
+      t = twits [p].self_thread; if (t) t = t.id_str;
+      r = twits [p].in_reply_to_status_id_str;
+      s = twits [p].conversation_id_str;
+
+      if (s != tw_convo) q = ""; else if (t == thread)
+      {
+        if ((!n || this_id != id) && id == thread && q > next_id) next_id = q;
+        r = p == id || r == id || p == tw_reply || id == thread;
+        t_total++; if (r) t_count++; else q = "";
+      }
+      else if (q > sort_id && r != id) if (!(t = twits [r])) q = ""; else
+        if ((t = t.self_thread) && (t = t.id_str) && t == thread) q = "";
+
+      if (q) twitlist.push (q);
+    }
+
+    try {
+      r = data.timeline.instructions[0].addEntries.entries;
+      r = r [r.length - 1].content.operation.cursor.value;
+      r = encodeURIComponent (r); } catch (e) { r = ""; }
+
+    cursor = (r && r != cursor && twitlist.length < 75 + t_count) ? r : "";
+
+    if (id != this_id) cursor = ""; if (cursor) continue;
+    m = next_id; while (m [0] == "0") m = m.substr (1);
+    if (m != this_id) this_id = m; else break;
+  }
+
+  t_count = 0; replies = []; twitlist.sort();
+
+  for (n = 0, m = ""; n < twitlist.length; n++)
+  {
+    p = q = twitlist [n]; while (p [0] == "0") p = p.substr (1);
+    if (t = twits [p].self_thread) t = t.id_str == thread;
+    r = twits [p].in_reply_to_status_id_str;
+
+    s = (t || r == id || p == id || p == tw_reply) ? "" : "!";
+    if (!r || r == id || (s && q < sort_id) || !twitlist.includes (r)) r = s;
+    replies.push ((t && m) ? m : r); if (t) m = p; twitlist [n] = p;
+  }
+
+  for (n = 0; n < twitlist.length; n++)
+  {
+    p = q = s = twitlist [n]; r = replies [n];
+    while (q.length < 19) q = "0" + q; q = q < sort_id;
+    if (r == "!") if (replies.includes (p)) r = ""; else continue;
+
+    while (p) p = q = newtweet (id, box, twits, users, p, q, r);
+
+    for (m = q = n + 1; m < replies.length; m++) if (s == replies [m])
+    {
+      replies.splice (m, 1); replies.splice (q, 0, s);
+      twitlist.splice (q++, 0, twitlist.splice (m, 1)[0]);
+    }
+  }
+
+  msg [0].value = "[snapshot]"; msg [1].value = msg [2].value = "";
+  u = document.createElement ("DIV"); u.style = "width:90vw;height:30%";
+  box.appendChild (u); doc.style.visibility = "visible";
+
+  setTimeout (function() { box.focus(); }, 500);
+
+} catch (e) { console.log (e); oops(); return; }
+}
+
+var newtweet = function (id, box, twits, users, item, check, reply)
+{
+  var a, b, c, i, j, k, m, n, image = "", retweet = "";
+  var twit, user, urls = [], tw_link = "<a href='" + origin;
+
+  if (!(twit = twits [item]) || !(user = users [twit.user_id_str])) return "";
+
+  if ((m = twit.extended_entities) && (m = m.media))
+    for (n = 0; n < m.length; n++) if (k = m [n].media_url_https)
+    {
+      if (c = m [n].url) { urls.push (c); urls.push (""); }
+      image += "  " + tw_link + "?image#" + k + "'>IMAGE</a>";
+      if (!(k = m [n].video_info) || !(k = k.variants)) continue;
+
+      for (i = 0; i < k.length; i++) if ((a = k [i].url) && a.includes (".mp4"))
+      {
+        b = "VIDEO"; j = a.search (/[0-9]x[0-9]/);
+        if (j > 0) b = a.substr (j + 2, a.indexOf ("/", j) - j - 2) + "p";
+        image += "  " + tw_link + "?video#" + a + "'>" + b + "</a>";
+      }
+    }
+
+  var time = new Date (twit.created_at);
+  m = " (" + ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"][time.getDay()] + ") ";
+  time = "<b_>" + time.toLocaleDateString() + m + time.toLocaleTimeString() + "</b_>";
+
+  if (!(k = twit.self_thread) || !(k = k.id_str)) j = ""; else
+  {
+    a = " class='tw-thread'>";
+    b = k != thread ? "Thread" : (k == item ? "Top" : "Go to Top");
+    if (k != id || check) j = tw_link + "?tweet#" + k + "'" + a + b + "</a>";
+      else j = "<b_" + a + (++t_count) + " of " + t_total + "</b_>";
+  }    
+
+  c = user.profile_image_url_https || profile_img;
+  a = "<img class='tw-image' src='" + c + "'><r_>" + user.name + "</r_>";
+  b = "<a href='" + tweet_embed + item + "'>@" + user.screen_name + "</a>";
+  c = id == item ? "<r_>" + item + "</r_>" : tw_link + "?tweet#" + item + "'>" + item + "</a>";
+
+  var head = "<span class='tw-header' checked=" +
+    (id == item ? 2 : ((k == thread && id != thread) ? 1 : 0)) + ">" +
+    a + "  " + b + j + "<br><b_>" + time + "</b_>  " + c + image + "</span>";
+
+  a = b = ""; i = twit.display_text_range [0]; j = twit.display_text_range [1];
+  var text = (Array.from (twit.full_text)).slice (i, j).join ("");
+
+//  a = b = ""; c = []; for (char of twit.full_text) c.push (char);
+//  var text = c.slice (i, j).join("");
+
+  if (m = twit.entities.user_mentions) for (n = 0; n < m.length; n++)
+  {
+    if (k == thread || m [n].indices [0] >= i) continue;
+    c = (reply && item != check) ? " &#x2026;" + reply.substr (-4) : "";
+    a += (a ? "" : c) + " @" + m [n].screen_name;
+  }
+
+  if (m = twit.entities.urls) for (n = 0; n < m.length; n++)
+  {
+    k = m [n].display_url; j = "<a href='" + m [n].expanded_url + "'>" + k + "</a>";
+    if (k.length < 10) j = k; if (k = m [n].url) { urls.push (k); urls.push (j); }
+  }
+
+  if (retweet = twit.quoted_status_id_str || "")
+  {
+    c = " (not found - " + tw_link + "?tweet#" + retweet + "'>link</a>)";
+    if ((b = twit.quoted_status_permalink) && (b = b.expanded)) b = pullstring (b, "com/", "/");
+    b = " @" + (b ? b : "???"); if (!twits [retweet]) { retweet = ""; b += c; }
+  }
+
+  for (n = 0; n < urls.length; n += 2) text = text.replace (urls [n], urls [n + 1]);
+
+  if (a) a = "<v_>Replying to<g_>" + a + "</g_></v_>";
+  if (b) b = "<v_>Retweeting<r_>" + b + "</r_></v_>";
+
+  c = text.trim(); if (c) c = "<w_>" + c + ((a || b) ? "<p></p>" : "") + "</w_>";
+  c += b + ((a && b) ? "<br>" : "") + a; if (!c) c = "<br>";
+
+  text = c.replace (/\n\n/g, "<p></p>").replace (/\n/g, "<br>");
+  text = "<span class='tw-text'>" + text + "</span>";
+
+  if (!(c = user.followers_count) * 1) c = "0"; else
+    if (c > 999999) c = (c / 1000000).toFixed (2) + "m"; else
+      if (c > 99999) c = (c / 1000).toFixed (2) + "k";
+
+  a = (user.verified ? "<b_>&#x2714;</b_>" : "&#x1f440;") + "<br>" + c;
+  b = twit.reply_count; if (!b) b = ""; else b = "<g_>Replies<br>" + b + "</g_>";
+
+  j = "<span class='tw-info'><r_>" + a + "</r_>" + b + "</span>";
+  k = "<span style='display:flex'>" + j + text + "</span>";
+
+  m = document.createElement ("SPAN"); m.classList.add ("tw-itembox");
+  m.innerHTML = head + k; if (check) k = check == item ? 2 : 1; else k = 0;
+  m.setAttribute ("checked", k); box.appendChild (m); return (retweet);
+}
+
+/*
+https://cdn.syndication.twimg.com/tweet-result?id=1605316816355569664&lang=en
+
+https://twitter.com/i/api/2/timeline/conversation/1404867971349159945.json
+?include_profile_interstitial_type=1
+&include_blocking=1
+&include_blocked_by=1
+&include_followed_by=1
+&include_want_retweets=1
+&include_mute_edge=1
+&include_can_dm=1
+&include_can_media_tag=1
+&skip_status=1
+&cards_platform=Web-12
+&include_cards=1
+&include_ext_alt_text=true
+&include_quote_count=true
+&include_reply_count=1
+&tweet_mode=extended
+&include_entities=true
+&include_user_entities=true
+&include_ext_media_color=true
+&include_ext_media_availability=true
+&send_error_codes=true
+&simple_quoted_tweet=true
+&referrer=tweet
+&count=20
+&cursor=
+&include_ext_has_birdwatch_notes=false
+&ext=mediaStats%2ChighlightedLabel
+*/
+/*
+  if (m = twit.entities.urls) for (n = 0; n < m.length; n++)
+  {
+    j = m [n].expanded_url; k = pullstring (j, "/status/", "");
+    if ((i = k.search (/\/|\?/)) > 0) k = k.substr (0, i);
+
+    if (k && k != item)
+    {
+      c = " (not found - " + tw_link + "?tweet#" + k + "'>link</a>)";
+      b = " @" + pullstring (j, "com/", "/"); if (twits [k]) retweet = k; else b += c;
+    }
+    j = "<a href='" + j + "'>" + m [n].display_url + "</a>";
+    if (k && k == item) j = ""; if (k = m [n].url) { urls.push (k); urls.push (j); }
+  }
+*/
+
+</script></body></html>

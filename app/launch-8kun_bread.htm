@@ -1,0 +1,70 @@
+<!DOCTYPE html><html><head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="launch-8kun.ico">
+
+<title>&nbsp;</title></head><body onload="javascript:start()">
+
+<script>
+
+var box, worker, url, ID;
+
+var start = function ()
+{
+  var top = window.opener; if (top && (top = top.document.topwindow) && top.closed) top = null;
+
+  url = location.href; url = url.substr (url.indexOf ("?"));
+  if (!(url = url.substr (1))) { document.title = "ERROR"; return; }
+  if (url.search ("\\$|#|!") < 0) location.replace (location.href + "#");
+
+  if (top) { document.topwindow = top; top.fetchbread (window, url); } else
+  {
+    box = document.createElement ("DIV"); box.style = "text-align:center";
+    box.innerHTML = "<br><br><button onclick='javascript:go()'>Press to continue</button>";
+    document.body.appendChild (box); document.title = url;
+  }
+}
+
+var closewindow = function ()
+{
+  box = document.getElementsByTagName ("button")[0];
+  box.parentNode.removeChild (box); document.title = "OKAY";
+}
+
+var msg_worker = function (msg)
+{
+  console.log ("Shared worker says " + msg);
+
+  if (msg == "start") say_worker ("", "hello");
+  if (msg == "hello") document.title = "ERROR";
+  if (msg == "error") document.title = "ERROR";
+  if (msg == "ready") go_worker (0);
+  if (msg == "retry") go_worker (1);
+  if (msg == "close") closewindow();
+}
+
+var say_worker = function (id, msg)
+{
+  worker.postMessage ({ id: id, app: "launch-8kun", msg: msg });
+}
+
+var go_worker = function (retry)
+{
+  setTimeout (function() { say_worker (ID, url); }, retry ? 1000 : 50);
+}
+
+var go = function ()
+{
+  if (!url) return; else if (worker) go_worker (0); else
+  {
+    var w = location.hostname == "localhost" ? "/" : "";
+    ID = "ID" + Math.trunc (Math.random() * 10000 + 10000);
+
+    worker = new SharedWorker (w + "worker.js").port;
+    worker.onmessage = function (e) { msg_worker (e.data.msg); };
+  }
+}
+
+</script></body></html>
