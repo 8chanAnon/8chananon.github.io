@@ -156,10 +156,11 @@ Brightness: &nbsp;<button onclick="javascript:brightness(1)">&lt;</button>
 
 <script>
 
-var origin, link, type, orig_w, orig_h, thread, t_total, t_count;
+var proxy, origin, link, type, orig_w, orig_h, thread, t_total, t_count;
 
-var tweet_embed = "https://platform.twitter.com/embed/Tweet.html?id=";
-var profile_img = "https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png";
+var tweet_embed  = "https://platform.twitter.com/embed/Tweet.html?id=";
+var profile_img  = "https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png";
+var remote_proxy = "https://kraker-remote.vercel.app/?url=";
 
 var pullstring = function (s, t, u)
 {
@@ -230,7 +231,9 @@ var start = function (cmd)
 {
   var m, url = cmd || location.href; url = pullstring (url, "?", "");
   type = pullstring (url, "", "#"); link = pullstring (url, "#", "");
+
   origin = location.origin + location.pathname;
+  proxy = location.hostname == "localhost" ? location.origin + "/~" : remote_proxy;
 
   var doc = document.getElementsByTagName ("div");
   var msg = document.getElementsByTagName ("input");
@@ -254,10 +257,7 @@ var start = function (cmd)
 
   if (type == "tweet")
   {
-    location.replace ("#" + url);
-    fetchtweet (doc, msg, url); return;
-//    if (location.hostname == "localhost") { fetchtweet (doc, msg, url); return; }
-//    type = "file"; url = tweet_embed + url;
+    location.replace ("#" + url); fetchtweet (doc, msg, url); return;
   }
   else if (!link.includes (".128ducks.")) url = link; else
   {
@@ -343,8 +343,7 @@ const fetchtweet = async (doc, msg, id) =>
 {
   doc.innerHTML = "<span class='tweetbox'></span>"; var box = doc.firstChild;
 
-//  var url = "/~*https://twitter.com*https://api.twitter.com/";
-  var url = "https://kraker-remote.vercel.app/?url=*https://twitter.com*https://api.twitter.com/";
+  var url = proxy + "*https://twitter.com*https://api.twitter.com/";
   var b = "Bearer AAAAAAAAAAAAAAAAAAAAAPYXBAAAAAAACLXUNDekMxqa8h" +
     "%2F40K4moUkGsoc%3DTYfbDKbT3jJPCEVnMYqilB28NHfOPqkca3qaAxGfsyKCs0wRbw";
 
