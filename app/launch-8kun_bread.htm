@@ -15,9 +15,7 @@ var start = function ()
 {
   var top = window.opener; if (top && (top = top.document.topwindow) && top.closed) top = null;
 
-  url = location.href; url = url.substr (url.indexOf ("?"));
-  if (!(url = url.substr (1))) { document.title = "ERROR"; return; }
-  if (url.search ("\\$|#|!") < 0) location.replace (location.href + "#");
+  url = location.hash; if (!(url = url.substr (2))) { document.title = "ERROR"; return; }
 
   if (top) { document.topwindow = top; top.fetchbread (window, url); } else
   {

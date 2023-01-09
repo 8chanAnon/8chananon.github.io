@@ -2012,7 +2012,7 @@ var fetchpost = function (win, url)
    }
 
   busy = Date.now(); var link = pullstring (url, "'", "'");
-  link = localpath + url_bread + "?" + (link ? link : url);
+  link = localpath + url_bread + "##" + (link ? link : url);
 
   // the new window must call fetchbread()
 
@@ -2024,7 +2024,7 @@ var fetchpost = function (win, url)
 var fetchbread = async (win, url) =>
 {
   var m, n, data, lastid = "", target = ""; if (!win) return;
-
+console.log(url);
   createwindow (win, url); if (!opentabs.includes (win)) opentabs.push (win);
   for (n = live.length - 1; n >= 0; n--) if (win == live [n].win) live.splice (n, 1);
   if (busy < 0) { message ("Busy - please retry", win); return; }
