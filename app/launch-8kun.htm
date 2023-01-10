@@ -517,7 +517,7 @@ JSON <input type=radio name="html-json" value="1"></g_><br>
 
 <p class="listbox">
 <input type=radio name="proxy" value="LOCAL" checked> Kraker Local Proxy Server<br>
-<input type=radio name="proxy" value="https://kraker-remote.vercel.app/?url="> kraker-remote.vercel.app<br>
+<input type=radio name="proxy" value="!https://kraker-remote.vercel.app/?url="> kraker-remote.vercel.app<br>
 <input type=radio name="proxy" value="https://api.allorigins.win/raw?url="> api.allorigins.win<br>
 <input type=radio name="proxy" value=""> None<br>
 </p>
@@ -1438,9 +1438,9 @@ var site_login = function (a, b)
 
 var setup_cors = function ()
 {
-  cors_bypass = get_checked ("proxy", "");
-  if (cors_bypass != "LOCAL") cors_kraker = localhost; else
-    cors_bypass = cors_kraker = localhost || "http://localhost:8080/";
+  cors_kraker = ""; cors_bypass = get_checked ("proxy", "");
+  if (cors_bypass [0] == "!") cors_bypass = cors_kraker = cors_bypass.substr (1);
+  if (cors_bypass == "LOCAL") cors_bypass = cors_kraker = localhost || "http://localhost:8080/";
 }
 ////////////////////
 
