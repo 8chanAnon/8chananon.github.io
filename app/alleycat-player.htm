@@ -1803,7 +1803,7 @@ var free_2 = [
   , "/0/540.1/0 7:https://canal.mediaserver.com.co:8088/live/telemusica.m3u8"	, "TeleMusica (Argentina)"
   , "8:https://5cefcbf58ba2e.streamlock.net:543/tltvweb/latinotv.stream/playlist.m3u8" , "Top Latino TV (Colombia)"
   , "8:http://stream.v2beat.live/playlist.m3u8"					, "V2Beat (Germany)"
-  , "1s:5d93b635b43dd1a399b39eee"						, "Vevo Pop (US) *"
+  , "1s:5d93b635b43dd1a399b39eee"						, "Vevo Pop (US) **"
   , "1e:36953f5b6546464590d2fcd954bc89cf"					, "VH-1 (Europe-UK)"
   , "8:http://wms.shared.streamshow.it/visualradio/mp4:visualradio/playlist.m3u8" , "Visual Radio (Turkey)"
 ];
@@ -1816,7 +1816,7 @@ var free_3 = [
   , "2a:stream=CBS"									, "CBS **"
   , "8:http://cbsn-us.cbsnstream.cbsnews.com/out/v1/55a8648e8f134e82a470f83d562deeca/master.m3u8" , "CBS News"
   , "2a:stream=CNBC"									, "CNBC **"
-  , "/1/0/0/2/0/0 2a:stream=CNN 1c:stream/cnn"						, "CNN *+*"
+  , "/1/0/0/2/0/0 2a:stream=CNN 1c:stream/cnn"						, "CNN *+*??"
   , "2a:stream=CSPAN"									, "C-SPAN **"
   , "8:http://etlive-mediapackage-fastly.cbsaavideo.com/live/manifest.m3u8"		, "ET Live !!"
   , "2a:stream=FOX"									, "Fox **"
@@ -2171,6 +2171,7 @@ var load_all = function ()
 
   worker = new SharedWorker (localhost + "worker.js").port;
   worker.onmessage = function (e) { msg_worker (e.data.id, e.data.msg); }
+  var crypto = document.getElementById ("cryptojs");
 
   var blank = "<!DOCTYPE html><html><head>\n" +
     "<meta name='viewport' content='width=device-width, initial-scale=1.0'>\n" +
