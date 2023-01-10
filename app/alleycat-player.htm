@@ -362,23 +362,24 @@ w_ { color: #A02000; }
   onload="javascript:load_all()" onunload="javascript:dump_all()" onresize="javascript:resize_all()"
   onclick="javascript:MEOW(event)" onkeydown="javascript:MEOW(event)">
 
-<div>
+<div style="text-align:center">
 
-<h1><g_>A</g_><r_>ll</r_><g_>ey</g_><r_>cat</r_> <g_>Pl</g_><r_>ay</r_><g_>er</g_> <r_>v5d</r_>
- -- <small>two years old (<g_>not a</g_> <r_>kitten</r_> <g_>anymore</g_>) meeowrrr</small></h1>
+<h1><g_>A</g_><r_>ll</r_><g_>ey</g_><r_>cat</r_> <g_>Pl</g_><r_>ay</r_><g_>er</g_> <r_>v5d</r_></h1>
+
+<big><b_>MEEOWRRR</b_><b> -- Three <g_>&#x1f408;</g_> years old -- (<r_>kittens</r_> <g_>in the oven</g_>)</b></big>
 
 <p><hr><p>
 <div><g_>Pick a Proxy:</g_>&nbsp;
 <div class="dropbox dropbox0" style="width:300px"><input type=text disabled
   value="To use this app, you must enable Javascript."><button>+</button>
 <div id="proxy" class="dropdown dropdown0">
-  <option value="LOCAL" class="r">Local Proxy Server (Kraker)
+  <option value="LOCAL" class="r">Kraker Local Proxy Server
   <option value="!https://kraker-remote.vercel.app/?url=">kraker-remote.vercel.app
   <option value="https://api.allorigins.win/raw?url=">api.allorigins.win
   <option value="https://cors-proxy.htmldriven.com/">cors-proxy.htmldriven.com
   <option value="">None
 </div></div>
-&nbsp; &nbsp; &nbsp; <b>Go to &nbsp;<a href="#sites">Sites List</a> - <a href="#movies">Movie Sites</a>
+&nbsp; &nbsp; &nbsp; &nbsp; <b>Go to &nbsp;<a href="#sites">Sites List</a> - <a href="#movies">Movie Sites</a>
  - <a href="#notes">Special Notes</a> - <a href="#livestream">TV & Radio</a></b>
 </div>
 
@@ -410,8 +411,10 @@ Alleycat Player <u>does not auto-update</u>. Please check for an update every tw
 Press the "<b>End</b>" key to go to the bottom of the page. There you will find links to each of the video viewers.<br>
 Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You need to relax in these difficult times.
 
-<p><hr><p>
-<b>Release notes for v5d (not released)</b>
+</div><div>
+
+<p><hr><p style="text-align:center">
+<b><b_>Release notes for v5d (not released)</b_></b>
 <p>
 <ul><li>
 Updated: Facebook, Twitter, Fox, ABC, CNBC, UniqueStream
@@ -423,7 +426,7 @@ the wrong video will come up.
 Weird problem with <i>iframe</i> CSS.
 </li></ul>
 
-<p><hr><p>
+<p><hr><hr><p>
 <b>Release notes for v5c (August 7, 2022)</b>
 <p>
 <b>Update:</b> This version was revised on October 5 due to an error with the HLS/m3u8 (not working). It was trying
@@ -576,10 +579,10 @@ Here is a rundown of each site, the available video formats and the site URL (li
 <tr><td>YouTube		</td><td>mp4/webm	</td><td>*</td><td>[#] KRKR !</td>
 <td><a target=_blank href="https://www.youtube.com">www.youtube.com</a></td></tr>
 
-<tr><td>BitChute	</td><td>mp4		</td><td>?</td><td>[#] Proxy</td>
+<tr><td>BitChute	</td><td>mp4		</td><td>?</td><td>[#] Proxy !</td>
 <td><a target=_blank href="https://www.bitchute.com">www.bitchute.com</a></td></tr>
 
-<tr><td>Rumble		</td><td>mp4/webm	</td><td>*</td><td>[+] Proxy (DIG)</td>
+<tr><td>Rumble		</td><td>mp4/webm	</td><td>*</td><td>[+] Proxy (DIG) !</td>
 <td><a target=_blank href="https://rumble.com">rumble.com</a></td></tr>
 
 <tr><td>Vimeo		</td><td>mp4/m3u8	</td><td>*</td><td>[#] Proxy</td>
@@ -2985,7 +2988,7 @@ const req_bitchute = async (id, frame, fmt) =>
   document.getElementById ("id" + frame).value = tag + " (ID)";
   var url = "https://www.bitchute.com/embed/" + id + "/";
 
-try
+if (!document.getElementById ("mov" + frame + "b").checked) fmt = 0; else try
 {
   response = await fetch (cors_bypass + url);
   textData = await response.text();
@@ -3010,11 +3013,13 @@ const req_rumble = async (id, frame, fmt) =>
 
   var tag = "rumble"; if (is_busy (frame)) return;
   document.getElementById ("id" + frame).value = tag + " (ID)";
-  var url = "https://rumble.com/embedJS/u3/?request=video&ver=2&v=";
+  var url = "https://rumble.com/embed/" + id;
 
-try
+if (!document.getElementById ("mov" + frame + "b").checked) fmt = 0; else try
 {
-  response = await fetch (localhost + url + id);
+  url = "https://rumble.com/embedJS/u3/?request=video&ver=2&v=" + id;
+
+  response = await fetch (localhost + url);
   jsonData = await response.json();
 
   if (!(p = jsonData.ua))
@@ -3189,8 +3194,7 @@ const req_brighteon = async (id, frame, fmt) =>
   document.getElementById ("id" + frame).value = tag + " (ID)";
   id = url; url = "https://www.brighteon.com/" + id;
 
-if (!document.getElementById ("mov" + frame + "b").checked) fmt = 0; else
-try
+if (!document.getElementById ("mov" + frame + "b").checked) fmt = 0; else try
 {
   if (!localhost) throw ("???");
 
@@ -3229,8 +3233,7 @@ const req_dailymotion = async (id, frame, fmt) =>
   document.getElementById ("id" + frame).value = tag + " (ID)";
   var url = "https://www.dailymotion.com/embed/video/" + id;
 
-if (!document.getElementById ("mov" + frame + "b").checked) fmt = 0; else
-try
+if (!document.getElementById ("mov" + frame + "b").checked) fmt = 0; else try
 {
   url = "https://www.dailymotion.com/player/metadata/video/" + id;
 
