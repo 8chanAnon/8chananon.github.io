@@ -79,11 +79,12 @@ w_ { color: firebrick; }
 
 </div><script>
 
-var resp, data, login_url;
+var resp, data, login_url, proxy = "https://kraker-remote.vercel.app/?url=";
 
 var start = function ()
 {
-  var w = document.location.href; w = w.substr (w.indexOf ("?") + 1); login_url = w ? "/" + w : "";
+  var w = location.href; w = w.substr (w.indexOf ("?") + 1); login_url = w ? "/" + w : "";
+  if (location.hostname == "localhost") proxy = location.origin + "/~";
 
   if (!login_url || !window.opener)
   {
@@ -113,10 +114,10 @@ var login = async () =>
   if (!username || !password) return; message ("Sending...");
 
   var head = { accept: "**", 'content-type':'application/x-www-form-urlencoded' };
-  var body = "username=" + username + "&password=" + password + "&login=";
+  var body = "username=" + username + "&password=" + password + "&login=Continue";
 
   try {
-    resp = await fetch (login_url, { method: 'POST', headers: head, body: body });
+    resp = await fetch (proxy + login_url, { method: 'POST', headers: head, body: body });
     data = await resp.text(); } catch (e) { data = ""; }
 
   var cookie = resp.headers.get ("zz-set-cookie") || "";
@@ -124,7 +125,7 @@ var login = async () =>
   cookie = "mod=" + cookie + ";";
 
   try {
-    resp = await fetch (login_url + "?/", { headers: { accept: "**" + cookie }});
+    resp = await fetch (proxy + login_url + "?/", { headers: { accept: "**" + cookie }});
     data = await resp.text(); } catch (e) { data = ""; }
 
   message ("Success!"); data = pullstring (data, '/logout/', '"');

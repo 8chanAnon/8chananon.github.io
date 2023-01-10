@@ -1534,7 +1534,7 @@ var createwindow = function (win, url)
   bdy.groyper = function (w, x, v)
   {
     if (v == 1) fetchpost (w, x); if (v == 2) playvideo (w, x); if (v == 3) postbox (w, x);
-    if (v == 4) mod_tools (w, x); if (v == 5) popwindow (w, x); if (v == 6) updatebread (w, x, 0);
+    if (v == 4) mod_tools (w, x); if (v == 5) showmedia (w, x); if (v == 6) updatebread (w, x, 0);
   }
 
   box = document.createElement ("SPAN");
@@ -2074,6 +2074,8 @@ try
   if (time) breads.push ({ time: time, url: breadURL, json: jsonData, size: n });
 
   slicing = []; post_count = 0; post_timeofs = timeofs.value * 3600;
+  if (sliced.length > 500) sliced.splice (0, 50); if (visited.length > 500) visited.splice (0, 50);
+
   post_font = get_checked ("font", "font1"); post_width = get_checked ("width", "");
   post_mod = get_checked ("moderator", 0);
 
@@ -2159,8 +2161,7 @@ const updatebread = async (win, url, mode) =>
   w [0].innerHTML = w [2].innerHTML = "--"; doc.title = "BREAD (update)";
 
   setup_cors(); p = get_checked ("html-json", 0) ? "json" : "html";
-//  q = (mode < 2 ? cors_kraker : cors_bypass) + domain_8kun + url.substr (1) + "." + p;
-  q = cors_bypass + domain_8kun + url.substr (1) + "." + p;
+  q = (mode < 2 ? cors_kraker : cors_bypass) + domain_8kun + url.substr (1) + "." + p;
 
   try
   {
@@ -2297,6 +2298,14 @@ var launchmenu = function (win, item, cmd)
     }
     else
     {
+      box = document.createElement ("BUTTON"); box.innerHTML = "Clear";
+      box.onclick = function (e) { launchmenu (win, e.target, 12); }
+      top.appendChild (box);
+
+      box = document.createElement ("BUTTON"); box.innerHTML = "Copy";
+      box.onclick = function (e) { launchmenu (win, e.target, 13); }
+      top.appendChild (box);
+
       box = document.createElement ("BUTTON"); box.innerHTML = "1";
       box.onclick = function (e) { launchmenu (win, e.target, 21); }
       top.appendChild (box);
@@ -2319,14 +2328,6 @@ var launchmenu = function (win, item, cmd)
 
       box = document.createElement ("BUTTON"); box.innerHTML = "6";
       box.onclick = function (e) { launchmenu (win, e.target, 26); }
-      top.appendChild (box);
-
-      box = document.createElement ("BUTTON"); box.innerHTML = "Clear";
-      box.onclick = function (e) { launchmenu (win, e.target, 12); }
-      top.appendChild (box);
-
-      box = document.createElement ("BUTTON"); box.innerHTML = "Copy";
-      box.onclick = function (e) { launchmenu (win, e.target, 13); }
       top.appendChild (box);
 
       box = document.createElement ("BUTTON"); box.innerHTML = "Post";
@@ -2598,7 +2599,7 @@ const sendform = async (top, win, doc, thread) =>
     box.innerHTML = msg; box.style.backgroundColor = "yellow";
   }}
 
-//  if (!cors_kraker) { err_message ("Need local proxy server to post."); return; }
+  if (!cors_kraker) { err_message ("Need Kraker Proxy to post."); return; }
 
   if (!get_checked ("moderator", 0)) q = ""; else
     if (q = cookies ["moderator"]) frm [6].value = "1"; else
@@ -2613,7 +2614,7 @@ const sendform = async (top, win, doc, thread) =>
   head = { method: 'POST', headers: { accept: "**" + q }, body: data };
 
   try {
-    resp = await fetch (cors_bypass + get_posting_url(), head);
+    resp = await fetch (cors_kraker + get_posting_url(), head);
     data = await resp.text(); } catch (e) { data = ""; }
 
   if (data)
@@ -2649,8 +2650,8 @@ const sendform = async (top, win, doc, thread) =>
     if (!status) error = "Status unknown (possible CORS block)"; else
       if (!error) error = "Status: " + status + " (" + statusText + ")";
 
-    error = error.replaceAll ("\\/", "/");
-    error = error.replaceAll ("\\u", "&#x"); err_message (error);
+    error = error.replace (/\\//g, "/");
+    error = error.replace (/\\u/g, "&#x"); err_message (error);
   }
 }
 ////////////////////
@@ -2714,7 +2715,7 @@ var playvideo = function (win, url)
 }
 ////////////////////
 
-var popwindow = function (win, item)
+var showmedia = function (win, item)
 {
   if (!item) return; var url = item.getAttribute ("data");
   url = localpath + url_media + "?" + url + "#" + item.children [0].href;

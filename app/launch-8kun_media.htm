@@ -188,11 +188,10 @@ var action = function ()
     msg.value = link ? "Use right-click to save" : "Nothing to save"; return;
   }
 
-  if (cmd.substr (0, 10) == "[snapshot]") cmd = cmd.substr (10).trim();
+  //if (cmd.substr (0, 10) == "[snapshot]") cmd = cmd.substr (10).trim();
 
   if (cmd) { start ("?tweet#" + cmd); return; }
 
-  msg.value = ('fuck off');
 /*
   var box = document.createElement ("DIV");
   box.classList.add ("tweetbox"); box.classList.add ("clonebox");
@@ -433,7 +432,8 @@ try
     }
   }
 
-  msg [0].value = "[snapshot]"; msg [1].value = msg [2].value = "";
+  //msg [0].value = "[snapshot]";
+  msg [1].value = msg [2].value = "";
   u = document.createElement ("DIV"); u.style = "width:90vw;height:30%";
   box.appendChild (u); doc.style.visibility = "visible";
 
@@ -567,21 +567,6 @@ https://twitter.com/i/api/2/timeline/conversation/1404867971349159945.json
 &cursor=
 &include_ext_has_birdwatch_notes=false
 &ext=mediaStats%2ChighlightedLabel
-*/
-/*
-  if (m = twit.entities.urls) for (n = 0; n < m.length; n++)
-  {
-    j = m [n].expanded_url; k = pullstring (j, "/status/", "");
-    if ((i = k.search (/\/|\?/)) > 0) k = k.substr (0, i);
-
-    if (k && k != item)
-    {
-      c = " (not found - " + tw_link + "?tweet#" + k + "'>link</a>)";
-      b = " @" + pullstring (j, "com/", "/"); if (twits [k]) retweet = k; else b += c;
-    }
-    j = "<a href='" + j + "'>" + m [n].display_url + "</a>";
-    if (k && k == item) j = ""; if (k = m [n].url) { urls.push (k); urls.push (j); }
-  }
 */
 
 </script></body></html>
