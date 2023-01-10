@@ -373,7 +373,7 @@ w_ { color: #A02000; }
   value="To use this app, you must enable Javascript."><button>+</button>
 <div id="proxy" class="dropdown dropdown0">
   <option value="LOCAL" class="r">Local Proxy Server (Kraker)
-  <option value="!https://kraker-remote.vercel.app/?url=" checked>kraker-remote.vercel.app
+  <option value="!https://kraker-remote.vercel.app/?url=">kraker-remote.vercel.app
   <option value="https://api.allorigins.win/raw?url=">api.allorigins.win
   <option value="https://cors-proxy.htmldriven.com/">cors-proxy.htmldriven.com
   <option value="">None
@@ -573,7 +573,7 @@ Here is a rundown of each site, the available video formats and the site URL (li
 
 <table class="list" style="padding:1px 0 1px 0">
 
-<tr><td>YouTube		</td><td>mp4/webm	</td><td>*</td><td>[#] KRAK !</td>
+<tr><td>YouTube		</td><td>mp4/webm	</td><td>*</td><td>[#] KRKR !</td>
 <td><a target=_blank href="https://www.youtube.com">www.youtube.com</a></td></tr>
 
 <tr><td>BitChute	</td><td>mp4		</td><td>?</td><td>[#] Proxy</td>
@@ -589,7 +589,7 @@ Here is a rundown of each site, the available video formats and the site URL (li
 <td><a target=_blank href="https://www.infowars.com">www.infowars.com</a></td>
 <td><a target=_blank href="https://banned.video">banned.video</a></td></tr>
 
-<tr><td>Brighteon	</td><td>m3u8		</td><td>*</td><td>[+] CORS !</td>
+<tr><td>Brighteon	</td><td>m3u8		</td><td>*</td><td>[+] KRAK !</td>
 <td><a target=_blank href="https://www.brighteon.com">www.brighteon.com</a></td>
 <td><a target=_blank href="https://www.naturalnews.com">www.naturalnews.com</a></td></tr>
 
@@ -605,7 +605,7 @@ Here is a rundown of each site, the available video formats and the site URL (li
 <tr><td>Odysee		</td><td>mp4/m3u8	</td><td>*</td><td>[?] Proxy</td>
 <td><a target=_blank href="https://odysee.com">odysee.com</a></td></tr>
 
-<tr><td>Twitter		</td><td>mp4/m3u8	</td><td>*</td><td>[+] KRAK</td>
+<tr><td>Twitter		</td><td>mp4/m3u8	</td><td>*</td><td>[+] KRKR</td>
 <td><a target=_blank href="https://twitter.com">twitter.com</a></td>
 <td><a target=_blank href="https://threadreaderapp.com">threadreaderapp.com</a></td></tr>
 
@@ -711,8 +711,9 @@ Here is a rundown of each site, the available video formats and the site URL (li
 ? = unknown or auto-select (m3u8/mpd)<br>
 * = user selectable (via format box)<br>
 ! = use the Sandbox option to embed the video.<br>
-KRAK = only accessible with the Local Proxy Server (Kraker)<br>
-CORS = only accessible with a CORS unblocker (or Kraker)
+KRAK = only accessible with the Kraker Local Proxy Server<br>
+CORS = only accessible with a CORS unblocker (or Kraker Local)<br>
+KRKR = accessible with the Kraker Remote Proxy (may have limitations)
 
 <p><hr><p>
 <h3 id="movies" class="skinny"><r_>Movie Sites</r_>
@@ -730,8 +731,8 @@ CORS = only accessible with a CORS unblocker (or Kraker)
 <!-- <tr><td>DarkMatter	</td><td>m3u8		</td><td>*</td><td>[+] No Proxy</td>
 <td><a target=_blank href="https://www.darkmattertv.com">www.darkmattertv.com</a></td></tr> -->
 
-<tr><td>VidNode		</td><td>mp4		</td><td>*</td><td>[+] KRAK !</td>
-<td><a target=_blank href="https://membed.net">membed.net</a> !</td>
+<tr><td>VidNode		</td><td>mp4		</td><td>*</td><td>[+] KRKR !</td>
+<td><a target=_blank href="https://membed1.com">membed1.com</a> !</td>
 <td><a target=_blank href="https://vidnode.net">vidnode.net</a> !</td>
 <td><a target=_blank href="https://gogoplay1.com">gogoplay1.com</a> !</td><tr>
 
@@ -739,7 +740,7 @@ CORS = only accessible with a CORS unblocker (or Kraker)
 <td><a target=_blank href="https://keymovies.to">keymovies.to</a></td><tr>
 
 <tr><td>UniqueStream	</td><td>m3u8		</td><td>*</td><td>[?] KRAK</td>
-<td><a target=_blank href="https://uniquestream.net">uniquestream.net</a></td><tr>
+<td><a target=_blank href="https://uniquestreaming.net">uniquestreaming.net</a></td><tr>
 
 <tr><td>XHamster	</td><td>mp4		</td><td>*</td><td>[#] KRAK !</td>
 <td><a target=_blank href="https://xhamster.com">xhamster.com</a></td></tr>
@@ -785,7 +786,7 @@ CORS = only accessible with a CORS unblocker (or Kraker)
 </table>
 <p>
 ! on a site url = use caution on these sites due to popup ads<br>
-! on Proxy or CORS or KRAK = use the Sandbox option to embed the video.
+! on proxy type = use the Sandbox option to embed the video.
 <p>
 Note that quality level (example: [720]) may not be the same as resolution.
 <p><hr><p>
@@ -2165,9 +2166,11 @@ var msg_worker = function (id, msg)
 
 var load_all = function ()
 {
-  init_box ("proxy"); load_boxes (5); load_boxes (6); load_boxes (7); resize_all ();
   localhost = location.hostname == "localhost" ? location.origin + "/" : "";
   blank_page = (localhost ? "/~" : "") + "_blank.htm";
+
+  if (!localhost) document.getElementById ("proxy").children [1].setAttribute ("checked", "");
+  init_box ("proxy"); load_boxes (5); load_boxes (6); load_boxes (7); resize_all ();
 
   worker = new SharedWorker (localhost + "worker.js").port;
   worker.onmessage = function (e) { msg_worker (e.data.id, e.data.msg); }
@@ -3189,6 +3192,8 @@ const req_brighteon = async (id, frame, fmt) =>
 if (!document.getElementById ("mov" + frame + "b").checked) fmt = 0; else
 try
 {
+  if (!localhost) throw ("???");
+
   response = await fetch (localhost + url);
   textData = await response.text();
 
@@ -3200,7 +3205,7 @@ try
   url = url.replace (/&#x3D;/g, "=");
 
   if (url.indexOf ("m3u8") < 0) throw ("!!!");
-  if (localhost) url = localhost + "~" + url;
+  url = localhost + "~" + url;
 
   if (stream_all (frame, 1)) fmt = 0; else
   {
@@ -3475,6 +3480,7 @@ try
   if (stream_all (frame, 1)) fmt = 0; else
   {
     response = await fetch ((localhost ? localhost + "~" : "") + url);
+    response = await fetch (url);
     textData = await response.text();
 
     url = crack_m3u8 (url, textData, frame, fmt); if (!url) throw ("!!!");
@@ -4867,19 +4873,18 @@ const dig_cspan = async (doc, frame, fmt) =>
 {
   var tag = "cspan"; if (is_busy (frame)) return;
   document.getElementById ("id" + frame).value = tag + " (DIG)";
-  var url = cors_kraker + doc;
+  var url = localhost + doc;
 
 try
 {
-  if (!cors_kraker) throw ("???");
+  if (!localhost) throw ("???");
 
   response = await fetch (url);
   textData = await response.text();
 
   if (url = pullstring (textData, 'data-altbcid="', '"'))
   {
-    busy = -busy; if (!cors_kraker) throw ("???");
-    url += "~*,,*?hdnts=" + pullstring (textData, 'data-akamaitoken="', '"');
+    busy = -busy; url += "~*,,*?hdnts=" + pullstring (textData, 'data-akamaitoken="', '"');
   }
   else
   {
@@ -4887,13 +4892,13 @@ try
 
     if (stream_all (frame, 1)) fmt = 0; else
     {
-      response = await fetch (cors_kraker + "~" + url);
+      response = await fetch (localhost + "~" + url);
       textData = await response.text();
 
       url = crack_m3u8 (url, textData, frame, fmt); if (!url) throw ("!!!");
       fmt = pullstring (url, "<>", ""); url = pullstring (url, "", "<>");
     }
-    if (localhost) url = localhost + "~*,,*accept-encoding=gzip|*" + url;
+    url = localhost + "~*,,*" + url;
   }
 
 } catch (err) { console.log (err); busy = 0; }
@@ -5554,9 +5559,9 @@ const req_xhamster = async (id, frame, fmt) =>
 
 if (!document.getElementById ("mov" + frame + "b").checked) fmt = 0; else try
 {
-  if (!cors_kraker) throw ("???");
+  if (!localhost) throw ("???");
 
-  response = await fetch (cors_kraker + "**" + url);
+  response = await fetch (localhost + "**" + url);
   textData = await response.text();
 
   var s = '"standard":';
@@ -5577,7 +5582,7 @@ if (!document.getElementById ("mov" + frame + "b").checked) fmt = 0; else try
   fmt = r[j]; url = sub[n].url;
   if (url.indexOf (".xhcdn.") < 0) url = sub[n].fallback;
   if (url.indexOf (".xhcdn.") < 0) throw ("!!!");
-  if (localhost) url = localhost + "~*" + url;
+  url = localhost + "~**" + url;
 
 } catch (err) { console.log (err); busy = 0; }
 
@@ -6034,7 +6039,7 @@ const dig_keymovies = async (doc, frame, fmt) =>
 
 try
 {
-  if (!localhost) throw ("???");
+  if (!cors_kraker) throw ("???");
 
   response = await fetch (url);
   textData = await response.text();
@@ -6089,39 +6094,40 @@ const dig_unistream = async (doc, frame, fmt) =>
 {
   var tag = "unistream"; if (is_busy (frame)) return;
   document.getElementById ("id" + frame).value = tag + " (DIG)";
-  var url = cors_kraker + doc; var src = "https://uniquestream.net";
+  var url = localhost + doc;
 
 try
 { 
-  if (!cors_kraker) throw ("???");
+  if (!localhost) throw ("???");
 
   response = await fetch (url);
   textData = await response.text();
-  doc = response.url.substr (cors_kraker.length);
 
-  var n = textData.indexOf ("'player-option-1'"); if (n < 0) throw ("!!!");
-  url = textData.substr (n, 150); var s = url.split ("='");
+  url = response.url.substr (localhost.length);
+  url = url.substr (url.indexOf ("//") + 2); url = url.substr (0, url.indexOf ("/"));
 
-  var typ = s[2]; typ = typ.substr (0, typ.indexOf ("'"));
-  var pid = s[3]; pid = pid.substr (0, pid.indexOf ("'"));
-  var num = s[4]; num = num.substr (0, num.indexOf ("'"));
+  var s = pullstring (textData, "'player-option-1'", ">"); if (!s) throw ("!!!");
+
+  var type = "&type=" + pullstring (s, "data-type='", "'");
+  var post = "&post=" + pullstring (s, "data-post='", "'");
+  var nume = "&nume=" + pullstring (s, "data-nume='", "'");
 
   var header = { 'Content-Type': 'application/x-www-form-urlencoded' };
-  var data = "action=doo_player_ajax&post=" + pid + "&nume=" + num + "&type=" + typ;
-  url = doc.substr (doc.indexOf ("//") + 2); url = url.substr (0, url.indexOf ("/"));
-  url = cors_kraker + src + "/wp-admin/admin-ajax.php";
+  var data = "action=doo_player_ajax" + post + nume + type;
+
+  url = localhost + "https://" + url + "/wp-admin/admin-ajax.php";
 
   response = await fetch (url, { method: 'POST', headers: header, body: data } );
   jsonData = await response.json();
 
   url = jsonData.embed_url; if (!url) throw ("!!!");
 
-  response = await fetch (cors_kraker + "**https:" + url);
+  response = await fetch (localhost + "**https:" + url);
   textData = await response.text();
 
   n = textData.indexOf ("url = '"); if (n < 0) throw ("!!!");
   url = textData.substr (n + 7, 200); url = url.substr (0, url.indexOf ("'"));
-  if (localhost) url = localhost + "~*,,*" + url;
+  url = localhost + "~*,,*" + url;
 
   if (stream_all (frame, 1)) fmt = 0; else
   {
@@ -6261,7 +6267,7 @@ var open_livestream = function (url, frame, fmt)
   if (src == "2b") open_tv2 (z, 1, f, fmt, url, "https://ustvgo.tv");
   if (src == "2c") open_tv2 (z, 1, f, fmt, url, "https://watchnewslive.tv");
   if (src == "3a") open_tv3 (z, 1, f, fmt, url, "http://www.freeintertv.com");
-  if (src == "6a") open_tv6 (z, 1, f, fmt, url, "http://123tv.live");
+  if (src == "6a") open_tv6 (z, 1, f, fmt, url, "https://123tv.live");
   if (src == "7a") open_tv7 (z, 1, f, fmt, url, "https://www.watchnews.pro");
   if (src == "8a") open_tv8 (z, 0, f, fmt, url, "https://easycatchup.eu");
   if (src == "9a") open_tv9 (z, 1, f, fmt, url, "https://www.distro.tv");
