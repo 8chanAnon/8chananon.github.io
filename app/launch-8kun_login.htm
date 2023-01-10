@@ -83,8 +83,8 @@ var resp, data, login_url, proxy = "https://kraker-remote.vercel.app/?url=";
 
 var start = function ()
 {
-  var w = location.href; w = w.substr (w.indexOf ("?") + 1); login_url = w ? "/" + w : "";
   if (location.hostname == "localhost") proxy = location.origin + "/~";
+  var w = location.href, x = w.indexOf ("?") + 1; login_url = x ? w.substr (x) : "";
 
   if (!login_url || !window.opener)
   {
