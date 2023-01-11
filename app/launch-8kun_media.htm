@@ -457,14 +457,14 @@ var newtweet = function (id, box, twits, users, item, check, reply)
     for (n = 0; n < m.length; n++) if (k = m [n].media_url_https)
     {
       if (c = m [n].url) { urls.push (c); urls.push (""); }
-      image += "  " + tw_link + "?image#" + k + "'>IMAGE</a>";
+      image += "  " + tw_link + "?image##" + k + "'>IMAGE</a>";
       if (!(k = m [n].video_info) || !(k = k.variants)) continue;
 
       for (i = 0; i < k.length; i++) if ((a = k [i].url) && a.includes (".mp4"))
       {
         b = "VIDEO"; j = a.search (/[0-9]x[0-9]/);
         if (j > 0) b = a.substr (j + 2, a.indexOf ("/", j) - j - 2) + "p";
-        image += "  " + tw_link + "?video#" + a + "'>" + b + "</a>";
+        image += "  " + tw_link + "?video##" + a + "'>" + b + "</a>";
       }
     }
 
@@ -476,14 +476,14 @@ var newtweet = function (id, box, twits, users, item, check, reply)
   {
     a = " class='tw-thread'>";
     b = k != thread ? "Thread" : (k == item ? "Top" : "Go to Top");
-    if (k != id || check) j = tw_link + "?tweet#" + k + "'" + a + b + "</a>";
+    if (k != id || check) j = tw_link + "?tweet##" + k + "'" + a + b + "</a>";
       else j = "<b_" + a + (++t_count) + " of " + t_total + "</b_>";
   }    
 
   c = user.profile_image_url_https || profile_img;
   a = "<img class='tw-image' src='" + c + "'><r_>" + user.name + "</r_>";
   b = "<a href='" + tweet_embed + item + "'>@" + user.screen_name + "</a>";
-  c = id == item ? "<r_>" + item + "</r_>" : tw_link + "?tweet#" + item + "'>" + item + "</a>";
+  c = id == item ? "<r_>" + item + "</r_>" : tw_link + "?tweet##" + item + "'>" + item + "</a>";
 
   var head = "<span class='tw-header' checked=" +
     (id == item ? 2 : ((k == thread && id != thread) ? 1 : 0)) + ">" +
@@ -510,7 +510,7 @@ var newtweet = function (id, box, twits, users, item, check, reply)
 
   if (retweet = twit.quoted_status_id_str || "")
   {
-    c = " (not found - " + tw_link + "?tweet#" + retweet + "'>link</a>)";
+    c = " (not found - " + tw_link + "?tweet##" + retweet + "'>link</a>)";
     if ((b = twit.quoted_status_permalink) && (b = b.expanded)) b = pullstring (b, "com/", "/");
     b = " @" + (b ? b : "???"); if (!twits [retweet]) { retweet = ""; b += c; }
   }
