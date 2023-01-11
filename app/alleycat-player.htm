@@ -3021,9 +3021,9 @@ const req_rumble = async (id, frame, fmt) =>
 
 if (!document.getElementById ("mov" + frame + "b").checked) fmt = 0; else try
 {
-  url = "https://rumble.com/embedJS/u3/?request=video&ver=2&v=" + id;
+  url = "https://rumble.com/embedJS/u3/?request=video&ver=2&v=";
 
-  response = await fetch (localhost + url);
+  response = await fetch (localhost + url + id);
   jsonData = await response.json();
 
   if (!(p = jsonData.ua))
