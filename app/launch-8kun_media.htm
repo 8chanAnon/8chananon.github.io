@@ -130,6 +130,10 @@ a:visited {
   color: crimson;
 }
 
+::selection {
+  color: yellow; background-color: orchid;
+}
+
 r_ { color: crimson; }
 g_ { color: green; }
 b_ { color: mediumblue; }
@@ -229,7 +233,7 @@ var oops = function ()
 var start = function (cmd)
 {
   var m, url = cmd || location.href; url = pullstring (url, "?", "");
-  type = pullstring (url, "", "#"); link = pullstring (url, "#", "");
+  type = pullstring (url, "", "##"); link = pullstring (url, "##", "");
 
   origin = location.origin + location.pathname;
   proxy = location.hostname == "localhost" ? location.origin + "/~" : remote_proxy;
@@ -256,7 +260,7 @@ var start = function (cmd)
 
   if (type == "tweet")
   {
-    location.replace ("#" + url); fetchtweet (doc, msg, url); return;
+    location.replace ("##" + url); fetchtweet (doc, msg, url); return;
   }
   else if (!link.includes (".128ducks.")) url = link; else
   {

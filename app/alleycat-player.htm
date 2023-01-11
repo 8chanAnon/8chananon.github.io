@@ -364,7 +364,7 @@ w_ { color: #A02000; }
 
 <div style="text-align:center">
 
-<h1><g_>A</g_><r_>ll</r_><g_>ey</g_><r_>cat</r_> <g_>Pl</g_><r_>ay</r_><g_>er</g_> <r_>v5d</r_></h1>
+<h1><g_>A</g_><r_>ll</r_><g_>ey</g_><r_>cat</r_> <g_>Pl</g_><r_>ay</r_><g_>er</g_> <r_>v5x</r_></h1>
 
 <big><b_>MEEOWRRR</b_><b> -- Three <g_>&#x1f408;</g_> years old -- (<r_>kittens</r_> <g_>in the oven</g_>)</b></big>
 
@@ -374,9 +374,9 @@ w_ { color: #A02000; }
   value="To use this app, you must enable Javascript."><button>+</button>
 <div id="proxy" class="dropdown dropdown0">
   <option value="LOCAL" class="r">Kraker Local Proxy Server
-  <option value="!https://kraker-remote.vercel.app/?url=">kraker-remote.vercel.app
+  <option value="!https://kraker-remote.vercel.app/?url=" class="b">kraker-remote.vercel.app
   <option value="https://api.allorigins.win/raw?url=">api.allorigins.win
-  <option value="https://cors-proxy.htmldriven.com/">cors-proxy.htmldriven.com
+<!--  <option value="https://cors-proxy.htmldriven.com/">cors-proxy.htmldriven.com -->
   <option value="">None
 </div></div>
 &nbsp; &nbsp; &nbsp; &nbsp; <b>Go to &nbsp;<a href="#sites">Sites List</a> - <a href="#movies">Movie Sites</a>
@@ -413,20 +413,24 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 </div><div>
 
-<p><hr><p style="text-align:center">
-<b><b_>Release notes for v5d (not released)</b_></b>
+<p><hr><p>
+<b><b_>Release notes for v5x (unofficial release)</b_></b>
 <p>
 <ul><li>
+This is an unofficial update to support video playback from the <g_>8kun Bread Launcher</g_>. I have implemented a new
+remote proxy server which is based on Kraker. There are some limitations to this due to the fact that videos cannot be
+streamed through the remote proxy (the cloud provider blocks large files). This will break some sites. If you are
+running this from my website then radio stations that are HTTP will be blocked by the browser due to the website being
+HTTPS. TV channels marked with a double asterisk will not work due to the streaming issue.
+</li><li>
 Updated: Facebook, Twitter, Fox, ABC, CNBC, UniqueStream
 </li><li>
 Updated Rumble to allow page ID to work as embed ID. Example: <g_>https://rumble.com/v13wepf-2000-mules.html</g_>
 will work with the "Play ID" option if the string is cut before the hypen. Note that it can sometimes happen that
 the wrong video will come up.
-</li><li>
-Weird problem with <i>iframe</i> CSS.
 </li></ul>
 
-<p><hr><hr><p>
+<p><hr><p>
 <b>Release notes for v5c (August 7, 2022)</b>
 <p>
 <b>Update:</b> This version was revised on October 5 due to an error with the HLS/m3u8 (not working). It was trying

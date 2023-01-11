@@ -492,7 +492,7 @@ n_ { }
 
 <body onload="javascript:startup()" onunload="javascript:say_worker()">
 
-<h1 style="margin:20px 0 25px 0"><g_>8kun</g_> <r_>Bread Launcher</r_> <g_>v3a</g_></h1>
+<h1 style="margin:20px 0 25px 0"><g_>8kun</g_> <r_>Bread Launcher</r_> <g_>v3x</g_></h1>
 
 <g_>Enter URL:</g_>&nbsp; <input type=text id="url" size=55 style="margin-bottom: 5px"
   onclick="javascript:input_onclick('url')" onblur="javascript:input_onblur('url')"> &nbsp;
@@ -508,7 +508,7 @@ n_ { }
 <g_>HTML <input type=radio name="html-json" value="0" checked> &nbsp;
 JSON <input type=radio name="html-json" value="1"></g_><br>
 <g_>Board Moderator</g_> <input type=checkbox name="moderator" value="1"><br>
-<g_>Tor Onion Post</g_> <input type=checkbox name="onion" value="1">
+<!-- <g_>Tor Onion Post</g_> <input type=checkbox name="onion" value="1"> -->
 </p>
 
 <p class="listbox">
@@ -518,7 +518,7 @@ JSON <input type=radio name="html-json" value="1"></g_><br>
 <p class="listbox">
 <input type=radio name="proxy" value="LOCAL" checked> Kraker Local Proxy Server<br>
 <input type=radio name="proxy" value="!https://kraker-remote.vercel.app/?url="> kraker-remote.vercel.app<br>
-<input type=radio name="proxy" value="https://api.allorigins.win/raw?url="> api.allorigins.win<br>
+<!-- <input type=radio name="proxy" value="https://api.allorigins.win/raw?url="> api.allorigins.win<br> -->
 <input type=radio name="proxy" value=""> None<br>
 </p>
 
@@ -549,245 +549,25 @@ JSON <input type=radio name="html-json" value="1"></g_><br>
 <input type=radio name="viewer" value="3" checked> 3
 </big>
 
-<!--
-<p><hr><h2><b_>Alleycat Player Options</b_></h2>
-
-<p class="listbox">
-<input type=radio name="format" value="18" checked> mp4-360p &nbsp;&nbsp;<br>
-<input type=radio name="format" value="19"> mp4-480p<br>
-<input type=radio name="format" value="22"> mp4-720p<br>
-</p><p class="listbox"></p>
-
-<p class="listbox">
-<input type=radio name="format" value="43"> webm-360p &nbsp; &nbsp;<br>
-<input type=radio name="format" value="44"> webm-480p<br>
-<input type=radio name="format" value="45"> webm-720p<br>
-</p><p class="listbox"></p>
-
-<p class="listbox">
-<input type=checkbox name="zoom" value="1" checked> Auto-zoom<br>
-<input type=checkbox name="dash" value="1" disabled> Use DASH<br>
-<g_>(YT livestream)</g_></p>
-//-->
-
 <p><hr><p><div style="text-align:left;color:maroon">
 
-<b>Release notes for v2e (August 23, 2022)</b>
+<b>Release notes for v3x (unofficial release)</b>
 <p>
-The <g_>8kun captcha</g_> is now cookie-based, meaning that it is no longer possible to post without the Kraker Local
-Proxy Server (<b>note:</b> a CORS unblocking extension may work if it is implemented correctly). You will need
-the latest version of Kraker (version <b>4d</b>) and your browser must be configured to proxy through the Socks5 port.
-See <a href="https://8chananon.github.io/Alleycat-Player/current/socks-proxy-4c.htm">here</a> for setup instructions.
-On the plus side, it is now possible to post as moderator (board owner/volunteer).
+Just a few quick notes because this is not an official version. I have implemented a new remote proxy server based on
+Kraker. This allows the app to work without installing a local proxy. It works quite nicely because the Launcher does
+not require streaming support from the proxy (unlike Alleycat Player). Scroll down to the Video Player section for more.
 <p>
-Once you have Kraker running and your browser is configured to proxy through it then you will need to do one little thing.
-Open "_settings.txt" (your Kraker settings file) and add one of these lines exactly as shown:
+This app is broken into modules for improved browser compatibility. There are three modules for loading breads, for
+media support and for moderator login. The media support includes support for reading Twitter threads. I don't feel
+like writing documentation for that right now. Just put a Twitter link in the URL input and press Go. You can enter
+a full URL or just the tweet number.
 <p>
-<g_>[? sys.8kun.top SHD:$~https://sys.8kun.top]</g_> or <g_>[? sys.8kun.top SHD:$~!vpx::|*https://sys.8kun.top]</g_>
-<p>
-You can use either option depending on whether you wish to enable certificate authentication which is important to
-guard against a man-in-the-middle attack (the "!vpx" part in the second option enables authentication). This distinction
-will be important the next time the site security certificate expires (which happens every three months). Board moderators
-should enable authentication but the choice is yours.
-<p>
-Reload the settings file using the Kraker Control Panel to configure the "shadow port". When
-your browser attempts to access the posting server at <g_>sys.8kun.top</g_>, Kraker will intercept the request and do
-some fiddling with the response headers. You don't need to know the details but it is what needs to be done due to
-browser restrictions regarding cookies.
-<p>
-Use the link at the top of this page to open the new 8kun captcha. Your browser will complain that the security
-certificate is invalid. This is fine. It's the way a non-transparent proxy works (the shadow port creates an interface
-which is similar to the corporate proxy in an office environment). Just instruct the browser to accept the certificate
-(your browser should remember this from now on). You will be able to post after completing the captcha.
-<p>
-Note that the Bread Launcher is not configured to handle the per-post captcha (which you may encounter if the site
-comes under attack).
-<p>
-<b_>For board moderators:</b_>
-<p>
-Log in as you would normally. Everything will work as it always did. Check the box marked <g_>[Board Moderator]</g_>
-at the top of the page if you wish to post as moderator. This will also enable a new button on each post (situated
-right next to the Quick Reply button). The options are simple. You can edit or delete a post and/or ban a user IP address.
-More powerful features are not supported because I don't need the headache.
-<p>
-<b_>New catalog feature:</b_>
-<p>
-To open the catalog view, just enter the name of the board and press "Go". The catalog view is basically the same as
-a thread view. Click a link to open a thread. That's about it. I may or may not consider additional options. It's fine
-for my purposes.
-<p>
-<b_>About NoScript:</b_>
-<p>
-I have issues with NoScript on Firefox because it attaches Javascript to HTML page elements. It severely breaks the
-Bread Launcher, causing a tab to suddenly become unresponsive. This appears to be due to some security restriction
-on the part of Firefox but I can't say for sure that the same problem doesn't occur with other browsers. I've stopped
-using NoScript.
-<a href="https://github.com/gorhill/uMatrix">uMatrix</a> is much better because it doesn't rely on invasive Javascript
-to do its dirty work. You should try it out. I don't have any advice if your ad blocker is causing issues except to
-tell you to ditch it.
-<p>
-<b_>About Alleycat Player:</b_>
-<p>
-Occassionally, it may happen that a YouTube video won't play. If this happens then close the tab and try opening the
-video again. It should work after two or three tries. This issue will be rectified in the next version of the Launcher.
+Have fun and please be kind enough to provide feedback on my Alleycat board.
 
 <p><hr><p>
 
-<b>Release notes for v2d (November 13, 2021)</b>
-<ul><li>
-<b>Important New Feature:</b> Any Slice that is in a thread that is auto-updating will also be
-auto-updated. This allows you to follow a conversation or track the reponses to an important post in real time.
-Great feature for bakers.
-</li><li>
-The Post Office will now display the new post number after posting. The input fields will no longer be cleared by default.
-There is a checkbox at the lower right to enable auto-clear. Also, the number of posts is increased from 5 to 6.
-</li><li>
-Added an event handler to block double-clicks on the status bar. This allows for the rapid reactivation
-of the menu bar (useful in the Post Office).
-</li><li>
-Corrected the flawed truncation of long titles in the status bar. The new CSS will now truncate long titles
-correctly when the browser is resized.
-</li><li>
-I found another strange behaviour on Chrome-based browsers. Zooming is blocked if a new tab is opened without a URL.
-The fix is to open the tab with the URL "about:blank". This behaviour is totally unexpected. As I stated before,
-I use Firefox so funky Chrome issues often get missed.
-</li><li>
-Setting the proxy to "None" was causing an exception (internal Javascript crash). Sorry about that but who uses "None" anyway?
-</li></ul>
-
-<p><hr><p>
-
-<b>Release notes for v2c (October 20, 2021)</b>
-<ul><li>
-Ooops. I just noticed that the page width setting wasn't working. Been like that for a while but it's fixed now.
-</li><li>
-Changed the media server from "images.128ducks.com" to "media.128ducks.com". The changeover occurred early Wednesday,
-October 20.
-</li><li>
-The Post Office feature is now fully implemented. It includes the ability to create new threads and to manage 5 posts
-per instance.
-</li><li>
-It is now possible to copy the text from the status bar without causing the menu bar to open.
-</li><li>
-I can't get the XMLHttpRequest module to give progress reports for file uploads. It does not work correctly on any
-browser. I searched the net for a possible solution but it appears that the module is just funky. It does not function
-correctly on the default 8kun client either.
-</li></ul>
-
-<p><hr><p>
-
-<b>Release notes for v2b (October 13, 2021)</b>
-<ul><li>
-Fixed wrong button appearance on Pale Moon and Waterfox. I used an outline rather than a border around the buttons
-in the status bar. The outline was being drawn square instead of rounded.
-</li><li>
-Fixed three issues on Chrome-based browsers (Google, Brave, Opera and others): 1) slow countdown timer,
-2) missing bread titles, 3) images appearing on the right when they should be on the left
-</li><li>
-Removed the dark border around the text area in the Quick Reply box. I missed this because I have a userContent CSS
-on my Firefox that does that. The fix is to specify "outline:none" in the CSS for the &lt;textarea&gt; element.
-</li><li>
-I am working on the Post Office feature. Give me a week or so.
-</li><li>
-Lastly, please don't hesitate to report issues with the Launcher, especially if you are not on Firefox or Windows.
-I can't fix issues that I don't know about and I can't spend the time to test on every browser. This is my hobby,
-not a profession. I also cannot test for Linux compatibility though that shouldn't really be necessary.
-</li></ul>
-
-<p><hr><p>
-
-<b>Release notes for v2a (October 9, 2021)</b>
-<ul><li>
-This is a major upgrade. The Bread Launcher now supports auto-updating and posting. At present, only one image or file
-is allowed in a post (Quick Reply). The text input is unlimited but constrained to a small window. A more complete
-post editor will come soon (I will be calling it the Post Office). Instructions are below.
-</li><li>
-The Youtube embed links stopped working because YT doesn't like the blank "referer" HTTP header so I removed the
-"no-referrer" meta setting.
-</li></ul>
-
-<p><hr><p>
-
-<b>Release notes for v1e (September 15, 2021)</b>
-<ul><li>
-This version is being released due to the media server issues on the 8kun site. Media are currently being delivered
-from "images.128ducks.com". I will update when the situation changes.
-</li><li>
-Added support for BitChute/Twitter/Rumble/Vimeo embeds. For now, the images come from my GitHub Pages web server.
-</li><li>
-The Youtube player has been updated due to changes in the Youtube API. For this reason, the player will no longer
-work without the Kraker Local Proxy Server.
-</li><li>
-Added a new flag to the Kraker Control Panel. This flag is undocumented.
-</li></ul>
-
-<p><hr><p>
-
-<b>Release notes for v1d (March 11, 2021)</b>
-<p>
-<ul><li>
-A bunch of small fixes that aren't worth enumerating.
-</li><li>
-Added a control panel for the new Socks5 Proxy Server.
-</li></ul>
-
-<p><hr><p>
-
-<b>Release notes for v1c (December 13, 2020)</b>
-<p>
-<ul><li>
-Fixed the identifiers for "Board Owner" and "8kun Administrator".
-</li><li>
-Fixed browser security violation caused by opening a web page in a daughter tab.
-</li><li>
-Added option to adjust the displayed post time. The browser is supposed to display the time for the local time zone
-but, for some reason, this has never worked for me. The value is expressed in hours. Fractional and negative values are
-permitted. For example, I am using -5 to adjust to Eastern Time.
-</li><li>
-Added option to select either the HTML or the JSON format for downloading from the 8kun server. HTML is the default option
-since JSON has been unreliable (missing or truncated). It doesn't make any difference as far as functionality goes since
-the app converts HTML to JSON anyway. However, some recent fuckery on /qresearch/ has caused the HTML format to break while
-the JSON was working fine. That's why I decided to include the new option.
-</li><li>
-Adjusted the cache retention policy. Expiry is based on memory usage (capped at 6 megabytes) and the time of
-most recent access rather than the time of creation.
-</li><li>
-I have been having issues with mp4 and webm videos. Since I only use Firefox, the problem has not been verified to exist on
-other browsers. The problem is that the video will stop playing partway through due to the 8kun server apparently dropping
-the connection prematurely. This happens ONLY on 8kun so it is not necessarily a browser issue. Downloading is not affected.
-The problem is resolved by routing the video through the Kraker Local Proxy Server (if you have it, of course).
-</li><li>
-PLEASE NOTE: You can help improve this app by sending me feedback. While I will continue developing the app for the
-foreseeable future, I am only in a position to consider features that I personally want. Without feedback, YOUR needs
-cannot be addressed. Send feedback.
-</li></ul>
-
-<p><hr><p>
-
-<b>Release notes for v1b (October 5, 2020)</b>
-<p>
-<ul><li>
-Fixed some performance issues and a potential crash issue. Working fine with Google Chrome, Brave, Opera and Firefox
-(recommended). Waterfox, a fork of Firefox, still does not work even though I fixed some code that it complained about.
-</li><li>
-In general, web browsers do not like what this app is doing. That is unfortunate since I am doing what the browser makers
-have always wanted. I am using the browser as a development platform but I keep getting hammered by stupid design choices
-(their choices, not mine, since I follow the standards which they often do not).
-</li><li>
-Fixed a problem with extracting image links. This affects webm videos and some boards.
-</li><li>
-Added the ability to globally track reply links that have been visited and replies that have been seen. I'm not
-going to explain how it all works. Just watch for the colour codings and you'll understand as you go along. It works
-pretty good but I would like to have an ability to automatically track long or convoluted reply chains. In my experience,
-this might not be important. Reply chains have a tendency to degenerate into a series of pointless one-liners which are
-probably not worth reading anyway (amirite?).
-</li><li>
-Tweaked the CSS to improve the look and feel. If you don't like my colour choices then fix the damn CSS yourself.
-</li><li>
-Modified the retention strategy for thread caching. The retention period is now 4 hours (up from 2) but only a maximum of
-15 threads will be cached at one time. This strategy may or may not be ideal for you but the point (obviously) is to
-limit the memory usage.
-</li></ul>
+<a href="https://8chananon.github.io/Alleycat-Player/archive/launcher/notes-v1b-v2e.htm"
+  >Release notes for versions 1b to 2e</a><br>
 
 <p><hr><p id="help">
 
@@ -805,15 +585,17 @@ links must be clicked on and viewed in a new tab.
 <p>
 To access 8kun, you need a URL with or without the domain name. The ".html" extension is not required. Examples are below.
 If you wish to see a specific post, then append "#" and the post number. To view a thread beginning at a certain post,
-append "?" and the post number. <b>Note:</b> do not close the Launcher while daughter tabs are still open because they
-link to the code inside the Launcher.
+append "$" and the post number. To view a board catalog, just type the name of the board. <b>Note:</b> do not close the
+Launcher while daughter tabs are still open because they link to the code inside the Launcher.
 <p>
-Full URL: <g_>https://8kun.top/alleycat/res/10.html</g_> &nbsp; Partial URL: <g_>/alleycat/res/10</g_>
+Full URL: <g_>https://8kun.top/alleycat/res/10.html</g_> &nbsp;
+Partial URL: <g_>/alleycat/res/10</g_> &nbsp; Catalog: <g_>alleycat</g_>
 <p>
 If you are not familiar with the need for a proxy server, then please refer to the Alleycat Player installation instructions
 <a class="ref" href="https://8chananon.github.io/Alleycat-Player/current/installation-v1.htm">here</a>
-for an explanation. The most reliable way to use this app is to install the Local Proxy Server. The second best way is
-to install a CORS unblocking extension.
+for an explanation. The most reliable way to use this app is to install the local proxy server. The remote proxy server
+currently running as a Vercel cloud application is intended for those users who cannot install the local proxy or as
+a backup when you need to access 8kun while you are away from your machine.
 
 <p><hr><p>
 
@@ -839,24 +621,15 @@ also embed from Youtube and other sites. There is an input for a name and a text
 the Reply button, your post will be submitted and a progress bar will appear near the bottom of the screen to report
 on the progress.
 </li></ul>
-Note that only the Post Office and Quick Reply options are available in a Slice. Auto-updating and posting require
-either the Kraker Local Proxy Server or a CORS unblocker (a remote proxy is permitted for manual updates). The reason
-is to prevent a lockout by the remote proxy for exceeding its bandwidth limit. You may use one of these extensions:
-<p>
-<g_>Allow CORS</g_> --
-<a href="https://addons.mozilla.org/en-US/firefox/addon/access-control-allow-origin"
-  >Firefox</a> or
-<a href="https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf"
-  >Chrome-based</a>
-&nbsp;<g_>CORS Everywhere</g_> -- <a href="https://addons.mozilla.org/en-US/firefox/addon/cors-everywhere"
-  >Firefox only</a>
+In a Slice tab, only the Post Office and Quick Reply options are available.
 
 <p><hr><p>
 
 <b><b_>Hints on Posting</b_></b>
 <ul><li>
-You cannot post without first solving the 8kun captcha. You can reach the captcha page via the link posted at the top
-of this page or at the top of the board catalog page.
+The 8kun captcha has gone away but, in times of stress, you may be required to use a Proto Pass (get it
+<a href="https://shop.isitwetyet.com/p/proto-membership">here</a>). To activate your Proto Pass, type your email address
+and password (<g_>**email_address**proto_password</g_>) in the URL input line and press Go.
 </li><li>
 There is a button at the right side of each post header. Click this to open the Quick Reply box while adding the
 post number to the text input.
@@ -868,12 +641,10 @@ no associated thumbnail but the file name will be shown.
 There is limited space for the file name so a long name will be truncated. To see the full name, hover your mouse
 over the file name box.
 </li><li>
-The progress of your post submission is monitored for progress and the final result. If all goes well, then the progress
-bar will disappear when the post submission is complete. If an error is returned by the server, then this will be
-displayed. You can click on the progress bar to hide it. You can click on the status bar to make the progress bar
-visible again. If possible, the percentage progress of your file upload will be shown (this is unreliable).
+A progress bar will appear when you hit the Reply button. It will disappear once the post submission has completed.
+If an error is returned by the server, the bar will remain on the screen but you can click on it to hide it.
 </li><li>
-The Clear button will clear all of the input fields except for the Name field. The Copy button will copy the text
+The Clear button will clear the input fields except for the Name field. The Copy button will copy the text
 inside the text area.
 </li><li>
 If you post a reply from a Slice tab, it is safe to close the tab while your post is being submitted. This is not
@@ -903,46 +674,30 @@ to that thread.
 
 <b><b_>Video Player</b_></b>
 <p>
-A special feature is available for viewing embedded Youtube videos. If you click on the bar below the thumbnail, the video
-will open with Alleycat Player or, rather, a subset of the Alleycat code. This includes the DASH capability which requires
-the Kraker Local Proxy Server which is available with the installation of Alleycat Player. Some videos (especially music
-videos) will not work with a remote proxy. This is due to an IP address restriction applied by Youtube.
+A special feature is available for viewing videos via Alleycat Player. In order for this to work, both apps must be
+opened in the same domain (due to browser restrictions). Each app loads a small Javascript shared worker which allows
+the Bread Launcher to send commands to Alleycat Player. Select one of the three Alleycat viewers and prepare your
+options in that viewer. It is best to configure the player to open the video in a popup.
 <p>
-<b>Update:</b> due to changes in the Youtube API, it is no longer possible to open a video without the Local Proxy Server.
+Chrome-based browsers present two potential problems. Autoplay should work if you configure your browser to allow it but
+some Chrome versions (Brave, for example) may be stubborn about it. Also, the Chrome browsers that I have tested
+disallow focusing an already opened popup (this is stupid but I think it has to do with the fact that the user action
+occurs in a tab that is not the tab which wants to operate the popup). For this reason, the popup will be destroyed on
+each iteration. If you wish to keep the popup open beside your browser window then check the "No Play" option in the
+Alleycat viewer.
 <p>
-<b>Autoplay may be blocked by your web browser.</b> Chrome-based browsers have this issue but not Firefox. This
-problem is solved if you are using the Local Proxy Server. A small stub file (called _video_.htm) will be saved to your
-proxy (Alleycat) folder which will then be loaded into the video player tab to force Chrome to recognize the proper
-domain name (localhost instead of about:blank). As long as you have given autoplay permission to "localhost" then
-it will work fine.
+To play a video in Alleycat Player, click on the red or green banner below the embed thumbnail. This capability is
+not implemented for videos with a blue banner. Instead, click on the thumbnail to play the embedded video in a new tab.
+These are the currently supported sites: YouTube, BitChute, Rumble, Vimeo and Twitter. You can also open videos from
+the URL input, including mp3, mp4, webm, m3u8 and mpd.
 <p>
-For non-embedded videos, copy the Youtube URL or just the 11-character ID to the URL input line and press "Play Video".
-If you copy the full URL, make sure that the video ID is at the end of the input line. Support for other video sites
-(such as Bitchute) is planned.
+If you are using the Kraker remote proxy server, there are some limits on YouTube videos. Some videos will not play
+due to an IP address mismatch (the proxy server IP is different from yours). Also, the DASH format will be unavailable.
 <p>
-Not all formats are available. The non-DASH formats are: mp4-360p, mp4-720p, webm-360p. To save a non-DASH video,
-right-click on the video and choose the "Save Video" option.
+<b>Special note about YouTube livestreams</b>
 <p>
-<b>Special note about Youtube livestreams</b>
-<p>
-It takes three to four hours for Youtube to move a finished livestream to VOD (video on demand) status. Until that happens,
+It may take three to four hours for YouTube to move a finished livestream to VOD (video on demand) status. Until that happens,
 only the last minute of an ended livestream will be viewable. This is a known issue with Alleycat Player.
-
-<!--
-<b>DDOS Mitigation (bot blocker)</b>
-<p>
-8kun was recently subjected to intense denial-of-service attacks and VanwaNet put up a DDOS Mitigation wall (which I call a
-bot blocker) in order to help alleviate the situation. I have encountered this before with CloudFlare and Sucuri in the
-process of hacking sites for Alleycat Player. A bot blocker consists of obfuscated Javascript code which must be executed by
-the web browser in order to obtain an authorization string or a cookie. This is a puzzle to unravel and it has been
-solved for the VanwaNet blocker.
-<p>
-Fair warning: the Local Proxy Server must be used to bypass the bot blocker. It cannot be done otherwise. The blocker is
-not in place at the time of this writing but, if it returns, you will be unable to use this app if you are relying
-on a remote proxy or CORS extension for access. Make sure that you have copied the file "vanwanet.js" to your proxy
-folder. This file contains the decryption code to unlock the bot blocker.
-<p>
-//-->
 
 <p><hr><p id="bake">
 
@@ -955,7 +710,7 @@ a while before attempting to bake.
 The first step to baking is to retrieve the dough for the current bread (which should already be open in the
 Launcher). Copy the dough from the upload site to a text editor (Notepad works fine). Open the Post Office and copy
 each section from the dough to a post. The first post is the intro which seldom changes from bread to bread. Add an
-image or Youtube link to the post. The second post may be the globals or the tool links. Not all bakers post the
+image or YouTube link to the post. The second post may be the globals or the tool links. Not all bakers post the
 globals and it may be missing from the current dough. The next few posts will contain the notables.
 <p>
 At this point, you have the posts prepared in the Post Office and you will begin scanning the current bread for notables.
@@ -981,7 +736,7 @@ your posts in the Post Office are the same as what you have in the dough. Now cr
 <b>Special note:</b> you may get a server error upon creating the new thread. I have tested this a few times on the
 <g_>/test/</g_> board and got no errors. Perhaps this problem occurs due to the high level of traffic on the
 <g_>/qresearch/</g_> board. If you get an error, then the Launcher won't have the thread number so you will need to go
-get it. Refresh the catalog and look for the new thread. If you can't find it, then you may need to retry the post.
+get it. Open the catalog and look for the new thread. If you can't find it, then you may need to retry the post.
 If you find it, then open the thread in the Launcher and copy the thread number from the status bar. Change the
 current thread number in the Post Office. This is not necessary if the thread was created without error since the
 Post Office will be tied automatically to the new thread.
@@ -2718,7 +2473,7 @@ var playvideo = function (win, url)
 var showmedia = function (win, item)
 {
   if (!item) return; var url = item.getAttribute ("data");
-  url = localpath + url_media + "?" + url + "#" + item.children [0].href;
+  url = localpath + url_media + "?" + url + "##" + item.children [0].href;
 
   if (!win) win = window; try { win = win.open (url, "_blank"); }
     catch (e) { win = window.open (url, "_blank"); }; win.focus();
