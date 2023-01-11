@@ -1758,7 +1758,7 @@ var fetchpost = function (win, url)
 
   if (url.replace (/\d/g, "") == "")
   {
-    url = localpath + url_media + "?tweet#" + url;
+    url = localpath + url_media + "?tweet##" + url;
 
     if (!win) win = window; try { win = win.open (url, "_blank"); }
       catch (e) { win = window.open (url, "_blank"); };
