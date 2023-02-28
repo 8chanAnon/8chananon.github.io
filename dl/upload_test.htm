@@ -1,0 +1,99 @@
+<!DOCTYPE html><html><head>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<meta charset='utf-8'>
+
+<title>Upload Test</title>
+
+<style type="text/css">
+
+body {
+  text-align: center; color: darkred; background-color: lemonchiffon;
+}
+
+button {
+  width: 60px;
+}
+
+input {
+  width: 400px;
+}
+
+.other {
+  width: 80px; text-align: center;
+}
+
+progress {
+  width: 408px;
+}
+
+</style></head><body onload="javascript:start()">
+
+<h2>Upload Test</h2>
+
+<p></p><span>&nbsp;</span><p></p>
+
+<button onclick="javascript:open_file()">Browse</button>&nbsp;
+<input type="file" name="file1" style="display:none"><input type=text disabled>
+<p></p>
+<button onclick="javascript:upload_file()">Upload</button>&nbsp;
+<input type=text value="https://js.educative.io/static/runjs/your_upload_url">
+<p></p>
+<button onclick="javascript:abort()">Abort</button>&nbsp;
+<progress value="0" max="100"></progress>
+<p></p>Progress:
+<input type=text class="other" disabled> -
+<input type=text class="other" disabled> &nbsp;
+Status: <input type=text class="other" disabled>
+<p></p>
+Note: aborting the upload will not immediately close the connection on the proxy server.
+
+<script>
+
+var xhr, file, box = document.getElementsByTagName ("input"), proxy = "http://localhost:8082/";
+
+var start = function ()
+{
+  file = null; box [1].value = box [3].value = box [4].value = ""; box [5].value = "Ready";
+  document.getElementsByTagName ("span")[0].innerHTML = "Proxy Server: " + proxy;
+}
+
+var open_file = function ()
+{
+  box [0].onchange = function (e)
+  {
+    file = e.target.files [0]; box [0].onchange = null; box [1].value = file.name;
+  }
+  box [0].click();
+}
+
+var upload_file = async () =>
+{
+  if (xhr || !file) return;
+  var data = new FormData(); data.append ("file1", file);
+  box [3].value = box [4].value = ""; box [5].value = "Sending...";
+
+  xhr = new XMLHttpRequest(); xhr.onloadend = function (e) { done (e); }
+
+  xhr.upload.onprogress = function (e)
+  {
+    box [3].value = e.loaded; box [4].value = e.total;
+    document.getElementsByTagName ("progress")[0].value = e.loaded * 100 / e.total;
+  }
+
+  xhr.open ("POST", proxy + box [2].value, true); xhr.send (data);
+
+  var done = function (e)
+  {
+    box [5].value = e.target.status || "Error"; xhr = null;
+    document.getElementsByTagName ("progress")[0].value = 0;
+  }
+}
+
+var abort = function ()
+{
+  if (xhr) xhr.abort();
+}
+
+</script>
+
+</body></html>
