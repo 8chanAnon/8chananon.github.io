@@ -1,0 +1,43 @@
+/*
+User Chrome CSS, version 2
+*/
+
+@import url("v2-tabs-to-below.css");
+@import url("v2-tabs-bar.css");
+@import url("v2-menus.css");
+
+/* The next three settings are for hiding the icons at the end of the URL bar */
+
+#pageActionButton {
+  visibility: collapse !important;
+}
+
+#reader-mode-button {
+  visibility: collapse !important;
+}
+
+#star-button-box {
+/*  visibility: collapse !important; */
+}
+
+/*hide the pointless warning box when you go fullscreen */
+#fullscreen-warning {
+  display: none !important;
+}
+
+/* hide the Back, Forward, Reload and Bookmark buttons in the context menu */
+#context-navigation, #context-sep-navigation {
+  display: none !important;
+}
+
+/* move main menu bar down 3 pixels */
+#main-menubar {
+  margin-top: 3px !important;
+}
+
+/* move the Minimize, Maximize and Close buttons up one pixel */
+.titlebar-button {
+  margin-top: -1px !important;
+}
+
+/**** End of File ****/

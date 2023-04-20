@@ -1,0 +1,139 @@
+/*
+User Tabs Bar CSS, version 2 for Firefox 91
+
+Removed non-Proton settings.
+Reduced spacing between tabs and added padding for pinned tabs.
+Added visual indicator for the "Select All Tabs" operation.
+Changed margin and width+height settings for sound and close icons.
+
+The root var "--tab-border-radius" was not defined in previous Firefox versions.
+Firefox 91 stole my var. I added the keyword "!important" to reclaim my ownership. Kek.
+*/
+
+:root {
+  --tab-opacity-level:       70%;
+  --tab-border-radius:       6px !important;
+
+  --tab-border-color-normal: darkgoldenrod;
+  --tab-border-color-select: forestgreen;
+  --tab-label-color-normal:  purple;
+  --tab-label-color-select:  mediumblue;
+  --tab-sound-close-icons:   firebrick;
+  --tab-background-normal:   lemonchiffon;
+  --tab-background-select:   lightyellow;
+
+/* Dark theme colours
+
+  --tab-border-color-normal: skyblue;
+  --tab-border-color-select: snow;
+  --tab-label-color-normal:  lightgray;
+  --tab-label-color-select:  yellow;
+  --tab-sound-close-icons:   lightseagreen;
+  --tab-background-normal:   transparent;
+  --tab-background-select:   transparent;
+*/
+
+}
+
+.tab-line {
+  display: none !important;
+}
+
+/* update: margin from 1px to -1px, added right-side padding */
+.tab-content {
+  margin: 0 -1px 0 -1px !important; padding: 0 3px 0 5px !important;
+  border-radius: var(--tab-border-radius) var(--tab-border-radius) 0 0 !important;
+  border: 2px solid transparent !important; border-bottom-width: 1px !important;
+  color: var(--tab-sound-close-icons) !important;
+}
+
+.tab-content:hover:not([selected]) {
+  border-color: var(--tab-border-color-normal) !important;
+}
+
+.tab-label {
+  color: var(--tab-label-color-normal) !important;
+}
+
+.tab-label[selected] {
+  color: var(--tab-label-color-select) !important;
+}
+
+/* update: left-side margin */
+.tab-icon-image {
+  margin: 0 3px 0 -2px !important;
+}
+
+/* new for pinned tabs */
+.tab-icon-image[pinned] {
+  margin: 0 4px 0 1px !important;
+}
+
+/* update: margin and width+height */
+.tab-icon-overlay {
+  margin: 0 2px 0 -4px !important; padding: 0 !important;
+  width: 17px !important; height: 17px !important;
+  border-radius: 0 !important;
+}
+
+/* update: margin and width+height */
+.tab-close-button {
+  margin: 0 -2px 0 0 !important; padding: 1px !important;
+  width: 17px !important; height: 17px !important;
+  border-radius: 0 !important;
+}
+
+.tab-icon-overlay:hover, .tab-close-button:hover {
+  color: white !important; background-color: forestgreen !important;
+}
+
+#scrollbutton-up {
+  margin: 0 3px 0 1px !important;
+}
+
+#scrollbutton-down {
+  margin: 0 2px 0 3px !important;
+}
+
+#scrollbutton-up, #scrollbutton-down {
+  padding: 0 4px 0 4px !important; transition: none !important;
+}
+
+#tabs-newtab-button, #new-tab-button, #alltabs-button {
+  margin: 0 2px 0 1px !important; padding: 0 !important;
+}
+
+/* update: margin changed from 1px to -1px */
+.tab-background {
+  margin: 0 -1px 0 -1px !important; padding: 0 !important;
+  background: none !important; box-shadow: none !important;
+  background-color: var(--tab-background-normal) !important;
+  opacity: var(--tab-opacity-level) !important;
+}
+
+.tab-background[selected] {
+  background-color: var(--tab-background-select) !important;
+  border-color: var(--tab-border-color-select) !important;
+  opacity: 100% !important;
+}
+
+/* new for "Select All Tabs" operation */
+.tab-background[multiselected] {
+  border-top-width: 3px !important;
+  filter: invert(10%) !important;
+}
+
+#tabs-newtab-button, #new-tab-button, #alltabs-button,
+#scrollbutton-up, #scrollbutton-down, .tab-background {
+  border-radius: var(--tab-border-radius) var(--tab-border-radius) 0 0 !important;
+  border: 1px solid var(--tab-border-color-normal) !important;
+  border-bottom: 0 !important;
+}
+
+#tabbrowser-arrowscrollbox {
+  height: calc(var(--tab-min-height)) !important;
+}
+
+.tabbrowser-tab::after, .tabbrowser-tab::before {
+  display: none !important;
+}

@@ -1,0 +1,41 @@
+/*
+User Menus CSS, version 2
+*/
+
+:root {
+  --menu-color-text:         maroon;
+  --menu-color-disabled:     rosybrown;
+  --menu-color-separator:    burlywood;
+  --menu-color-bg-normal:    papayawhip;
+  --menu-color-bg-hover:     gainsboro;
+  --menu-color-border:       goldenrod;
+}
+
+.menupopup-arrowscrollbox {
+  padding: 3px 4px !important;
+  background-color: var(--menu-color-bg-normal) !important;
+  border: 2px solid var(--menu-color-border) !important;
+  border-radius: 4px !important;
+}
+
+menupopup > menu, menupopup > menuitem {
+  margin: 0 2px !important; padding: 1px 0 2px 5px !important;
+  background-color: var(--menu-color-bg-normal) !important;
+  color: var(--menu-color-text) !important;
+}
+
+menupopup > menuseparator {
+  padding: 1px 0 !important; margin: 0 !important;
+  background-color: var(--menu-color-separator) !important;
+  border: 2px solid var(--menu-color-bg-normal) !important;
+}
+
+menupopup > menu:hover, menupopup > menuitem:hover {
+  background-color: var(--menu-color-bg-hover) !important;
+}
+
+/* Note carefully that [disabled] instead of [disable="true"] does not work correctly */
+
+menupopup > menu[disabled="true"], menupopup > menuitem[disabled="true"] {
+  color: var(--menu-color-disabled) !important;
+}

@@ -1,0 +1,131 @@
+/*
+User Tabs Bar CSS, version 2
+*/
+
+:root {
+  --tab-opacity-level:       70%;
+  --tab-border-radius:       6px;
+
+  --tab-border-color-normal: darkgoldenrod;
+  --tab-border-color-select: forestgreen;
+  --tab-label-color-normal:  purple;
+  --tab-label-color-select:  mediumblue;
+  --tab-sound-close-icons:   firebrick;
+  --tab-background-normal:   lemonchiffon;
+  --tab-background-select:   lightyellow;
+
+/* Dark theme colours
+
+  --tab-border-color-normal: skyblue;
+  --tab-border-color-select: snow;
+  --tab-label-color-normal:  lightgray;
+  --tab-label-color-select:  yellow;
+  --tab-sound-close-icons:   lightseagreen;
+  --tab-background-normal:   transparent;
+  --tab-background-select:   transparent;
+*/
+
+}
+
+.tab-line {
+  display: none !important;
+}
+
+.tab-content {
+  padding: 0 0 1px 5px !important; margin: 0 1px 0 1px !important;
+  border-radius: var(--tab-border-radius) var(--tab-border-radius) 0 0 !important;
+  border: 2px solid transparent !important; border-bottom-width: 1px !important;
+  color: var(--tab-sound-close-icons) !important;
+}
+
+.tab-content:hover:not([selected]) {
+  border-color: var(--tab-border-color-normal) !important;
+}
+
+.tab-label {
+  color: var(--tab-label-color-normal) !important;
+}
+
+.tab-label[selected] {
+  color: var(--tab-label-color-select) !important;
+}
+
+.tab-icon-image {
+  margin: 0 3px 0 -1px !important;
+}
+
+@media (-moz-proton)
+{
+  .tab-icon-overlay {
+    margin: 0 1px -2px -3px !important; padding: 0 !important;
+    width: 18px !important; height: 18px !important;
+    border-radius: 0 !important;
+  }
+
+  .tab-close-button {
+    margin: 0 1px -2px -4px !important; padding: 1px !important;
+    width: 16px !important; height: 16px !important;
+    border-radius: 0 !important;
+  }
+
+  .tab-icon-overlay:hover, .tab-close-button:hover {
+    color: white !important; background-color: forestgreen !important;
+  }
+}
+
+@media not (-moz-proton)
+{
+  .tab-icon-sound, .tab-close-button {
+    margin: 0 1px -2px 0 !important; padding: 1px !important;
+    width: 16px !important; height: 16px !important;
+    border-radius: 0 !important;
+  }
+
+  .tab-icon-sound:hover, .tab-close-button:hover {
+    color: white !important; background-color: forestgreen !important;
+  }
+}
+
+#scrollbutton-up {
+  margin: 0 3px 0 1px !important;
+}
+
+#scrollbutton-down {
+  margin: 0 2px 0 3px !important;
+}
+
+#scrollbutton-up, #scrollbutton-down {
+  padding: 0 4px 0 4px !important; transition: none !important;
+}
+
+#tabs-newtab-button, #new-tab-button, #alltabs-button {
+  margin: 0 2px 0 1px !important; padding: 0 !important;
+}
+
+.tab-background {
+  margin: 0 1px 0 1px !important; padding: 0 !important;
+  background: none !important; box-shadow: none !important;
+  background-color: var(--tab-background-normal) !important;
+  opacity: var(--tab-opacity-level) !important;
+}
+
+.tab-background[selected] {
+  background-color: var(--tab-background-select) !important;
+  border-color: var(--tab-border-color-select) !important;
+  opacity: 100% !important;
+}
+
+#tabs-newtab-button, #new-tab-button, #alltabs-button,
+#scrollbutton-up, #scrollbutton-down, .tab-background {
+  border-radius: var(--tab-border-radius) var(--tab-border-radius) 0 0 !important;
+  border: 1px solid var(--tab-border-color-normal) !important;
+  border-bottom: 0 !important;
+}
+
+#tabbrowser-arrowscrollbox {
+  height: calc(var(--tab-min-height)) !important;
+}
+
+.tabbrowser-tab::after, .tabbrowser-tab::before {
+  display: none !important;
+}

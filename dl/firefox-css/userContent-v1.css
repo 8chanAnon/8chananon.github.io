@@ -1,0 +1,12 @@
+/*
+User Content CSS, version 1
+*/
+
+html, body {
+ scrollbar-color: tan mistyrose;
+}
+
+input, button, textarea {
+  outline: none;
+}
+

@@ -1,0 +1,41 @@
+/*
+Move the tabs bar to below the other toolbars (Firefox 89, Photon or Proton)
+
+Brief explanation:
+
+#navigator-toolbox contains #titlebar, #nav-bar (navigation bar) and #PersonalToolbox (bookmarks bar)
+#titlebar contains #toolbar-menubar (menu, window controls) and #TabsToolbar (our tabs)
+Ordinal groups: #titlebar (0), #nav-bar (1), #PersonalToolbox (2)
+
+We set #titlebar to ordinal group 3 and then force #toolbar-menubar to be drawn at the top of the screen.
+This splits the menu from the tabs while leaving the navigation bar and the bookmarks bar in the middle.
+
+Two issues not resolved: border below the menu bar and extra space above the tabs bar in full-screen mode.
+*/
+
+#titlebar{
+  -moz-box-ordinal-group: 3;
+}
+
+/* so window control icons don't get scrunched */
+.titlebar-buttonbox-container {
+  height: var(--tab-min-height) !important;
+}
+
+/* create space for the menu bar */
+/* update: padding changed from +4px to -1px */
+#navigator-toolbox {
+  padding-top: calc(var(--tab-min-height) - 1px) !important;
+}
+
+/* force the menu bar to occupy the top of the screen */
+/* update: padding-top changed from 4px to 0px, height reduced by 1px */
+#toolbar-menubar {
+  display: flex; position: fixed; top: 0; padding-top: 0px;
+  height: calc(var(--tab-min-height) - 1px); width: 100%;
+}
+
+/* this is for the separator between #menubar-items and .titlebar-buttonbox-container */
+#toolbar-menubar > [flex] {
+  flex-grow: 1;
+}

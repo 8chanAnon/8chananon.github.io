@@ -1,1 +1,192 @@
+/*
+User Chrome CSS, version 1
+*/
 
+:root {
+  --menu-color-text:         maroon;
+  --menu-color-disabled:     rosybrown;
+  --menu-color-separator:    burlywood;
+  --menu-color-bg-normal:    papayawhip;
+  --menu-color-bg-hover:     gainsboro;
+  --menu-color-border:       goldenrod;
+
+  --tab-border-radius:       6px;
+
+  --tab-border-color-normal: rosybrown;
+  --tab-border-color-select: firebrick;
+  --tab-label-color-normal:  purple;
+  --tab-label-color-select:  darkgreen;
+  --tab-sound-close-icons:   firebrick;
+  --tab-background-normal:   transparent;
+  --tab-background-select:   transparent;
+
+/* Dark theme colours (for menus, you can comment out the menu settings further down) */
+
+/*
+  --tab-border-color-normal: skyblue;
+  --tab-border-color-select: snow;
+  --tab-label-color-normal:  lightgray;
+  --tab-label-color-select:  yellow;
+  --tab-sound-close-icons:   lightseagreen;
+  --tab-background-normal:   transparent;
+  --tab-background-select:   transparent;
+*/
+
+}
+
+/* The next three settings are for hiding the icons at the end of the URL bar */
+
+#pageActionButton {
+  visibility: collapse !important;
+}
+
+#reader-mode-button {
+  visibility: collapse !important;
+}
+
+#star-button-box {
+/*  visibility: collapse !important; */
+}
+
+/*hide the pointless warning box when you go fullscreen */
+#fullscreen-warning {
+  display: none !important;
+}
+
+/* move main menu bar down 3 pixels */
+#main-menubar {
+  margin-top: 3px !important;
+}
+
+/* move the window Minimize, Restore and Close buttons up one pixel */
+.titlebar-buttonbox {
+  margin-top: -1px !important;
+}
+
+/* hide the Back, Forward, Reload and Bookmark buttons in the context menu */
+#context-navigation, #context-sep-navigation {
+  display: none !important;
+}
+
+/* begin menu settings */
+
+.menupopup-arrowscrollbox {
+  padding: 3px 4px !important;
+  background-color: var(--menu-color-bg-normal) !important;
+  border: 2px solid var(--menu-color-border) !important;
+  border-radius: 4px !important;
+}
+
+menupopup > menu, menupopup > menuitem {
+  margin: 0 2px !important;
+  padding: 1px 0 2px 5px !important;
+  background-color: var(--menu-color-bg-normal) !important;
+  color: var(--menu-color-text) !important;
+}
+
+menupopup > menu:hover, menupopup > menuitem:hover {
+  background-color: var(--menu-color-bg-hover) !important;
+}
+
+menupopup > menu[disabled], menupopup > menuitem[disabled] {
+  color: var(--menu-color-disabled) !important;
+}
+
+menupopup > menuseparator {
+  padding: 1px 0 !important; margin: 0 !important;
+  background-color: var(--menu-color-separator) !important;
+  border: 2px solid var(--menu-color-bg-normal) !important;
+}
+
+/* end menu settings */
+
+/* begin tab settings */
+
+.tab-line {
+  display: none !important;
+}
+
+.tab-content {
+  padding: 0 3px 1px 7px !important;
+  color: var(--tab-sound-close-icons) !important;
+}
+
+.tab-icon-image {
+  margin: 0 2px 0 -1px !important;
+}
+
+.tab-label {
+  color: var(--tab-label-color-normal) !important;
+}
+
+.tab-label[selected] {
+  color: var(--tab-label-color-select) !important;
+}
+
+@media (-moz-proton)
+{
+  .tab-icon-overlay {
+    margin: 0 1px -2px -3px !important; padding: 0 !important;
+    width: 18px !important; height: 18px !important;
+    border-radius: 0 !important;
+  }
+
+  .tab-close-button {
+    margin: 0 1px -2px -4px !important; padding: 1px !important;
+    width: 16px !important; height: 16px !important;
+    border-radius: 0 !important;
+  }
+
+  .tab-icon-overlay:hover, .tab-close-button:hover {
+    color: white !important; background-color: forestgreen !important;
+  }
+}
+
+@media not (-moz-proton)
+{
+  .tab-icon-sound, .tab-close-button {
+    margin: 0 1px -2px 0 !important; padding: 1px !important;
+    width: 16px !important; height: 16px !important;
+    border-radius: 0 !important;
+  }
+
+  .tab-icon-sound:hover, .tab-close-button:hover {
+    color: white !important; background-color: forestgreen !important;
+  }
+}
+
+#tabs-newtab-button {
+  margin: 0 2px 0 1px !important; padding: 0 !important;
+  border-radius: var(--tab-border-radius) var(--tab-border-radius) 0 0 !important;
+  border: 1px solid transparent !important;
+}
+
+#tabs-newtab-button:hover {
+  border-color: var(--tab-border-color-normal) !important;
+}
+
+.tab-background {
+  padding: 0 !important; margin: 0 1px 0 1px !important;
+  border-radius: var(--tab-border-radius) var(--tab-border-radius) 0 0 !important;
+  background-color: var(--tab-background-normal) !important;
+  border: 1px solid var(--tab-border-color-normal) !important;
+  border-bottom: 0 !important; box-shadow: none !important;
+  color: var(--tab-sound-close-icons) !important;
+}
+
+.tab-background[selected] {
+  background-color: var(--tab-background-select) !important;
+  border-color: var(--tab-border-color-select) !important;
+}
+
+.tabbrowser-tab {
+  margin: 0 !important; padding: 0 !important;
+}
+
+.tabbrowser-tab::after, .tabbrowser-tab::before {
+  display: none !important;
+}
+
+/* end tab settings */
+
+/* End of File */
