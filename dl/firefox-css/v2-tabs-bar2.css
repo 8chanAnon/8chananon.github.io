@@ -1,6 +1,8 @@
 /*
 User Tabs Bar CSS, version 2 for Firefox 91
 
+Updated on May 14, 2023 to remove outline in .tab-background[selected]
+
 Removed non-Proton settings.
 Reduced spacing between tabs and added padding for pinned tabs.
 Added visual indicator for the "Select All Tabs" operation.
@@ -111,7 +113,9 @@ Firefox 91 stole my var. I added the keyword "!important" to reclaim my ownershi
   opacity: var(--tab-opacity-level) !important;
 }
 
+/* update (May, 2023) - remove outline */
 .tab-background[selected] {
+  outline: none !important;
   background-color: var(--tab-background-select) !important;
   border-color: var(--tab-border-color-select) !important;
   opacity: 100% !important;
@@ -127,7 +131,7 @@ Firefox 91 stole my var. I added the keyword "!important" to reclaim my ownershi
 #scrollbutton-up, #scrollbutton-down, .tab-background {
   border-radius: var(--tab-border-radius) var(--tab-border-radius) 0 0 !important;
   border: 1px solid var(--tab-border-color-normal) !important;
-  border-bottom: 0 !important;
+  border-bottom-width: 0 !important;
 }
 
 #tabbrowser-arrowscrollbox {

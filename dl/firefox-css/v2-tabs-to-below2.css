@@ -18,6 +18,11 @@ This splits the menu from the tabs while leaving the navigation bar and the book
   order: 3;  /* update: the above is no longer valid */
 }
 
+/* update: align the tabs toolbar with the bottom border */
+#TabsToolbar-customization-target {
+  margin-bottom: -1px !important;
+}
+
 /* create space for the menu bar */
 #navigator-toolbox {
   padding-top: calc(var(--tab-min-height) - 2px) !important;
@@ -25,7 +30,7 @@ This splits the menu from the tabs while leaving the navigation bar and the book
 
 /* force the menu bar to occupy the top of the screen */
 #toolbar-menubar {
-  display: flex; position: fixed; top: 0; padding-top: 0; padding-bottom: 0;
+  display: flex; position: fixed; top: 0; padding-top: 0;
   height: var(--tab-min-height); width: 100%;
 }
 
