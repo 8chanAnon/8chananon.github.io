@@ -45,7 +45,8 @@ input {
 button {
   width: auto; height: auto; padding: 0 4px; margin: 0;
   font-size: 14px; line-height: 18px; font-family: 'helvetica', sans-serif;
-  color: darkgreen; background-color: burlywood; outline: none;
+  color: darkgreen; background-color: burlywood;
+  outline: none; border-size: 2px; border-style: solid;
   border-color: #e8e8e8 #9c9c9c #9c9c9c #ececec;
 }
 
@@ -54,7 +55,7 @@ button:hover:active {
 }
 
 .tweetbox {
-  display: inline-block; width: 85vw; height: calc(100% - 20px);
+  display: inline-block; width: 85vw; height: calc(100% - 19px);
   margin: 4px; padding: 3px; outline: none; border: 2px solid lightsalmon;
   font-size: 14px; line-height: 19px; font-family: 'verdana', sans-serif; 
   text-align: left; white-space: pre-wrap; word-wrap: break-word;
@@ -236,7 +237,8 @@ var start = function (cmd)
   type = pullstring (url, "", "##"); link = pullstring (url, "##", "");
 
   origin = location.origin + location.pathname;
-  proxy = location.hostname == "localhost" ? location.origin + "/~" : remote_proxy;
+  m = location.hostname; m = m.substr (m.lastIndexOf (".") + 1);
+  proxy = m == "localhost" ? location.origin + "/~" : remote_proxy;
 
   var doc = document.getElementsByTagName ("div");
   var msg = document.getElementsByTagName ("input");
@@ -344,20 +346,18 @@ var brightness = async (mode) =>
 
 const fetchtweet = async (doc, msg, id) =>
 {
-  doc.innerHTML = "<span class='tweetbox'></span>"; var box = doc.firstChild;
+  doc.innerHTML = "<span class='tweetbox' tabindex='-1'></span>"; var box = doc.firstChild;
+  
+  var url = proxy + "https://api.twitter.com/";
 
-  var url = proxy + "*https://twitter.com*https://api.twitter.com/";
   var b = "Bearer AAAAAAAAAAAAAAAAAAAAAPYXBAAAAAAACLXUNDekMxqa8h" +
     "%2F40K4moUkGsoc%3DTYfbDKbT3jJPCEVnMYqilB28NHfOPqkca3qaAxGfsyKCs0wRbw";
 
+  var token = "a00c423812149cefa8a26ed20bd34b6976f4511c52f07cb37e787adf883c438c1dc59e2537f073c78c3bfae81dcc86af592efed2a51655ad7835445a73c1b964a5b60b68b571967dc0e3674d058ab0df";
+  var cookie = "ct0=" + token + ";auth_token=bfe4fab329336d5c2ddfd0a292e116413f197b13";
+
 try
 {
-  var u = url + "1.1/guest/activate.json";
-  var resp = await fetch (u, { method: 'POST', headers: { 'Authorization': b } });
-  var data = await resp.json();
-
-  var g = data.guest_token; if (!g) throw ("!!!");
-
   var m, n, p, q, r, s, t, twitlist, replies, twits = {}, users = {};
   var this_id = sort_id = id; while (sort_id.length < 19) sort_id = "0" + sort_id;
   var next_id = sort_id, tw_convo, tw_reply, cursor = "";
@@ -366,7 +366,7 @@ try
   {
     r = "&include_reply_count=1" + (cursor ? "&cursor=" + r : "");
     u = url + "2/timeline/conversation/" + this_id + ".json?tweet_mode=extended" + r;
-    resp = await fetch (u, { headers: { 'Authorization': b, 'x-guest-token': g } });
+    resp = await fetch (u, { headers: { 'Authorization': b, accept: "**" + cookie, 'x-csrf-token': token } });
     data = await resp.json();
 
     twits = Object.assign (twits, data.globalObjects.tweets);
@@ -436,12 +436,9 @@ try
     }
   }
 
-  //msg [0].value = "[snapshot]";
-  msg [1].value = msg [2].value = "";
   u = document.createElement ("DIV"); u.style = "width:90vw;height:30%";
-  box.appendChild (u); doc.style.visibility = "visible";
-
-  setTimeout (function() { box.focus(); }, 500);
+  msg [1].value = msg [2].value = ""; doc.style.visibility = "visible";
+  box.appendChild (u); box.focus();
 
 } catch (e) { console.log (e); oops(); return; }
 }
@@ -462,8 +459,7 @@ var newtweet = function (id, box, twits, users, item, check, reply)
 
       for (i = 0; i < k.length; i++) if ((a = k [i].url) && a.includes (".mp4"))
       {
-        b = "VIDEO"; j = a.search (/[0-9]x[0-9]/);
-        if (j > 0) b = a.substr (j + 2, a.indexOf ("/", j) - j - 2) + "p";
+        b = "VIDEO"; if (j = a.match ("/\\d+x(\\d+)/")) b = j [1] + "p";
         image += "  " + tw_link + "?video##" + a + "'>" + b + "</a>";
       }
     }
@@ -504,11 +500,13 @@ var newtweet = function (id, box, twits, users, item, check, reply)
 
   if (m = twit.entities.urls) for (n = 0; n < m.length; n++)
   {
-    k = m [n].display_url; j = "<a href='" + m [n].expanded_url + "'>" + k + "</a>";
-    if (k.length < 10) j = k; if (k = m [n].url) { urls.push (k); urls.push (j); }
+    j = m [n].display_url; k = m [n].expanded_url;
+    // check for incorrectly flagged url (due to missing space after period)
+    if (k.indexOf ("http:") || k.indexOf ("/", 7) > 0) j = "<a href='" + k + "'>" + j + "</a>";
+    urls.push (m [n].url); urls.push (j);
   }
 
-  if (retweet = twit.quoted_status_id_str || "")
+  if (retweet = twit.quoted_status_id_str || twit.retweeted_status_id_str || "")
   {
     c = " (not found - " + tw_link + "?tweet##" + retweet + "'>link</a>)";
     if ((b = twit.quoted_status_permalink) && (b = b.expanded)) b = pullstring (b, "com/", "/");
