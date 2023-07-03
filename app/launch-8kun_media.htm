@@ -114,9 +114,27 @@ button:hover:active {
   margin: 0 6px; float: right;
 }
 
+.tw-arrow {
+  margin: 0; padding: 2px 4px 0; vertical-align: top; float: right;
+  cursor: pointer; color: chocolate;
+}
+
 .tw-text {
   display: flex; flex-direction: column; justify-content: space-around;
   text-align: left; padding: 3px 6px 4px 6px;
+}
+
+.tw-long {
+  max-height: 148px; overflow: auto;
+  text-align: left; padding: 3px 6px 4px 6px; outline: none;
+}
+
+.tw-long:focus {
+  outline: 2px solid coral;
+}
+
+.tw-drop {
+  max-height: 60%;
 }
 
 p {
@@ -226,9 +244,10 @@ var action = function ()
 */
 }
 
-var oops = function ()
+var oops = function (err)
 {
-  document.getElementsByTagName ("input")[1].value = "ERROR";
+  if (err) if (err [0] == "!") err = err.substr (1); else { console.log (err); err = ""; }
+  document.getElementsByTagName ("input")[1].value = err || "ERROR";
 }
 
 var start = function (cmd)
@@ -344,17 +363,36 @@ var brightness = async (mode) =>
   b.style.filter = "brightness(" + lvl + ") contrast(" + con + ") saturate(" + sat + ")";
 }
 
+var variables = {
+  focalTweetId: '', cursor: '', referrer: '',
+  with_rux_injections: false, includePromotedContent: true, withCommunity: true,
+  withQuickPromoteEligibilityTweetFields: true, withBirdwatchNotes: true, withVoice: true, withV2Timeline: true
+}
+
+var features = {
+  rweb_lists_timeline_redesign_enabled: true, responsive_web_graphql_exclude_directive_enabled: true,
+  verified_phone_label_enabled: false, creator_subscriptions_tweet_preview_api_enabled: true,
+  responsive_web_graphql_timeline_navigation_enabled: true,
+  responsive_web_graphql_skip_user_profile_image_extensions_enabled: false,
+  tweetypie_unmention_optimization_enabled: true, responsive_web_edit_tweet_api_enabled: true,
+  graphql_is_translatable_rweb_tweet_is_translatable_enabled: true,
+  view_counts_everywhere_api_enabled: true, longform_notetweets_consumption_enabled: true,
+  responsive_web_twitter_article_tweet_consumption_enabled: false, tweet_awards_web_tipping_enabled: false,
+  freedom_of_speech_not_reach_fetch_enabled: true, standardized_nudges_misinfo: true,
+  tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled: true,
+  longform_notetweets_rich_text_read_enabled: true, longform_notetweets_inline_media_enabled: true,
+  responsive_web_media_download_video_enabled: false, responsive_web_enhance_cards_enabled: false
+}
+
 const fetchtweet = async (doc, msg, id) =>
 {
   doc.innerHTML = "<span class='tweetbox' tabindex='-1'></span>"; var box = doc.firstChild;
   
-  var url = proxy + "https://api.twitter.com/";
+  var url = proxy + "https://twitter.com/i/api/graphql/3XDB26fBve-MmjHaWTUZxA/TweetDetail";
 
-  var b = "Bearer AAAAAAAAAAAAAAAAAAAAAPYXBAAAAAAACLXUNDekMxqa8h" +
-    "%2F40K4moUkGsoc%3DTYfbDKbT3jJPCEVnMYqilB28NHfOPqkca3qaAxGfsyKCs0wRbw";
-
-  var token = "a00c423812149cefa8a26ed20bd34b6976f4511c52f07cb37e787adf883c438c1dc59e2537f073c78c3bfae81dcc86af592efed2a51655ad7835445a73c1b964a5b60b68b571967dc0e3674d058ab0df";
-  var cookie = "ct0=" + token + ";auth_token=bfe4fab329336d5c2ddfd0a292e116413f197b13";
+  var bb = "Bearer AAAAAAAAAAAAAAAAAAAAAPYXBAAAAAAACLXUNDekMxqa8h%2F40K4moUkGsoc%3DTYfbDKbT3jJPCEVnMYqilB28NHfOPqkca3qaAxGfsyKCs0wRbw";
+  var tt = "a00c423812149cefa8a26ed20bd34b6976f4511c52f07cb37e787adf883c438c1dc59e2537f073c78c3bfae81dcc86af592efed2a51655ad7835445a73c1b964a5b60b68b571967dc0e3674d058ab0df";
+  var cc = "ct0=" + tt + "; auth_token=bfe4fab329336d5c2ddfd0a292e116413f197b13";
 
 try
 {
@@ -364,17 +402,43 @@ try
 
   for (n = 0; n < 20; n++)
   {
-    r = "&include_reply_count=1" + (cursor ? "&cursor=" + r : "");
-    u = url + "2/timeline/conversation/" + this_id + ".json?tweet_mode=extended" + r;
-    resp = await fetch (u, { headers: { 'Authorization': b, accept: "**" + cookie, 'x-csrf-token': token } });
-    data = await resp.json();
+    variables.referrer = n ? 'tweet' : '';
+    variables.focalTweetId = id; variables.cursor = cursor;
+    p = encodeURIComponent (JSON.stringify (variables));
+    q = encodeURIComponent (JSON.stringify (features));
+    r = encodeURIComponent ('{"withArticleRichContentState":false}');
+    u = url + "?variables=" + p + "&features=" + q + "&fieldToggles=" + r;
 
-    twits = Object.assign (twits, data.globalObjects.tweets);
-    users = Object.assign (users, data.globalObjects.users);
+    resp = await fetch (u, { headers: { authorization: bb, accept: "**" + cc, 'x-csrf-token': tt }});
 
-    thread = (m = twits [id].self_thread) ? m.id_str : "";
-    tw_reply = twits [id].in_reply_to_status_id_str;
-    tw_convo = twits [id].conversation_id_str;
+    if (resp.status != 200) throw (resp.status == 429 ? "!Blocked" : "!Failed");
+
+    try { data = (await resp.json()).data.threaded_conversation_with_injections_v2.instructions[0].entries;
+        } catch (e) { data = ""; }
+
+    for (m = data.length, n = 0; n < data.length; n++) try
+    {
+      if (p = data [n], n < m)
+      {
+        r = p.entryId; p = p.content;
+        if (r.includes ("thread-")) p = p.items[0].item; else if (!r.includes ("tweet-")) continue;
+        p = p.itemContent.tweet_results;
+      }
+
+      p = p.result; q = p.core.user_results.result;
+      r = q.is_blue_verified; q = q.legacy; q.verified = r;
+      t = p.quoted_status_result; if (t) data.push (t);
+
+      t = p.note_tweet; if (t) t = t.note_tweet_results.result; p = p.legacy;
+      r = p.id_str; s = p.user_id_str; p.long = t; twits [r] = p; users [s] = q;
+    }
+    catch (e) { }
+
+    if (!(t = twits [id])) throw ("!Not found");
+
+    thread = (r = t.self_thread) ? r.id_str : "";
+    tw_reply = t.in_reply_to_status_id_str || id;
+    tw_convo = t.conversation_id_str || id;
     twitlist = []; t_total = t_count = 0;
 
     for (p in twits)
@@ -396,10 +460,9 @@ try
       if (q) twitlist.push (q);
     }
 
-    try {
-      r = data.timeline.instructions[0].addEntries.entries;
-      r = r [r.length - 1].content.operation.cursor.value;
-      r = encodeURIComponent (r); } catch (e) { r = ""; }
+    try { r = data [m - 1].content.itemContent;
+          r = r.cursorType ? encodeURIComponent (r.value) : "";
+        } catch (e) { r = ""; }
 
     cursor = (r && r != cursor && twitlist.length < 75 + t_count) ? r : "";
 
@@ -440,7 +503,17 @@ try
   msg [1].value = msg [2].value = ""; doc.style.visibility = "visible";
   box.appendChild (u); box.focus();
 
-} catch (e) { console.log (e); oops(); return; }
+} catch (e) { oops (e); return; }
+}
+
+var peek = function (item)
+{
+  var x = item; do item = item.parentNode; while (item.nodeName != "SPAN");
+  item = item.nextElementSibling.children [1];
+
+  if (item.classList.contains ("tw-drop"))
+    { item.classList.remove ("tw-drop"); x.style.transform = "scale(1)"; } else
+    { item.classList.add ("tw-drop"); x.style.transform = "scale(-1)"; }
 }
 
 var newtweet = function (id, box, twits, users, item, check, reply)
@@ -481,15 +554,14 @@ var newtweet = function (id, box, twits, users, item, check, reply)
   b = "<a href='" + tweet_embed + item + "'>@" + user.screen_name + "</a>";
   c = id == item ? "<r_>" + item + "</r_>" : tw_link + "?tweet##" + item + "'>" + item + "</a>";
 
+  if (twit.long) image += "<span class='tw-arrow' onclick='javascript:peek(this)'>&#x25bc;</span>";
+
   var head = "<span class='tw-header' checked=" +
     (id == item ? 2 : ((k == thread && id != thread) ? 1 : 0)) + ">" +
     a + "  " + b + j + "<br><b_>" + time + "</b_>  " + c + image + "</span>";
 
   a = b = ""; i = twit.display_text_range [0]; j = twit.display_text_range [1];
   var text = (Array.from (twit.full_text)).slice (i, j).join ("");
-
-//  a = b = ""; c = []; for (char of twit.full_text) c.push (char);
-//  var text = c.slice (i, j).join("");
 
   if (m = twit.entities.user_mentions) for (n = 0; n < m.length; n++)
   {
@@ -498,13 +570,23 @@ var newtweet = function (id, box, twits, users, item, check, reply)
     a += (a ? "" : c) + " @" + m [n].screen_name;
   }
 
-  if (m = twit.entities.urls) for (n = 0; n < m.length; n++)
+  if (twit.long && (m = twit.long.entity_set.user_mentions))
+    for (n = 0; n < m.length; n++) a += " @" + m [n].screen_name;
+
+  m = twit.entities.urls || []; i = m.length * 2;
+  if (twit.long) m = m.concat (twit.long.entity_set.urls || []);
+
+  for (n = 0; n < m.length; n++)
   {
     j = m [n].display_url; k = m [n].expanded_url;
     // check for incorrectly flagged url (due to missing space after period)
     if (k.indexOf ("http:") || k.indexOf ("/", 7) > 0) j = "<a href='" + k + "'>" + j + "</a>";
     urls.push (m [n].url); urls.push (j);
   }
+
+  var long = twit.long ? twit.long.text : ""; j = urls.length;
+  for (n = 0; n < i; n += 2) text = text.replace (urls [n], urls [n + 1]);
+  for (n = i; n < j; n += 2) long = long.replace (urls [n], urls [n + 1]);
 
   if (retweet = twit.quoted_status_id_str || twit.retweeted_status_id_str || "")
   {
@@ -513,16 +595,15 @@ var newtweet = function (id, box, twits, users, item, check, reply)
     b = " @" + (b ? b : "???"); if (!twits [retweet]) { retweet = ""; b += c; }
   }
 
-  for (n = 0; n < urls.length; n += 2) text = text.replace (urls [n], urls [n + 1]);
-
   if (a) a = "<v_>Replying to<g_>" + a + "</g_></v_>";
   if (b) b = "<v_>Retweeting<r_>" + b + "</r_></v_>";
 
+  m = "tw-text"; if (long) { m = "tw-long"; text = long; }
   c = text.trim(); if (c) c = "<w_>" + c + ((a || b) ? "<p></p>" : "") + "</w_>";
   c += b + ((a && b) ? "<br>" : "") + a; if (!c) c = "<br>";
 
   text = c.replace (/\n\n/g, "<p></p>").replace (/\n/g, "<br>");
-  text = "<span class='tw-text'>" + text + "</span>";
+  text = "<span tabindex='-1' class='" + m + "'>" + text + "</span>";
 
   if (!(c = user.followers_count) * 1) c = "0"; else
     if (c > 999999) c = (c / 1000000).toFixed (2) + "m"; else
@@ -536,7 +617,15 @@ var newtweet = function (id, box, twits, users, item, check, reply)
 
   m = document.createElement ("SPAN"); m.classList.add ("tw-itembox");
   m.innerHTML = head + k; if (check) k = check == item ? 2 : 1; else k = 0;
-  m.setAttribute ("checked", k); box.appendChild (m); return (retweet);
+  m.setAttribute ("checked", k); box.appendChild (m);
+
+  if (long)
+  {
+    p = m.children[1].children[1]; q = p.scrollHeight > p.clientHeight;
+    if (q) p.onclick = function() { this.focus() }; else
+      m.querySelector (".tw-arrow").style.display = "none";
+  }
+  return (retweet);
 }
 
 /*
