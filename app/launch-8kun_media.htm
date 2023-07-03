@@ -405,8 +405,10 @@ try
     variables.referrer = n ? 'tweet' : '';
     variables.focalTweetId = id; variables.cursor = cursor;
     p = encodeURIComponent (JSON.stringify (variables));
+    if (proxy == remote_proxy) p = p.replace (/%/g, "%25");
     q = encodeURIComponent (JSON.stringify (features));
     r = encodeURIComponent ('{"withArticleRichContentState":false}');
+
     u = url + "?variables=" + p + "&features=" + q + "&fieldToggles=" + r;
 
     resp = await fetch (u, { headers: { authorization: bb, accept: "**" + cc, 'x-csrf-token': tt }});
