@@ -115,7 +115,7 @@ button:hover:active {
 }
 
 .tw-arrow {
-  margin: 0; padding: 2px 4px 0; vertical-align: top; float: right;
+  margin: 0; padding: 2px 4px 0; float: right;
   cursor: pointer; color: chocolate;
 }
 
@@ -405,7 +405,6 @@ try
     variables.referrer = n ? 'tweet' : '';
     variables.focalTweetId = id; variables.cursor = cursor;
     p = encodeURIComponent (JSON.stringify (variables));
-    if (proxy == remote_proxy) p = p.replace (/%/g, "%25");
     q = encodeURIComponent (JSON.stringify (features));
     r = encodeURIComponent ('{"withArticleRichContentState":false}');
 
@@ -505,7 +504,7 @@ try
   msg [1].value = msg [2].value = ""; doc.style.visibility = "visible";
   box.appendChild (u); box.focus();
 
-} catch (e) { oops (e); return; }
+} catch (e) { oops (e); }
 }
 
 var peek = function (item)
@@ -575,7 +574,7 @@ var newtweet = function (id, box, twits, users, item, check, reply)
   if (twit.long && (m = twit.long.entity_set.user_mentions))
     for (n = 0; n < m.length; n++) a += " @" + m [n].screen_name;
 
-  m = twit.entities.urls || []; i = m.length * 2;
+  m = twit.entities.urls || []; i = m.length * 2 + urls.length;
   if (twit.long) m = m.concat (twit.long.entity_set.urls || []);
 
   for (n = 0; n < m.length; n++)
