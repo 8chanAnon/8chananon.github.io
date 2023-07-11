@@ -85,7 +85,7 @@ button:hover:active {
 }
 
 .tw-header[checked="1"] {
-  background-color: lightcyan;
+  background-color: ghostwhite;
 }
 
 .tw-header[checked="2"] {
@@ -134,7 +134,7 @@ button:hover:active {
 }
 
 .tw-drop {
-  max-height: 60%;
+  max-height: 60vh;
 }
 
 p {
@@ -179,7 +179,7 @@ Brightness: &nbsp;<button onclick="javascript:brightness(1)">&lt;</button>
 
 <script>
 
-var proxy, origin, link, type, orig_w, orig_h, thread, t_total, t_count;
+var proxy, origin, link, type, orig_w, orig_h, t_thread, t_total, t_count;
 
 var tweet_embed  = "https://platform.twitter.com/embed/Tweet.html?id=";
 var profile_img  = "https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png";
@@ -400,7 +400,7 @@ try
   var this_id = sort_id = id; while (sort_id.length < 19) sort_id = "0" + sort_id;
   var next_id = sort_id, tw_convo, tw_reply, cursor = "";
 
-  for (n = 0; n < 20; n++)
+  for (var cnt = 0; cnt < 20; cnt++)
   {
     variables.referrer = n ? 'tweet' : '';
     variables.focalTweetId = id; variables.cursor = cursor;
@@ -419,45 +419,57 @@ try
 
     for (m = data.length, n = 0; n < data.length; n++) try
     {
-      if (p = data [n], n < m)
+      if ((p = data [n]).content)
       {
-        r = p.entryId; p = p.content;
-        if (r.includes ("thread-")) p = p.items[0].item; else if (!r.includes ("tweet-")) continue;
-        p = p.itemContent.tweet_results;
+        s = p.entryId; p = p.content;
+
+        if (s.includes ("thread-"))
+          for (p = p.items, r = 0; r < p.length; r++) data.push (p [r].item);
+
+        if (!s.includes ("tweet-")) continue;
       }
 
-      p = p.result; q = p.core.user_results.result;
-      r = q.is_blue_verified; q = q.legacy; q.verified = r;
-      t = p.quoted_status_result; if (t) data.push (t);
+      if (p.result) { p = p.result; r = false; } else
+      {
+        r = p.itemContent.tweetDisplayType == "SelfThread";
+        p = p.itemContent.tweet_results.result;
+      }
 
-      t = p.note_tweet; if (t) t = t.note_tweet_results.result; p = p.legacy;
-      r = p.id_str; s = p.user_id_str; p.long = t; twits [r] = p; users [s] = q;
+      t = p.quoted_status_result; if (t) data.push (t);
+      t = p.note_tweet; if (t) t = t.note_tweet_results.result;
+
+      q = p.core.user_results.result; s = q.is_blue_verified;
+      p = p.legacy; p.long = t; q = q.legacy; q.verified = s;
+      p.self_thread = r ? p.conversation_id_str : "";
+
+      twits [p.id_str] = p; users [p.user_id_str] = q;
     }
     catch (e) { }
 
     if (!(t = twits [id])) throw ("!Not found");
+    twitlist = []; t_total = t_count = 0;
 
-    thread = (r = t.self_thread) ? r.id_str : "";
     tw_reply = t.in_reply_to_status_id_str || id;
     tw_convo = t.conversation_id_str || id;
-    twitlist = []; t_total = t_count = 0;
+    t_thread = t.self_thread || "null";
 
     for (p in twits)
     {
       q = p; while (q.length < 19) q = "0" + q;
-      t = twits [p].self_thread; if (t) t = t.id_str;
       r = twits [p].in_reply_to_status_id_str;
       s = twits [p].conversation_id_str;
+      t = twits [p].self_thread;
 
-      if (s != tw_convo) q = ""; else if (t == thread)
+      if (s != tw_convo) q = ""; else if (t == t_thread)
       {
-        if ((!n || this_id != id) && id == thread && q > next_id) next_id = q;
-        r = p == id || r == id || p == tw_reply || id == thread;
+        if ((!n || this_id != id) && id == t_thread && q > next_id) next_id = q;
+        r = p == id || r == id || p == tw_reply || id == t_thread;
         t_total++; if (r) t_count++; else q = "";
       }
-      else if (q > sort_id && r != id) if (!(t = twits [r])) q = ""; else
-        if ((t = t.self_thread) && (t = t.id_str) && t == thread) q = "";
-
+      else if (q > sort_id && r != id)
+      {
+        t = twits [r]; if (!t || t.self_thread == t_thread) q = "";
+      }
       if (q) twitlist.push (q);
     }
 
@@ -477,8 +489,8 @@ try
   for (n = 0, m = ""; n < twitlist.length; n++)
   {
     p = q = twitlist [n]; while (p [0] == "0") p = p.substr (1);
-    if (t = twits [p].self_thread) t = t.id_str == thread;
     r = twits [p].in_reply_to_status_id_str;
+    t = twits [p].self_thread == t_thread;
 
     s = (t || r == id || p == id || p == tw_reply) ? "" : "!";
     if (!r || r == id || (s && q < sort_id) || !twitlist.includes (r)) r = s;
@@ -542,10 +554,10 @@ var newtweet = function (id, box, twits, users, item, check, reply)
   m = " (" + ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"][time.getDay()] + ") ";
   time = "<b_>" + time.toLocaleDateString() + m + time.toLocaleTimeString() + "</b_>";
 
-  if (!(k = twit.self_thread) || !(k = k.id_str)) j = ""; else
+  if (!(k = twit.self_thread)) j = ""; else
   {
     a = " class='tw-thread'>";
-    b = k != thread ? "Thread" : (k == item ? "Top" : "Go to Top");
+    b = k != t_thread ? "Thread" : (k == item ? "Top" : "Go to Top");
     if (k != id || check) j = tw_link + "?tweet##" + k + "'" + a + b + "</a>";
       else j = "<b_" + a + (++t_count) + " of " + t_total + "</b_>";
   }    
@@ -558,7 +570,7 @@ var newtweet = function (id, box, twits, users, item, check, reply)
   if (twit.long) image += "<span class='tw-arrow' onclick='javascript:peek(this)'>&#x25bc;</span>";
 
   var head = "<span class='tw-header' checked=" +
-    (id == item ? 2 : ((k == thread && id != thread) ? 1 : 0)) + ">" +
+    (id == item ? 2 : ((twit.self_thread == t_thread && id != t_thread) ? 1 : 0)) + ">" +
     a + "  " + b + j + "<br><b_>" + time + "</b_>  " + c + image + "</span>";
 
   a = b = ""; i = twit.display_text_range [0]; j = twit.display_text_range [1];
@@ -566,7 +578,7 @@ var newtweet = function (id, box, twits, users, item, check, reply)
 
   if (m = twit.entities.user_mentions) for (n = 0; n < m.length; n++)
   {
-    if (k == thread || m [n].indices [0] >= i) continue;
+    if (twit.self_thread == t_thread || m [n].indices [0] >= i) continue;
     c = (reply && item != check) ? " &#x2026;" + reply.substr (-4) : "";
     a += (a ? "" : c) + " @" + m [n].screen_name;
   }
