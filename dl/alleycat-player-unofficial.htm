@@ -395,6 +395,7 @@ You may have to do this more than once since the cookie can expire.<p></p>
   <option value="LOCAL" class="r">Kraker Local Proxy Server
   <option value="!https://kraker-remote.vercel.app/?url=" class="b">kraker-remote.vercel.app
   <option value="https://api.allorigins.win/raw?url=">api.allorigins.win
+  <option value="https://corsproxy.io/?">corsproxy.io
 <!--  <option value="https://cors-proxy.htmldriven.com/">cors-proxy.htmldriven.com -->
   <option value="">None
 </div></div>
@@ -436,11 +437,11 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 <b><b_>Release notes for v5x (unofficial release)</b_></b>
 <p>
 <ul><li>
-Added: EMovies, Goojara, Noxx, PressPlay, GDrivePlayer, DoodStream, EplayVid, PkSpeed, Wootly
+Added: Gotaku, EMovies, Goojara, Noxx, PressPlay, GDrivePlayer, DoodStream, EplayVid, PkSpeed, Wootly
 </li><li>
-Removed: KeyMovies, UniqueStream, CloudVideo, Streamzz, UserLoad
+Removed: KeyMovies, UniqueStream, CloudVideo, Streamzz, UserLoad, VideoBin
 </li><li>
-Updated: YouTube, Odysee, Twitter, Facebook, TikTok, Fox, ABC, CNBC, MS/NBC, PBS, CBC, CTV, Epoch Times, TubiTV, VidNode
+Updated: YouTube, Odysee, Twitter, Facebook, TikTok, Fox, ABC, CNBC, MS/NBC, PBS, CBC, CTV, Epoch Times, TubiTV, VidNode, XHamster
 </li><li>
 Widevine DRM is now supported for CTV (DASH/mpd) and TubiTV (HLS/m3u8).
 </li><li>
@@ -755,18 +756,19 @@ KRKR = accessible with the Kraker Remote Proxy (may have limitations)
 <tr><td>DarkMatter	</td><td>m3u8		</td><td>&nbsp;?</td><td>KRKR</td><td></td>
 <td><a target=_blank href="https://www.darkmattertv.com">www.darkmattertv.com</a></td></tr>
 
-<tr><td>VidNode		</td><td>m3u8/mp4	</td><td>&nbsp;+</td><td>KRKR</td><td>$</td>
+<tr><td>VidNode		</td><td>m3u8/mp4	</td><td>&nbsp;+</td><td>KRAK</td><td></td>
 <td><a target=_blank href="https://membed1.com">membed1.com</a> !</td>
-<td><a target=_blank href="https://vidnode.net">vidnode.net</a> !</td>
-<td><a target=_blank href="https://gogoplay1.com">gogoplay1.com</a> !</td><tr>
+<td><a target=_blank href="https://vidnode.net">vidnode.net</a> !</td></tr>
+
+<tr><td>Gotaku		</td><td>m3u8/mp4	</td><td>&nbsp;+</td><td>KRAK</td><td></td>
+<td><a target=_blank href="https://gotaku1.com">gotaku1.com</a> !</td>
+<td><a target=_blank href="https://anihdplay.com">anihdplay.com</a> !</td><tr>
 
 <tr><td>EMovies		</td><td>m3u8		</td><td>&nbsp;+</td><td>KRAK</td><td></td>
 <td><a target=_blank href="https://emovies.si">emovies.si</a> !</td><tr>
 
-<!--
 <tr><td>GOKU		</td><td>m3u8		</td><td>&nbsp;+</td><td>KRAK</td><td>$</td>
-<td><a target=_blank href="http://goku.to">goku.to !</a></td><tr>
-//-->
+<td><a target=_blank href="http://goku.sx">goku.sx !</a></td><tr>
 
 <tr><td>Goojara		</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
 <td><a target=_blank href="https://www.goojara.to">www.goojara.to</a></td><tr>
@@ -807,9 +809,6 @@ KRKR = accessible with the Kraker Remote Proxy (may have limitations)
 
 <tr><td>UpStream	</td><td>m3u8/mp4	</td><td>&nbsp;#</td><td>KRAK</td><td>$</td>
 <td><a target=_blank href="https://upstream.to">upstream.to</a></td><tr>
-
-<tr><td>VideoBin	</td><td>mp4		</td><td>&nbsp;#</td><td>Proxy</td><td>$</td>
-<td><a target=_blank href="https://videobin.co">videobin.co</a></td><tr>
 
 <tr><td>Vidoza		</td><td>mp4		</td><td>&nbsp;#</td><td>Proxy</td><td>$</td>
 <td><a target=_blank href="https://vidoza.net">vidoza.net</a></td></tr>
@@ -1266,8 +1265,9 @@ Also supplied is a stack with links to iHeartRadio and Virtual DJ. These will po
   <option value= 4 >+ mp4 - TheArchive
   <option value= 3 >? m3u - DarkMatter
   <option value= 2 >+ m3u - VidNode
+  <option value= 5 >+ m3u - Gotaku
   <option value= 10>+ m3u - EMovies
-<!--  <option value= 11>? mp4 - GOKU -->
+  <option value= 11>? m3u - GOKU
   <option value= 12># mp4 - Goojara
   <option value= 14>? mp4 - Noxx
   <option value= 15>? m3u - PressPlay
@@ -1280,7 +1280,6 @@ Also supplied is a stack with links to iHeartRadio and Virtual DJ. These will po
   <option value= 31 class="r"># mp4 - PkSpeed
   <option value= 20 class="r"># mp4 - StreamTape
   <option value= 27 class="r"># m3u - UpStream
-  <option value= 24 class="r"># mp4 - VideoBin
   <option value= 28 class="r"># mp4 - Vidoza
   <option value= 23 class="r"># mp4 - VOE
   <option value= 30 class="r"># mp4 - Wootly
@@ -2168,6 +2167,17 @@ var got_crypto = function ()
 }
 ////////////////////
 
+var cat_worker = function (msg)
+{
+  if (!msg)
+  {
+    setTimeout (function() { cat_worker ("@"); }, 30000);
+    return new Promise (function (success, failure) { cookies ["@"] = success; });
+  }
+  else if (cookies ["@"]) { cookies ["@"] (msg.substr (1)); delete cookies ["@"]; }
+}
+////////////////////
+
 var say_worker = function (id, msg)
 {
   worker.postMessage ({ id: id ? id : "", app: "@alleycat", msg: msg ? msg : "goodbye" });
@@ -2186,6 +2196,9 @@ var msg_worker = function (id, msg)
     if (msg == "ready")  document.title = "***";
     return;
   }
+
+  if (msg [0] == "@") { cat_worker (msg); return; }
+
   if (busy) { say_worker (id, "retry"); return; }
 
   client = id; id = msg.split (" "); var frm = id [0] * 1;
@@ -2232,6 +2245,7 @@ var load_all = function ()
 
   worker = new SharedWorker (localhost + "worker.js").port;
   worker.onmessage = function (e) { msg_worker (e.data.id, e.data.msg); }
+  window.onmessage = function (e) { cat_worker ("@" + e.data); }
   var crypto = document.getElementById ("cryptojs");
 
   var blank = "<!DOCTYPE html><html><head>\n" +
@@ -2696,7 +2710,7 @@ var loadid = function (frame, mode)
   {
     url = document.getElementById ("line" + frame).value.trim();
     url = url.replace (/\\u0025/g, "%"); url = url.replace (/\\u002F/g, "/"); 
-    url = url.replace (/&amp;/g, "&"); url = url.replace (/\\/g, "");
+    url = url.replace (/&amp;/g, "&"); url = url.replace (/\\\//g, "/");
   }
   else url = error;
 
@@ -2870,7 +2884,7 @@ const request_new_youtube = async (id, frame, fmt) =>
   var tag = "youtube"; if (is_busy (frame)) return;
   document.getElementById ("id" + frame).value = tag + " (ID)";
   var url = cors_bypass + "https://www.youtube.com/watch?v=" + id;
-  if (!localhost || !cors_kraker) if (fmt < 0) fmt = -fmt;
+  if (!localhost || localhost != cors_kraker) if (fmt < 0) fmt = -fmt;
 
 try
 {
@@ -2878,6 +2892,7 @@ try
   textData = await response.text();
 
   url = pullstring (textData, "ytInitialPlayerResponse = ", "};");
+
   if (url) sub = JSON.parse (url + "}");
 
   if (!url || !(sub = sub.streamingData))
@@ -3886,7 +3901,7 @@ try
 
   if (!url) throw ("!!!");
   url = url.replace (/\\u0025/g, "%"); url = url.replace (/\\u0026/g, "&");
-  url = url.replace (/&amp;/g, "&"); url = url.replace (/\\/g, "");
+  url = url.replace (/&amp;/g, "&"); url = url.replace (/\\\//g, "/");
 
 } catch (err) { console.log (err); busy = 0; }
 
@@ -4208,7 +4223,7 @@ var loadnews = function (frame, mode)
   {
     url = document.getElementById ("line" + frame).value.trim();
     url = url.replace (/\\u0025/g, "%"); url = url.replace (/\\u002F/g, "/"); 
-    url = url.replace (/&amp;/g, "&"); url = url.replace (/\\/g, "");
+    url = url.replace (/&amp;/g, "&"); url = url.replace (/\\\//g, "/");
   }
   else url = error;
 
@@ -5466,7 +5481,7 @@ var loadmovie = function (frame, mode)
   {
     url = document.getElementById ("line" + frame).value.trim();
     url = url.replace (/\\u0025/g, "%"); url = url.replace (/\\u002F/g, "/"); 
-    url = url.replace (/&amp;/g, "&"); url = url.replace (/\\/g, "");
+    url = url.replace (/&amp;/g, "&"); url = url.replace (/\\\//g, "/");
   }
   else url = error;
 
@@ -5490,6 +5505,7 @@ var loadmovie = function (frame, mode)
   if (src == 1  && (url = getid (url, -7))) req_tubitv (url, frame, fmt); else
   if (src == 4  && (url = getid (url, -6))) req_thearchive (url, frame, fmt); else
   if (src == 2  && (url = getid (url, -8))) req_vidnode (url, frame, fmt); else
+  if (src == 5  && (url = getid (url, -8))) req_vidnode (url, frame, -fmt); else
   if (src == 10 && (url = getid (url, -6))) req_emovies (url, frame, fmt); else
   if (src == 12 && (url = getid (url,  6))) req_goojara (url, frame, fmt); else
   if (src == 8  && (url = getid (url, -8))) req_xhamster (url, frame, fmt); else
@@ -5499,7 +5515,6 @@ var loadmovie = function (frame, mode)
   if (src == 31 && (url = getid (url, 12))) req_pkspeed (url, frame, fmt); else
   if (src == 20 && (url = getid (url,-15))) req_streamtape (url, frame, fmt); else
   if (src == 27 && (url = getid (url, 12))) req_upstream (url, frame, fmt); else
-  if (src == 24 && (url = getid (url, 12))) req_videobin (url, frame, fmt); else
   if (src == 28 && (url = getid (url, 12))) req_vidoza (url, frame, fmt); else
   if (src == 23 && (url = getid (url, 12))) req_voe (url, frame, fmt); else
   if (src == 30 && (url = getid (url,  8))) req_wootly (url, frame, fmt); else
@@ -5589,75 +5604,131 @@ try
 
 const req_vidnode = async (id, frame, fmt) =>
 {
-  var n, s, e, f = [0,0,0,0,0,0,0,0];
+  var n, s, t, e, f = [0,0,0,0,0,0,0,0], anime;
+  if (fmt < 0) { fmt = -fmt; anime = true; }
 
-  var tag = "vidnode"; if (is_busy (frame)) return;
+  var tag = anime ? "gotaku" : "vidnode"; if (is_busy (frame)) return;
   document.getElementById ("id" + frame).value = tag + " (ID)";
-  var src = "https://membed1.com"; var url = src + "/loadserver.php?id=" + id;
 
-if (!document.getElementById ("mov" + frame + "b").checked) fmt = 0; else try
+  var src = anime ? "https://gotaku1.com" : "https://membed1.com";
+  var url = src + "/loadserver.php?id=" + id;
+
+try
 {
-  if (!cors_kraker || !got_crypto()) throw ("???");
+  if (!localhost || !cors_kraker || !got_crypto()) throw ("???");
 
-  var iv = CryptoJS.enc.Utf8.parse ('9225679083961858');
-  var ss = CryptoJS.enc.Utf8.parse ('25742532592138496744665879883281');
-
-  response = await fetch (cors_kraker + "~" + url);
+  response = await fetch (cors_kraker + url);
   textData = await response.text();
-  var dood = pullstring (textData, "dood", "Doodstream"); dood = pullstring (dood, '/e/', '"');
-  if ((n = dood.indexOf ("?")) > 0) dood = dood.substr (0, n);
 
-//  url = pullstring (textData, 'data-value="', '"'); if (!url) throw ("!!!");
-//  var key = CryptoJS.AES.decrypt (url, ss, {iv: iv} );
-//  var dat = CryptoJS.enc.Utf8.stringify (key);
-  
-  e = CryptoJS.AES.encrypt (id, ss, {iv: iv} );
+  var sub = pullstring (textData, "dood", "Doodstream"); sub = pullstring (sub, '/e/', '"');
+  if ((n = sub.indexOf ("?")) > 0) sub = sub.substr (0, n);
 
-  url = src + "/encrypt-ajax.php?id=" + e.toString() + "&c=aaaaaaaa&refer=none&alias=" + id;
-//  response = await fetch (cors_kraker + "accept=application/json|x-requested-with=XMLHttpRequest|*" + url);
-//  jsonData = await response.json();
-
-//  if (!(url = jsonData.data)) if (!dood) throw ("!!!"); else
-  if (!dood) throw ("!!!"); else
+  if (sub) try  // cribbed from req_doodstream
   {
-    busy = 0; req_doodstream (dood, frame, fmt); return;
+    url = "!mock:1A|*https://dood.pm";
+    response = await fetch (cors_kraker + url + "/d/" + sub);
+    t = await response.text(); await new Promise (x => setTimeout (x, 500));
+    t = pullstring (t, '/download/', '"'); if (!t) throw ("");
+    response = await fetch (cors_kraker + url + "/download/" + t);
+    t = await response.text(); url = pullstring (t, "window.open('", "'");
+  }
+  catch (e) { sub = ""; }
+
+  if (!sub || !url) sub = "Not available"; else
+  {
+    sub = "<a href='" + url + "'>" + sub + "</a>";
+    url = localhost + "~**!content-disposition=|*" + url;
+    sub += " - <a href='" + url + "'>playable link</a>";
   }
 
-  e = CryptoJS.AES.decrypt (url, ss, {iv: iv} );
-  e = JSON.parse (e.toString (CryptoJS.enc.Utf8));console.log(e);
-  s = e.source; if (!s || !s.length) throw ("!!!");
+  download_doc = head + "DoodStream download link: " + sub; sub = "";
+  var iv = CryptoJS.enc.Utf8.parse (anime ? "3134003223491201" : "9225679083961858");
+  var ss = CryptoJS.enc.Utf8.parse (anime ? "37911490979715163134003223491201" : "25742532592138496744665879883281");
 
-  for (n = 0; n < s.length; n++)
+  if (s = pullstring (textData, "/iframe", "/iframe"))  // VidNode
+    if (s = pullstring (s, 'src="', '"')) try
+    {
+      response = await fetch (cors_kraker + s);
+      textData = await response.text();
+    
+      s = "(p,a,c,k,e,d)"; t = pullstring (textData, s, ")))"); if (!t) throw ("");
+      eval ("s=function" + s + t + "))"); s = pullstring (s, '{file:"', '"');
+      n = 3; url = cors_kraker + "~" + s;
+    }
+    catch (e) { s = ""; }
+
+  if (!s)
   {
-    url = s [n].label; if (!url) continue;
-    if (url == "360 P") f [0] = n + 1;
-    if (url == "480 P") f [1] = n + 1;
-    if (url == "720 P") f [2] = n + 1;
-    if (url == "hls P") f [3] = n + 1;
-/*
-    url = s [n].file; if (!url) continue;
-    if (url.includes (".360p.")) f [0] = n + 1;
-    if (url.includes (".480p.")) f [1] = n + 1;
-    if (url.includes (".720p.")) f [2] = n + 1;
-    if (url.includes (".m3u8"))  f [3] = n + 1;
-*/
+    if (!(s = pullstring (textData, 'data-value="', '"'))) s = "&c=aaaaaaaa&refer=none"; else
+    {
+      e = CryptoJS.AES.decrypt (s, ss, {iv: iv});
+      s = CryptoJS.enc.Utf8.stringify (e);
+    }
+
+    e = CryptoJS.AES.encrypt (id, ss, {iv: iv}); s = s.substr (s.indexOf ("&"));
+    if (anime) ss = CryptoJS.enc.Utf8.parse ("54674138327930866480207815084989");
+
+    url = src + "/encrypt-ajax.php?id=" + e.toString() + s + "&alias=" + id;
+    response = await fetch (cors_kraker + "accept=application/json|x-requested-with=XMLHttpRequest|*" + url);
+    jsonData = await response.json();
+
+    if (s = jsonData.data)
+    {
+      e = CryptoJS.AES.decrypt (s, ss, {iv: iv});
+      e = JSON.parse (e.toString (CryptoJS.enc.Utf8)); console.log(e);
+
+      if (!(s = e.source) || !s.length) if (s = e.linkiframe)
+      {
+        if ((n = s.indexOf ("?")) > 0) s = s.substr (0, n);
+        if (s.substr (-1) == "/") s = s.substr (0, s.length - 1);
+        url = pullstring (s, "", "/e/"); s = pullstring (s, "/e/", "");
+        if (!url.includes ("/sbnet.") && !url.includes ("/sbani.")) s = "";
+      }
+    }
+
+    if (!s) throw ("!!!"); else if (typeof (s) == "string")
+    {
+      s = "012345678901||" + s + "||987654321098||streamsb";
+      url += "/375664356a494546326c4b797c7c6e756577776778623171737/";
+      sub = "*,,*user-agent=|accept=|accept-language=|";
+
+      for (n = 0; n < s.length; n++) url += parseInt (s.charCodeAt (n)).toString (16);
+
+      response = await fetch (cors_kraker + sub + "watchsb=sbstream|*" + url);
+      jsonData = await response.json();
+
+      n = 3; if (!(url = jsonData.stream_data.file)) throw ("!!!");
+    }
+    else
+    {
+      for (n = 0; n < s.length; n++)
+      {
+        url = s [n].label; if (!url) continue;
+        if (url == "360 P") f [0] = n + 1;
+        if (url == "480 P") f [1] = n + 1;
+        if (url == "720 P") f [2] = n + 1;
+        if (url == "hls P" || url == "auto P") f [3] = n + 1;
+      }
+
+      n = getformat (f, fmt); n = argformat (n);
+      if (n < 0) throw ("!!!"); url = s [f [n] - 1].file;
+    }
   }
 
-  n = getformat (f, fmt); n = argformat (n);
-  if (n < 0) throw ("!!!"); url = s [f [n] - 1].file;
-
-  if (n != 3)
+  if (n != 3)  // mp4 may not be available anymore
   {
     fixformat (f, frame); fmt = pixformat (n);
-    if (localhost) url = localhost + "~*" + src + "*" + url;
+    url = localhost + "~*" + src + "*" + url;
   }
   else if (stream_all (frame, 1)) fmt = 0; else
   {
+    if (sub) url = cors_kraker + "~" + sub + "*" + url;
+
     response = await fetch (url);
     textData = await response.text();
 
     url = crack_m3u8 (url, textData, frame, fmt); if (!url) throw ("!!!");
-    fmt = pullstring (url, "<>", ""); url = pullstring (url, "", "<>");
+    fmt = pullstring (url, "<>", "") * 1; url = pullstring (url, "", "<>");
   }
 
 } catch (err) { console.log (err); busy = 0; }
@@ -5776,7 +5847,7 @@ if (!document.getElementById ("mov" + frame + "b").checked) fmt = 0; else try
   var n = textData.indexOf (s); if (n < 0) throw ("!!!");
   var sub = textData.substr (n + s.length);
   sub = sub.substr (0, sub.indexOf ("}]}") + 3);
-  sub = JSON.parse (sub); sub = sub.mp4;
+  sub = JSON.parse (sub); sub = sub.h264;
 
   for (i = 0; i < sub.length; i++)
   {
@@ -5833,7 +5904,7 @@ try
   response = await fetch (cors_kraker + "!mock:1A|*" + url);
   textData = await response.text();
 
-  await new Promise (x => setTimeout (x, 3000));
+  await new Promise (x => setTimeout (x, 500));
 
   var s = pullstring (textData, '/download/', '"'); if (!s) throw ("!!!");
   url = src + "/download/" + s;
@@ -5842,6 +5913,7 @@ try
   textData = await response.text();
 
   url = pullstring (textData, "window.open('", "'"); if (!url) throw ("!!!");
+  url = cors_kraker + "~**" + url;
 
 } catch (err) { console.log (err); busy = 0; }
 
@@ -5984,40 +6056,6 @@ if (!document.getElementById ("mov" + frame + "b").checked) fmt = 0; else try
 }
 ////////////////////
 
-const req_videobin = async (id, frame, fmt) =>
-{
-  var tag = "videobin"; if (is_busy (frame)) return;
-  document.getElementById ("id" + frame).value = tag + " (ID)";
-  var url = "https://videobin.co/embed-" + id + ".html";
-
-if (!document.getElementById ("mov" + frame + "b").checked) fmt = 0; else try
-{
-  response = await fetch (cors_bypass + url);
-  textData = await response.text();
-
-  var n = textData.indexOf ("sources:"); if (n < 0) throw ("!!!");
-
-  url = textData.substr (n, 1000); var sub = url.split ("http");
-  var s = ""; if (sub.length < 2) throw ("!!!");
-
-  for (n = 1; n < sub.length; n++)
-  {
-    url = sub[n];
-    if (url.indexOf ("m3u8") > 0) s = url;
-    if (url.indexOf (".mp4") > 0) { n = 0; break; }
-  }
-
-  if (n) if (s) url = s; else throw ("!!!");
-  url = "http" + url.substr (0, url.indexOf ('"'));
-  if (n) stream_all (frame, 1);
-
-} catch (err) { console.log (err); busy = 0; }
-
-  error = id; no_format (frame);
-  if (no_fail (frame)) loadwindow (url, frame, tag + ": " + id);
-}
-////////////////////
-
 const req_vidoza = async (id, frame, fmt) =>
 {
   var tag = "vidoza"; if (is_busy (frame)) return;
@@ -6153,6 +6191,7 @@ var digmovie = function (frame)
   if (src == 4 ) dig_thearchive (doc, frame, fmt); else
   if (src == 3 ) dig_darkmatter (doc, frame, fmt); else
   if (src == 2 ) dig_vidnode (doc, frame, fmt); else
+  if (src == 5 ) dig_vidnode (doc, frame, -fmt); else
   if (src == 10) dig_emovies (doc, frame, fmt); else
   if (src == 11) dig_goku (doc, frame, fmt); else
   if (src == 14) dig_noxx (doc, frame, fmt); else
@@ -6253,17 +6292,6 @@ try
 
   var s = pullstring (textData, '<iframe src="', '"'); url = pullstring (s, "?id=", "");
 
-  if (s.includes ("gotaku"))
-  {
-    if (s [0] = "/") s = "https:" + s;
-    response = await fetch (cors_bypass + s);
-    textData = await response.text();
-
-    s = pullstring (textData, "dood", "Doodstream"); s = pullstring (s, '/e/', '"');
-    if ((n = s.indexOf ("?")) > 0) s = s.substr (0, n); if (!s) throw ("!!!");
-    busy = 0; req_doodstream (s, frame, fmt); return;
-  }
-
   if ((n = url.indexOf ("=")) > 0) url = url.substr (0, n);
   if ((n = url.indexOf ("&")) > 0) url = url.substr (0, n);
 
@@ -6279,17 +6307,24 @@ const dig_emovies = async (doc, frame, fmt) =>
 {
   var tag = "emovies"; if (is_busy (frame)) return;
   document.getElementById ("id" + frame).value = tag + " (DIG)";
-  var url = cors_bypass + doc, n = url.indexOf ("?episode_id="), s = "/watching.html";
+  var url = cors_bypass + doc, n = url.indexOf ("?episode_id=");
+  var p, q = "/watching.html";
 
 try
 {
   if (n > 0) url = url.substr (n + 12); else
   {
-    if (!url.includes (s)) if (url.includes (".html"))
-      url = url.replace (".html", s); else url += s;
-
     response = await fetch (url);
     textData = await response.text();
+
+    if ((p = response.url) != url)
+    {
+      if (!p.includes (q)) if (p.includes (".html"))
+        p = p.replace (".html", q); else p += q;
+
+      response = await fetch (p);
+      textData = await response.text();
+    }
 
     if (!(url = pullstring (textData, "episode_id: ", ","))) throw ("!!!");
   }
@@ -6306,45 +6341,65 @@ const dig_goku = async (doc, frame, fmt) =>
 {
   var tag = "goku"; if (is_busy (frame)) return;
   document.getElementById ("id" + frame).value = tag + " (DIG)";
-  var url = doc.replace ("/movie/", "/watch-movie/");
-  var src = "https://goku.to/ajax/movie/episode/";
+  var n, s, t, w, url = doc.replace ("/movie/", "/watch-movie/");
+  var src = "https://goku.sx/ajax/movie/episode/";
+  var bypass = cors_kraker + "**!mock:1A|*";
 
 try
 {
   if (!cors_kraker || !crypto) throw ("???");
 
-  response = await fetch (cors_kraker + url);
+  response = await fetch (bypass + url, allow_cookie (tag, ""));
   textData = await response.text();
 
-  url = response.url.substr (cors_kraker.length);
+  if (s = response.headers.get ("zz-location")) url = s;
   url = url.substr (url.lastIndexOf ("/") + 1); if (url.length != 7) throw ("!!!");
-  
-  response = await fetch (cors_kraker + src + "servers/" + url);
+
+  s = pullstring (response.headers.get ("zz-set-cookie") || "", "", ";");
+
+  response = await fetch (bypass + src + "servers/" + url, allow_cookie (tag, s));
   textData = await response.text();
 
-  url = textData.substr (textData.indexOf (">MixDrop<") - 100, 100);
+  url = textData.substr (textData.indexOf (">UpCloud<") - 100, 100);
   url = pullstring (url, 'data-id="', '"'); if (url.length != 7) throw ("!!!");
 
-  response = await fetch (cors_kraker + src + "server/sources/" + url);
+  response = await fetch (bypass + src + "server/sources/" + url, allow_cookie (tag, s));
   jsonData = await response.json();
 
   url = jsonData.data.link; if (!url) throw ("!!!");
-  url = url.substr (url.lastIndexOf ("/") + 1);
+  n = url.indexOf ("?"); if (n > 0) url = url.substr (0, n);
+  url = url.replace ("https:", "http:");
 
-/*
-  url = url.substr (0, url.indexOf ("?")); url = url.replace ("embed", "ajax/embed");
-  var n = url.lastIndexOf ("/"), s = url.substr (0, n) + "/getSources?id=";
-  url = s + url.substr (n + 1);
+  response = await fetch (url);
+  textData = await response.text();
 
-  response = await fetch (cors_kraker + "**x-requested-with=XMLHttpRequest|*" + url);
-  jsonData = await response.json();
+  src = url.split ("/").slice (0,3).join ("/");
+  n = url.lastIndexOf ("/"); s = url.substr (n + 1);
+  url = pullstring (textData, 'src="/js/', '"'); if (!url) throw ("!!!");
 
+  response = await fetch (src + "/js/" + url);
+  textData = await response.text();
 
-  url = jsonData.sources; if (!url) throw ("!!!"); console.log(url);
-  s = CryptoJS.AES.decrypt (url, '0fe217186e515361305e698f8949e69d');
-  url = JSON.parse (s.toString (CryptoJS.enc.Utf8));
+  n = textData.indexOf ("return JSON"); if (n < 0) throw ("!!!");
+  t = textData.substr (n).replace ("return JSON", "\n\nvar xxx=JSON");
+  t = t.replace (";", ";\ncrap (xxx[0].file); return [];\n\n") + "\n";
 
-  url = jsonData.sources[0].file; if (!url) throw ("!!!");
+  w = "<script>(function(){" +
+    "var w = new WebSocket('" + src.replace ("http", "ws") + "/sock" + "');" +
+    " crap = function(x){w.send ('?@alleycat:@' + x);}})();<\/script>\n";
+
+  await fetch ("/~@scratch", { method: 'PUT', body: textData.substr (0, n) + t });
+
+  t = '<!DOCTYPE html><html><body style="display:none">\n' +
+    '<div class="vidcloud-player-embed"><div id="vidcloud-player" data-id="' + s + '">\n' +
+    '<div class="loading-relative"><div class="loading"></div></div></div></div>\n' + w +
+    '<script>const settings = {"time":0,"autoPlay":"0"};<\/script>' +
+    '<script src="/file"><\/script></body></html>';
+
+  await fetch ("/~wanna_scratch=html", { method: 'POST', body: t });
+
+  t = document.getElementById ("mov" + frame); t.src = src + "/html";
+  url = await cat_worker(); t.src = ""; if (url.indexOf ("http")) throw ("!!!");
 
   if (stream_all (frame, 1)) fmt = 0; else
   {
@@ -6354,11 +6409,10 @@ try
     url = crack_m3u8 (url, textData, frame, fmt); if (!url) throw ("!!!");
     fmt = pullstring (url, "<>", ""); url = pullstring (url, "", "<>");
   }
-*/
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_mixdrop (url, frame, fmt);
+  if (no_fail (frame)) loadwindow (url, frame, tag + ": id-none");
 }
 ////////////////////
 
@@ -6410,28 +6464,28 @@ const dig_pressplay = async (doc, frame, fmt) =>
 
 try
 {
-  if (!localhost || !cors_kraker) throw ("???");
-
-  var n = url.indexOf ("?"), m = n < 0 ? "" : "-" + url.substr (n + 1);
+  if (!localhost || localhost != cors_kraker) throw ("???");
 
   response = await fetch (url);
   textData = await response.text();
 
+  var n = url.indexOf ("?"), u = "*!*user-agent=abc|*";
+  var m = n < 0 ? "" : "-" + url.substr (n + 1);
+
   url = pullstring (textData, 'data-cinemaplayer-query-api-tmdb_id="', '"');
   if (!url) throw ("!!!"); url = src + (m ? "/tv/" : "/movie/") + url + m;
 
-  response = await fetch (cors_kraker + url);
+  response = await fetch (cors_kraker + "**" + url);
   textData = await response.text();
 
-  url = pullstring (textData, 'src="', '"'); if (!url) throw ("!!!");
-  var u = "user-agent=abc|*";
+  url = pullstring (textData, '"vidframe" src="', '"'); if (!url) throw ("!!!");
 
-  response = await fetch (cors_kraker + "*!*" + u + url);
+  response = await fetch (cors_kraker + u + url);
   textData = await response.text();
 
   url = pullstring (textData, "MasterJS = '", "'"); if (!url) throw ("!!!");
 
-  var p = '4VqE3#N7zt&HEP^a'; m = JSON.parse (atob (url)); n = m.iterations;
+  var p = '11x&W5UBrcqn$9Yl'; m = JSON.parse (atob (url)); n = m.iterations;
   var ss = CryptoJS.enc.Hex.parse (m.salt), iv = CryptoJS.enc.Hex.parse (m.iv);
 
   p = CryptoJS.PBKDF2 (p, ss, { hasher: CryptoJS.algo.SHA512, keySize: 8, iterations: n });
@@ -6441,14 +6495,14 @@ try
 
   if (stream_all (frame, 1)) fmt = 0; else
   {
-    response = await fetch (cors_kraker + "~*!*" + u + url);
+    response = await fetch (cors_kraker + "~" + u + url);
     textData = await response.text();
 
     url = crack_m3u8 (url, textData, frame, fmt); if (!url) throw ("!!!");
     fmt = pullstring (url, "<>", ""); url = pullstring (url, "", "<>");
   }
 
-  url = cors_kraker + "~*!,,*" + u + url;
+  url = cors_kraker + "~" + u + url;
 
 } catch (err) { console.log (err); busy = 0; }
 
