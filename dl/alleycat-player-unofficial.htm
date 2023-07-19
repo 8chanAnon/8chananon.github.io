@@ -7390,7 +7390,7 @@ var load_stream = function (frame, is_local, url, doc, filter, scale)
   {
     var js = get_js ("HLS", !window.Hls);
     js.onload = function() { play_hls (frame, url, doc, win, fmt); }
-    if (window.Hls) js.onload(); else if (localhost) js.src = "/~hls_player-1-1-3.js";
+    if (window.Hls) js.onload(); else if (localhost) js.src = "/~hls_player.js";
       else js.src = "https://cdn.jsdelivr.net/npm/hls.js@0.12.0/dist/hls.min.js";
   }
 
