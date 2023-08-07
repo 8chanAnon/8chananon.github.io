@@ -2,6 +2,7 @@
 Move the tabs bar to below the other toolbars (Firefox 89, Photon or Proton)
 
 Updated for Firefox 113 (May 14, 2023)
+Updated for Firefox 116 (August 7, 2023)
 
 Brief explanation:
 
@@ -24,8 +25,9 @@ This splits the menu from the tabs while leaving the navigation bar and the book
 }
 
 /* create space for the menu bar */
+/* August 7, 2023 - remove -2px offset
 #navigator-toolbox {
-  padding-top: calc(var(--tab-min-height) - 2px) !important;
+  padding-top: var(--tab-min-height) !important;
 }
 
 /* force the menu bar to occupy the top of the screen */

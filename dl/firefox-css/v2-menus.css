@@ -1,5 +1,7 @@
 /*
 User Menus CSS, version 2
+
+Updated for Firefox 116 (August 7, 2023)
 */
 
 :root {
@@ -24,11 +26,20 @@ menupopup > menu, menupopup > menuitem {
   color: var(--menu-color-text) !important;
 }
 
+/* August 7, 2023 */
+menupopup > menuseparator {
+  padding: 0 !important; margin: 2px 4px !important;
+  height: 2px !important; color: transparent !important;
+  background-color: var(--menu-color-separator) !important;
+  border: none !important;
+}
+/*
 menupopup > menuseparator {
   padding: 1px 0 !important; margin: 0 !important;
   background-color: var(--menu-color-separator) !important;
   border: 2px solid var(--menu-color-bg-normal) !important;
 }
+*/
 
 menupopup > menu:hover, menupopup > menuitem:hover {
   background-color: var(--menu-color-bg-hover) !important;
