@@ -25,7 +25,7 @@ This splits the menu from the tabs while leaving the navigation bar and the book
 }
 
 /* create space for the menu bar */
-/* August 7, 2023 - remove -2px offset
+/* August 7, 2023 - remove -2px offset */
 #navigator-toolbox {
   padding-top: var(--tab-min-height) !important;
 }
