@@ -96,7 +96,7 @@ button:hover:active {
   display: flex; flex-direction: column; justify-content: space-around;
   text-align: center; min-width: 54px; min-height: 50px; padding: 1px 0 3px;
   font-size: 9px; line-height: 12px; border-right: 2px solid tan;
-  color: firebrick; background-color: lemonchiffon;
+  color: crimson; background-color: lemonchiffon;
   user-select: none;
 }
 
@@ -121,11 +121,15 @@ button:hover:active {
 
 .tw-text {
   display: flex; flex-direction: column; justify-content: space-around;
-  text-align: left; padding: 3px 6px 4px 6px;
+  text-align: left; padding: 3px 6px 4px 6px; outline: none; overflow: auto;
+}
+
+.tw-text:focus {
+  outline: 2px solid coral;
 }
 
 .tw-long {
-  max-height: 148px; overflow: auto;
+  width: 100%; max-height: 148px; overflow: auto;
   text-align: left; padding: 3px 6px 4px 6px; outline: none;
 }
 
@@ -314,7 +318,7 @@ var resize = function (mode)
   var a = document.getElementsByTagName ("input"), b = a[1]; a = a[2];
   var c = img.parentNode, w = img.clientWidth, h = img.clientHeight;
 
-  if (type == "video") { w = img.videoWidth; h = img.videoHeight; }
+  if (type == "video") { w = img.videoWidth; h = img.videoHeight; img.play(); }
 
   if (mode) { w = orig_w; h = orig_h; } else
   {
@@ -407,7 +411,6 @@ try
     p = encodeURIComponent (JSON.stringify (variables));
     q = encodeURIComponent (JSON.stringify (features));
     r = encodeURIComponent ('{"withArticleRichContentState":false}');
-
     u = url + "?variables=" + p + "&features=" + q + "&fieldToggles=" + r;
 
     resp = await fetch (u, { headers: { authorization: bb, accept: "**" + cc, 'x-csrf-token': tt }});
@@ -438,8 +441,8 @@ try
       t = p.quoted_status_result; if (t) data.push (t);
       t = p.note_tweet; if (t) t = t.note_tweet_results.result;
 
-      q = p.core.user_results.result; s = q.is_blue_verified;
-      p = p.legacy; p.long = t; q = q.legacy; q.verified = s;
+      q = p.core.user_results.result; s = q.is_blue_verified; q = q.legacy; q.verified = s;
+      s = p.views; if (s) s = s.count; p = p.legacy; p.long = t; p.views = s || "0";
       p.self_thread = r ? p.conversation_id_str : "";
 
       twits [p.id_str] = p; users [p.user_id_str] = q;
@@ -618,19 +621,24 @@ var newtweet = function (id, box, twits, users, item, check, reply)
   text = c.replace (/\n\n/g, "<p></p>").replace (/\n/g, "<br>");
   text = "<span tabindex='-1' class='" + m + "'>" + text + "</span>";
 
-  if (!(c = user.followers_count) * 1) c = "0"; else
-    if (c > 999999) c = (c / 1000000).toFixed (2) + "m"; else
-      if (c > 99999) c = (c / 1000).toFixed (2) + "k";
+  if (j = user.followers_count * 1)
+    if (j > 999999) j = (j / 1000000).toFixed (2) + "m"; else
+      if (j > 99999) j = (j / 1000).toFixed (2) + "k";
 
-  a = (user.verified ? "<b_>&#x2714;</b_>" : "&#x1f440;") + "<br>" + c;
-  b = twit.reply_count; if (!b) b = ""; else b = "<g_>Replies<br>" + b + "</g_>";
+  if (k = twit.views * 1)
+    if (k > 999999) k = (k / 1000000).toFixed (2) + "m"; else
+      if (k > 99999) k = (k / 1000).toFixed (2) + "k";
 
-  j = "<span class='tw-info'><r_>" + a + "</r_>" + b + "</span>";
-  k = "<span style='display:flex'>" + j + text + "</span>";
+  a = (user.verified ? "<b_>&#x2714;</b_>" : "&#x1f440;") + "<br>" + j;
+  b = (m = twit.reply_count) ? "<g_>Replies<br>" + m + "</g_>" : "";
+  c = id == item ? "<w_><b_>Views</b_><br>" + k + "</w_>" : "";
+
+  c = "<span class='tw-info'><w_>" + a + "</w_>" + b + c + "</span>";
+  c = "<span style='display:flex'>" + c + text + "</span>";
 
   m = document.createElement ("SPAN"); m.classList.add ("tw-itembox");
-  m.innerHTML = head + k; if (check) k = check == item ? 2 : 1; else k = 0;
-  m.setAttribute ("checked", k); box.appendChild (m);
+  m.innerHTML = head + c; n = check ? (check == item ? 2 : 1) : 0;
+  m.setAttribute ("checked", n); box.appendChild (m);
 
   if (long)
   {
