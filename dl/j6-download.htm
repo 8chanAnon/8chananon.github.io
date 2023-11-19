@@ -51,8 +51,16 @@ button:hover:active {
   border-color: #a8a8a8 #f8f8f8 #f4f4f4 #acacac;
 }
 
+div.help {
+  display: none; position: fixed; top: 80px; width: 600px;
+  left: 0; right: 0; margin: auto; padding: 5px 12px 7px;
+  border: 2px solid darkorange; border-radius: 12px;
+  text-align: left; font-size: 16px; line-height: 22px;
+  color: mediumblue; background-color: snow;
+}
+
 div.viewer {
-  width: 100%; height: calc(100vh - 100px); outline: none;
+  width: 100%; height: calc(100vh - 100px); outline: none; margin-top: 12px;
   overflow-y: scroll; text-align: left; border: 1px solid sandybrown;
 }
 
@@ -84,9 +92,24 @@ b_ { color: blue; }
 <h2 style="margin:8px"><r_>J6 Video Download</r_></h2>
 <input type=text style="width:calc(90% - 150px)">&nbsp;
 <button onclick="javascript:show()">Go</button> &nbsp;
-<input type=text class=static disabled style="width:90px">
+<input type=text class=static disabled style="width:90px"> &nbsp;
+<a href="javascript:help()">Help</a>
 
-<br><br><div class="viewer" tabindex="-1"></div>
+<div class="viewer" tabindex="-1"></div>
+
+<div class="help" onclick="this.style.display='none'">
+This app saves the video as a DASH file with the ".mpd" extension. Inside the file, the links to the video segments
+are modified to comprise the full path and a security token. The token will expire in one hour so you need to use the
+file immediately after saving.
+<p></p>
+The file may be used in an external video player like VLC or SMPlayer. It may also be used with FFMPEG or any app which
+can handle DASH videos (save the video as mp4). There are two video resolutions available: 1080p and 480p.
+<p></p>
+Note that the size shown for the videos is the information provided by the site. This will differ from the actual
+size of the video after downloading and converting. The videos are listed in descending order by file name.
+<p></p>
+<r_>Click in this box to close.</r_>
+</div>
 
 <script>
 
@@ -99,7 +122,7 @@ var stat = document.querySelectorAll ("input")[1];
 var site = "https://cha.house.gov/cha-subcommittee-reading-room-fe781e74-d577-4f64-93cc-fc3a8dd8df18";
 var file = ["https://public.boxcloud.com/api/2.0/internal_files/", "/versions/", "/representations/dash/content/"];
 
-var proxy = "https://kraker-remote.vercel.app/?url=";
+var proxy = "https://kraker-remote.vercel.app/?url="; //proxy = "/~";
 
 var pullstring = function (s, t, u)
 {
@@ -124,9 +147,10 @@ var show = async () =>
   link = pullstring (data, "<iframe", ">"); link = pullstring (link, 'src="', '?');
   n = link.lastIndexOf ("/"); name = link.substr (n + 1);
   if (!link) { stat.value = "Error"; return; }
+  url = proxy + link + "?sortColumn=name";
 
   try {
-    resp = await fetch (proxy + link, { headers: { accept: '**' }}); data = await resp.text();
+    resp = await fetch (url, { headers: { accept: '**' }}); data = await resp.text();
     } catch { data = "" }
 
   m = resp.headers.get ("zz-set-cookie");
@@ -137,12 +161,11 @@ var show = async () =>
 
   for (m = 2; n > 1; n--, m++) try
   {
-    resp = await fetch (proxy + link + "?page=" + m);
-    data = await resp.text(); if (!grab()) throw ("");
+    resp = await fetch (url + "&page=" + m); data = await resp.text(); if (!grab()) throw ("");
   }
   catch { stat.value = "Error"; return; }
 
-  stat.value = "Count: " + post.children.length; post.focus();
+  stat.value = post.children.length + " videos"; post.focus();
 }
 
 var grab = function ()
@@ -152,18 +175,18 @@ var grab = function ()
   try { sub = JSON.parse (sub) ["/app-api/enduserapp/shared-folder"];
       } catch { return (0) }
 
-  var m = sub.pageCount, n, p, q, r; sub = sub.items;
+  var m = sub.pageCount, n, p, q, r, s; sub = sub.items;
 
-  for (n = 0; n < sub.length; n++)
+  for (n = 0; n < sub.length; n++) if ((s = sub [n].name).includes (".mp4"))
   {
     box = document.createElement ("SPAN");
     p = sub [n].thumbnailURLs.large; p = p ? "https://app.box.com" + p + "?shared_name=" + name : "";
     q = (sub [n].itemSize / 1000000).toFixed (2) + " Mb"; r = pullstring (p, "version_", "/");
 
-    if (r) r = "'" + sub [n].name + "','" + sub [n].id + "','" + r + "'";
-    if (r) r = "<button onclick=save(" + r + ")>Save</button>";
+    if (r) r = "'" + s + "','" + sub [n].id + "','" + r + "'";
+    if (r) r = "<button onclick=save(" + r + ")>Save DASH file</button>";
 
-    q = "<img src='" + p + "'><br><br>" + sub [n].name + "<br><br><r_>Size:</r_> " + q;
+    q = "<img src='" + p + "'><br><br>" + s + "<br><br><r_>Size:</r_> " + q;
     q += " &nbsp; <r_>Date:</r_> " + (new Date (sub [n].contentUpdated * 1000)).toUTCString();
     box.innerHTML = q + "<br><br>" + r; post.appendChild (box);
   }
@@ -203,6 +226,11 @@ var save = async (id, id1, id2) =>
   box = document.createElement ('A'); data = new Blob ([data]);
   box.href = URL.createObjectURL (data); box.download = id + ".mpd";
   box.click(); URL.revokeObjectURL (box.href);
+}
+
+var help = function ()
+{
+  document.querySelector (".help").style.display = "inline-block";
 }
 
 </script></body></html>
