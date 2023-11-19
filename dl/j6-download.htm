@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html><html><head>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<meta charset='utf-8'>
+
+<title>J6 Download</title>
+
+<style type='text/css'>
+
+body {
+  line-height: 17px; font-size: 16px;
+  font-family: 'times new roman', serif; 
+  color: maroon; background-color: navajowhite;
+  text-align: center;
+}
+
+input {
+  height: 17px; font-size: 13px;
+  font-family: 'helvetica', sans-serif;
+  border-width: 2px; border-style: solid;
+  border-color: tan lemonchiffon lemonchiffon burlywood;
+  padding: 3px 5px 1px 5px; caret-color: navy; outline: none;
+}
+
+input[type=radio] {
+  vertical-align: bottom; margin: 0 1px 1px 2px;
+  filter: contrast(1.0) brightness(1.2) opacity(90%);
+}
+
+input[type=checkbox] {
+  vertical-align: bottom; margin: 0 2px 1px 2px;
+  filter: contrast(1.0) brightness(1.2) opacity(90%);
+}
+
+input.static {
+  margin: 0 1px 0 2px; padding: 4px 0 3px 0; text-align: center;
+  color: mediumvioletred; background-color: papayawhip;
+  border-radius: 3px; border: 1px solid darkorange;
+}
+
+button {
+  width: auto; height: auto;
+  font-size: 13px; line-height: 19px;
+  padding: 2px 6px 0 6px; margin: 0;
+  font-family: 'helvetica', sans-serif;
+  color: darkblue; background-color: powderblue;
+  outline: none; border-style: solid;
+  border-color: #e8e8e8 #9c9c9c #9c9c9c #ececec;
+}
+
+button:hover:active {
+  border-color: #a8a8a8 #f8f8f8 #f4f4f4 #acacac;
+}
+
+div.viewer {
+  width: 100%; height: calc(100vh - 100px); outline: none;
+  overflow-y: scroll; text-align: left; border: 1px solid sandybrown;
+}
+
+.viewer span {
+  display: inline-block; width: 100%;
+  box-sizing: border-box; padding: 5px; margin: 0 0 4px 0;
+  color: purple; background-color: lemonchiffon;
+}
+
+.viewer img {
+  width: 320px; height: 180px; margin: 0 8px 0 0; float: left;
+}
+
+.viewer button {
+  border: 1px solid orange; border-radius: 4px;
+  color: maroon; background-color: gold;
+}
+
+::selection {
+  color: yellow; background-color: orchid;
+}
+
+r_ { color: crimson; }
+g_ { color: seagreen; }
+b_ { color: blue; }
+
+</style></head><body onload="javascript:init()">
+
+<h2 style="margin:8px"><r_>J6 Video Download</r_></h2>
+<input type=text style="width:calc(90% - 150px)">&nbsp;
+<button onclick="javascript:show()">Go</button> &nbsp;
+<input type=text class=static disabled style="width:90px">
+
+<br><br><div class="viewer" tabindex="-1"></div>
+
+<script>
+
+var m, n, p, q, resp, data, link, name, cookie, token, url, sub, box;
+
+var post = document.querySelector ("div");
+var line = document.querySelectorAll ("input")[0];
+var stat = document.querySelectorAll ("input")[1];
+
+var site = "https://cha.house.gov/cha-subcommittee-reading-room-fe781e74-d577-4f64-93cc-fc3a8dd8df18";
+var file = ["https://public.boxcloud.com/api/2.0/internal_files/", "/versions/", "/representations/dash/content/"];
+
+var proxy = "https://kraker-remote.vercel.app/?url=";
+
+var pullstring = function (s, t, u)
+{
+  var m = t.length, n = s.indexOf (t) + m;
+  m = n < m ? -1 : (u ? s.indexOf (u, n) : s.length);
+  return (m < 0 ? "" : s.substr (n, m - n));
+}
+
+var init = function ()
+{
+  line.value = site; stat.value = "Ready";
+}
+
+var show = async () =>
+{
+  post.innerHTML = ""; post.scrollTo (0,0); stat.value = "Working...";
+
+  try {
+    resp = await fetch (proxy + line.value); data = await resp.text();
+    } catch { data = "" }
+
+  link = pullstring (data, "<iframe", ">"); link = pullstring (link, 'src="', '?');
+  n = link.lastIndexOf ("/"); name = link.substr (n + 1);
+  if (!link) { stat.value = "Error"; return; }
+
+  try {
+    resp = await fetch (proxy + link, { headers: { accept: '**' }}); data = await resp.text();
+    } catch { data = "" }
+
+  m = resp.headers.get ("zz-set-cookie");
+  cookie = "**z=" + pullstring (m || "", "z=", ";");
+  token = pullstring (data, '"requestToken":"', '"');
+
+  n = grab(); if (!n) { stat.value = "Error"; return; }
+
+  for (m = 2; n > 1; n--, m++) try
+  {
+    resp = await fetch (proxy + link + "?page=" + m);
+    data = await resp.text(); if (!grab()) throw ("");
+  }
+  catch { stat.value = "Error"; return; }
+
+  stat.value = "Count: " + post.children.length; post.focus();
+}
+
+var grab = function ()
+{
+  sub = pullstring (data, "Box.postStreamData = ", ";<\/script>");
+
+  try { sub = JSON.parse (sub) ["/app-api/enduserapp/shared-folder"];
+      } catch { return (0) }
+
+  var m = sub.pageCount, n, p, q, r; sub = sub.items;
+
+  for (n = 0; n < sub.length; n++)
+  {
+    box = document.createElement ("SPAN");
+    p = sub [n].thumbnailURLs.large; p = p ? "https://app.box.com" + p + "?shared_name=" + name : "";
+    q = (sub [n].itemSize / 1000000).toFixed (2) + " Mb"; r = pullstring (p, "version_", "/");
+
+    if (r) r = "'" + sub [n].name + "','" + sub [n].id + "','" + r + "'";
+    if (r) r = "<button onclick=save(" + r + ")>Save</button>";
+
+    q = "<img src='" + p + "'><br><br>" + sub [n].name + "<br><br><r_>Size:</r_> " + q;
+    q += " &nbsp; <r_>Date:</r_> " + (new Date (sub [n].contentUpdated * 1000)).toUTCString();
+    box.innerHTML = q + "<br><br>" + r; post.appendChild (box);
+  }
+
+  return (m);
+}
+
+var save = async (id, id1, id2) =>
+{
+  stat.value = "Loading..."; url = "https://app.box.com/app-api/enduserapp/elements/tokens";
+
+  data = {
+    method: 'POST', body: '{"fileIDs":["file_' + id1 + '"]}',
+    headers: { 'content-type': 'application/json', accept: cookie, 'x-request-token': token
+  }}
+
+  try {
+    resp = await fetch (proxy + url, data); data = await resp.text();
+    } catch { data = "" }
+
+  data = pullstring (data, '"read":"', '"'); if (!data) { stat.value = "Error"; return; }
+
+  p = file [0] + id1 + file [1] + id2 + file [2]; q = "?access_token=" + data + "&shared_link=" + link;
+
+  try {
+    resp = await fetch (proxy + p + "manifest.mpd" + q); data = await resp.text();
+    } catch { data = "" }
+
+  if (!data) { stat.value = "Error"; return; }
+
+  data = data.replace (/ media="/g, ' media="' + p);
+  data = data.replace (/ initialization="/g, ' initialization="' + p);
+  q = q.replace (/&/g, "&amp;"); data = data.replace (/\.m4s"/g, '.m4s' + q + '"');
+
+  stat.value = "Done";
+
+  box = document.createElement ('A'); data = new Blob ([data]);
+  box.href = URL.createObjectURL (data); box.download = id + ".mpd";
+  box.click(); URL.revokeObjectURL (box.href);
+}
+
+</script></body></html>
