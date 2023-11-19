@@ -181,7 +181,7 @@ var grab = function ()
   {
     box = document.createElement ("SPAN");
     p = sub [n].thumbnailURLs.large; p = p ? "https://app.box.com" + p + "?shared_name=" + name : "";
-    q = (sub [n].itemSize / 1000000).toFixed (2) + " Mb"; r = pullstring (p, "version_", "/");
+    q = (sub [n].itemSize / 1024 / 1024).toFixed (0) + " MB"; r = pullstring (p, "version_", "/");
 
     if (r) r = "'" + s + "','" + sub [n].id + "','" + r + "'";
     if (r) r = "<button onclick=save(" + r + ")>Save DASH file</button>";
