@@ -21,16 +21,6 @@ input {
   padding: 3px 5px 1px 5px; caret-color: navy; outline: none;
 }
 
-input[type=radio] {
-  vertical-align: bottom; margin: 0 1px 1px 2px;
-  filter: contrast(1.0) brightness(1.2) opacity(90%);
-}
-
-input[type=checkbox] {
-  vertical-align: bottom; margin: 0 2px 1px 2px;
-  filter: contrast(1.0) brightness(1.2) opacity(90%);
-}
-
 input.static {
   margin: 0 1px 0 2px; padding: 4px 0 3px 0; text-align: center;
   color: mediumvioletred; background-color: papayawhip;
@@ -79,6 +69,10 @@ div.viewer {
   color: maroon; background-color: gold;
 }
 
+.viewer button:hover:active {
+  border: 1px solid chocolate;
+}
+
 ::selection {
   color: yellow; background-color: orchid;
 }
@@ -99,7 +93,7 @@ b_ { color: blue; }
 
 <div class="help" onclick="this.style.display='none'">
 This app saves the video as a DASH file with the ".mpd" extension. Inside the file, the links to the video segments
-are modified to comprise the full path and a security token. The token will expire in one hour so you need to use the
+are modified to include the full path and a security token. The token will expire in one hour so you need to use the
 file immediately after saving.
 <p></p>
 The file may be used in an external video player like VLC or SMPlayer. It may also be used with FFMPEG or any app which
@@ -107,6 +101,8 @@ can handle DASH videos (save the video as mp4). There are two video resolutions 
 <p></p>
 Note that the size shown for the videos is the information provided by the site. This will differ from the actual
 size of the video after downloading and converting. The videos are listed in descending order by file name.
+<p></p>
+This app uses a proxy server in order to bypass the CORS restrictions.
 <p></p>
 <r_>Click in this box to close.</r_>
 </div>
@@ -146,7 +142,7 @@ var show = async () =>
 
   link = pullstring (data, "<iframe", ">"); link = pullstring (link, 'src="', '?');
   n = link.lastIndexOf ("/"); name = link.substr (n + 1);
-  if (!link) { stat.value = "Error"; return; }
+  if (!link || !name) { stat.value = "Error"; return; }
   url = proxy + link + "?sortColumn=name";
 
   try {
