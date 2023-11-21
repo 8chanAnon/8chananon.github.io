@@ -122,7 +122,7 @@ This app uses a proxy server in order to bypass the CORS restrictions.
 <r_>Click in this box to close.</r_>
 </div>
 
-<script id="dash" src="https://reference.dashif.org/dash.js/v3.0.2/dist/dash.all.min.js"></script>
+<script src="https://reference.dashif.org/dash.js/v3.0.2/dist/dash.all.min.js"></script>
 
 <script>
 
@@ -131,7 +131,6 @@ var m, n, p, q, resp, data, link, name, cookie, token, url, sub, box;
 var post = document.querySelector ("div");
 var line = document.querySelectorAll ("input")[0];
 var stat = document.querySelectorAll ("input")[1];
-var note = document.querySelectorAll (".popup")[0];
 
 var site = "https://cha.house.gov/cha-subcommittee-reading-room-fe781e74-d577-4f64-93cc-fc3a8dd8df18";
 var file = ["https://public.boxcloud.com/api/2.0/internal_files/", "/versions/", "/representations/dash/content/"];
@@ -170,7 +169,7 @@ var grab = function ()
     p = p ? "https://app.box.com" + p + "?shared_name=" + name : "";
 
     q = (sub [n].itemSize / 1048576).toFixed (0) + " MB";
-    r = ("00" + post.children.length).substr (-3);
+    r = ("00" + (post.children.length + 1)).substr (-3);
 
     q = "<img src='" + p + "'><br>" + s + "<br><br># <b_>" + r + "</b_> &nbsp; <r_>Size:</r_> " + q;
     q += " &nbsp; <r_>Date:</r_> " + (new Date (sub [n].contentUpdated * 1000)).toUTCString();
