@@ -261,7 +261,7 @@ var save = async (box, mode, id, id1, id2) =>
 
   var insert = bstyle + "<video" + istyle + vstyle + "></video></body>";
 
-  var win = window.open ("_blank", "dashplay"), doc = win.document;
+  var win = window.open ("", "dashplay"), doc = win.document;
   doc.open(); doc.write ("<!DOCTYPE html>" + insert); doc.close();
 
   var vid = dashjs.MediaPlayer().create();
