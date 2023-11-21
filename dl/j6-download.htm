@@ -162,27 +162,29 @@ var grab = function ()
   try { sub = JSON.parse (sub) ["/app-api/enduserapp/shared-folder"];
       } catch { return (0) }
 
-  var m = sub.pageCount, n, p, q, r, s; sub = sub.items;
+  var m = sub.pageCount, n, p, q, r, s, t; sub = sub.items;
 
   for (n = 0; n < sub.length; n++) if ((s = sub [n].name).includes (".mp4"))
   {
     p = sub [n].thumbnailURLs.large;
     p = p ? "https://app.box.com" + p + "?shared_name=" + name : "";
 
-    q = (sub [n].itemSize / 1024 / 1024).toFixed (0) + " MB";
-    q = "<img src='" + p + "'><br>" + s + "<br><br><r_>Size:</r_> " + q;
+    q = (sub [n].itemSize / 1048576).toFixed (0) + " MB";
+    r = ("00" + post.children.length).substr (-3);
+
+    q = "<img src='" + p + "'><br>" + s + "<br><br># <b_>" + r + "</b_> &nbsp; <r_>Size:</r_> " + q;
     q += " &nbsp; <r_>Date:</r_> " + (new Date (sub [n].contentUpdated * 1000)).toUTCString();
 
-    if (r = pullstring (p, "version_", "/"))
+    if (t = pullstring (p, "version_", "/"))
     {
-      s = "'" + s + "','" + sub [n].id + "','" + r + "'";
-      r = "<button onclick=save(this,0," + s + ")>Play Video</button> &nbsp;&nbsp; " +
-          "<button onclick=save(this,1," + s + ")>Save DASH file</button> &nbsp;&nbsp; " +
+      s = "'" + s + "','" + sub [n].id + "','" + t + "','" + r;
+      t = "<button onclick=save(this,0," + s + "')>Play Video</button> &nbsp;&nbsp; " +
+          "<button onclick=save(this,1," + s + "')>Save DASH file</button> &nbsp;&nbsp; " +
           "<span class='status'></span><br><br><textarea></textarea>";
     }
 
     box = document.createElement ("SPAN");
-    box.innerHTML = q + "<br><br>&nbsp;" + r; post.appendChild (box);
+    box.innerHTML = q + "<br><br>&nbsp;" + t; post.appendChild (box);
   }
 
   return (m);
@@ -220,7 +222,7 @@ var show = async () =>
   stat.value = post.children.length + " videos"; post.appendChild (box); post.focus();
 }
 
-var save = async (box, mode, id, id1, id2) =>
+var save = async (box, mode, id, id1, id2, cnt) =>
 {
   box = box.nextElementSibling; if (!mode) box = box.nextElementSibling;
   box.innerHTML = "Loading..."; url = "https://app.box.com/app-api/enduserapp/elements/tokens";
@@ -255,14 +257,22 @@ var save = async (box, mode, id, id1, id2) =>
 
   if (!window.dashjs) { box.innerHTML = "DASH player not found!"; return; }
 
-  var bstyle = "<body style='margin:0;padding:0;overflow:hidden;background-color:black'>";
-  var istyle = " style='position:absolute;border:none;outline:none;width:100%;height:100%'";
-  var vstyle = " controls autoplay allowfullscreen";
+  var insert = "<!DOCTYPE html><html>" +
+    "<head><title># " + cnt + "</title></head>" +
+    "<body style='margin:0;padding:0;overflow:hidden;background-color:black'>" +
+    "<video style='position:absolute;border:none;outline:none;width:100%;height:100%'" +
+    " controls autoplay allowfullscreen></video></body></html>";
 
-  var insert = bstyle + "<video" + istyle + vstyle + "></video></body>";
+  insert = URL.createObjectURL (new Blob ([insert], { type: 'text/html' }));
+  play (window.open (insert), data); URL.revokeObjectURL (insert);
+}
 
-  var win = window.open ("", "dashplay"), doc = win.document;
-  doc.open(); doc.write ("<!DOCTYPE html>" + insert); doc.close();
+var play = function (win, data, count)
+{
+  var doc = win.document; if (count == undefined) count = 10;
+
+  if (!--count) return; else if (!doc.doctype || !doc.body)
+    { setTimeout (function() { play (win, data, count); }, 100); return; }
 
   var vid = dashjs.MediaPlayer().create();
   data = URL.createObjectURL (new Blob ([data]));
