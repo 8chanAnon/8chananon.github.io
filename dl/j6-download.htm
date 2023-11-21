@@ -42,7 +42,7 @@ button:hover:active {
 }
 
 div.help {
-  display: none; position: fixed; top: 80px; width: 600px;
+  display: none; position: fixed; top: 74px; width: 75%;
   left: 0; right: 0; margin: auto; padding: 5px 12px 7px;
   border: 2px solid darkorange; border-radius: 12px;
   text-align: left; font-size: 16px; line-height: 22px;
@@ -55,22 +55,33 @@ div.viewer {
 }
 
 .viewer span {
-  display: inline-block; width: 100%;
+  display: inline-block; width: 100%; line-height: 14px;
   box-sizing: border-box; padding: 5px; margin: 0 0 4px 0;
   color: purple; background-color: lemonchiffon;
 }
 
 .viewer img {
-  width: 320px; height: 180px; margin: 0 8px 0 0; float: left;
+  width: 320px; height: 180px; margin: 0 11px 0 0; float: left;
 }
 
 .viewer button {
-  border: 1px solid orange; border-radius: 4px;
-  color: maroon; background-color: gold;
+  border: 1px solid orange; border-radius: 6px;
+  margin-top: 2px; color: maroon; background-color: gold;
 }
 
 .viewer button:hover:active {
   border: 1px solid chocolate;
+}
+
+span.status {
+  display: inline-block; width: auto; margin: 0; padding: 0; color: firebrick;
+}
+
+textarea {
+  width: calc(100% - 350px); height: 52px; resize: none; vertical-align: top;
+  margin: 3px 0 0 0; padding: 0 6px; border: 1px solid pink; border-radius: 6px;
+  line-height: 17px; white-space: pre-wrap; font-family: 'times new roman', serif; 
+  outline: none; color: maroon; background-color: lightyellow;
 }
 
 ::selection {
@@ -84,28 +95,34 @@ b_ { color: blue; }
 </style></head><body onload="javascript:init()">
 
 <h2 style="margin:8px"><r_>J6 Video Download</r_></h2>
-<input type=text style="width:calc(90% - 150px)">&nbsp;
+<input type=text style="width:calc(90% - 180px)">&nbsp;
 <button onclick="javascript:show()">Go</button> &nbsp;
 <input type=text class=static disabled style="width:90px"> &nbsp;
 <a href="javascript:help()">Help</a>
 
 <div class="viewer" tabindex="-1"></div>
 
-<div class="help" onclick="this.style.display='none'">
+<div class="popup" onclick="this.style.display='none'"></div>
+
+<div class="popup help" onclick="this.style.display='none'">
 This app saves the video as a DASH file with the ".mpd" extension. Inside the file, the links to the video segments
 are modified to include the full path and a security token. The token will expire in one hour so you need to use the
 file immediately after saving.
 <p></p>
-The file may be used in an external video player like VLC or SMPlayer. It may also be used with FFMPEG or any app which
+The file may be used with an external video player (VLC or SMPlayer) or with FFMPEG or any app which
 can handle DASH videos (save the video as mp4). There are two video resolutions available: 1080p and 480p.
 <p></p>
-Note that the size shown for the videos is the information provided by the site. This will differ from the actual
-size of the video after downloading and converting. The videos are listed in ascending order by file name.
+You also have the option to play the video inside the browser though this is just a very basic feature. You will likely
+prefer to save the DASH file and use it with a proper video app. The size shown for the video will differ from the actual
+size after downloading and converting. The videos are listed in ascending order by file name. A text area is provided
+with each video for notes (caution: nothing is saved).
 <p></p>
 This app uses a proxy server in order to bypass the CORS restrictions.
 <p></p>
 <r_>Click in this box to close.</r_>
 </div>
+
+<script id="dash" src="https://reference.dashif.org/dash.js/v3.0.2/dist/dash.all.min.js"></script>
 
 <script>
 
@@ -114,6 +131,7 @@ var m, n, p, q, resp, data, link, name, cookie, token, url, sub, box;
 var post = document.querySelector ("div");
 var line = document.querySelectorAll ("input")[0];
 var stat = document.querySelectorAll ("input")[1];
+var note = document.querySelectorAll (".popup")[0];
 
 var site = "https://cha.house.gov/cha-subcommittee-reading-room-fe781e74-d577-4f64-93cc-fc3a8dd8df18";
 var file = ["https://public.boxcloud.com/api/2.0/internal_files/", "/versions/", "/representations/dash/content/"];
@@ -132,36 +150,9 @@ var init = function ()
   line.value = site; stat.value = "Ready";
 }
 
-var show = async () =>
+var help = function ()
 {
-  post.innerHTML = ""; post.scrollTo (0,0); stat.value = "Working...";
-
-  try {
-    resp = await fetch (proxy + line.value); data = await resp.text();
-    } catch { data = "" }
-
-  link = pullstring (data, "<iframe", ">"); link = pullstring (link, 'src="', '?');
-  n = link.lastIndexOf ("/"); name = link.substr (n + 1);
-  if (!link || !name) { stat.value = "Error"; return; }
-  url = proxy + link + "?sortColumn=name&sortDirection=ASC";
-
-  try {
-    resp = await fetch (url, { headers: { accept: '**' }}); data = await resp.text();
-    } catch { data = "" }
-
-  m = resp.headers.get ("zz-set-cookie");
-  cookie = "**z=" + pullstring (m || "", "z=", ";");
-  token = pullstring (data, '"requestToken":"', '"');
-
-  n = grab(); if (!n) { stat.value = "Error"; return; }
-
-  for (m = 2; n > 1; n--, m++) try
-  {
-    resp = await fetch (url + "&page=" + m); data = await resp.text(); if (!grab()) throw ("");
-  }
-  catch { stat.value = "Error"; return; }
-
-  stat.value = post.children.length + " videos"; post.focus();
+  document.querySelectorAll (".help")[0].style.display = "inline-block";
 }
 
 var grab = function ()
@@ -175,58 +166,109 @@ var grab = function ()
 
   for (n = 0; n < sub.length; n++) if ((s = sub [n].name).includes (".mp4"))
   {
-    box = document.createElement ("SPAN");
-    p = sub [n].thumbnailURLs.large; p = p ? "https://app.box.com" + p + "?shared_name=" + name : "";
-    q = (sub [n].itemSize / 1024 / 1024).toFixed (0) + " MB"; r = pullstring (p, "version_", "/");
+    p = sub [n].thumbnailURLs.large;
+    p = p ? "https://app.box.com" + p + "?shared_name=" + name : "";
 
-    if (r) r = "'" + s + "','" + sub [n].id + "','" + r + "'";
-    if (r) r = "<button onclick=save(" + r + ")>Save DASH file</button>";
-
-    q = "<img src='" + p + "'><br><br>" + s + "<br><br><r_>Size:</r_> " + q;
+    q = (sub [n].itemSize / 1024 / 1024).toFixed (0) + " MB";
+    q = "<img src='" + p + "'><br>" + s + "<br><br><r_>Size:</r_> " + q;
     q += " &nbsp; <r_>Date:</r_> " + (new Date (sub [n].contentUpdated * 1000)).toUTCString();
-    box.innerHTML = q + "<br><br>" + r; post.appendChild (box);
+
+    if (r = pullstring (p, "version_", "/"))
+    {
+      s = "'" + s + "','" + sub [n].id + "','" + r + "'";
+      r = "<button onclick=save(this,0," + s + ")>Play Video</button> &nbsp;&nbsp; " +
+          "<button onclick=save(this,1," + s + ")>Save DASH file</button> &nbsp;&nbsp; " +
+          "<span class='status'></span><br><br><textarea></textarea>";
+    }
+
+    box = document.createElement ("SPAN");
+    box.innerHTML = q + "<br><br>&nbsp;" + r; post.appendChild (box);
   }
 
   return (m);
 }
 
-var save = async (id, id1, id2) =>
+var show = async () =>
 {
-  stat.value = "Loading..."; url = "https://app.box.com/app-api/enduserapp/elements/tokens";
+  post.innerHTML = ""; post.scrollTo (0,0); stat.value = "Working...";
+
+  try { resp = await fetch (proxy + line.value); data = await resp.text();
+      } catch { data = "" }
+
+  link = pullstring (data, "<iframe", ">"); link = pullstring (link, 'src="', '?');
+  if (!link) { stat.value = "Error"; return; }
+
+  n = link.lastIndexOf ("/"); name = link.substr (n + 1);
+  url = proxy + link + "?sortColumn=name&sortDirection=ASC";
+
+  try { resp = await fetch (url, { headers: { accept: '**' }}); data = await resp.text();
+      } catch { data = "" }
+
+  m = resp.headers.get ("zz-set-cookie");
+  cookie = "**z=" + pullstring (m || "", "z=", ";");
+  token = pullstring (data, '"requestToken":"', '"');
+
+  n = grab(); if (!n) { stat.value = "Error"; return; }
+
+  for (m = 2; n > 1; n--, m++) try
+  {
+    resp = await fetch (url + "&page=" + m); data = await resp.text(); if (!grab()) throw ("");
+  }
+  catch { stat.value = "Error"; return; }
+
+  box = document.createElement ("SPAN"); box.style = "height:190px;margin:0";
+  stat.value = post.children.length + " videos"; post.appendChild (box); post.focus();
+}
+
+var save = async (box, mode, id, id1, id2) =>
+{
+  box = box.nextElementSibling; if (!mode) box = box.nextElementSibling;
+  box.innerHTML = "Loading..."; url = "https://app.box.com/app-api/enduserapp/elements/tokens";
 
   data = {
     method: 'POST', body: '{"fileIDs":["file_' + id1 + '"]}',
     headers: { 'content-type': 'application/json', accept: cookie, 'x-request-token': token
   }}
 
-  try {
-    resp = await fetch (proxy + url, data); data = await resp.text();
-    } catch { data = "" }
+  try { resp = await fetch (proxy + url, data); data = await resp.text();
+      } catch { data = "" }
 
-  data = pullstring (data, '"read":"', '"'); if (!data) { stat.value = "Error"; return; }
+  data = pullstring (data, '"read":"', '"'); if (!data) { box.innerHTML = "Error"; return; }
 
   p = file [0] + id1 + file [1] + id2 + file [2]; q = "?access_token=" + data + "&shared_link=" + link;
 
-  try {
-    resp = await fetch (proxy + p + "manifest.mpd" + q); data = await resp.text();
-    } catch { data = "" }
+  try { resp = await fetch (proxy + p + "manifest.mpd" + q); data = await resp.text();
+      } catch { data = "" }
 
-  if (!data) { stat.value = "Error"; return; }
+  box.innerHTML = ""; if (!data) { box.innerHTML = "Error"; return; }
 
   data = data.replace (/ media="/g, ' media="' + p);
   data = data.replace (/ initialization="/g, ' initialization="' + p);
   q = q.replace (/&/g, "&amp;"); data = data.replace (/\.m4s"/g, '.m4s' + q + '"');
 
-  stat.value = "Done";
+  if (mode)
+  {
+    box = document.createElement ('A'); box.download = id + ".mpd";
+    data = new Blob ([data]); box.href = URL.createObjectURL (data);
+    box.click(); URL.revokeObjectURL (box.href); return;
+  }
 
-  box = document.createElement ('A'); data = new Blob ([data]);
-  box.href = URL.createObjectURL (data); box.download = id + ".mpd";
-  box.click(); URL.revokeObjectURL (box.href);
-}
+  if (!window.dashjs) { box.innerHTML = "DASH player not found!"; return; }
 
-var help = function ()
-{
-  document.querySelector (".help").style.display = "inline-block";
+  var bstyle = "<body style='margin:0;padding:0;overflow:hidden;background-color:black'>";
+  var istyle = " style='position:absolute;border:none;outline:none;width:100%;height:100%'";
+  var vstyle = " controls autoplay allowfullscreen";
+
+  var insert = bstyle + "<video" + istyle + vstyle + "></video></body>";
+
+  var win = window.open ("_blank", "dashplay"), doc = win.document;
+  doc.open(); doc.write ("<!DOCTYPE html>" + insert); doc.close();
+
+  var vid = dashjs.MediaPlayer().create();
+  data = URL.createObjectURL (new Blob ([data]));
+  vid.initialize (doc.querySelector ("video"), data, true);
+
+  doc.body.onbeforeunload = function() { vid.reset(); URL.revokeObjectURL (data); }
 }
 
 </script></body></html>
