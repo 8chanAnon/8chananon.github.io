@@ -102,9 +102,7 @@ b_ { color: blue; }
 
 <div class="viewer" tabindex="-1"></div>
 
-<div class="popup" onclick="this.style.display='none'"></div>
-
-<div class="popup help" onclick="this.style.display='none'">
+<div class="help" onclick="this.style.display='none'">
 This app saves the video as a DASH file with the ".mpd" extension. Inside the file, the links to the video segments
 are modified to include the full path and a security token. The token will expire in one hour so you need to use the
 file immediately after saving.
@@ -112,9 +110,9 @@ file immediately after saving.
 The file may be used with an external video player (VLC or SMPlayer) or with FFMPEG or any app which
 can handle DASH videos (save the video as mp4). There are two video resolutions available: 1080p and 480p.
 <p></p>
-You also have the option to play the video inside the browser though this is just a very basic feature. You will likely
+You have the option to play the video inside the browser though this is a very basic feature. You will likely
 prefer to save the DASH file and use it with a proper video app. The size shown for the video will differ from the actual
-size after downloading and converting. The videos are listed in ascending order by file name. A text area is provided
+size after downloading. The videos are listed in ascending order by file name. A text area is provided
 with each video for notes (caution: nothing is saved).
 <p></p>
 This app uses a proxy server in order to bypass the CORS restrictions.
@@ -135,7 +133,9 @@ var stat = document.querySelectorAll ("input")[1];
 var site = "https://cha.house.gov/cha-subcommittee-reading-room-fe781e74-d577-4f64-93cc-fc3a8dd8df18";
 var file = ["https://public.boxcloud.com/api/2.0/internal_files/", "/versions/", "/representations/dash/content/"];
 
-var proxy = "https://kraker-remote.vercel.app/?url="; //proxy = "/~";
+var proxy = "https://kraker-remote.vercel.app/?url=", blank_page = "_blank.htm";
+
+//proxy = "/~"; blank_page = proxy + blank_page;
 
 var pullstring = function (s, t, u)
 {
@@ -256,28 +256,38 @@ var save = async (box, mode, id, id1, id2, cnt) =>
 
   if (!window.dashjs) { box.innerHTML = "DASH player not found!"; return; }
 
-  var insert = "<!DOCTYPE html><html>" +
-    "<head><title># " + cnt + "</title></head>" +
-    "<body style='margin:0;padding:0;overflow:hidden;background-color:black'>" +
-    "<video style='position:absolute;border:none;outline:none;width:100%;height:100%'" +
-    " controls autoplay muted allowfullscreen></video></body></html>";
-
-  insert = URL.createObjectURL (new Blob ([insert], { type: 'text/html' }));
-  play (window.open (insert), data); URL.revokeObjectURL (insert);
+  play (window.open (blank_page), "# " + cnt, data);
 }
 
-var play = function (win, data, count)
+var play = function (win, title, data, count)
 {
   var doc = win.document; if (count == undefined) count = 10;
 
-  if (!--count) return; else if (!doc.doctype || !doc.body)
-    { setTimeout (function() { play (win, data, count); }, 100); return; }
+  if (--count && (!doc.doctype || !doc.body))
+    { setTimeout (function() { play (win, title, data, count); }, 100); return; }
+
+  var insert =
+    "<body style='margin:0;padding:0;overflow:hidden;background-color:black'>" +
+    "<video style='position:absolute;border:none;outline:none;width:100%;height:100%'" +
+    " controls autoplay allowfullscreen></video></body>";
+
+  if (doc.doctype)
+  {
+    var dom = new DOMParser();
+    dom = dom.parseFromString (insert, "text/html");
+    doc.body.replaceWith (dom.body);
+  }
+  else
+  {
+    doc.open(); doc.write ("<!DOCTYPE html>" + insert); doc.close();
+  }
 
   var vid = dashjs.MediaPlayer().create();
   data = URL.createObjectURL (new Blob ([data]));
   vid.initialize (doc.querySelector ("video"), data, true);
 
-  doc.body.onbeforeunload = function() { vid.reset(); URL.revokeObjectURL (data); }
+  doc.title = title; doc = doc.body;
+  doc.onbeforeunload = function() { vid.reset(); URL.revokeObjectURL (data); }
 }
 
 </script></body></html>
