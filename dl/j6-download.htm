@@ -120,11 +120,11 @@ This app uses a proxy server in order to bypass the CORS restrictions.
 <r_>Click in this box to close.</r_>
 </div>
 
-<script src="https://reference.dashif.org/dash.js/v3.0.2/dist/dash.all.min.js"></script>
+<script src="https://reference.dashif.org/dash.js/v3.2.0/dist/dash.all.min.js"></script>
 
 <script>
 
-var m, n, p, q, resp, data, link, name, cookie, token, url, sub, box;
+var m, n, p, q, resp, data, link, name, cookie, token, url, sub, box, result;
 
 var post = document.querySelector ("div");
 var line = document.querySelectorAll ("input")[0];
@@ -133,7 +133,7 @@ var stat = document.querySelectorAll ("input")[1];
 var site = "https://cha.house.gov/cha-subcommittee-reading-room-fe781e74-d577-4f64-93cc-fc3a8dd8df18";
 var file = ["https://public.boxcloud.com/api/2.0/internal_files/", "/versions/", "/representations/dash/content/"];
 
-var proxy = "https://kraker-remote.vercel.app/?url=", blank_page = "_blank.htm";
+var proxy = "https://kraker-remote.vercel.app/?url=", blank_page = "widget.htm#black";
 
 //proxy = "/~"; blank_page = proxy + blank_page;
 
@@ -144,9 +144,22 @@ var pullstring = function (s, t, u)
   return (m < 0 ? "" : s.substr (n, m - n));
 }
 
+var getmessage = function (msg)
+{
+  if (typeof (msg) == "number")
+  {
+    setTimeout (function() { getmessage ("@"); }, msg * 1000);
+    return new Promise (function (success, failure) { result = success; });
+  }
+  else if (result) { result (msg.substr (1)); result = null; }
+}
+////////////////////
+
 var init = function ()
 {
   line.value = site; stat.value = "Ready";
+
+  window.onmessage = function (e) { if (e.data [0] == "@") getmessage (e.data); }
 }
 
 var help = function ()
@@ -256,20 +269,12 @@ var save = async (box, mode, id, id1, id2, cnt) =>
 
   if (!window.dashjs) { box.innerHTML = "DASH player not found!"; return; }
 
-  play (window.open (blank_page), "# " + cnt, data);
-}
-
-var play = function (win, title, data, count)
-{
-  var doc = win.document; if (count == undefined) count = 10;
-
-  if (--count && (!doc.doctype || !doc.body))
-    { setTimeout (function() { play (win, title, data, count); }, 100); return; }
-
   var insert =
     "<body style='margin:0;padding:0;overflow:hidden;background-color:black'>" +
     "<video style='position:absolute;border:none;outline:none;width:100%;height:100%'" +
     " controls autoplay allowfullscreen></video></body>";
+
+  var win = window.open (blank_page); await getmessage (3); var doc = win.document;
 
   if (doc.doctype)
   {
@@ -277,16 +282,22 @@ var play = function (win, title, data, count)
     dom = dom.parseFromString (insert, "text/html");
     doc.body.replaceWith (dom.body);
   }
-  else
-  {
-    doc.open(); doc.write ("<!DOCTYPE html>" + insert); doc.close();
-  }
+  else { doc.open(); doc.write ("<!DOCTYPE html>" + insert); doc.close(); }
 
-  var vid = dashjs.MediaPlayer().create();
-  data = URL.createObjectURL (new Blob ([data]));
+  box = document.createElement ("SCRIPT");
+  box.src = document.querySelector ("script").src;
+  box.onload = function() { window.postMessage ("@video", "*"); }
+
+  doc.title = "# " + cnt; doc = doc.body; doc.appendChild (box);
+  await getmessage (3); data = URL.createObjectURL (new Blob ([data]));
+
+  var vid = (win.dashjs || dashjs).MediaPlayer().create();
   vid.initialize (doc.querySelector ("video"), data, true);
 
-  doc.title = title; doc = doc.body;
+  vid.updateSettings ({ streaming: { abr:
+    { autoSwitchBitrate: {video: false}, minBitrate: {video: 0}, maxBitrate: {video: 0} }
+  }});
+
   doc.onbeforeunload = function() { vid.reset(); URL.revokeObjectURL (data); }
 }
 

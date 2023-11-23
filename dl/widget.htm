@@ -1,0 +1,12 @@
+<!DOCTYPE html><html><head><title>&nbsp;</title>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<meta charset='utf-8'></head><body onload='javascript:start()'><script>
+
+var start = function ()
+{
+  var x = location.hash, y = window.opener;
+  if (x) document.body.style.backgroundColor = x.substr (1);
+  if (y) y.postMessage ("@widget", "*");
+}
+
+</script></body></html>
