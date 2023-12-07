@@ -241,9 +241,9 @@ var save = async (box, mode, id, id1, id2, cnt) =>
 {
   var blob; if (mode > 2) busy = 0; else for (n = 3 - mode; n > 0; n--) box = box.nextElementSibling;
 
-  if (mode == 2) if (busy) { halt = box; return; } else
+  if (box === busy) return; else if (mode == 2) if (busy) { halt = box; return; } else
   {
-    busy = -1; box.innerHTML = "";
+    busy = box; box.innerHTML = "";
     blob = document.createElement ("BUTTON"); blob.onclick = function() { save (box,480,id,id1,id2,cnt); }
     blob.style = "margin-right:10px"; blob.innerHTML = "480p"; box.appendChild (blob);
     blob = document.createElement ("BUTTON"); blob.onclick = function() { save (box,1080,id,id1,id2,cnt); }
