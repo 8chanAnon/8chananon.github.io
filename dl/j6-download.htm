@@ -97,23 +97,22 @@ b_ { color: blue; }
 <h2 style="margin:8px"><r_>J6 Video Download</r_></h2>
 <input type=text style="width:calc(90% - 180px)">&nbsp;
 <button onclick="javascript:show()">Go</button> &nbsp;
-<input type=text class=static disabled style="width:90px"> &nbsp;
+<input type=text class="static" disabled style="width:90px"> &nbsp;
 <a href="javascript:help()">Help</a>
 
 <div class="viewer" tabindex="-1"></div>
 
 <div class="help" onclick="this.style.display='none'">
-This app saves the video as a DASH file with the ".mpd" extension. Inside the file, the links to the video segments
+This app can save the video as a DASH file with the ".mpd" extension. Inside the file, the links to the video segments
 are modified to include the full path and a security token. The token will expire in one hour so you need to use the
 file immediately after saving.
 <p></p>
 The file may be used with an external video player (VLC or SMPlayer) or with FFMPEG or any app which
-can handle DASH videos (save the video as mp4). There are two video resolutions available: 1080p and 480p.
+can handle the DASH format. There are two video resolutions available: 480p and 1080p.
 <p></p>
-You have the option to play the video inside the browser though this is a very basic feature. You will likely
-prefer to save the DASH file and use it with a proper video app. The size shown for the video will differ from the actual
-size after downloading. The videos are listed in ascending order by file name. A text area is provided
-with each video for notes (caution: nothing is saved).
+You can also save the video as an MP4 file. This works by concatenating the video segments. You have the option to play
+the video inside the browser though this is a very basic feature. The videos are listed in ascending order by file name.
+A text area is provided with each video for notes (caution: your notes will not be saved).
 <p></p>
 This app uses a proxy server in order to bypass the CORS restrictions.
 <p></p>
@@ -124,7 +123,7 @@ This app uses a proxy server in order to bypass the CORS restrictions.
 
 <script>
 
-var m, n, p, q, resp, data, link, name, cookie, token, url, sub, box, result;
+var m, n, p, q, resp, data, link, name, cookie, token, url, sub, box, halt, busy = 0, msg_timer, msg_result;
 
 var post = document.querySelector ("div");
 var line = document.querySelectorAll ("input")[0];
@@ -148,12 +147,15 @@ var getmessage = function (msg)
 {
   if (typeof (msg) == "number")
   {
-    setTimeout (function() { getmessage ("@"); }, msg * 1000);
-    return new Promise (function (success, failure) { result = success; });
+    msg_timer = setTimeout (function() { getmessage ("@"); }, msg * 1000);
+    return new Promise (function (success, failure) { msg_result = success; });
   }
-  else if (result) { result (msg.substr (1)); result = null; }
+  else
+  {
+    if (msg_result) msg_result (msg.substr (1));
+    clearTimeout (msg_timer); msg_timer = msg_result = null;
+  }
 }
-////////////////////
 
 var init = function ()
 {
@@ -164,7 +166,7 @@ var init = function ()
 
 var help = function ()
 {
-  document.querySelectorAll (".help")[0].style.display = "inline-block";
+  document.querySelector (".help").style.display = "inline-block";
 }
 
 var grab = function ()
@@ -192,6 +194,7 @@ var grab = function ()
       s = "'" + s + "','" + sub [n].id + "','" + t + "','" + r;
       t = "<button onclick=save(this,0," + s + "')>Play Video</button> &nbsp;&nbsp; " +
           "<button onclick=save(this,1," + s + "')>Save DASH file</button> &nbsp;&nbsp; " +
+          "<button onclick=save(this,2," + s + "')>Save as MP4</button> &nbsp;&nbsp; " +
           "<span class='status'></span><br><br><textarea></textarea>";
     }
 
@@ -236,20 +239,32 @@ var show = async () =>
 
 var save = async (box, mode, id, id1, id2, cnt) =>
 {
-  box = box.nextElementSibling; if (!mode) box = box.nextElementSibling;
+  var blob; if (mode > 2) busy = 0; else for (n = 3 - mode; n > 0; n--) box = box.nextElementSibling;
+
+  if (mode == 2) if (busy) { halt = box; return; } else
+  {
+    busy = -1; box.innerHTML = "";
+    blob = document.createElement ("BUTTON"); blob.onclick = function() { save (box,480,id,id1,id2,cnt); }
+    blob.style = "margin-right:10px"; blob.innerHTML = "480p"; box.appendChild (blob);
+    blob = document.createElement ("BUTTON"); blob.onclick = function() { save (box,1080,id,id1,id2,cnt); }
+    blob.style = "margin-right:10px"; blob.innerHTML = "1080p"; box.appendChild (blob);
+    blob = document.createElement ("BUTTON"); blob.onclick = function() { busy = 0; box.innerHTML = ""; }
+    blob.innerHTML = "Cancel"; box.appendChild (blob); return;
+  }
+
   box.innerHTML = "Loading..."; url = "https://app.box.com/app-api/enduserapp/elements/tokens";
 
   data = {
     method: 'POST', body: '{"fileIDs":["file_' + id1 + '"]}',
-    headers: { 'content-type': 'application/json', accept: cookie, 'x-request-token': token
-  }}
+    headers: { 'content-type': 'application/json', accept: cookie, 'x-request-token': token }
+  }
 
   try { resp = await fetch (proxy + url, data); data = await resp.text();
       } catch { data = "" }
 
   data = pullstring (data, '"read":"', '"'); if (!data) { box.innerHTML = "Error"; return; }
 
-  p = file [0] + id1 + file [1] + id2 + file [2]; q = "?access_token=" + data + "&shared_link=" + link;
+  p = file[0] + id1 + file[1] + id2 + file[2]; q = "?access_token=" + data + "&shared_link=" + link;
 
   try { resp = await fetch (proxy + p + "manifest.mpd" + q); data = await resp.text();
       } catch { data = "" }
@@ -262,8 +277,11 @@ var save = async (box, mode, id, id1, id2, cnt) =>
 
   if (mode)
   {
-    box = document.createElement ('A'); box.download = id + ".mpd";
-    data = new Blob ([data]); box.href = URL.createObjectURL (data);
+    if (mode == 1) { id += ".mpd"; blob = new Blob ([data]); }
+      else if (!(blob = await download (box, mode, data))) return;
+
+    box = document.createElement ('A');
+    box.download = id; box.href = URL.createObjectURL (blob);
     box.click(); URL.revokeObjectURL (box.href); return;
   }
 
@@ -288,17 +306,43 @@ var save = async (box, mode, id, id1, id2, cnt) =>
   box.src = document.querySelector ("script").src;
   box.onload = function() { window.postMessage ("@video", "*"); }
 
-  doc.title = "# " + cnt; doc = doc.body; doc.appendChild (box);
-  await getmessage (3); data = URL.createObjectURL (new Blob ([data]));
+  doc.title = "# " + cnt; doc = doc.body; doc.appendChild (box); await getmessage (3);
 
+  blob = URL.createObjectURL (new Blob ([data]));
   var vid = (win.dashjs || dashjs).MediaPlayer().create();
-  vid.initialize (doc.querySelector ("video"), data, true);
+  vid.initialize (doc.querySelector ("video"), blob, true);
 
   vid.updateSettings ({ streaming: { abr:
     { autoSwitchBitrate: {video: false}, minBitrate: {video: 0}, maxBitrate: {video: 0} }
   }});
 
-  doc.onbeforeunload = function() { vid.reset(); URL.revokeObjectURL (data); }
+  doc.onbeforeunload = function() { vid.reset(); URL.revokeObjectURL (blob); }
+}
+
+var download = async (box, mode, dash) =>
+{
+  var m, n, p, q, res, buffer = []; busy = 1; halt = null;
+
+  p = pullstring (dash, 'height="' + mode + '"', "").replace (/&amp;/g, "&");
+  q = pullstring (p, 'initialization="', '"'); p = pullstring (p, 'media="', '"');
+
+  try
+  {
+    if (!p || !q) throw ("Unknown error");
+    res = await fetch (q); if (res.status != 200) throw ("Status " + res.status);
+
+    while (busy)
+    {
+      buffer.push (await res.arrayBuffer()); if (halt == box) throw ("Download stopped");
+      box.innerHTML = "Loading " + mode + "p at segment " + busy; q = p.replace ("$Number$", busy++);
+
+      res = await fetch (q); if (res.status == 404) break;
+      if (res.status != 200) throw ("Status " + res.status);
+    }
+
+    busy = 0; box.innerHTML = "MP4 done"; return (new Blob (buffer));
+  }
+  catch(e) { busy = 0; box.innerHTML = e; return null; }
 }
 
 </script></body></html>
