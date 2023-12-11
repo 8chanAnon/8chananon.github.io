@@ -1,0 +1,331 @@
+﻿<!DOCTYPE html><html><head>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<meta charset='utf-8'>
+
+<title>J6 Download</title>
+
+<style type='text/css'>
+
+body {
+  line-height: 17px; font-size: 16px;
+  font-family: 'times new roman', serif; 
+  color: maroon; background-color: navajowhite;
+  text-align: center;
+}
+
+input {
+  height: 17px; font-size: 13px;
+  font-family: 'helvetica', sans-serif;
+  border-width: 2px; border-style: solid;
+  border-color: tan lemonchiffon lemonchiffon burlywood;
+  padding: 3px 5px 1px 5px; caret-color: navy; outline: none;
+}
+
+input.static {
+  margin: 0; padding: 4px 0 3px 0; text-align: center;
+  color: mediumvioletred; background-color: papayawhip;
+  border-radius: 3px; border: 1px solid darkorange;
+}
+
+button {
+  width: auto; height: auto;
+  font-size: 13px; line-height: 17px;
+  padding: 2px 6px 0 6px; margin: -1px 0 0 0;
+  font-family: 'helvetica', sans-serif;
+  color: darkblue; background-color: pink;
+  outline: none; border-style: solid;
+  border-color: #e8e8e8 #9c9c9c #9c9c9c #ececec;
+}
+
+button:hover:active {
+  border-color: #a8a8a8 #f8f8f8 #f4f4f4 #acacac;
+}
+
+select {
+  height: 26px; width: calc(90% - 180px);
+  padding: 1px 6px 0; font-size: 13px; font-family: 'helvetica', sans-serif;
+  border-radius: 4px; border: 1px solid darkorange;
+  color: maroon; background-color: cornsilk;
+}
+
+div.help {
+  display: none; position: fixed; top: 74px; width: 75%;
+  left: 0; right: 0; margin: auto; padding: 5px 12px 7px;
+  border: 2px solid darkorange; border-radius: 12px;
+  text-align: left; font-size: 16px; line-height: 22px;
+  color: mediumblue; background-color: snow;
+}
+
+div.viewer {
+  width: 100%; height: calc(100vh - 100px); outline: none; margin-top: 12px;
+  overflow-y: scroll; text-align: left; border: 1px solid sandybrown;
+}
+
+.viewer span {
+  display: inline-block; width: 100%; line-height: 14px;
+  box-sizing: border-box; padding: 5px; margin: 0 0 4px 0;
+  color: purple; background-color: lemonchiffon;
+}
+
+.viewer img {
+  width: 320px; height: 180px; margin: 0 11px 0 0; float: left;
+}
+
+.viewer button {
+  border: 1px solid orange; border-radius: 6px;
+  margin-top: 2px; color: maroon; background-color: gold;
+}
+
+.viewer button:hover:active {
+  border: 1px solid chocolate;
+}
+
+span.status {
+  display: inline-block; width: auto; margin: 0; padding: 0; color: firebrick;
+}
+
+textarea {
+  width: calc(100% - 350px); height: 52px; resize: none; vertical-align: top;
+  margin: 3px 0 0 0; padding: 0 6px; border: 1px solid pink; border-radius: 6px;
+  line-height: 17px; white-space: pre-wrap; font-family: 'times new roman', serif; 
+  outline: none; color: maroon; background-color: lightyellow;
+}
+
+::selection {
+  color: yellow; background-color: orchid;
+}
+
+r_ { color: crimson; }
+g_ { color: seagreen; }
+b_ { color: blue; }
+
+</style></head><body onload="javascript:init()">
+
+<h2 style="margin:8px"><r_>J6 Rumble Download</r_></h2>
+<select size=1></select>&nbsp; <button onclick="javascript:show()">Go</button> &nbsp;
+<input type=text class="static" disabled style="width:90px"> &nbsp;
+<a href="javascript:help()">Help</a>
+
+<div class="viewer" tabindex="-1"></div>
+
+<div class="help" onclick="this.style.display='none'">
+On startup, this app extracts the list of playlists from the Rumble channel. Each playlist is shown in the dropdown box.
+Press the "Go" button to go to the source or to load a playlist.
+<p></p>
+There are four video resolutions available: 360p, 480p, 720p and 1080p. Press the "Save MP4" button to save the video.
+Press the button again to cancel the download at any time after it has started.
+<p></p>
+You can play the video inside the browser though this is a very basic feature. The videos are listed in ascending order
+by video title. A text area is provided with each video for notes (caution: your notes will not be saved).
+<p></p>
+This app uses a proxy server in order to bypass the CORS restrictions.
+<p></p>
+<r_>Click in this box to close.</r_>
+</div>
+
+<script>
+
+var m, n, p, q, resp, data, url, sub, box, halt, busy, vidlist, msg_timer, msg_result;
+
+var post = document.querySelector ("div");
+var line = document.querySelector ("select");
+var stat = document.querySelector ("input");
+
+var site = "https://rumble.com/c/CHASubcommitteeOnOversightRepublicanMajority/playlists";
+var list = "https://rumble.com/-playlists/htmx/get-playlist-details";
+
+var proxy = "https://kraker-remote.vercel.app/?url=", blank_page = "widget.htm#black";
+
+//proxy = "/~"; blank_page = proxy + blank_page;
+
+var pullstring = function (s, t, u)
+{
+  var m = t.length, n = s.indexOf (t) + m;
+  m = n < m ? -1 : (u ? s.indexOf (u, n) : s.length);
+  return (m < 0 ? "" : s.substr (n, m - n));
+}
+
+var getmessage = function (msg)
+{
+  if (typeof (msg) == "number")
+  {
+    msg_timer = setTimeout (function() { getmessage ("@"); }, msg * 1000);
+    return new Promise (function (success, failure) { msg_result = success; });
+  }
+  else
+  {
+    if (msg_result) msg_result (msg.substr (1));
+    clearTimeout (msg_timer); msg_timer = msg_result = null;
+  }
+}
+
+var init = async () =>
+{
+  stat.value = "Loading...";
+
+  try { resp = await fetch (proxy + site); data = await resp.text();
+      } catch { data = "" }
+
+  box = document.createElement ("OPTION"); box.innerText = site; box.value = "";
+  line.appendChild (box); data = data.split ('<div class="playlist">');
+
+  for (n = 1; n < data.length; n++)
+  {
+    box = document.createElement ("OPTION");
+    m = pullstring (data [n], '<span class="playlist__videos">', '<').trim();
+    p = pullstring (data [n], 'title="', '"'); q = pullstring (data [n], '/playlists/', '>');
+    box.innerText = p + " (" + m + ")"; box.value = q; line.appendChild (box);
+  }
+
+  window.onmessage = function (e) { if (e.data [0] == "@") getmessage (e.data); }
+
+  busy = 0; stat.value = n > 1 ? "Ready" : "Error";
+}
+
+var help = function ()
+{
+  document.querySelector (".help").style.display = "inline-block";
+}
+
+var grab = function ()
+{
+  var m, n, p, q, r, s, t; sub = data.split ('class="videostream__details"');
+
+  for (n = 1; n < sub.length; n++) if (m = sub [n])
+  {
+    p = pullstring (m, '--duration"', '<'); p = pullstring (p, '>', '').trim();
+    q = pullstring (m, 'datetime="', '"'); if (q) q = new Date (q).toUTCString();
+    s = pullstring (m, 'href="', '?'); t = pullstring (m, 'src="', '"');
+    m = pullstring (m, 'title="', '"');
+
+    r = "<img src='" + t + "'><br>" + m + "<br><br># <b_>XXX</b_>";
+    r += " &nbsp; <r_>Duration:</r_> " + p + " &nbsp; <r_>Date:</r_> " + q + "<br><br>&nbsp;";
+
+    s = "'https://rumble.com" + s + "','" + m + "','XXX'";
+    t = "<button onclick=save(this,0," + s + ")>Play Video</button> &nbsp;&nbsp; " +
+        "<button onclick=save(this,1," + s + ")>Go to Rumble</button> &nbsp;&nbsp; " +
+        "<button onclick=save(this,2," + s + ")>Save MP4</button> &nbsp;&nbsp; " +
+        "<span class='status'></span><br><br><textarea></textarea>";
+
+    vidlist.push (m + " " + r + t);
+  }
+  
+  return (--n);
+}
+
+var show = async () =>
+{
+  url = line.value; if (!url) { window.open (site); return; }
+
+  url = proxy + list + "?playlist_id=" + url + "&page_size=50&extended=1&page=";
+  vidlist = []; post.innerHTML = ""; post.scrollTo (0,0); stat.value = "Working...";
+
+  for (n = 1; ; n++) try
+  {
+    resp = await fetch (url + n); if (resp.status != 200) throw ("Status " + resp.status);
+    data = await resp.text(); if (data.substr (0,10).trim() == "<span") break;
+    if (!grab()) throw ("Parsing error");
+  }
+  catch(e) { console.log (e); stat.value = "Error"; return; }
+
+  for (vidlist.sort(), n = 0; n < vidlist.length; n++)
+  {
+    box = document.createElement ("SPAN"); m = vidlist [n].indexOf (" ") + 1;
+    p = ("00" + (post.children.length + 1)).substr (-3);
+    q = vidlist [n].substr (m).replace (/XXX/g, p);
+    box.innerHTML = q; post.appendChild (box);
+  }
+
+  box = document.createElement ("SPAN"); box.style = "height:190px;margin:0";
+  stat.value = post.children.length + " videos"; post.appendChild (box); post.focus();
+}
+
+var save = async (box, mode, id, title, cnt) =>
+{
+  var blob; if (mode > 2) busy = 0; else for (n = 3 - mode; n > 0; n--) box = box.nextElementSibling;
+
+  if (box === busy) return; else if (mode == 2) if (busy) { halt = box; return; } else
+  {
+    busy = box; box.innerHTML = "";
+    blob = document.createElement ("BUTTON"); blob.onclick = function() { save (box,360,id,title,cnt); }
+    blob.style = "margin-right:10px"; blob.innerHTML = "360p"; box.appendChild (blob);
+    blob = document.createElement ("BUTTON"); blob.onclick = function() { save (box,480,id,title,cnt); }
+    blob.style = "margin-right:10px"; blob.innerHTML = "480p"; box.appendChild (blob);
+    blob = document.createElement ("BUTTON"); blob.onclick = function() { save (box,720,id,title,cnt); }
+    blob.style = "margin-right:10px"; blob.innerHTML = "720p"; box.appendChild (blob);
+    blob = document.createElement ("BUTTON"); blob.onclick = function() { save (box,1080,id,title,cnt); }
+    blob.style = "margin-right:10px"; blob.innerHTML = "1080p"; box.appendChild (blob);
+    blob = document.createElement ("BUTTON"); blob.onclick = function() { busy = 0; box.innerHTML = ""; }
+    blob.innerHTML = "Cancel"; box.appendChild (blob); return;
+  }
+
+  if (mode != 1) box.innerHTML = "Loading..."; else { window.open (id); return; }
+
+  try
+  {
+    resp = await fetch (proxy + id); data = await resp.text();
+    url = pullstring (data, '"video":"', '"'); if (url.length < 6 || url.length > 8) throw ("");
+    url = "https://rumble.com/embedJS/u3/?request=video&ver=2&v=" + url;
+
+    resp = await fetch (proxy + url); data = await resp.json();
+    data = data.ua.mp4; url = data["480"].url; if (!url) throw (""); box.innerHTML = "";
+
+    if (mode)
+    {
+      url = data[mode.toString()].url;
+      if (!(blob = await download (box, mode, url))) return;
+
+      box = document.createElement ('A');
+      box.download = title + ".mp4"; box.href = URL.createObjectURL (blob);
+      box.click(); URL.revokeObjectURL (box.href); return;
+    }
+  }
+  catch { box.innerHTML = "Error"; return; }
+
+  var insert =
+    "<body style='margin:0;padding:0;overflow:hidden;background-color:black'>" +
+    "<video style='position:absolute;border:none;outline:none;width:100%;height:100%'" +
+    " controls autoplay allowfullscreen></video></body>";
+
+  var win = window.open (blank_page); await getmessage (3); var doc = win.document;
+
+  if (doc.doctype)
+  {
+    var dom = new DOMParser();
+    dom = dom.parseFromString (insert, "text/html");
+    doc.body.replaceWith (dom.body);
+  }
+  else { doc.open(); doc.write ("<!DOCTYPE html>" + insert); doc.close(); }
+
+  doc.title = "# " + cnt; doc.body.querySelector ("video").src = url;
+}
+
+var download = async (box, mode, url) =>
+{
+  var m, p, q, res, buffer = []; busy = 1; halt = null;
+
+  try
+  {
+    res = await fetch (proxy + "content-range|*" + url, { headers: { range: 'bytes=0-4095' }});
+    if (res.status != 200 && res.status != 206) throw ("Status " + res.status);
+
+    p = res.headers.get ("content-range"); if (!p) throw ("Unknown error");
+    p = pullstring (p, "/", "") * 1; q = 0; m = 4095;
+
+    while (busy)
+    {
+      buffer.push (await res.arrayBuffer()); if (halt == box) throw ("Download stopped");
+
+      q = m + 1; m = q + 1024*1024 - 1; if (m >= p) m = p - 1; n = 100 * q / p;
+      if (q >= p) break; box.innerHTML = "Loading " + mode + "p ... " + n.toFixed(0) + "%";
+
+      res = await fetch (url, { headers: { range: 'bytes=' + q + "-" + m }});
+      if (res.status != 200 && res.status != 206) throw ("Status " + res.status);
+    }
+
+    busy = 0; box.innerHTML = "MP4 done"; return (new Blob (buffer));
+  }
+  catch(e) { busy = 0; box.innerHTML = e; return null; }
+}
+
+</script></body></html>
