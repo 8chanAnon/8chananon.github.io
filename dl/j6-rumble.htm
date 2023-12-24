@@ -217,13 +217,13 @@ var show = async () =>
 {
   url = line.value; if (!url) { window.open (site); return; }
 
-  url = proxy + list + "?playlist_id=" + url + "&page_size=50&extended=1&page=";
+  url = proxy + list + "?playlist_id=" + url + "&page_size=50&extended=1&page_num=";
   vidlist = []; post.innerHTML = ""; post.scrollTo (0,0); stat.value = "Working...";
 
-  for (n = 1; ; n++) try
+  for (n = 1; n < 10; n++) try
   {
     resp = await fetch (url + n); if (resp.status != 200) throw ("Status " + resp.status);
-    data = await resp.text(); if (data.substr (0,10).trim() == "<span") break;
+    data = await resp.text(); if (data.substr (0,10).includes ("<span")) break;
     if (!grab()) throw ("Parsing error");
   }
   catch(e) { console.log (e); stat.value = "Error"; return; }
@@ -287,7 +287,7 @@ var save = async (box, mode, id, title, cnt) =>
     "<video style='position:absolute;border:none;outline:none;width:100%;height:100%'" +
     " controls autoplay allowfullscreen></video></body>";
 
-  var win = window.open (blank_page); await getmessage (3); var doc = win.document;
+  var win = window.open (blank_page); await getmessage (5); var doc = win.document;
 
   if (doc.doctype)
   {
