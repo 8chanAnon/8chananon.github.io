@@ -196,6 +196,9 @@ var grab = function ()
     p = pullstring (m, '--duration"', '<'); p = pullstring (p, '>', '').trim();
     q = pullstring (m, 'datetime="', '"'); if (q) q = new Date (q).toUTCString();
     s = pullstring (m, 'href="', '?'); t = pullstring (m, 'src="', '"');
+
+    r = pullstring (m, 'rel="author"', '>'); r = pullstring (r, 'href="', '"');
+    if (r != "/c/CHASubcommitteeOnOversightRepublicanMajority") console.log (r, s);
     m = pullstring (m, 'title="', '"');
 
     r = "<img src='" + t + "'><br>" + m + "<br><br># <b_>XXX</b_>";
@@ -263,7 +266,14 @@ var save = async (box, mode, id, title, cnt) =>
 
   try
   {
-    resp = await fetch (proxy + id); data = await resp.text();
+    resp = await fetch (proxy + id, { method: 'HEAD', headers: { accept: '**' }});
+    m = resp.headers.get ("zz-set-cookie"); if (!m) throw ("");
+
+    p = pullstring (m, "PNRC=", ";"); q = pullstring (m, "RNRC=", ";");
+    m = "**PNRC=" + p + "; RNRC=" + q; if (!p || !q) throw ("");
+
+    resp = await fetch (proxy + id, { headers: { accept: m }}); data = await resp.text();
+
     url = pullstring (data, '"video":"', '"'); if (url.length < 6 || url.length > 8) throw ("");
     url = "https://rumble.com/embedJS/u3/?request=video&ver=2&v=" + url;
 
