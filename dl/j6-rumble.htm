@@ -266,6 +266,7 @@ var save = async (box, mode, id, title, cnt) =>
 
   try
   {
+/*
     resp = await fetch (proxy + id, { method: 'HEAD', headers: { accept: '**' }});
     m = resp.headers.get ("zz-set-cookie"); if (!m) throw ("");
 
@@ -273,6 +274,9 @@ var save = async (box, mode, id, title, cnt) =>
     m = "**PNRC=" + p + "; RNRC=" + q; if (!p || !q) throw ("");
 
     resp = await fetch (proxy + id, { headers: { accept: m }}); data = await resp.text();
+*/
+
+    resp = await fetch (proxy + id); data = await resp.text();
 
     url = pullstring (data, '"video":"', '"'); if (url.length < 6 || url.length > 8) throw ("");
     url = "https://rumble.com/embedJS/u3/?request=video&ver=2&v=" + url;
