@@ -41,13 +41,6 @@ button:hover:active {
   border-color: #a8a8a8 #f8f8f8 #f4f4f4 #acacac;
 }
 
-select {
-  height: 26px; width: calc(90% - 180px);
-  padding: 1px 6px 0; font-size: 13px; font-family: 'helvetica', sans-serif;
-  border-radius: 4px; border: 1px solid darkorange;
-  outline: none; color: maroon; background-color: cornsilk;
-}
-
 div.help {
   display: none; position: fixed; top: 74px; width: 75%;
   left: 0; right: 0; margin: auto; padding: 5px 12px 7px;
@@ -91,6 +84,56 @@ textarea {
   outline: none; color: maroon; background-color: lightyellow;
 }
 
+.dropbox {
+  width: calc(100% - 300px); position: relative;
+  display: inline-block; white-space: nowrap;
+  color: firebrick; background-color: papayawhip;
+}
+
+.dropbox input {
+  width: calc(100% - 32px); margin: -3px 0 -1px 0;
+  vertical-align: top; color: inherit; background-color: inherit;
+}
+
+.dropbox button, .dropbox button:hover:active {
+  vertical-align: top; width: 24px; height: 25px;
+  margin: -3px 0 -1px 0; padding: 0 0 4px 0;
+  line-height: 17px; font-size: 16px; font-family: 'segoe ui', serif;
+  font-weight: bold; border-width: 2px; border-style: solid;
+  border-color: tan lemonchiffon lemonchiffon burlywood;
+  color: indianred; background-color: mistyrose;
+}
+
+.dropdown {
+  z-index: 2; max-height: 50vh;
+  position: absolute; display: none;
+  overflow-x: hidden; overflow-y: auto;
+  margin: 3px 0 0 1px; outline: 1px solid peru;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  font-size: 13px; font-style: normal; font-weight: normal;
+  font-family: 'consolas', 'lucida console', monospace;
+  color: firebrick; background-color: ivory; cursor: default;
+}
+
+.dropdown span {
+  display: block; height: 15px; min-height: 15px; max-height: 15px;
+  line-height: 15px; position: relative; text-align: left;
+  margin: 0 3px 0 3px; padding: 0 22px 0 4px;
+}
+
+.dropdown span:hover {
+  background-color: lightgray;
+}
+
+.mark {
+  background-color: palegreen;
+}
+
+.show {
+  display: block;
+}
+
 ::selection {
   color: yellow; background-color: orchid;
 }
@@ -98,11 +141,18 @@ textarea {
 r_ { color: crimson; }
 g_ { color: seagreen; }
 b_ { color: blue; }
+w_ { color: darkgreen; }
 
-</style></head><body onload="javascript:init()">
+</style></head>
+
+<body onload="javascript:init()" onclick="javascript:MEOW(event)" onkeydown="javascript:MEOW(event)">
 
 <h2 style="margin:8px"><r_>J6 Rumble Download</r_></h2>
-<select size=1></select>&nbsp; <button onclick="javascript:show()">Go</button> &nbsp;
+
+<div class="dropbox"><input type=text disabled><button>+</button>
+<div id="drop" class="dropdown"></div></div> &nbsp;&nbsp;
+
+<button onclick="javascript:show()">Go</button> &nbsp;
 <input type=text class="static" disabled style="width:90px"> &nbsp;
 <a href="javascript:help()">Help</a>
 
@@ -125,11 +175,11 @@ This app uses a proxy server in order to bypass the CORS restrictions.
 
 <script>
 
-var m, n, p, q, resp, data, url, sub, box, halt, busy, vidlist, msg_timer, msg_result;
+var m, n, p, q, resp, data, url, sub, box, busy, vidlist, msg_timer, msg_result, dropdown;
 
-var post = document.querySelector ("div");
-var line = document.querySelector ("select");
-var stat = document.querySelector ("input");
+var post = document.querySelector (".viewer");
+var line = document.querySelector (".dropdown");
+var stat = document.querySelector (".static");
 
 var site = "https://rumble.com/c/CHASubcommitteeOnOversightRepublicanMajority/playlists";
 var list = "https://rumble.com/-playlists/htmx/get-playlist-details";
@@ -137,6 +187,67 @@ var list = "https://rumble.com/-playlists/htmx/get-playlist-details";
 var proxy = "https://kraker-remote.vercel.app/?url=", blank_page = "widget.htm#black";
 
 //proxy = "/~"; blank_page = proxy + blank_page;
+
+var missing = [
+  "G9IMOJ_ShO0<>0602 USCG00NWDrivenearNJ-ConNW<>123",
+  "IrCHGAgigY4<>0746 FHOB002nd-DSW<>72",
+  "FgvzsUHc_gU<>0753 QSE00SCap-DSE<>72",
+  "Dz_T8zW9dQk<>0754 KIO00K10SCap-DSE<>71",
+  "I7z7yy_gnsQ<>0755 KIO00K10SCap-DSE<>73",
+  "LHjFtImmVq8<>0763 KIO00K162nd-IndepSE<>93",
+  "V3Zm6xf-YA0<>0767 USCG00K18HousePlaza<>93",
+  "cp3Do3O5rzw<>0771 KIO00K6HSOBLoadDock<>72",
+  "et0Q2O0AxQM<>0772 KIO00K81st-CNE<>73",
+  "I3XYB5OL0Js<>0906 USCDLASouthDome<>104",
+  "PySwdZmBZMw<>0907 USCDLAEastDome<>88",
+  "Hse_mnEqQ4s<>0910 USCDPLDomeStairsUpper<>72",
+  "KAnEZ4yeMIw<>0911 USCDPLDomeStairsLower<>72",
+  "FM40bdQ0kSY<>0938 USCG00NorthwestDriveMiddle<>16"
+];
+
+var listmake = function (name)
+{
+  var m = 0, n = 0, box = document.getElementById (name), w = box.children;
+  for (; n < w.length; n++) if (w [n].hasAttribute ("checked")) m = n;
+  m = w [m]; box.value = m.value; m.classList.add ("mark");
+
+  w = box.parentNode.firstElementChild; if (w.nodeName == "DIV") w = null;
+  box.onclick = function (event) { listpick (event.target, w); }
+
+  if (w) w.value = m.innerText.trimEnd();
+  if (w) w.nextElementSibling.onclick = function() { listdrop (this, w); }
+}
+
+var listdrop = function (item, top)
+{
+  var box = item.nextElementSibling, w = box.classList; w.toggle ("show");
+  box.style.minWidth = (top.clientWidth + item.clientWidth + 6) + "px";
+
+  if (dropdown && box != dropdown) dropdown.classList.remove ("show");
+  box.step = 0; dropdown = w.contains ("show") ? box : null;
+}
+
+var listpick = function (item, top)
+{
+  if (item.nodeName == "DIV") return;
+  if (item.nodeName != "SPAN") item = item.parentNode;
+
+  var n = 0, m = item.parentNode, w = m.children;
+  for (; n < w.length; n++) if (w [n].classList.contains ("mark"))
+    { w [n].classList.remove ("mark"); break; }
+
+  item.classList.add ("mark"); m.value = item.value;
+  if (top) top.value = item.innerText.trimEnd();
+}
+
+var MEOW = function (event)
+{
+  if (!dropdown || (event.type != "click" && event.type != "keydown")) return;
+  var w = dropdown.step; dropdown.step = event.timeStamp;
+
+  if (w > 0 && w != event.timeStamp)
+    { dropdown.classList.remove ("show"); dropdown = null; }
+} 
 
 var pullstring = function (s, t, u)
 {
@@ -161,25 +272,58 @@ var getmessage = function (msg)
 
 var init = async () =>
 {
-  stat.value = "Loading...";
+  busy = null; stat.value = "Loading...";
+  window.onmessage = function (e) { if (e.data [0] == "@") getmessage (e.data); }
 
   try { resp = await fetch (proxy + site); data = await resp.text();
       } catch { data = "" }
 
-  box = document.createElement ("OPTION"); box.innerText = site; box.value = "";
-  line.appendChild (box); data = data.split ('<div class="playlist">');
+  vidlist = []; data = data.split ('<div class="playlist">');
+  data.shift(); if (data.length < 200) { stat.value = "Error"; return; }
 
-  for (n = 1; n < data.length; n++)
+  for (n = 0; n < missing.length; n++)
   {
-    box = document.createElement ("OPTION");
-    m = pullstring (data [n], '<span class="playlist__videos">', '<').trim();
-    p = pullstring (data [n], 'title="', '"'); q = pullstring (data [n], '/playlists/', '>');
-    box.innerText = p + " (" + m + ")"; box.value = q; line.appendChild (box);
+    m = missing [n].split ("<>");
+    vidlist.push (m [1] + " <w_>(" + m [2] + ")</w_><>------<>" + m [0]);
   }
 
-  window.onmessage = function (e) { if (e.data [0] == "@") getmessage (e.data); }
+  for (n = 0; n < data.length; n++)
+  {
+    m = data [n]; p = pullstring (m, 'alt="', '"');
+    if ((q = p.indexOf ("_2021")) > 0) p = p.substr (0, q);
+    if (!p.indexOf ("Camera")) p = p.substr (6);
+    p = p.substr (0, 4) + " " + p.substr (4);
 
-  busy = 0; stat.value = n > 1 ? "Ready" : "Error";
+    q = pullstring (m, '<span class="playlist__videos">', '<').trim();
+    q = p + " <w_>(" + q.substr (0, q.indexOf (" ")) + ")</w_> ";
+
+    p = pullstring (m, "<time", ">"); p = pullstring (p, 'title="', '"');
+    p = "<w_>" + p.substr (0, 3) + "-" + pullstring (p, " ", ",") + "</w_>";
+    if (p.length < 15) p = p.replace ("-", "-0");
+
+    m = pullstring (m, '/playlists/', '>'); vidlist.push (q + "<>" + p + "<>" + m);
+  }
+
+  box = document.createElement ("SPAN"); box.value = "";
+  box.innerHTML = site + " <w_>(" + vidlist.length + ")</w_>";
+  line.appendChild (box); console.log (vidlist [vidlist.length - 1]); vidlist.sort();
+
+  for (n = 0; n < vidlist.length; n++)
+  {
+    m = vidlist [n].split ("<>"); box = document.createElement ("SPAN");
+    box.innerHTML = m [1] + " " + m [0]; box.value = m [2]; line.appendChild (box);
+  }
+
+  var cnt = 0; listmake ("drop"); stat.value = "Ready";
+
+  for (m = "", n = 0; n < vidlist.length; n++)
+  {
+    p = vidlist [n]; q = pullstring (p, ">(", ")<");
+    cnt += q * 1; q = ("    " + q + "  ").substr (-7);
+    m += p.split ("<>")[2] + q + pullstring (p, "", "<") + "\n";
+  }
+
+  console.log ("Playlist count: " + n + "\n\n" + m + "\nTotal of " + cnt + " videos\n");
 }
 
 var help = function ()
@@ -202,11 +346,12 @@ var grab = function ()
     m = pullstring (m, 'title="', '"');
 
     r = "<img src='" + t + "'><br>" + m + "<br><br># <b_>XXX</b_>";
-    r += " &nbsp; <r_>Duration:</r_> " + p + " &nbsp; <r_>Date:</r_> " + q + "<br><br>&nbsp;";
+    r += " &nbsp; <r_>Duration:</r_> " + p + " &nbsp; <r_>Date:</r_> " + q;
+    r += " &nbsp; <a target=_blank href='https://rumble.com" + s + "'>Rumble</a><br><br>&nbsp;";
 
     s = "'https://rumble.com" + s + "','" + m + "','XXX'";
     t = "<button onclick=save(this,0," + s + ")>Play Video</button> &nbsp;&nbsp; " +
-        "<button onclick=save(this,1," + s + ")>Go to Rumble</button> &nbsp;&nbsp; " +
+        "<button onclick=save(this,1," + s + ")>Show Links</button> &nbsp;&nbsp; " +
         "<button onclick=save(this,2," + s + ")>Save MP4</button> &nbsp;&nbsp; " +
         "<span class='status'></span><br><br><textarea></textarea>";
 
@@ -218,7 +363,7 @@ var grab = function ()
 
 var show = async () =>
 {
-  url = line.value; if (!url) { window.open (site); return; }
+  url = line.value; if (!url) { window.open (site); return }; if (busy) return; busy = null;
 
   url = proxy + list + "?playlist_id=" + url + "&page_size=50&extended=1&page_num=";
   vidlist = []; post.innerHTML = ""; post.scrollTo (0,0); stat.value = "Working...";
@@ -245,56 +390,57 @@ var show = async () =>
 
 var save = async (box, mode, id, title, cnt) =>
 {
-  var blob; if (mode > 2) busy = 0; else for (n = 3 - mode; n > 0; n--) box = box.nextElementSibling;
-
-  if (box === busy) return; else if (mode == 2) if (busy) { halt = box; return; } else
+  if (mode <= 2) for (n = 3 - mode; n > 0; n--) box = box.nextElementSibling; else
   {
-    busy = box; box.innerHTML = "";
-    blob = document.createElement ("BUTTON"); blob.onclick = function() { save (box,360,id,title,cnt); }
-    blob.style = "margin-right:10px"; blob.innerHTML = "360p"; box.appendChild (blob);
-    blob = document.createElement ("BUTTON"); blob.onclick = function() { save (box,480,id,title,cnt); }
-    blob.style = "margin-right:10px"; blob.innerHTML = "480p"; box.appendChild (blob);
-    blob = document.createElement ("BUTTON"); blob.onclick = function() { save (box,720,id,title,cnt); }
-    blob.style = "margin-right:10px"; blob.innerHTML = "720p"; box.appendChild (blob);
-    blob = document.createElement ("BUTTON"); blob.onclick = function() { save (box,1080,id,title,cnt); }
-    blob.style = "margin-right:10px"; blob.innerHTML = "1080p"; box.appendChild (blob);
-    blob = document.createElement ("BUTTON"); blob.onclick = function() { busy = 0; box.innerHTML = ""; }
-    blob.innerHTML = "Cancel"; box.appendChild (blob); return;
+    var blob; if (!(blob = await download (box, mode, id))) return;
+    box = document.createElement ('A'); box.download = title + ".mp4";
+    box.href = URL.createObjectURL (blob); box.click();
+    URL.revokeObjectURL (box.href); return;
   }
 
-  if (mode != 1) box.innerHTML = "Loading..."; else { window.open (id); return; }
+  if (busy === box) { if (mode == 2) busy = undefined; return; }
+  if (busy === undefined) return; if (busy && mode == 2) return;
 
   try
   {
-/*
-    resp = await fetch (proxy + id, { method: 'HEAD', headers: { accept: '**' }});
-    m = resp.headers.get ("zz-set-cookie"); if (!m) throw ("");
-
-    p = pullstring (m, "PNRC=", ";"); q = pullstring (m, "RNRC=", ";");
-    m = "**PNRC=" + p + "; RNRC=" + q; if (!p || !q) throw ("");
-
-    resp = await fetch (proxy + id, { headers: { accept: m }}); data = await resp.text();
-*/
-
-    resp = await fetch (proxy + id); data = await resp.text();
+    box.innerHTML = "Loading..."; resp = await fetch (proxy + id); data = await resp.text();
 
     url = pullstring (data, '"video":"', '"'); if (url.length < 6 || url.length > 8) throw ("");
     url = "https://rumble.com/embedJS/u3/?request=video&ver=2&v=" + url;
 
     resp = await fetch (proxy + url); data = await resp.json();
-    data = data.ua.mp4; url = data["480"].url; if (!url) throw (""); box.innerHTML = "";
+    box.innerHTML = ""; data = data.ua.mp4; vidlist = [];
 
-    if (mode)
-    {
-      url = data[mode.toString()].url;
-      if (!(blob = await download (box, mode, url))) return;
-
-      box = document.createElement ('A');
-      box.download = title + ".mp4"; box.href = URL.createObjectURL (blob);
-      box.click(); URL.revokeObjectURL (box.href); return;
-    }
+    vidlist [0] = (m = data["360"]) && m.url; vidlist [1] = (m = data["480"]) && m.url;
+    vidlist [2] = (m = data["720"]) && m.url; vidlist [3] = (m = data["1080"]) && m.url;
+    url = vidlist [1] || vidlist [2] || vidlist [0]; if (!url) throw ("");
   }
   catch { box.innerHTML = "Error"; return; }
+
+  if (mode == 1)
+  {
+    for (m = "", n = 0; n < 4; n++) if (p = vidlist [n])
+    {
+      q = 360; if (n == 1) q = 480; if (n == 2) q = 720; if (n == 3) q = 1080;
+      m += "<a target=_blank href='" + p + "'>" + q + "p</a> &nbsp; ";
+    }
+    box.innerHTML = m; return;
+  }
+
+  if (mode == 2)
+  {
+    for (n = 0; n < 4; n++) if (p = vidlist [n])
+    {
+      q = 360; if (n == 1) q = 480; if (n == 2) q = 720; if (n == 3) q = 1080;
+      m = document.createElement ("BUTTON"); m.dataset.size = q; m.dataset.url = p;
+      m.onclick = function() { save (box, this.dataset.size, this.dataset.url, title); }
+      m.style = "margin-right:10px"; m.innerHTML = q + "p"; box.appendChild (m);
+    }
+
+    busy = undefined; m = document.createElement ("BUTTON");
+    m.onclick = function() { busy = null; box.innerHTML = ""; }
+    m.innerHTML = "Cancel"; box.appendChild (m); return;
+  }
 
   var insert =
     "<body style='margin:0;padding:0;overflow:hidden;background-color:black'>" +
@@ -316,7 +462,7 @@ var save = async (box, mode, id, title, cnt) =>
 
 var download = async (box, mode, url) =>
 {
-  var m, n, p, q, res, buffer = []; busy = 1; halt = null;
+  var m, n, p, q, res, buffer = []; busy = box;
 
   try
   {
@@ -328,7 +474,7 @@ var download = async (box, mode, url) =>
 
     while (busy)
     {
-      buffer.push (await res.arrayBuffer()); if (halt == box) throw ("Download stopped");
+      buffer.push (await res.arrayBuffer());
 
       q = m + 1; m = q + 1024*1024 - 1; if (m >= p) m = p - 1; n = 100 * q / p;
       if (q >= p) break; box.innerHTML = "Loading " + mode + "p ... " + n.toFixed(0) + "%";
@@ -337,9 +483,10 @@ var download = async (box, mode, url) =>
       if (res.status != 200 && res.status != 206) throw ("Status " + res.status);
     }
 
-    busy = 0; box.innerHTML = "MP4 done"; return (new Blob (buffer));
+    if (!busy) throw ("Download stopped"); busy = null;
+    box.innerHTML = "MP4 done"; return (new Blob (buffer));
   }
-  catch(e) { busy = 0; box.innerHTML = e; return null; }
+  catch(e) { busy = null; box.innerHTML = e; return null; }
 }
 
 </script></body></html>
