@@ -73,8 +73,12 @@ div.viewer {
   border: 1px solid chocolate;
 }
 
-span.status {
-  display: inline-block; width: auto; margin: 0; padding: 0; color: firebrick;
+.viewer p {
+  margin: 14px 0;
+}
+
+p.viewer {
+  display: inline-block; margin: 0; color: firebrick;
 }
 
 textarea {
@@ -85,9 +89,8 @@ textarea {
 }
 
 .dropbox {
-  width: calc(100% - 300px); position: relative;
-  display: inline-block; white-space: nowrap;
-  color: firebrick; background-color: papayawhip;
+  display: inline-block; position: relative; width: calc(100% - 300px);
+  white-space: nowrap; color: firebrick; background-color: papayawhip;
 }
 
 .dropbox input {
@@ -97,29 +100,24 @@ textarea {
 
 .dropbox button, .dropbox button:hover:active {
   vertical-align: top; width: 24px; height: 25px;
-  margin: -3px 0 -1px 0; padding: 0 0 4px 0;
-  line-height: 17px; font-size: 16px; font-family: 'segoe ui', serif;
-  font-weight: bold; border-width: 2px; border-style: solid;
-  border-color: tan lemonchiffon lemonchiffon burlywood;
+  line-height: 17px; margin: -3px 0 -1px 0; padding: 0 0 4px 0;
+  font-size: 16px; font-family: 'segoe ui', serif; font-weight: bold;
+  border: 2px solid; border-color: tan lemonchiffon lemonchiffon burlywood;
   color: indianred; background-color: mistyrose;
 }
 
 .dropdown {
-  z-index: 2; max-height: 50vh;
-  position: absolute; display: none;
-  overflow-x: hidden; overflow-y: auto;
-  margin: 3px 0 0 1px; outline: 1px solid peru;
-  border-top: 3px solid transparent;
-  border-bottom: 3px solid transparent;
-  font-size: 13px; font-style: normal; font-weight: normal;
-  font-family: 'consolas', 'lucida console', monospace;
-  color: firebrick; background-color: ivory; cursor: default;
+  display: none; position: absolute; z-index: 2; max-height: 50vh;
+  margin: 3px 0 0 1px; padding: 0; overflow-x: hidden; overflow-y: auto;
+  outline: 1px solid peru; border: 0 solid transparent; border-width: 3px 0;
+  font-size: 13px; font-family: 'consolas', 'lucida console', monospace;
+  cursor: default; color: firebrick; background-color: ivory;
 }
 
 .dropdown span {
-  display: block; height: 15px; min-height: 15px; max-height: 15px;
-  line-height: 15px; position: relative; text-align: left;
-  margin: 0 3px 0 3px; padding: 0 22px 0 4px;
+  display: block; position: relative;
+  height: 15px; min-height: 15px; max-height: 15px; line-height: 15px;
+  text-align: left; margin: 0 3px 0 3px; padding: 0 22px 0 4px;
 }
 
 .dropdown span:hover {
@@ -145,14 +143,14 @@ w_ { color: darkgreen; }
 
 </style></head>
 
-<body onload="javascript:init()" onclick="javascript:MEOW(event)" onkeydown="javascript:MEOW(event)">
+<body onload="init()" onclick="MEOW(event)" onkeydown="MEOW(event)">
 
 <h2 style="margin:8px"><r_>J6 Rumble Download</r_></h2>
 
 <div class="dropbox"><input type=text disabled><button>+</button>
 <div id="drop" class="dropdown"></div></div> &nbsp;&nbsp;
 
-<button onclick="javascript:show()">Go</button> &nbsp;
+<button onclick="show()">Go</button> &nbsp;
 <input type=text class="static" disabled style="width:90px"> &nbsp;
 <a href="javascript:help()">Help</a>
 
@@ -175,20 +173,25 @@ This app uses a proxy server in order to bypass the CORS restrictions.
 
 <script>
 
-var m, n, p, q, resp, data, url, sub, box, busy, vidlist, msg_timer, msg_result, dropdown;
+var m, n, p, q, resp, data, idle, busy, time, vidlist, msg_timer, msg_result, dropdown;
 
-var post = document.querySelector (".viewer");
-var line = document.querySelector (".dropdown");
+var view = document.querySelector (".viewer");
+var drop = document.querySelector (".dropdown");
 var stat = document.querySelector (".static");
 
-var site = "https://rumble.com/c/CHASubcommitteeOnOversightRepublicanMajority/playlists";
-var list = "https://rumble.com/-playlists/htmx/get-playlist-details";
+var site_url = "https://rumble.com/c/CHASubcommitteeOnOversightRepublicanMajority/playlists";
+var list_url = "https://rumble.com/-playlists/htmx/get-playlist-details?playlist_id=";
+var meta_url = "https://rumble.com/embedJS/u3/?request=video&ver=2&v=";
 
 var proxy = "https://kraker-remote.vercel.app/?url=", blank_page = "widget.htm#black";
 
 //proxy = "/~"; blank_page = proxy + blank_page;
 
 var missing = [
+  "FM40bdQ0kSY<>0938 USCG00NorthwestDriveMiddle<>16"
+];
+
+/*
   "G9IMOJ_ShO0<>0602 USCG00NWDrivenearNJ-ConNW<>123",
   "IrCHGAgigY4<>0746 FHOB002nd-DSW<>72",
   "FgvzsUHc_gU<>0753 QSE00SCap-DSE<>72",
@@ -202,42 +205,41 @@ var missing = [
   "PySwdZmBZMw<>0907 USCDLAEastDome<>88",
   "Hse_mnEqQ4s<>0910 USCDPLDomeStairsUpper<>72",
   "KAnEZ4yeMIw<>0911 USCDPLDomeStairsLower<>72",
-  "FM40bdQ0kSY<>0938 USCG00NorthwestDriveMiddle<>16"
-];
+*/
 
-var listmake = function (name)
+var selectmake = function (name)
 {
-  var m = 0, n = 0, box = document.getElementById (name), w = box.children;
+  var m = 0, n = 0, v = document.getElementById (name), w = v.children;
   for (; n < w.length; n++) if (w [n].hasAttribute ("checked")) m = n;
-  m = w [m]; box.value = m.value; m.classList.add ("mark");
+  m = w [m]; v.value = m.value; m.classList.add ("mark");
 
-  w = box.parentNode.firstElementChild; if (w.nodeName == "DIV") w = null;
-  box.onclick = function (event) { listpick (event.target, w); }
+  if ((w = v.parentNode.firstElementChild).nodeName == "DIV") w = null;
+  v.onclick = function (event) { selectpick (event.target, w); }
 
   if (w) w.value = m.innerText.trimEnd();
-  if (w) w.nextElementSibling.onclick = function() { listdrop (this, w); }
+  if (w) w.nextSibling.onclick = function() { selectdrop (this, w); }
 }
 
-var listdrop = function (item, top)
+var selectpick = function (item, top)
 {
-  var box = item.nextElementSibling, w = box.classList; w.toggle ("show");
-  box.style.minWidth = (top.clientWidth + item.clientWidth + 6) + "px";
+  var w = item.nodeName; if (w == "DIV") return;
+  if (w != "SPAN" && w != "OPTION") item = item.parentNode;
 
-  if (dropdown && box != dropdown) dropdown.classList.remove ("show");
-  box.step = 0; dropdown = w.contains ("show") ? box : null;
-}
-
-var listpick = function (item, top)
-{
-  if (item.nodeName == "DIV") return;
-  if (item.nodeName != "SPAN") item = item.parentNode;
-
-  var n = 0, m = item.parentNode, w = m.children;
+  var n = 0, m = item.parentNode; w = m.children;
   for (; n < w.length; n++) if (w [n].classList.contains ("mark"))
     { w [n].classList.remove ("mark"); break; }
 
   item.classList.add ("mark"); m.value = item.value;
   if (top) top.value = item.innerText.trimEnd();
+}
+
+var selectdrop = function (item, top)
+{
+  var m = item.nextElementSibling, w = m.classList; w.toggle ("show");
+  m.style.minWidth = (top.clientWidth + item.clientWidth + 6) + "px";
+
+  if (dropdown && m != dropdown) dropdown.classList.remove ("show");
+  m.step = 0; dropdown = w.contains ("show") ? m : null;
 }
 
 var MEOW = function (event)
@@ -248,6 +250,11 @@ var MEOW = function (event)
   if (w > 0 && w != event.timeStamp)
     { dropdown.classList.remove ("show"); dropdown = null; }
 } 
+
+var bounced = function ()
+{
+  var x = Date.now(); if (!idle || x < time) return 1; time = x + 2000; return 0;
+}
 
 var pullstring = function (s, t, u)
 {
@@ -270,16 +277,21 @@ var getmessage = function (msg)
   }
 }
 
+var help = function ()
+{
+  document.querySelector (".help").style.display = "inline-block";
+}
+
 var init = async () =>
 {
-  busy = null; stat.value = "Loading...";
+  idle = true; busy = null; time = 0; stat.value = "Loading...";
   window.onmessage = function (e) { if (e.data [0] == "@") getmessage (e.data); }
 
-  try { resp = await fetch (proxy + site); data = await resp.text();
+  try { resp = await fetch (proxy + site_url); data = await resp.text();
       } catch { data = "" }
 
   vidlist = []; data = data.split ('<div class="playlist">');
-  data.shift(); if (data.length < 200) { stat.value = "Error"; return; }
+  data.shift(); if (!data.length) { stat.value = "Error"; return; }
 
   for (n = 0; n < missing.length; n++)
   {
@@ -304,17 +316,17 @@ var init = async () =>
     m = pullstring (m, '/playlists/', '>'); vidlist.push (q + "<>" + p + "<>" + m);
   }
 
-  box = document.createElement ("SPAN"); box.value = "";
-  box.innerHTML = site + " <w_>(" + vidlist.length + ")</w_>";
-  line.appendChild (box); console.log (vidlist [vidlist.length - 1]); vidlist.sort();
+  m = document.createElement ("SPAN"); m.value = "";
+  m.innerHTML = site_url + " <w_>(" + vidlist.length + ")</w_>";
+  drop.appendChild (m); vidlist.sort();
 
   for (n = 0; n < vidlist.length; n++)
   {
-    m = vidlist [n].split ("<>"); box = document.createElement ("SPAN");
-    box.innerHTML = m [1] + " " + m [0]; box.value = m [2]; line.appendChild (box);
+    m = document.createElement ("SPAN"); q = vidlist [n].split ("<>");
+    m.innerHTML = q[1] + " " + q[0]; m.value = q[2]; drop.appendChild (m);
   }
 
-  var cnt = 0; listmake ("drop"); stat.value = "Ready";
+  var cnt = 0; selectmake ("drop"); stat.value = "Ready";
 
   for (m = "", n = 0; n < vidlist.length; n++)
   {
@@ -323,123 +335,113 @@ var init = async () =>
     m += p.split ("<>")[2] + q + pullstring (p, "", "<") + "\n";
   }
 
-  console.log ("Playlist count: " + n + "\n\n" + m + "\nTotal of " + cnt + " videos\n");
-}
-
-var help = function ()
-{
-  document.querySelector (".help").style.display = "inline-block";
+  console.log ("Playlist count: " + n + "\n\n" + m + "\nTotal of " + cnt + " videos");
 }
 
 var grab = function ()
 {
-  var m, n, p, q, r, s, t; sub = data.split ('class="videostream__details"');
+  var m, n, p, q, r, s, t; data = data.split ('class="videostream__details"');
 
-  for (n = 1; n < sub.length; n++) if (m = sub [n])
+  for (data.shift(), n = 0; n < data.length; n++) if (m = data [n])
   {
     p = pullstring (m, '--duration"', '<'); p = pullstring (p, '>', '').trim();
     q = pullstring (m, 'datetime="', '"'); if (q) q = new Date (q).toUTCString();
     s = pullstring (m, 'href="', '?'); t = pullstring (m, 'src="', '"');
-
-    r = pullstring (m, 'rel="author"', '>'); r = pullstring (r, 'href="', '"');
-    if (r != "/c/CHASubcommitteeOnOversightRepublicanMajority") console.log (r, s);
     m = pullstring (m, 'title="', '"');
 
-    r = "<img src='" + t + "'><br>" + m + "<br><br># <b_>XXX</b_>";
-    r += " &nbsp; <r_>Duration:</r_> " + p + " &nbsp; <r_>Date:</r_> " + q;
-    r += " &nbsp; <a target=_blank href='https://rumble.com" + s + "'>Rumble</a><br><br>&nbsp;";
+    r = `<img src="${t}"><p>${m}</p># <b_>XXXXX</b_>` +
+        ` &nbsp; <r_>Duration:</r_> ${p} &nbsp; <r_>Date:</r_> ${q}` +
+        ` &nbsp; <a target=_blank href="https://rumble.com${s}">Rumble</a>`;
 
-    s = "'https://rumble.com" + s + "','" + m + "','XXX'";
-    t = "<button onclick=save(this,0," + s + ")>Play Video</button> &nbsp;&nbsp; " +
-        "<button onclick=save(this,1," + s + ")>Show Links</button> &nbsp;&nbsp; " +
-        "<button onclick=save(this,2," + s + ")>Save MP4</button> &nbsp;&nbsp; " +
-        "<span class='status'></span><br><br><textarea></textarea>";
+    s = '<button onclick="save(this,0)">Play Video</button> &nbsp;&nbsp; ' +
+        '<button onclick="save(this,1)">Show Links</button> &nbsp;&nbsp; ' +
+        '<button onclick="save(this,2)">Save MP4</button> &nbsp;&nbsp; ' +
+        '<p class="viewer"></p><br><br><textarea></textarea>';
 
-    vidlist.push (m + " " + r + t);
+    vidlist.push (m + "|" + r + "<br><br>&nbsp;" + s);
   }
-  
-  return (--n);
+
+  return (n);
 }
 
 var show = async () =>
 {
-  url = line.value; if (!url) { window.open (site); return }; if (busy) return; busy = null;
+  if (!drop.value) { window.open (site_url); return; }
+  if (busy || bounced()) return; idle = false; busy = null;
 
-  url = proxy + list + "?playlist_id=" + url + "&page_size=50&extended=1&page_num=";
-  vidlist = []; post.innerHTML = ""; post.scrollTo (0,0); stat.value = "Working...";
+  m = proxy + list_url + drop.value + "&page_size=50&extended=1&page_num=";
+  vidlist = []; view.innerHTML = ""; view.scrollTo (0,0); stat.value = "Working...";
 
   for (n = 1; n < 10; n++) try
   {
-    resp = await fetch (url + n); if (resp.status != 200) throw ("Status " + resp.status);
+    resp = await fetch (m + n); if (resp.status != 200) throw ("");
     data = await resp.text(); if (data.substr (0,10).includes ("<span")) break;
-    if (!grab()) throw ("Parsing error");
+    if (!grab()) throw ("");
   }
-  catch(e) { console.log (e); stat.value = "Error"; return; }
+  catch { idle = stat.value = "Error"; return; }
 
   for (vidlist.sort(), n = 0; n < vidlist.length; n++)
   {
-    box = document.createElement ("SPAN"); m = vidlist [n].indexOf (" ") + 1;
-    p = ("00" + (post.children.length + 1)).substr (-3);
-    q = vidlist [n].substr (m).replace (/XXX/g, p);
-    box.innerHTML = q; post.appendChild (box);
+    p = ("00" + (n + 1)).substr (-3); q = vidlist [n];
+    q = q.substr (q.indexOf ("|") + 1).replace (/XXXXX/g, p);
+    m = document.createElement ("SPAN"); m.innerHTML = q; view.appendChild (m);
   }
 
-  box = document.createElement ("SPAN"); box.style = "height:190px;margin:0";
-  stat.value = post.children.length + " videos"; post.appendChild (box); post.focus();
+  m = document.createElement ("SPAN"); m.style = "height:190px;margin:0";
+  idle = true; stat.value = view.children.length + " videos";
+  view.appendChild (m); view.focus();
 }
 
-var save = async (box, mode, id, title, cnt) =>
+var save = async (box, mode, item, title, num) =>
 {
-  if (mode <= 2) for (n = 3 - mode; n > 0; n--) box = box.nextElementSibling; else
+  if (mode < 3) for (n = 3 - mode; n > 0; n--) box = box.nextElementSibling; else
   {
-    var blob; if (!(blob = await download (box, mode, id))) return;
+    var blob; if (!(blob = await download (box, mode, item))) return;
     box = document.createElement ('A'); box.download = title + ".mp4";
     box.href = URL.createObjectURL (blob); box.click();
     URL.revokeObjectURL (box.href); return;
   }
 
   if (busy === box) { if (mode == 2) busy = undefined; return; }
-  if (busy === undefined) return; if (busy && mode == 2) return;
+  if (busy === undefined || bounced()) return; if (busy && mode == 2) return;
+
+  item = (m = box.parentNode.children)[5].href;
+  title = m[1].innerText; num = m[2].innerText;
 
   try
   {
-    box.innerHTML = "Loading..."; resp = await fetch (proxy + id); data = await resp.text();
+    idle = false; box.innerHTML = "Loading...";
+    resp = await fetch (proxy + item); data = await resp.text();
+    m = pullstring (data, '"video":"', '"'); if (m.length < 6 || m.length > 8) throw ("");
 
-    url = pullstring (data, '"video":"', '"'); if (url.length < 6 || url.length > 8) throw ("");
-    url = "https://rumble.com/embedJS/u3/?request=video&ver=2&v=" + url;
-
-    resp = await fetch (proxy + url); data = await resp.json();
-    box.innerHTML = ""; data = data.ua.mp4; vidlist = [];
+    resp = await fetch (proxy + meta_url + m); data = await resp.json();
+    vidlist = []; box.innerHTML = ""; data = data.ua.mp4;
 
     vidlist [0] = (m = data["360"]) && m.url; vidlist [1] = (m = data["480"]) && m.url;
     vidlist [2] = (m = data["720"]) && m.url; vidlist [3] = (m = data["1080"]) && m.url;
-    url = vidlist [1] || vidlist [2] || vidlist [0]; if (!url) throw ("");
+    idle = true; item = vidlist [1] || vidlist [2] || vidlist [0]; if (!item) throw ("");
   }
-  catch { box.innerHTML = "Error"; return; }
+  catch { idle = box.innerHTML = "Error"; return; }
 
   if (mode == 1)
   {
     for (m = "", n = 0; n < 4; n++) if (p = vidlist [n])
     {
       q = 360; if (n == 1) q = 480; if (n == 2) q = 720; if (n == 3) q = 1080;
-      m += "<a target=_blank href='" + p + "'>" + q + "p</a> &nbsp; ";
+      m += `<a target=_blank href="${p}">${q}p</a> &nbsp; `;
     }
     box.innerHTML = m; return;
   }
 
   if (mode == 2)
   {
-    for (n = 0; n < 4; n++) if (p = vidlist [n])
+    for (m = "", n = 0; n < 4; n++) if (p = vidlist [n])
     {
       q = 360; if (n == 1) q = 480; if (n == 2) q = 720; if (n == 3) q = 1080;
-      m = document.createElement ("BUTTON"); m.dataset.size = q; m.dataset.url = p;
-      m.onclick = function() { save (box, this.dataset.size, this.dataset.url, title); }
-      m.style = "margin-right:10px"; m.innerHTML = q + "p"; box.appendChild (m);
+      m += `<button onclick="save(this,${q},'${p}','${title}')">${q}p</button> &nbsp;`;
     }
-
-    busy = undefined; m = document.createElement ("BUTTON");
-    m.onclick = function() { busy = null; box.innerHTML = ""; }
-    m.innerHTML = "Cancel"; box.appendChild (m); return;
+    m += `<button onclick="busy=null;this.parentNode.innerHTML='';">Cancel</button>`;
+    busy = undefined; box.innerHTML = m; return;
   }
 
   var insert =
@@ -457,12 +459,13 @@ var save = async (box, mode, id, title, cnt) =>
   }
   else { doc.open(); doc.write ("<!DOCTYPE html>" + insert); doc.close(); }
 
-  doc.title = "# " + cnt; doc.body.querySelector ("video").src = url;
+  doc.title = "# " + num; doc.body.querySelector ("video").src = item;
 }
 
 var download = async (box, mode, url) =>
 {
-  var m, n, p, q, res, buffer = []; busy = box;
+  var m, n, p, q, res, buffer = [];
+  box = busy = box.parentNode; box.innerHTML = "Loading " + mode + "p";
 
   try
   {
