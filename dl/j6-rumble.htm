@@ -340,7 +340,8 @@ var init = async () =>
 
 var grab = function ()
 {
-  var m, n, p, q, r, s, t; data = data.split ('class="videostream__details"');
+  var m, n, p, q, r, s, t;  //data = data.split ('class="videostream__details"');
+  data = data.split ('class="videostream thumbnail__grid-item"');
 
   for (data.shift(), n = 0; n < data.length; n++) if (m = data [n])
   {
@@ -375,7 +376,7 @@ var show = async () =>
   for (n = 1; n < 10; n++) try
   {
     resp = await fetch (m + n); if (resp.status != 200) throw ("");
-    data = await resp.text(); if (data.substr (0,10).includes ("<span")) break;
+    data = await resp.text(); if (!data || data.substr (0,10).includes ("<span")) break;
     if (!grab()) throw ("");
   }
   catch { idle = stat.value = "Error"; return; }
