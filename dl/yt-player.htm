@@ -108,6 +108,7 @@ b_ { color: blue; }
 <br><input type=radio name="tv" onclick="javascript:tv ('0ZwfXUURS3g')"> Dukes of Hazzard
 <br><input type=radio name="tv" onclick="javascript:tv ('uQJoar17jyo')"> Schiff Hits the Fan
 <br><input type=radio name="tv" onclick="javascript:tv ('wLTGXblgUoc')"> Never Forget
+<br><input type=radio name="tv" onclick="javascript:tv ('CGq8Ee2gOe4')"> DooM at QuakeCon
 <br><input type=radio name="tv" onclick="javascript:tv ('kJAsn_vJyY4')"> Starship Enterprise
 <br><input type=radio name="tv" onclick="javascript:tv ('FnV0LqHd3h8')"> Make America Great Again
 <br><input type=radio name="tv" onclick="javascript:tv ('74VHwppfHuI')"> The Best Is Yet To Come
@@ -116,7 +117,6 @@ b_ { color: blue; }
 <br><input type=radio name="tv" onclick="javascript:tv ('AzEBH6DZJVk')"> St. James Infirmary
 <br><input type=radio name="tv" onclick="javascript:tv ('W-gngBsA_DI')"> I Told You So
 <br><input type=radio name="tv" onclick="javascript:tv ('w8KQmps-Sog')"> Uprising
-<br><input type=radio name="tv" onclick="javascript:tv ('AxcM3nCsglA')"> Monster Mash
 <br><input type=radio name="tv" onclick="javascript:tv ('D_XdjviX6gQ')"> Cat Scratch Fever
 <br><input type=radio name="tv" onclick="javascript:tv ('kx-inoYmN2Q')"> Alley Cat
 
@@ -127,11 +127,14 @@ b_ { color: blue; }
 <div class="widevid"><h2 id="msg" class="msgbox">No Video</h2>
 <iframe id="frame" autoplay allowfullscreen controls></iframe>
 
-</div></td></td></tr></table>
+</div></td></tr></table>
 
 <div style="margin:12px 0 12px 0">
+<!--
 <input type=radio name="format" style="vertical-align:middle" value="18" checked> 360p &nbsp;
 <input type=radio name="format" style="vertical-align:middle" value="22"> 720p</span> &nbsp;&nbsp;
+-->
+<g_>All videos are 360p only</g_> &nbsp;
 <input type=text style="width:350px"> &nbsp;&nbsp;
 <button onclick="javascript:play_url()">Play</button> &nbsp;
 <button onclick="javascript:clear_video()">Stop</button>
@@ -227,9 +230,11 @@ try
   if (!url || !(sub = sub.streamingData))
   {
     t = {
-      videoId: id, playbackContext: { contentPlaybackContext: { signatureTimestamp: 19913 }},
+      videoId: id,
+      playbackContext: { contentPlaybackContext: { signatureTimestamp: Math.trunc (Date.now() / 86400000) - 1 }},
       context: { client: { gl: 'US', hl: 'en', clientName: 'TVHTML5_SIMPLY_EMBEDDED_PLAYER', clientVersion: '2.0' }}
     };
+    s = JSON.stringify (t);
 
     url = cors_bypass + "https://www.youtube.com/youtubei/v1/player?";
     response = await fetch (url, { method: 'POST', headers: {'content-type': 'application/json'}, body: s });
