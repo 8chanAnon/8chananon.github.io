@@ -119,7 +119,7 @@ b_ { color: blue; }
 <br><input type=radio name="tv" onclick="javascript:tv ('AxcM3nCsglA')"> Monster Mash
 <br><input type=radio name="tv" onclick="javascript:tv ('D_XdjviX6gQ')"> Cat Scratch Fever
 <br><input type=radio name="tv" onclick="javascript:tv ('kx-inoYmN2Q')"> Alley Cat
-  
+
 </span><span style="display:block;font-size:22px;margin:14px 0 0;transform:scale(-1,1)">&#x1f408;</span>
 
 </td><td class="vidbox">
@@ -136,7 +136,7 @@ b_ { color: blue; }
 <button onclick="javascript:play_url()">Play</button> &nbsp;
 <button onclick="javascript:clear_video()">Stop</button>
 
-</div><r_>Note: some videos might not play due to YouTube restrictions.</r_>
+</div><r_>Note: some videos might not play due to YouTube restrictions.</r_> (<g_>updated July 11, 2024</g_>)
 
 <script>
 
@@ -226,11 +226,12 @@ try
 
   if (!url || !(sub = sub.streamingData))
   {
-    t = { videoId: id };
-    t.context = { client: { gl: 'US', hl: 'en', clientName: 'TVHTML5_SIMPLY_EMBEDDED_PLAYER', clientVersion: '2.0' }};
-    s = JSON.stringify (t);
+    t = {
+      videoId: id, playbackContext: { contentPlaybackContext: { signatureTimestamp: 19913 }},
+      context: { client: { gl: 'US', hl: 'en', clientName: 'TVHTML5_SIMPLY_EMBEDDED_PLAYER', clientVersion: '2.0' }}
+    };
 
-    url = cors_bypass + "https://www.youtube.com/youtubei/v1/player?key=AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8";
+    url = cors_bypass + "https://www.youtube.com/youtubei/v1/player?";
     response = await fetch (url, { method: 'POST', headers: {'content-type': 'application/json'}, body: s });
     jsonData = await response.json();
 
@@ -268,9 +269,10 @@ try
 
       // extract the n signature algo (needed to bypass the rate limiting)
 
-      if ((n = textData.indexOf ('function(a){var b=a.split("")')) > 0)
+      if (n = textData.indexOf ('var b=String.prototype.split.call(a,"")') + 1)
       {
-        t = textData.substr (n, textData.indexOf ('b.join("")', n) - n + 12);
+        t = textData.substr (--n, textData.indexOf ('Array.prototype', n) - n);
+        t = 'function(a){var b=a.split(' + t.substr (t.indexOf ('"')) + 'b.join("")};';
         cookies ["!" + s] = nkey = "var nsig=" + t + " sig=nsig(sig);";
       }
     }
