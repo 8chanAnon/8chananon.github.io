@@ -229,14 +229,21 @@ try
 
   if (!url || !(sub = sub.streamingData))
   {
+    if (s = pullstring (textData, '"PLAYER_JS_URL":"', '"'))
+    {
+      s = "https://www.youtube.com" + s.replace ("base.js", "offline.js");
+      response = await fetch (cors_bypass + s); s = await response.text();
+      s = pullstring (s, "signatureTimestamp:", ",");
+    }
+    n = s ? s * 1 : Math.trunc (Date.now() / 86400000) - 1;
+
     t = {
-      videoId: id,
-      playbackContext: { contentPlaybackContext: { signatureTimestamp: Math.trunc (Date.now() / 86400000) - 1 }},
+      videoId: id, playbackContext: { contentPlaybackContext: { signatureTimestamp: n }},
       context: { client: { gl: 'US', hl: 'en', clientName: 'TVHTML5_SIMPLY_EMBEDDED_PLAYER', clientVersion: '2.0' }}
     };
     s = JSON.stringify (t);
 
-    url = cors_bypass + "https://www.youtube.com/youtubei/v1/player?";
+    url = cors_bypass + "https://www.youtube.com/youtubei/v1/player";
     response = await fetch (url, { method: 'POST', headers: {'content-type': 'application/json'}, body: s });
     jsonData = await response.json();
 
@@ -271,8 +278,6 @@ try
       textData = await response.text();
 
       cookies [s] = key = yt_algo (textData);
-
-      // extract the n signature algo (needed to bypass the rate limiting)
 
       if (n = textData.indexOf ('var b=String.prototype.split.call(a,"")') + 1)
       {
