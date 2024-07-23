@@ -132,7 +132,7 @@ b_ { color: blue; }
 <input type=radio name="format" style="vertical-align:middle" value="18"> 360p &nbsp;
 <input type=radio name="format" style="vertical-align:middle" value="19" checked> 480p &nbsp;
 <input type=radio name="format" style="vertical-align:middle" value="22"> 720p &nbsp;&nbsp;
-<button onclick="javascript:clear_video()">Stop</button> &nbsp;
+<button onclick="javascript:clear_video()">Stop</button> &nbsp;&nbsp; <g_>Updated July 23, 2024</g_>
 
 </div><script>
 
@@ -363,48 +363,45 @@ var req_tvapp = async (url) =>
 {
 try
 {
-  var a, b, i, j, s, t, u, v, src = "https://thetvapp.to";
+  var a, b, s, t, u, v, src = "https://thetvapp.to";
 
-  var decode = function ()
+  const get_link = async () =>
   {
-    for (url = "", i = 0, j = 0; i < s.length; i++)
-    {
-      a = s[i]; b = a.charCodeAt (0) - (t.charCodeAt (j % 12) % 26);
-
-      if (a >= "a" && a <= "z") if (b < "a".charCodeAt(0)) b += 26; else; else
-        if (a >= "A" && a <= "Z") if (b < "A".charCodeAt(0)) b += 26; else; else b = 0;
-
-      if (!b) url += a; else { j++; url += String.fromCharCode (b); }
-    }  
-
-    try { url = atob (url); } catch {}; return (url.substr (0,4) == "http");
+    response = await fetch (cors_kraker + src + u, { method: 'POST', body: t, headers: s });
+    url = await response.text(); url = pullstring (url, '"', '"').replace (/\\/g, "");
+    if (!url.includes (".m3u8")) url = ""; return (url);
   }
 
-  response = await fetch (cors_bypass + src + "/tv/" + url);
+  response = await fetch (cors_kraker + src + "/tv/" + url, { headers: { accept: "**" }});
   textData = await response.text();
 
-  s = pullstring (textData, 'data-encrypted="', '"'); if (!s) throw ("!!!");
+  s = response.headers.get ("zz-set-cookie") || "";
+  a = (a = "tvnow_session=") + pullstring (s, a, ";");
+  b = pullstring (textData, '"csrf-token" content="', '"');
+  s = { accept: "**" + a, 'content-type': 'application/json', 'x-csrf-token': b }
+  u = pullstring (textData, '"get-m3u8-link" data="', '"'); if (!a || !b || !u) throw ("!!!");
 
-  if (!(t = cookies ["thetvapp"]) || !decode())
+  if (!(t = cookies ["thetvapp"]) || !await get_link())
   {
-    t = pullstring (textData, '<script type="module" src="', '"');
+    t = pullstring (textData, '<script type="module" src="', '"'); if (!t) throw ("!!!");
+    response = await fetch (cors_bypass + t); textData = await response.text();
 
-    response = await fetch (cors_bypass + t);
-    textData = await response.text();
+    a = textData.indexOf ('"get-m3u8-link"') - 100; if (a < 0) throw ("!!!");
+    t = textData.substr (a, 100); b = t.lastIndexOf ("const", t.lastIndexOf ("const") - 1);
+    a += t.indexOf (";", b) + 1; t = pullstring (t.substr (b), " ", "=");
 
-    i = textData.indexOf ("}let ", textData.length - 220) + 1;
-    u = pullstring (textData.substr (i), ",", "),"); if (!i || !u) throw ("!!!");
+    b = textData.indexOf ("body:", a); b = pullstring (textData.substr (b, 50), "{", ":");
+    if (!t || !b) throw ("!!!");
 
-    t = '<!DOCTYPE html><html><body style="display:none"><div id="encryptedString"></div>' +
-        '<script>function jwplayer(){return ""}<\/script>\n<script>' + textData.substr (0, i) +
-        '\nparent.postMessage ("@" + ' + u + ', "*");\n<\/script></body></html>';
+    t = '<!DOCTYPE html><html><body style="display:none"><div id="get-m3u8-link" data="">\n' +
+        '<button id="loadVideoBtnOne"></button><button id="loadVideoBtnTwo"></button>\n<script>' +
+        textData.substr (0, a) + '\nparent.postMessage ("@" + ' + t + ', "*");\n' +
+        textData.substr (a) + '\n<\/script></body></html>';
 
-    u = document.getElementById ("frame"); v = u.contentDocument;
-    v.open(); v.write (t); v.close(); t = await getmessage (3); u.src = "";
-    await getmessage (1); cookies ["thetvapp"] = t; if (!t || !decode()) throw ("!!!");
+    a = document.getElementById ("frame"); v = a.contentDocument;
+    v.open(); v.write (t); v.close(); t = await getmessage (3); a.src = ""; if (!t) throw ("!!!");
+    t = cookies ["thetvapp"] = '{"' + b + '":"' + t + '"}'; await get_link();
   }
-
-  url = url.split (",")[0];
 }
   catch { url = "" }; return (url);
 }
