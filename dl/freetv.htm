@@ -132,7 +132,7 @@ b_ { color: blue; }
 <input type=radio name="format" style="vertical-align:middle" value="18"> 360p &nbsp;
 <input type=radio name="format" style="vertical-align:middle" value="19" checked> 480p &nbsp;
 <input type=radio name="format" style="vertical-align:middle" value="22"> 720p &nbsp;&nbsp;
-<button onclick="javascript:clear_video()">Stop</button> &nbsp;&nbsp; <g_>Updated July 23, 2024</g_>
+<button onclick="javascript:clear_video()">Stop</button> &nbsp;&nbsp; <g_>Updated July 24, 2024</g_>
 
 </div><script>
 
@@ -390,7 +390,7 @@ try
     t = textData.substr (a, 100); b = t.lastIndexOf ("const", t.lastIndexOf ("const") - 1);
     a += t.indexOf (";", b) + 1; t = pullstring (t.substr (b), " ", "=");
 
-    b = textData.indexOf ("body:", a); b = pullstring (textData.substr (b, 50), "{", ":");
+    b = textData.indexOf ("body:", a); b = pullstring (textData.substr (b, 150), "{", ":");
     if (!t || !b) throw ("!!!");
 
     t = '<!DOCTYPE html><html><body style="display:none"><div id="get-m3u8-link" data="">\n' +
