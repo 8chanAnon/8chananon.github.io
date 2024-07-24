@@ -217,7 +217,7 @@ const request_youtube = async (id, fmt) =>
   var i, j, n, s, t, sub, vid, aud, key, sig, nkey, webm, f = [0,0,0,0,0,0,0,0,0,0];
 
   var tag = "youtube"; if (is_busy()) return;
-  var url = cors_bypass + "https://www.youtube.com/watch?v=" + id;
+  var url = cors_bypass + "user-agent=|*https://www.youtube.com/watch?v=" + id;
 
 try
 {
