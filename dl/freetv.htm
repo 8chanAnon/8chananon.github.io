@@ -132,7 +132,7 @@ b_ { color: blue; }
 <input type=radio name="format" style="vertical-align:middle" value="18"> 360p &nbsp;
 <input type=radio name="format" style="vertical-align:middle" value="19" checked> 480p &nbsp;
 <input type=radio name="format" style="vertical-align:middle" value="22"> 720p &nbsp;&nbsp;
-<button onclick="javascript:clear_video()">Stop</button> &nbsp;&nbsp; <g_>Updated July 24, 2024</g_>
+<button onclick="javascript:clear_video()">Stop</button> &nbsp;&nbsp; <g_>Updated July 25, 2024</g_>
 
 </div><script>
 
@@ -142,7 +142,7 @@ var response, textData, jsonData, busy = 0, cookies = {}, msg_timer, msg_result;
 var list_1 = [
   "https://oan-lg.amagi.tv/playlist.m3u8==One America News",
   "https://dai.google.com/linear/hls/event/c-oMNcDLTeuszRKPugMj9Q/master.m3u8==Real America's Voice",
-  "https://nmxlive.akamaized.net/hls/live/529965/Live_1/index.m3u8==NewsMax TV",
+  "https://nmxlive.akamaized.net/hls/live/529965/Live_1/index.m3u8==NewsMax",
   "https://dai2.xumo.com/amagi_hls_data_xumo1234A-lawcrime/CDN/master.m3u8==Law & Crime",
   "https://content.uplynk.com/channel/87c82188ea944bcb961c34236b9648b0.m3u8==Court TV",
   "https://live-hls-web-aje.getaj.net/AJE/index.m3u8==Al Jazeera",
@@ -159,41 +159,41 @@ var list_1 = [
 ];
 
 var list_2 = [
-  "*tvapp*wabc-new-york-abc-east-live-stream==ABC",
   "https://content.uplynk.com/channel/3324f2467c414329b3b0cc5cd987b6be.m3u8==ABC News",
-  "*tvapp*wcbs-new-york-cbs-east-live-stream==CBS",
+  "https://www.bloomberg.com/media-manifest/streams/phoenix-us.m3u8==Bloomberg",
   "https://cbsn-us.cbsnstream.cbsnews.com/out/v1/55a8648e8f134e82a470f83d562deeca/master.m3u8==CBS News",
-  "*tvapp*cnbc-live-stream==CNBC",
-  "*tvapp*cnn-live-stream==CNN",
-  "*tvapp*cspan-live-stream==C-SPAN",
-  "*tvapp*cspan-2-live-stream==C-SPAN 2",
-  "*tvapp*wnyw-new-york-fox-east-live-stream==Fox",
-  "*tvapp*fox-business-network-live-stream==Fox Business",
-  "*tvapp*fox-news-channel-live-stream==Fox News",
+  "https://cnn-cnninternational-1-eu.rakuten.wurl.tv/playlist.m3u8==CNN International",
+  "https://dai.google.com/linear/hls/event/xrVrJYTmTfitfXBQfeZByQ/master.m3u8==ET Live",
   "https://fox-foxnewsnow-samsungus.amagi.tv/playlist.m3u8==Fox News Now",
-  "*tvapp*msnbc-live-stream==MSNBC",
-  "*tvapp*wnbc-new-york-nbc-east-live-stream==NBC",
   "https://dai2.xumo.com/amagi_hls_data_xumo1212A-xumo-nbcnewsnow/CDN/master.m3u8==NBC News",
-  "*tvapp*pbs-13-wnet-new-york-live-stream==PBS"
+  "https://2-fss-2.streamhoster.com/pl_140/amlst:200914-1298290/playlist.m3u8==PBS Kids",
+  "https://linear-10.frequency.stream/dist/zype/10/hls/master/playlist.m3u8==Popstar!",
+  "https://turnerlive.warnermediacdn.com/hls/live/2023172/tbseast/slate/VIDEO_2_1964000.m3u8==TBS (East)",
+  "https://turnerlive.warnermediacdn.com/hls/live/2023174/tbswest/slate/VIDEO_2_1964000.m3u8==TBS (West)",
+  "https://d2dimalv43j51f.cloudfront.net/out/v1/52d3048e53eb42a7959dc347d2f810e2/index.m3u8==TMZ",
+  "https://turnerlive.warnermediacdn.com/hls/live/2023168/tnteast/slate/VIDEO_2_1964000.m3u8==TNT (East)",
+  "https://turnerlive.warnermediacdn.com/hls/live/2023170/tntwest/slate/VIDEO_2_1964000.m3u8==TNT (West)",
+  "https://turnerlive.warnermediacdn.com/hls/live/2023176/trueast/slate/VIDEO_2_1964000.m3u8==Tru TV (East)",
+  "https://turnerlive.warnermediacdn.com/hls/live/2023178/truwest/slate/VIDEO_2_1964000.m3u8==Tru TV (West)"
 ];
 
 var list_3 = [
   "https://classicarts.akamaized.net/hls/live/1024257/CAS/master.m3u8==Classic Arts Showcase",
   "*distro*live/comedy-dynamics==Comedy Dynamics",
   "*distro*live/dot-esports==Dot Esports",
-  "*plextv*channel/dungeon-tv-2==Dungeon TV",
   "*distro*live/entrepreneur-1==Entrepreneur",
-  "*tvapp*fx-live-stream==FX",
-  "*tvapp*hbo-east-live-stream==HBO",
   "https://1111296894.rsc.cdn77.org/LS-ATL-56868-1/index.m3u8==Hunt Channel",
   "https://live-manifest.production-public.tubi.io/live/e81816aa-19a0-4408-ac23-88e90a86fde2/playlist.m3u8==MotorTrend",
   "*olympic*==Olympic Channel",
-  "https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8==Red Bull TV",
+  "https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8==Red Bull",
   "*plextv*channel/scream-factory-tv==Scream Factory",
-  "*tvapp*syfy-live-stream==Syfy",
+  "*plextv*channel/speedvision==SpeedVision",
   "https://tastemade-xumo.amagi.tv/hls/amagi_hls_data_tastemade-tastemadefreetv16xumo/CDN/master.m3u8==Tastemade",
+  "https://tennischannel-intl-samsung-uk.amagi.tv/playlist.m3u8==Tennis Channel",
   "https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01201-cinedigmenterta-filmdetective-cineverse/playlist.m3u8==The Film Detective",
   "*plextv*channel/the-pet-collective-2==The Pet Collective",
+  "*plextv*channel/unexplained==Unexplained",
+  "*distro*live/world-poker-tour==World Poker Tour"
 ];
 
 var start = function ()
@@ -282,7 +282,6 @@ var tv = async (item) =>
   if (src == "lindell") url = await req_lindell (id);
   if (src == "olympic") url = await req_olympic (id);
   if (src == "plextv")  url = await req_plextv (id);
-  if (src == "tvapp")   url = await req_tvapp (id);
 
   if (!url || url.indexOf ("http")) busy = 0; if (no_fail()) load_stream (url, fmt);
 }
@@ -355,54 +354,6 @@ var req_plextv = async (url) =>
 
     url = "https://epg.provider.plex.tv/library/parts/" + s + ".m3u8?X-Plex-Token=" + t;
   }
-  catch { url = "" }; return (url);
-}
-////////////////////
-
-var req_tvapp = async (url) =>
-{
-try
-{
-  var a, b, s, t, u, v, src = "https://thetvapp.to";
-
-  const get_link = async () =>
-  {
-    response = await fetch (cors_kraker + src + u, { method: 'POST', body: t, headers: s });
-    url = await response.text(); url = pullstring (url, '"', '"').replace (/\\/g, "");
-    if (!url.includes (".m3u8")) url = ""; return (url);
-  }
-
-  response = await fetch (cors_kraker + src + "/tv/" + url, { headers: { accept: "**" }});
-  textData = await response.text();
-
-  s = response.headers.get ("zz-set-cookie") || "";
-  a = (a = "tvnow_session=") + pullstring (s, a, ";");
-  b = pullstring (textData, '"csrf-token" content="', '"');
-  s = { accept: "**" + a, 'content-type': 'application/json', 'x-csrf-token': b }
-  u = pullstring (textData, '"get-m3u8-link" data="', '"'); if (!a || !b || !u) throw ("!!!");
-
-  if (!(t = cookies ["thetvapp"]) || !await get_link())
-  {
-    t = pullstring (textData, '<script type="module" src="', '"'); if (!t) throw ("!!!");
-    response = await fetch (cors_bypass + t); textData = await response.text();
-
-    a = textData.indexOf ('"get-m3u8-link"') - 100; if (a < 0) throw ("!!!");
-    t = textData.substr (a, 100); b = t.lastIndexOf ("const", t.lastIndexOf ("const") - 1);
-    a += t.indexOf (";", b) + 1; t = pullstring (t.substr (b), " ", "=");
-
-    b = textData.indexOf ("body:", a); b = pullstring (textData.substr (b, 150), "{", ":");
-    if (!t || !b) throw ("!!!");
-
-    t = '<!DOCTYPE html><html><body style="display:none"><div id="get-m3u8-link" data="">\n' +
-        '<button id="loadVideoBtnOne"></button><button id="loadVideoBtnTwo"></button>\n<script>' +
-        textData.substr (0, a) + '\nparent.postMessage ("@" + ' + t + ', "*");\n' +
-        textData.substr (a) + '\n<\/script></body></html>';
-
-    a = document.getElementById ("frame"); v = a.contentDocument;
-    v.open(); v.write (t); v.close(); t = await getmessage (3); a.src = ""; if (!t) throw ("!!!");
-    t = cookies ["thetvapp"] = '{"' + b + '":"' + t + '"}'; await get_link();
-  }
-}
   catch { url = "" }; return (url);
 }
 ////////////////////
