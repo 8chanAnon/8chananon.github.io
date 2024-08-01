@@ -97,11 +97,11 @@ b_ { color: blue; }
 
 <br><input type=radio name="tv" onclick="javascript:tv(this)" value="v=ewtimoghnf49"> Beverly Hills Cop: Axel F
 <br><input type=radio name="tv" onclick="javascript:tv(this)" value="v=nk2w6eywf5t3"> Civil War
-<br><input type=radio name="tv" onclick="javascript:tv(this)" value="v=w3dzakp1wset"> Deadpool & Wolverine
 <br><input type=radio name="tv" onclick="javascript:tv(this)" value="v=e3kdf5hizg45"> Dune: Part Two
 <br><input type=radio name="tv" onclick="javascript:tv(this)" value="v=pzi61060s8sv"> Furiosa: A Mad Max Saga
 <br><input type=radio name="tv" onclick="javascript:tv(this)" value="v=je7wtgvohy94"> Godzilla Minus One
 <br><input type=radio name="tv" onclick="javascript:tv(this)" value="v=lem3xsvj2em4"> Godzilla x Kong: New Empire
+<br><input type=radio name="tv" onclick="javascript:tv(this)" value="v=tlmmlx6l9aiw"> Killers of the Flower Moon
 <br><input type=radio name="tv" onclick="javascript:tv(this)" value="v=48c2w6pehna3"> Monkey Man
 <br><input type=radio name="tv" onclick="javascript:tv(this)" value="v=1c2fqm0jhenj"> Oppenheimer
 <br><input type=radio name="tv" onclick="javascript:tv(this)" value="v=gc8i2g5od4g4"> Poor Things
@@ -413,7 +413,7 @@ var getformat = function (f, fmt)
 
 .v-control {
   position: absolute; bottom: 0; text-align: center;
-  width: 100%; margin: 0; padding: 4px 0 4px 0;
+  width: 100%; margin: 0; padding: 5.5px 0 5.5px 0;
   font-family: 'segoe ui', serif;
   font-size: 14px; line-height: 19px;
   background-color: steelblue; cursor: default;
@@ -494,9 +494,9 @@ var create_controls = function (vid)
 {
   var control = document.getElementById ("video_control").cloneNode (true);
 
-  var doc = vid.ownerDocument;		// document
-  var ctr = control.firstElementChild;	// video control
-  var sib = ctr.children;		// video control elements
+  var doc = vid.ownerDocument;          // document
+  var ctr = control.firstElementChild;  // video control
+  var sib = ctr.children;               // video control elements
 
   sib [0].onchange = function() { vid_click (this, 1); }
   sib [1].onchange = function() { vid_click (this, 3); }
@@ -511,8 +511,8 @@ var create_controls = function (vid)
   vid.onstalled    = function() { vid_cntrl (this, 7); }
   vid.ontimeupdate = function() { vid_cntrl (this, 8); }
 
-  vid.onmousemove = function(e) { vid_event (e, 1); }
-  ctr.onclick     = function(e) { vid_event (e, 2); }
+  vid.onmousemove  = function(e) { vid_event (e, 1); }
+  ctr.onclick      = function(e) { vid_event (e, 2); }
 
   ctr.onmouseleave = function() { vid_cntrl (vid, 0); }
   ctr.onmouseenter = function() { vid_cntrl (vid, 1); }
