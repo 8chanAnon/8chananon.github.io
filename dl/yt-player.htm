@@ -139,11 +139,12 @@ b_ { color: blue; }
 <button onclick="javascript:play_url()">Play</button> &nbsp;
 <button onclick="javascript:clear_video()">Stop</button>
 
-</div><r_>Note: some videos might not play due to YouTube restrictions.</r_> (<g_>updated July 31, 2024</g_>)
+</div><r_>Note: age-gated videos, such as the DooM sample, might not work.</r_> (<g_>updated August 6, 2024</g_>)
 
 <script>
 
-var cors_bypass = "https://kraker-remote.vercel.app/?url=";
+var cors_bypass = "https://m3u8.justchill.workers.dev/?url=";
+var cors_kraker = "https://kraker-remote.vercel.app/?url=";
 var response, textData, jsonData, busy = 0, cookies = {};
 var line = document.querySelector ("input[type=text]");
 
@@ -217,7 +218,7 @@ const request_youtube = async (id, fmt) =>
   var i, j, n, s, t, sub, vid, aud, key, sig, nkey, webm, f = [0,0,0,0,0,0,0,0,0,0];
 
   var tag = "youtube"; if (is_busy()) return;
-  var url = cors_bypass + "user-agent=|*https://www.youtube.com/watch?v=" + id;
+  var url = cors_bypass + "https://www.youtube.com/watch?v=" + id;
 
 try
 {
@@ -232,7 +233,7 @@ try
     if (s = pullstring (textData, '"PLAYER_JS_URL":"', '"'))
     {
       s = "https://www.youtube.com" + s.replace ("base.js", "offline.js");
-      response = await fetch (cors_bypass + s); s = await response.text();
+      response = await fetch (cors_kraker + s); s = await response.text();
       s = pullstring (s, "signatureTimestamp:", ",");
     }
     n = s ? s * 1 : Math.trunc (Date.now() / 86400000) - 1;
@@ -243,7 +244,7 @@ try
     };
     s = JSON.stringify (t);
 
-    url = cors_bypass + "https://www.youtube.com/youtubei/v1/player";
+    url = cors_kraker + "https://www.youtube.com/youtubei/v1/player";
     response = await fetch (url, { method: 'POST', headers: {'content-type': 'application/json'}, body: s });
     jsonData = await response.json();
 
@@ -263,7 +264,7 @@ try
   {
     if (!(s = pullstring (textData, '"PLAYER_JS_URL":"', '"')))
     {
-      response = await fetch (cors_bypass + "https://www.youtube.com/embed/" + id);
+      response = await fetch (cors_kraker + "https://www.youtube.com/embed/" + id);
       textData = await response.text();
 
       s = textData.substr (textData.indexOf ("base.js") - 100, 107);
@@ -274,14 +275,14 @@ try
 
     if ((sig && !key) || (!sig && !nkey))
     {
-      response = await fetch (cors_bypass + "https://www.youtube.com" + s);
+      response = await fetch (cors_kraker + "https://www.youtube.com" + s);
       textData = await response.text();
 
       cookies [s] = key = yt_algo (textData);
 
-      if (n = textData.indexOf ('var b=String.prototype.split.call(a,("",""))') + 1)
+      if (n = textData.indexOf ('var b=a.split(a.slice(0,0))') + 1)
       {
-        t = textData.substr (--n, textData.indexOf ('Array.prototype', n) - n);
+        t = textData.substr (--n, textData.indexOf ('b.join("")', n) - n);
         t = 'function(a){var b=a.split(""' + t.substr (t.indexOf ('),')) + 'b.join("")};';
         cookies ["!" + s] = nkey = "var nsig=" + t + " sig=nsig(sig);";
       }
