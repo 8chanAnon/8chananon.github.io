@@ -1,0 +1,842 @@
+<!DOCTYPE html><html><head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Playlist</title>
+
+<style type="text/css">
+
+body {
+  font-size: 17px; line-height: 20px;
+  font-family: 'times new roman', serif; 
+  color: maroon; background-color: navajowhite;
+  text-align: center;
+}
+
+.widevid {
+  width: 736px; height: 414px;
+  position: relative; overflow: hidden;
+  border: 2px solid red; background-color: indigo;
+}
+
+.widevid:fullscreen {
+  border: none;
+}
+
+iframe {
+  position: absolute; width: 100%; height: 100%;
+  border: none; background-color: transparent; pointer-events: auto;
+}
+
+.popbox {
+  position: absolute; z-index: -1; font-size: 14px;
+  width: 100%; height: 100%; overflow: auto; outline: none;
+}
+
+.popbox p {
+  width: 100%; height: 18px; line-height: 19px; margin: 0;
+  white-space: nowrap; overflow: hidden; vertical-align: top;
+  color: purple; background-color: blanchedalmond;
+}
+
+.popbox p[disabled] {
+  background-color: peachpuff;
+}
+
+.popbox span {
+  display: inline-block; width: calc(50% - 20px); padding-left: 5px;
+  vertical-align: top; overflow: hidden; color: darkgreen;
+}
+
+.popbox span:hover:not([disabled]) {
+  background-color: palegreen;
+}
+
+.popbox button {
+  width: 15px; height: 100%; padding: 0; margin: 0;
+  font-size: 11px; line-height: 0; font-weight: bold; vertical-align: top;
+  border: none; border-radius: 0; color: tomato; background-color: wheat;
+}
+
+input[type=text] {
+  height: 17px; font-size: 13px; padding: 3px 5px 1px 5px; 
+  border-width: 2px; border-style: solid; outline: none;
+  border-color: tan lemonchiffon lemonchiffon burlywood;
+  caret-color: navy; font-family: 'helvetica', sans-serif;
+  color: slateblue; background-color: cornsilk;
+}
+
+input[disabled] {
+  padding: 4px 0 2px 0; text-align: center;
+  color: mediumvioletred; background-color: papayawhip;
+  border-radius: 3px; border: 1px solid darkorange;
+}
+
+input[type=radio], input[type=checkbox] {
+  vertical-align: middle; margin: -2px 1px 1px 2px;
+  filter: contrast(1.0) brightness(1.2) opacity(90%);
+}
+
+table {
+  display: inline-block; border: 3px solid green;
+}
+
+td.textbox {
+  width: 30vw; max-width: 250px; font-size: 15px;
+  padding: 0 2px 0 0; vertical-align: top; line-height: 21px;
+  text-align: center; white-space: nowrap;
+}
+
+td.vidbox {
+  font-size: 17px; line-height: normal;
+  padding: 0 0 0 2px; vertical-align: middle;
+  text-align: left; border-left: 1px solid firebrick;
+}
+
+button {
+  width: auto; height: auto; padding: 2px 12px 1px;
+  line-height: 20px; font-size: 14px; font-family: helvetica, sans-serif;
+  outline: none; border: 1px solid peru; border-radius: 5px;
+  color: slateblue; background-color: blanchedalmond;
+}
+
+button:hover:not(:active) {
+  background-color: gainsboro;
+}
+
+hr {
+  border-color: blanchedalmond; border-style: solid; margin: 16px 0;
+}
+
+.slider {
+  appearance: none; -moz-appearance: none; -webkit-appearance: none;
+  width: 94px; height: 12px; padding: 0 4px; margin: 0 0 1px 0; border: none; 
+  vertical-align: middle; background: lightpink; border-radius: 5px;
+}
+
+.slider::-moz-range-thumb {
+  -moz-appearance: none; width: 6px; height: 16px;
+  background: rosybrown; border: none; border-radius: 3px;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 6px; height: 16px;
+  background: rosybrown; border: none; border-radius: 3px;
+}
+
+::selection {
+  color: yellow; background-color: orchid;
+}
+
+r_ { color: crimson; }
+g_ { color: seagreen; }
+b_ { color: blue; }
+
+</style></head><body onload="javascript:start()">
+
+<h2 style="text-align:center;margin:7px 0 10px 0"><r_>Free <g_>TV <r_>& <g_>Movie <r_>Playlist</h2>
+
+<table><tr><td class="textbox">
+
+<span style="display:block;font-size:22px;margin:14px 0 0">&#x1f408;</span>
+<hr><p>
+<input type=radio name="format" value="18" checked> 360p&nbsp;
+<input type=radio name="format" value="19"> 480p&nbsp;
+<input type=radio name="format" value="22"> 720p
+</p><hr><p>
+<input type=radio name="scale" onclick="javascript:vid_scaler()" value="0" checked> Normal&nbsp;
+<input type=radio name="scale" onclick="javascript:vid_scaler()" value="1"> Auto-fit&nbsp;
+<input type=radio name="scale" onclick="javascript:vid_scaler()" value="2"> Force-fit
+</p><hr><p>
+Brightness:
+<input type=range name="brite" class="slider" value=0 min=0 max=2 step=1 onchange="javascript:vid_scaler()" checked>
+</p><hr><br>
+<button onclick="javascript:load_list()" style="margin:-6px 0 0">Load Playlist</button>
+<br><br>
+<button onclick="javascript:save_list()" style="margin: 4px 0 0">Save Playlist</button>
+<br><br><hr>
+<span style="display:block;font-size:22px;margin:17px 0 0;transform:scale(-1,1)">&#x1f408;</span>
+
+</td><td class="vidbox">
+
+<div class="widevid">
+<div class="popbox" tabindex="-1" onclick="javascript:tv(event)"></div>
+<iframe id="frame" autoplay allowfullscreen controls></iframe></div></td></tr></table>
+
+<div style="margin:12px 0 12px 0;color:green">
+<button onclick="javascript:play_video()">Play</button> &nbsp;
+<input type=text style="width:626px"><input type=file style="display:none"> &nbsp;
+<button onclick="javascript:stop_video()">Stop</button> &nbsp;
+<input type=text style="width:80px" id="info" disabled>
+
+</div><script>
+
+var cors_bypass = cors_kraker = "https://kraker-remote.vercel.app/?url=";
+var response, textData, jsonData, busy = 0;
+
+var line = document.querySelector ("input[type=text]");
+var file = document.querySelector ("input[type=file]");
+
+var crypt = async () =>
+{
+  var n, p = "", q = "", r = false;
+
+  if (!r) try
+  {
+    response = await fetch ("playlist.txt"); return (atob (await response.text()));
+  }
+  catch { return "" }
+
+  try
+  {
+    response = await fetch ("playlist.m3u"); textData = await response.text();
+    for (n = 0, p = btoa (textData); n < p.length; n += 64) q += p.substr (n, 64) + "\n";
+    response = await fetch ("playlist.txt", { method: 'PUT', body: q });
+  }
+  catch { return "" }; return (textData);
+}
+
+var start = async () =>
+{
+  file.onchange = function (e) { load_list (e.target.files [0]); }
+
+  if (location.hostname == "localhost") cors_bypass = cors_kraker = "/";
+
+  load_list (await crypt());
+}
+////////////////////
+
+var pullstring = function (s, t, u)
+{
+  var m = t.length, n = s.indexOf (t) + m;
+  m = n < m ? -1 : (u ? s.indexOf (u, n) : s.length);
+  return (m < 0 ? "" : s.substr (n, m - n));
+}
+////////////////////
+
+var get_checked = function (name, value)
+{
+  var i = 0, j = value, k = document.getElementsByName (name);
+  if (k && k.length) for (; i < k.length; i++) if (k [i].checked) j = k [i].value;
+  if (isNaN (i = parseFloat (j))) return (j); else return (i);
+}
+////////////////////
+
+var show_list = function (show)
+{
+  var win = document.querySelector (".popbox");
+  win.focus(); win.style.zIndex = show ? 2 : -1;
+}
+
+var load_list = function (data)
+{
+  var m, n, p, q, r, s, t, cnt = 0; if (!data) { file.click(); return; }
+
+  if (typeof (data) != "string") if (data.size > 5000000) return; else
+  {
+    m = new FileReader(); m.readAsText (data);
+    m.onload = function () { load_list (m.result); }; return;
+  }
+
+  p = ""; data = data.split ("#EXTINF:");
+
+  for (n = 1; n < data.length; n++) if (m = data [n])
+  {
+    q = m.trim().split ("\n"); r = q[0];
+    r = r.substr (r.lastIndexOf (",") + 1).trim();
+    s = (q.length < 2 ? "" : q [q.length - 1].trim());
+    m = (s.indexOf ("http") && s.indexOf ("#:")) ? " disabled" : "";
+
+    if (!m) cnt ++; m += " title='";
+    r = "<span" + m + r + "'>" + r + "</span>";
+    p += "<p" + m + s + "'><button>X</button>" + r + s + "</p>";
+  }
+
+  document.querySelector (".popbox").innerHTML = p + "<p>&nbsp;</p>";
+  stop_video(); line.value = "Number of channels = " + cnt;
+}
+
+var save_list = function ()
+{
+  var m, n, p, q, r, s = "#EXTM3U\r\n";
+  var list = document.querySelector (".popbox").children;
+
+  for (n = 0; n < list.length - 1; n++) if (m = list [n])
+  {
+    p = m.title; q = m.children [1].title; r = m.hasAttribute ("disabled");
+    s += (r ? "\r\n" : "") + "#EXTINF:-1," + q + "\r\n" + (r ? "" : p) + "\r\n";
+  }
+
+  s = new Blob ([s]); list = document.createElement ('A'); list.download = "untitled.m3u";
+  list.href = URL.createObjectURL (s); list.click(); URL.revokeObjectURL (list.href);
+}
+
+var stop_video = function ()
+{
+  var vid = document.getElementById ("frame"), win = vid.parentNode;
+  vid.src = "about:blank"; win.removeChild (vid); win.appendChild (vid);
+  show_list (true); document.getElementById ("info").value = "";
+}
+////////////////////
+
+var play_video = function ()
+{
+  var url = line.value.trim(); if (url.indexOf ("http")) return;
+  stop_video(); show_list (false); load_stream (url, url.includes (".m3u"));
+}
+////////////////////
+
+var tv = async (event) =>
+{
+  var p = event.target, q = p.parentNode, r = q.title, src, id;
+
+  if (p.nodeName == "BUTTON") { q.parentNode.removeChild (q); return; }
+  if (busy || p.nodeName != "SPAN" || q.hasAttribute ("disabled")) return;
+
+  if (r && r[0] == "#")
+  {
+    busy = 1; show_list (false); line.value = "** WORKING **";
+    q = r.split (":"); r = ""; src = q[1]; id = q[2];
+
+    if (src == "distro")  r = await req_distro (id);
+    if (src == "lindell") r = await req_lindell (id);
+    if (src == "plextv")  r = await req_plextv (id);
+    if (src == "tvapp")   r = await req_tvapp (id);
+    if (src == "vtube")   r = await req_vtube (id);
+
+    busy = 0; if (r.indexOf ("http")) { r = ""; show_list (true); }
+  }
+
+  line.value = r || "** ERROR **"; if (r) { p.style.color = "crimson"; play_video(); }
+}
+////////////////////
+
+var req_distro = async (url) =>
+{
+  try
+  {
+    response = await fetch (cors_kraker + "https://www.distro.tv/live/" + url + "/");
+    textData = await response.text();
+
+    url = pullstring (textData, '"contentUrl":"', '"'); if (!url) throw ("");
+    var n = url.indexOf ("&url="); if (n > 0) url = url.substr (n + 5);
+    n = url.indexOf ("?"); if (n > 0) url = url.substr (0, n);
+  }
+  catch { url = "" }; return (url);
+}
+////////////////////
+
+var req_lindell = async (url) =>
+{
+  try
+  {
+    response = await fetch (cors_kraker + "https://frankspeech.com");
+    textData = await response.text();
+
+    var a = textData.indexOf ("<video ");
+    var b = textData.indexOf ("<video ", a + 1);
+    var c = textData.indexOf ("<video ", b + 1);
+    if (url == "lindell-1") url = textData.substr (a, 500);
+    if (url == "lindell-2") url = textData.substr (b, 500);
+    if (url == "lindell-3") url = textData.substr (c, 500);
+    url = pullstring (url, 'application/x-mpegURL" src="', '"');
+  }
+  catch { url = "" }; return (url);
+}
+////////////////////
+
+var req_plextv = async (url) =>
+{
+  try
+  {
+    var s, t, src = "https://watch.plex.tv";
+
+    s = { accept: 'application/json', 'X-Plex-Product': 'Plex Mediaverse', 'X-Plex-Client-Identifier': 'x' };
+
+    response = await fetch (cors_kraker + "https://plex.tv/api/v2/users/anonymous", { method: 'POST', headers: s });
+    textData = await response.text(); if (!(t = pullstring (textData, '"authToken":"', '"'))) throw("");
+
+    response = await fetch (cors_kraker + src + "/en-GB/live-tv/channel/" + url);
+    textData = await response.text();
+
+    s = pullstring (textData, '/library/parts/', '\\"'); if (!s.includes (".m3u8")) throw ("");
+
+    url = "https://epg.provider.plex.tv/library/parts/" + s + "?X-Plex-Token=" + t;
+  }
+  catch { url = "" }; return (url);
+}
+////////////////////
+
+var req_tvapp = async (url) =>
+{
+  try
+  {
+    response = await fetch (cors_bypass + "https://www.braflix.ru/livestream/tv_" + url);
+    textData = await response.text();
+
+    url = pullstring (textData, '"sources":[{"url":"', '"'); if (!url) throw ("");
+    url = pullstring (url, "?url=", "track") + "index.m3u8?" + pullstring (url, "%3F", "");
+    url = decodeURIComponent (url);
+  }
+  catch { url = "" }; return (url);
+}
+////////////////////
+
+const req_vtube = async (id) =>
+{
+  try
+  {
+    response = await fetch (cors_bypass + "https://vtube.network/" + id);
+    textData = await response.text();
+
+    var sub = pullstring (textData, "p,a,c,k,e,d", "<\/script>"); if (!sub) throw ("!!!");
+    eval ("(sub=function(p,a,c,k,e,d" + sub); url = pullstring (sub, 'file:"', '"');
+  }
+  catch { url = "" }; return (url);
+}
+////////////////////
+
+var load_stream = function (url, hls)
+{
+  var bstyle = "<body style='margin:0;padding:0;overflow:hidden;background-color:";
+  var istyle = " style='position:absolute;border:none;outline:none;width:100%;height:100%'";
+  var vstyle = " autoplay allowfullscreen ";
+
+  var insert = bstyle + "black'><video" + istyle + vstyle + "id='video'></video></body>";
+
+  var doc = document.getElementById ("frame").contentDocument;
+  doc.open(); doc.write ("<!DOCTYPE html>" + insert); doc.close();
+  var win = doc.getElementById ("video"); doc = doc.body;
+
+  win.onerror = function() { vid_error (win); }
+  win.onloadedmetadata = function() { vid_scaler (this.videoWidth, this.videoHeight); }
+
+  video_w = video_h = 0; create_controls (win); if (!hls) { win.src = url; return; }
+
+  var js = get_js ("HLS", !window.Hls);
+  js.onload = function() { play_hls (0, url, doc, win, get_checked ("format", 0)); }
+  if (window.Hls) js.onload(); else js.src = "http://localhost:8080/hls_player-1-3-5.js";
+}
+////////////////////
+
+var get_js = function (type, replace)
+{
+  var name = type + "_player", js = document.getElementById (name);
+  if (js) if (!replace) return js; else js.parentNode.removeChild (js);
+  js = document.createElement ("SCRIPT"); js.onerror = function() { err_play (type); }
+  js.id = name; document.body.appendChild (js); return js;
+}
+////////////////////
+
+var err_play = function (error)
+{
+  alert (error + " player seems to be missing! Server not serving.\n\n" +
+    " (o o)  ((( Could be that THEY are watching you ! )))  (o o)\n \n");
+}
+////////////////////
+
+var hls_quality = function (levels, fmt)
+{
+  if (!fmt) return (-1); var f = formats_m3u8 (levels);
+  fmt = getformat (f, fmt); fmt = argformat (fmt);
+  if (fmt >= 0) fmt = f [fmt] - 1; return (fmt);
+}
+////////////////////
+
+var play_hls = function (frame, url, doc, win, fmt)
+{
+  var hls_cfg = {
+    debug: false,
+    startLevel: 2,
+    autoStartLoad: false,
+    capLevelOnFPSDrop: true,
+    capLevelToPlayerSize: true,
+    defaultAudioCodec: "mp4a.40.5",
+    fpsDroppedMonitoringPeriod: 3000,
+    fpsDroppedMonitoringThreshold: 0.1,
+    minAutoBitrate: 350000,
+    enableWebVTT: false,
+    enableCEA708Captions: false
+  };
+
+  var vid = new Hls (hls_cfg); vid.loadSource (url); vid.attachMedia (win);
+
+  vid.on (Hls.Events.ERROR, function (event,data) { if (data.fatal) vid_error (win); });
+
+  vid.on (Hls.Events.MANIFEST_LOADED, function (event, data)
+    { vid.loadLevel = hls_quality (vid.levels, fmt); vid.startLoad(); });
+
+  vid.on (Hls.Events.BUFFER_CODECS, function (event,data) {
+    var x = data.video; if (x) vid_scaler (x.metadata.width, x.metadata.height); });
+
+  doc.onbeforeunload = function() { vid.destroy(); }
+}
+////////////////////
+
+var formats_m3u8 = function (levels)
+{
+  var i, j, k, w, h, b, f = [0,0,0,0,0,0,0,0], p = [0,0,0,0], r = [0,0,0,0];
+
+  if (!levels || !levels.length) return (f);
+
+  for (i = 0; i < levels.length; i++)
+  {
+    k = levels [i]; w = k.width || 0; h = k.height || 0; b = k.bitrate || 0;
+
+    if (!h) if ((b -= 175000) < 0) continue; else
+      { h = Math.trunc (Math.sqrt (b * 0.2)); b = -1 } else
+        { if (b) b -= w * h * 2 + 250000; if (b > 0) b *= 3; else b *= -2; }
+
+    if ((j = chkformat (h)) < 0 || (b < 0 && r[j])) continue;
+
+    k = ((b >= 0 && !r[j]) || (p[j] == h && b < r[j]));
+    if (k || p[j] < h) { f[j] = i + 1; p[j] = h; r[j] = b + 1; }
+  }
+
+  if (f[1] && p[0] < 240) f[0] = 0; return (f);
+}
+////////////////////
+
+var chkformat = function (p)
+{
+  if (p > 100 && p <= 432) return 0;
+  if (p > 432 && p <= 580) return 1;
+  if (p > 580 && p <= 800) return 2; return -1;
+}
+////////////////////
+
+var argformat = function (fmt)
+{
+  return ([18,19,22,37,43,44,45,46].indexOf (fmt * 1));
+}
+////////////////////
+
+var getformat = function (f, fmt)
+{
+  var m, n, itag = [18,19,22,37,43,44,45,46];
+
+  n = itag.indexOf (fmt * 1); if (n < 0) n = 0;
+
+  if (f[0] <= 0 && f[1] <= 0 && f[2] <= 0 && f[3] <= 0) n = n | 4;
+  if (f[4] <= 0 && f[5] <= 0 && f[6] <= 0 && f[7] <= 0) n = n & ~4;
+
+  for (m = n; m >= (n & ~3); m--) if (f[m] > 0) { n = m; break; }
+  for (m = n; m <= (n | 3);  m++) if (f[m] > 0) { n = m; break; }
+
+  return (f[n] <= 0 ? 0 : itag [n]);
+}
+////////////////////
+
+</script>
+
+<!-- This element must be cloned and inserted into a video frame. -->
+
+<div id="video_control" style="display:none">
+
+<div class="v-control">
+  <input type=range value=1 min=0 max=1 step=0.01 style="width:calc(70% - 250px)">
+  <input type=range value=1 min=0 max=1 step=0.05 style="width:calc(30% - 110px);max-width:150px">
+  <input type=text style="width:72px;color:azure;background-color:transparent" disabled>
+  <input type=text style="width:72px;color:azure;background-color:transparent" disabled>
+  <button class="v-seek" style="width:42px">15s</button>
+  <button class="v-seek" style="width:36px">1m</button>
+  <button class="v-seek" style="width:36px">5m</button>
+    <span class="v-span" style="width:14px;margin-left:1px">FS</span>
+</div>
+
+<style type="text/css">
+
+.v-control {
+  position: absolute; bottom: 0; width: 100%; margin: 0; padding: 4px 0 4px 0;
+  text-align: center; font-family: 'segoe ui', serif; font-size: 14px; line-height: 19px;
+  background-color: steelblue; cursor: default; user-select: none;
+}
+
+.v-control span {
+  display: inline-block; vertical-align: top; cursor: pointer;
+}
+
+.v-control input {
+  height: 13px; padding: 1px 3px 1px 3px; margin: 2px 1px 2px 1px;
+  font-family: 'consolas', 'lucida console', monospace; font-size: 14px; line-height: 12px;
+  text-align: center; vertical-align: top; border: 1px solid darksalmon; border-radius: 7px;
+  color: darkviolet; background-color: lightpink; user-select: auto; outline: none;
+  appearance: none; -moz-appearance: none; -webkit-appearance: none;
+}
+
+.v-control input::-moz-range-thumb {
+  -moz-appearance: none; width: 4px; height: 19px;
+  background: greenyellow; border: none; border-radius: 0;
+}
+
+.v-control input::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 4px; height: 19px;
+  background: greenyellow; border: none; border-radius: 0;
+}
+
+.v-control input::selection {
+  color: yellow; background-color: orchid;
+}
+
+.v-control button {
+  height: 17px; vertical-align: top; margin: 2px 0 2px 0; padding: 0;
+  border-style: solid; border-radius: 4px; border-width: 1px 6px 1px 6px;
+  outline: none; font-family: 'consolas', 'lucida console', monospace;
+  font-size: 14px; line-height: 12px; cursor: pointer; outline: none;
+}
+
+.v-control button:hover {
+  border-color: mediumturquoise;
+}
+
+.v-seek {
+  border-color: mediumseagreen; color: snow; background-color: mediumslateblue;
+}
+
+.v-span {
+  padding: 0 3px 1px 3px; margin: 1px 0 0 0;
+  color: yellow; background-color: mediumpurple;
+}
+
+.anim-bar {
+  animation-name: waiting;
+  animation-delay: 5s;
+  animation-duration: 2.5s;
+  animation-fill-mode: both;
+  animation-direction: normal;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes waiting {
+   0%  { background-color: lightpink; }
+  30%  { background-color: lightpink; }
+  70%  { background-color: salmon; }
+ 100%  { background-color: lightpink; }
+}
+
+</style></div>
+
+<!-- Video control script - NOT inserted into a video frame. -->
+
+<script>
+
+var create_controls = function (vid)
+{
+  var control = document.getElementById ("video_control").cloneNode (true);
+
+  var doc = vid.ownerDocument;          // document
+  var ctr = control.firstElementChild;  // video control
+  var sib = ctr.children;               // video control elements
+
+  sib [0].onchange = function() { vid_click (this, 1); }
+  sib [1].onchange = function() { vid_click (this, 3); }
+  sib [7].onclick  = function() { vid_click (this, 7); }
+
+  vid.onended      = function() { vid_cntrl (this, 1); }
+  vid.onclick      = function() { vid_cntrl (this, 2); }
+  vid.onplay       = function() { vid_cntrl (this, 3); }
+  vid.onpause      = function() { vid_cntrl (this, 4); }
+  vid.onseeking    = function() { vid_cntrl (this, 5); }
+  vid.onwaiting    = function() { vid_cntrl (this, 6); }
+  vid.onstalled    = function() { vid_cntrl (this, 7); }
+  vid.ontimeupdate = function() { vid_cntrl (this, 8); }
+
+  vid.onmousemove  = function(e) { vid_event (e, 1); }
+  ctr.onclick      = function(e) { vid_event (e, 2); }
+
+  ctr.onmouseleave = function() { vid_cntrl (vid, 0); }
+  ctr.onmouseenter = function() { vid_cntrl (vid, 1); }
+
+  sib [0].classList.add ("anim-bar");
+  control.style.display = "inline-block";
+  vid.checked = 0; ctr.step = 1; ctr.checked = 30;
+
+  doc.body.appendChild (control);
+}
+////////////////////
+
+var vid_error = function (vid)
+{
+  var ctr = vid.nextElementSibling.firstElementChild, sib = ctr.children;
+  vid.disabled = true; vid_cursor (vid, true); ctr.style.display = "initial";
+  sib [0].classList.remove ("anim-bar"); sib [0].style.background = "crimson";
+  if (!sib [2].value) sib [2].value = "ERROR"; sib [3].value = "!!!!!";
+}
+////////////////////
+
+var vid_cntrl = function (vid, mode)
+{
+  var ctr = vid.nextElementSibling.firstElementChild, sib = ctr.children;
+  if (ctr.value == undefined && mode > 2 && mode < 8) return;
+  if (vid.disabled && mode > 2 && mode < 9) return;
+
+  var t = vid.currentTime, d = vid.duration;
+  if (isNaN (t)) t = 0; if (isNaN (d) || !isFinite (d)) d = 0;
+  var z = (t > 0 && d > 0) ? 400 * t / d : 0; z = Math.round (z) * 0.25;
+
+  var no_action = ctr.value == undefined || vid.disabled;
+  var got_video = vid.videoWidth && vid.videoHeight;
+
+  if (mode == 0)  // hide
+  {
+    ctr.disabled = false; if (no_action) return;
+    ctr.value = 4; if (vid.paused && got_video) ctr.style.display = "none";
+  }
+  if (mode == 1)  // show
+  {
+    ctr.disabled = true; if (no_action) return;
+    ctr.value = 0; ctr.style.display = "initial";
+  }
+  if (mode == 2)  // play/pause
+  {
+    vid_cursor (vid, true);
+    if (vid.paused) vid.play(); else vid.pause();
+    if (no_action) vid_external (vid.value, mode); else
+      if (!ctr.disabled && !got_video) ctr.style.display = "none";
+  }
+  if (mode == 3)  // is playing
+  {
+    vid_external (vid.value, mode); mode = 10;
+    // special case of video paused at video start
+    if (!ctr.disabled && ctr.value <= 0) ctr.value = 1 - ctr.value;
+  }
+  if (mode == 4)  // is paused
+  {
+    vid_external (vid.value, mode); mode = 10;
+    // special case of video paused while doing countdown or countup
+    if (!ctr.disabled && ctr.value) { ctr.style.display = "none"; ctr.value = 0; }
+  }
+  if (mode == 5)  // is seeking
+  {
+    sib [0].style.background = "linear-gradient(90deg, darkorange " + z + "%, orange 0%)";
+  }
+  if (mode == 6)  // is waiting
+  {
+    sib [0].style.background = "linear-gradient(90deg, darkorange " + z + "%, orange 0%)";
+    setTimeout (function() { vid_timer (vid, ctr, t); }, 2000);
+  }
+  if (mode == 7)  // is stalled
+  {
+    sib [0].style.background = "linear-gradient(90deg, deeppink " + z + "%, hotpink 0%)";
+    setTimeout (function() { vid_timer (vid, ctr, t); }, 2000);
+  }
+
+  if (mode == 8)  // time update
+  {
+    if (t == vid.checked) return; vid.checked = t;
+    var v = ctr.value, ts = Math.round (t), ds = Math.round (d);
+    var th = Math.trunc (ts / 3600), dh = Math.trunc (ds / 3600); ts -= th * 3600; ds -= dh * 3600;
+    var tm = Math.trunc (ts / 60), dm = Math.trunc (ds / 60); ts -= tm * 60; ds -= dm * 60;
+
+    sib [0].style.background = "linear-gradient(90deg, skyblue " + z + "%, transparent 0%)";
+    sib [2].value = th + ":" + (tm < 10 ? "0" : "") + tm + ":" + (ts < 10 ? "0" : "") + ts;
+    sib [3].value = dh + ":" + (dm < 10 ? "0" : "") + dm + ":" + (ds < 10 ? "0" : "") + ds;
+
+    if (v != undefined) v = v * 1; else
+    {
+      v = (vid.paused || ctr.disabled) ? -5 : 6;
+      mode = 10; sib [0].classList.remove ("anim-bar");
+    }
+    if (v > 0 && !--v) { if (got_video) ctr.style.display = "none"; v = -5; }
+    if (v < 0 && !++v) vid_cursor (vid, false); ctr.value = v;
+  }
+}
+////////////////////
+
+var vid_timer = function (vid, ctr, time)  // catch wait/stall false flags
+{
+  if (vid.currentTime == time)
+  {
+    if (!ctr.disabled) ctr.value = 4; ctr.style.display = "initial";
+  }
+}
+////////////////////
+
+var vid_cursor = function (vid, mode)
+{
+  vid.style.cursor = (mode || vid.disabed) ? "default" : "none";
+}
+////////////////////
+
+var vid_external = function (param, mode)
+{
+  if (mode == 2) stop_video();
+}
+////////////////////
+
+var vid_click = function (item, mode)
+{
+  var min_vt = 0, ctr = item.parentNode, vid = ctr.parentNode.previousElementSibling;
+
+  if (mode == 1)
+  {
+    var t = vid.duration * item.value; if (isNaN (t) || !isFinite (t)) return;
+    if (t < min_vt) t = min_vt; vid.currentTime = t; //ctr.children [11].value = t.toFixed(2);
+  }
+
+  if (mode == 3) { var m = vid.muted; vid.muted = true; vid.volume = item.value; vid.muted = m; }
+
+  if (mode == 7) if (vid.ownerDocument.fullscreen || vid.ownerDocument.fullscreenElement)
+    vid.ownerDocument.exitFullscreen(); else vid.parentNode.requestFullscreen();
+}
+////////////////////
+
+var vid_event = function (event, type)
+{
+  var min_vt = 0, item = event.target, node = item.nodeName;
+
+  if (type == 1)
+  {
+    var ctr = item.nextElementSibling.firstElementChild;
+    vid_cursor (item, true); if (ctr.value == undefined) return;
+
+    if (ctr.value <= 0) ctr.value = -8;
+    if (event.clientY > item.clientHeight - ctr.checked) vid_cntrl (item, 1);
+  }
+  if (type != 2 || node != "BUTTON") return;
+
+  var ctr = item.parentNode, vid = ctr.parentNode.previousElementSibling;
+
+  var a = item.offsetLeft, b = item.offsetWidth / 2;
+  var c = Math.abs (ctr.step), d = ctr.clientWidth / 2;
+
+  var dir = (event.clientX < (a + b - d) * c + d) ? -1 : 1;
+  var txt = item.innerText, speed = txt * 1;
+
+  if (speed)
+  {
+    speed += dir * 0.1; if (speed > 0.4) speed += dir * 0.1;
+    if (speed > 2) speed += dir * 0.3; if (speed < 0.1) speed = 0.1; if (speed > 5) speed = 5;
+    item.innerText = speed.toFixed(1); vid.playbackRate = speed; return;
+  }
+
+  if (txt == "15s") dir *= 15;
+  if (txt == "1m" ) dir *= 60;
+  if (txt == "5m" ) dir *= 300;
+
+  if ((dir += vid.currentTime) < min_vt) dir = min_vt;
+  vid.currentTime = dir > vid.duration ? vid.duration : dir;
+}
+////////////////////
+
+var vid_scaler = function (a, b)
+{
+  var vid = document.getElementById ("frame").contentDocument;
+  if (vid) vid = vid.getElementById ("video"); if (!vid) return;
+
+  if (a && b) document.getElementById ("info").value = (video_w = a) + " x " + (video_h = b);
+
+  a = video_w; b = video_h; a = (a && b) ? (a * 9) / (b * 16) : 1;
+  b = get_checked ("scale", 0); if (b > 1) a = 1.4; if (!b || a < 1) a = 1;
+
+  b = get_checked ("brite", 0); b = b ? (b > 1 ? [1.3, 0.75, 0.7] : [1.15, 0.9, 0.8]) : [1, 1, 1];
+  b = "brightness(" + b[0] + ") contrast(" + b[1] + ") saturate(" + b[2] + ")";
+
+  vid.style.transform = "scale(" + a + ")"; vid.style.filter = b;
+}
+////////////////////
+
+</script></body></html>
+
