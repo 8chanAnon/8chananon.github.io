@@ -109,6 +109,84 @@ Send your questions and feedback to my email: <g_>8chananon@mail.com</g_>
 
 <!-- PANEL --><table class="panel"><tr><td class="textbox">
 
+<b>Update</b> - <r_>August 9, 2024</r_> - So I've been working on a new installation tutorial for the <g_>Kraker Local
+Proxy Server</g_> and I've realized the need for some hands-on examples of powerful apps. Previously, I've just been
+telling people to play around with Alleycat Player to see what the proxy server is good for but that is really insufficient.
+For one thing, Alleycat Player does not exercise the advanced capabilities of the proxy and, even if it did, you wouldn't
+even know without me telling you. Some small but useful apps as a demonstration of what the proxy can do would go a long
+way. I already made one which is useful for browsing files on the local disk but I've kind of been at a loss for what to do
+for a larger demonstration. Then it struck me that I should make an M3U playlist reader. I've been needing that because it
+has been a pain in the ass to find working Internet TV channels by browsing through the barely readable text of an M3U file
+in Notepad and copying the URL into Alleycat Player to test it. Well, now I have such an app and it makes the previous apps
+that I made for TV and movies obsolete. I am offering you over 200 links for Internet TV, movies and some radio stations as
+well. You can also make your own playlist or just use whatever you can find on the Internet.
+<p></p>
+All of these apps make use of a scaled-down remote version of my local proxy server. It is hosted by Vercel which, in turn,
+is hosted by Amazon. It is a simple matter to block the proxy by the IP address and a number of websites are doing this
+right now. I had a hard time finding a pirate movie source because the ones that I'd already hacked are blocking my proxy.
+Either that or the hack is too involved anyway to be workable with a remote proxy. This blocking is actually news to me and
+it must have started over the course of the past few months. Whenever I hack a site, I always check to see
+whether or not it is workable with a remote proxy.
+<p></p>
+On August 6, YouTube started blocking my proxy and the YouTube Player app stopped working. I got it working again by a
+stroke of pure luck. This story is a bit long so buckle up. It is very informative and it goes along with what I said in
+my rant further down this page: "The Internet is getting tougher and more user-unfriendly". Everybody wants to lock you in
+and part of the process is blocking what is called "headless apps". This means bots and scrapers which normally operate
+without human intervention. My own utilities are, of course, not headless but they appear as such to websites. Jealous
+website operators do not want you using unauthorized apps to access their sites. One way to block these evil apps is to
+block the IP addresses belonging to data centres like Amazon Web Services. This is easily done with a list of all the data
+centre IPs, as well as the IPs of all known proxy servers. Google has such a list since they've been blocking data centre
+IPs from using Google search for at least the past couple of years and now they're doing the same for YouTube. Cloudflare
+also has the list and many pirate websites are hosted there. I think there has been a pricing or policy change at Cloudflare
+and that's why these pirate sites are now blocking my remote proxy whereas they did not have that ability prior to, say,
+six months ago. So the problem that I had was finding another proxy server which is not blocked by YouTube.
+<p></p>
+A few years ago, finding proxy servers was not difficult. Alleycat Player offered five proxy servers before I built my own
+at Vercel. They have all disappeared except for "api.allorigins.win" which has somehow resisted whatever abuses took down
+the others. Unfortunately, that one was also blocked by YouTube so I was left with no options. The YouTube Player could not
+be fixed. Just prior to offering the app for free movies, I discovered that the source (thetvapp.to) that I was using for
+U.S. channels in the TV app is no longer accessible. It is blocked by a Cloudflare bot challenge. The challenge can
+be bypassed using the local proxy server but that is not possible with the remote version.
+<p></p>
+This is an <a href="https://fmhy.net/videopiracyguide">excellent resource</a> for finding pirate sites. There is this one
+interesting site (www.braflix.ru) which turned out to be somewhat more than just interesting. For one, it is a proxy for
+the previously mentioned site which is now blocked by Cloudflare. Secondly, not only is my remote proxy server not blocked
+but the video link itself goes through a proxy. I don't know why because the proxy is not needed. My app tosses away the
+proxy wrapper. What is important is that this proxy is not blocked by YouTube. Thus, the YouTube Player has been fixed
+though only partially. Age-gated videos no longer work because the new proxy does not accept the POST method. There were
+issues already with some videos not working because of the IP address mismatch between the proxy server and the user.
+Anyway, after all this I now find that "api.allorigins.win" is no longer blocked. I don't know why. It turns out that
+it is hosted by Cloudflare but so is the other one that I used to fix the YouTube Player. What's going on?
+<p></p>
+I'll end this long story with a note. The nature of the block is not that the YouTube server refuses to deliver the file.
+Rather, it delivers the file without the links to the video. This triggers the app to assume that the video is age-gated
+and so it goes through a different route which also turns out to be blocked in a similar fashion. So the remote proxy server
+works in one instance but not in the other. All of this works just fine with the local proxy server. I could be wrong but
+I'm assuming for now that the difference is the IP address and nothing more.
+<p></p>
+The new app retains the functionality that I introduced with the Free Movies app. The zoom feature is the
+same and I've included an additional level to the brightness control. The custom video control is unchanged. You can select
+360p, 480p or 720p. You can load a playlist or save a playlist. The app should be able to load any playlist that you find
+on the Internet. The playlist is saved with just the channel name and the URL. That is, it cleans up the list, removing the
+other garbage that makes the playlist very hard to manage in a text editor.
+<p></p>
+On startup, the app loads a default playlist from the GitHub server. As protection from the psychotic copyright warriors,
+the playlist is encoded on the server. I already got hit once with a DMCA notice on Alleycat Player and I don't want to
+risk that again because the way it went down is that I had to delete and restore the entire repository. Of course, I have
+my own local copies of everything and backups on a file storage service.
+<p></p>
+<a href="dl/playlist.htm">Free TV & Movies Playlist</a> --
+<a href="https://github.com/iptv-org/iptv/tree/master/streams">go here</a> for playlists organized by country --
+<a href="dl/yt-player.htm">YouTube Player</a>
+<p></p>
+In unrelated news, my neighborhood is starting to look like a jungle again. All of the gardens are overgrowing the
+walkways. Trees are growing where there were no trees. It's crazy. The threat of carbon dioxide is not global warming but
+the prospect of being buried alive by excess vegetation.
+
+</td></tr></table>
+
+<!-- PANEL --><table class="panel"><tr><td class="textbox">
+
 <b>Update</b> - <r_>July 31, 2024</r_> - I'm here to drop another gift, this time offering some new movies to watch. It's
 similar to the Free TV app that I posted last time but for movies. I invested quite a bit of effort on finding a source that
 doesn't need the local proxy server because most of them go out of their way to prevent somebody like me from bypassing their
