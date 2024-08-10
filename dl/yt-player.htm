@@ -93,7 +93,7 @@ r_ { color: crimson; }
 g_ { color: seagreen; }
 b_ { color: blue; }
 
-</style></head><body>
+</style></head><body onload="javascript:start()">
 
 <h2 style="text-align:center;margin:7px 0 10px 0"><r_>YouTube Player</r_></h2>
 
@@ -108,9 +108,9 @@ b_ { color: blue; }
 <br><input type=radio name="tv" onclick="javascript:tv ('0ZwfXUURS3g')"> Dukes of Hazzard
 <br><input type=radio name="tv" onclick="javascript:tv ('uQJoar17jyo')"> Schiff Hits the Fan
 <br><input type=radio name="tv" onclick="javascript:tv ('wLTGXblgUoc')"> Never Forget
-<br><input type=radio name="tv" onclick="javascript:tv ('CGq8Ee2gOe4')"> DooM at QuakeCon
-<br><input type=radio name="tv" onclick="javascript:tv ('kJAsn_vJyY4')"> Starship Enterprise
 <br><input type=radio name="tv" onclick="javascript:tv ('FnV0LqHd3h8')"> Make America Great Again
+<br><input type=radio name="tv" onclick="javascript:tv ('0pKfxbCHLoU')"> AKB48: Sustainable
+<br><input type=radio name="tv" onclick="javascript:tv ('kJAsn_vJyY4')"> Starship Enterprise
 <br><input type=radio name="tv" onclick="javascript:tv ('74VHwppfHuI')"> The Best Is Yet To Come
 <br><input type=radio name="tv" onclick="javascript:tv ('XkkvC3D_srM')"> March of the Frogs
 <br><input type=radio name="tv" onclick="javascript:tv ('sGdWkl9M_TY')"> American Airman
@@ -139,14 +139,20 @@ b_ { color: blue; }
 <button onclick="javascript:play_url()">Play</button> &nbsp;
 <button onclick="javascript:clear_video()">Stop</button>
 
-</div><r_>Note: age-gated videos, such as the DooM sample, might not work.</r_> (<g_>updated August 6, 2024</g_>)
+</div><r_>Note: age-gated videos will not work.</r_> (<g_>updated August 10, 2024</g_>)
 
 <script>
 
 var cors_bypass = "https://m3u8.justchill.workers.dev/?url=";
 var cors_kraker = "https://kraker-remote.vercel.app/?url=";
+
 var response, textData, jsonData, busy = 0, cookies = {};
 var line = document.querySelector ("input[type=text]");
+
+var start = function ()
+{
+  if (location.hostname == "localhost") cors_bypass = cors_kraker = "/";
+}
 
 var clear_video = function ()
 {
@@ -179,18 +185,10 @@ var pullstring = function (s, t, u)
 }
 ////////////////////
 
-var get_checked = function (name, value)
-{
-  var i = 0, j = value, k = document.getElementsByName (name);
-  if (k && k.length) for (; i < k.length; i++) if (k [i].checked) j = k [i].value;
-  if (isNaN (i = parseFloat (j))) return (j); else return (i);
-}
-////////////////////
-
 var tv = function (id)
 {
   line.value = "https://www.youtube.com/watch?v=" + id;
-  clear_video(); request_youtube (id, get_checked ("format", 18));
+  clear_video(); request_youtube (id, 18);
 }
 ////////////////////
 
@@ -215,81 +213,39 @@ var play_url = function ()
 
 const request_youtube = async (id, fmt) =>
 {
-  var i, j, n, s, t, sub, vid, aud, key, sig, nkey, webm, f = [0,0,0,0,0,0,0,0,0,0];
+  var n, s, t, sub, vid, key, sig, nkey, f = [0,0,0,0,0,0,0,0,0,0];
 
-  var tag = "youtube"; if (is_busy()) return;
-  var url = cors_bypass + "https://www.youtube.com/watch?v=" + id;
+  if (is_busy()) return; var url = cors_bypass + "https://www.youtube.com/watch?v=" + id;
 
 try
 {
   response = await fetch (url);
   textData = await response.text();
 
-  url = pullstring (textData, "ytInitialPlayerResponse = ", "};");
-  if (url) sub = JSON.parse (url + "}");
+  sub = pullstring (textData, '"formats":[', ']');
 
-  if (!url || !(sub = sub.streamingData))
+  if (!(s = pullstring (textData, '"jsUrl":"', '"'))) throw ("!!!");
+
+  if (!(key = cookies [s]) || !(nkey = cookies ["!" + s]))
   {
-    if (s = pullstring (textData, '"PLAYER_JS_URL":"', '"'))
+    response = await fetch (cors_kraker + "https://www.youtube.com" + s);
+    textData = await response.text();
+
+    if ((n = textData.indexOf ('var b=a.split(a.slice(0,0))')) < 0) nkey = ""; else
     {
-      s = "https://www.youtube.com" + s.replace ("base.js", "offline.js");
-      response = await fetch (cors_kraker + s); s = await response.text();
-      s = pullstring (s, "signatureTimestamp:", ",");
+      t = textData.substr (n, textData.indexOf ('b.join("")', n) - n);
+      t = 'function(a){var b=a.split(""' + t.substr (t.indexOf ('),')) + 'b.join("")};';
+      nkey = "var nsig=" + t + " sig=nsig(sig);";
     }
-    n = s ? s * 1 : Math.trunc (Date.now() / 86400000) - 1;
 
-    t = {
-      videoId: id, playbackContext: { contentPlaybackContext: { signatureTimestamp: n }},
-      context: { client: { gl: 'US', hl: 'en', clientName: 'TVHTML5_SIMPLY_EMBEDDED_PLAYER', clientVersion: '2.0' }}
-    };
-    s = JSON.stringify (t);
-
-    url = cors_kraker + "https://www.youtube.com/youtubei/v1/player";
-    response = await fetch (url, { method: 'POST', headers: {'content-type': 'application/json'}, body: s });
-    jsonData = await response.json();
-
-    if (!(sub = jsonData.streamingData)) throw ("!!!");
+    cookies [s] = key = yt_algo (textData); cookies ["!" + s] = nkey;
   }
 
-  if (t = sub.formats)
-    for (i = 0; i < t.length; i++) if ((s = t[i].itag) && (j = argformat (s)) >= 0) f[j] = i + 1;
+  sub = JSON.parse ('{"formats":[' + sub + ']}');
+  sub = sub.formats; if (!sub.length) throw ("!!!");
 
-  fmt = getformat (f, fmt);
-  if ((i = argformat (fmt)) < 0 || (j = f [i] - 1) < 0) throw ("!!!");
-
-  webm = i > 3; if (!tag) aud = yt_split (t [f [webm + 8] - 1]);
-  vid = yt_split (t [j]); url = vid [0]; sig = vid [1]; if (!url) throw ("!!!");
-
-  if (sig || url.includes ("&n="))
-  {
-    if (!(s = pullstring (textData, '"PLAYER_JS_URL":"', '"')))
-    {
-      response = await fetch (cors_kraker + "https://www.youtube.com/embed/" + id);
-      textData = await response.text();
-
-      s = textData.substr (textData.indexOf ("base.js") - 100, 107);
-      if ((i = s.indexOf ("/s/player/")) < 0) throw ("!!!"); s = s.substr (i);
-    }
-
-    key = cookies [s]; nkey = cookies ["!" + s];
-
-    if ((sig && !key) || (!sig && !nkey))
-    {
-      response = await fetch (cors_kraker + "https://www.youtube.com" + s);
-      textData = await response.text();
-
-      cookies [s] = key = yt_algo (textData);
-
-      if (n = textData.indexOf ('var b=a.split(a.slice(0,0))') + 1)
-      {
-        t = textData.substr (--n, textData.indexOf ('b.join("")', n) - n);
-        t = 'function(a){var b=a.split(""' + t.substr (t.indexOf ('),')) + 'b.join("")};';
-        cookies ["!" + s] = nkey = "var nsig=" + t + " sig=nsig(sig);";
-      }
-    }
-
-    url = yt_nsig (url, nkey); if (sig && key) { eval (key); url += "&sig=" + sig; }
-  }
+  vid = yt_split (sub [0]); url = vid [0]; sig = vid [1]; if (!url) throw ("!!!");
+  url = yt_nsig (url, nkey); if (sig && key) { eval (key); url += "&sig=" + sig; }
 
 } catch (err) { console.log (err); busy = 0; }
 
@@ -357,69 +313,6 @@ var load_stream = function (url)
   doc.getElementById ("video").src = url;
 }
 ////////////////////
-
-var argformat = function (fmt)
-{
-  if (fmt == 18) return 0;
-  if (fmt == 19) return 1;
-  if (fmt == 22) return 2;
-  if (fmt == 37) return 3;
-  if (fmt == 43) return 4;
-  if (fmt == 44) return 5;
-  if (fmt == 45) return 6;
-  if (fmt == 46) return 7;
-
-  return -1;
-}
-
-var getformat = function (f, fmt)
-{
-  if (f[0] <= 0 && f[1] <= 0 && f[2] <= 0 && f[3] <= 0)
-  {
-    if (fmt == 18) fmt = 43;
-    if (fmt == 19) fmt = 44;
-    if (fmt == 22) fmt = 45;
-    if (fmt == 37) fmt = 46;
-  }
-
-  if (f[4] <= 0 && f[5] <= 0 && f[6] <= 0 && f[7] <= 0)
-  {
-    if (fmt == 43) fmt = 18;
-    if (fmt == 44) fmt = 19;
-    if (fmt == 45) fmt = 22;
-    if (fmt == 46) fmt = 37;
-  }
-
-  var m = 0, n = fmt;
-
-  if (n == 37) if (f[3]) m = n; else n = 22;
-  if (n == 22) if (f[2]) m = n; else n = 19;
-  if (n == 19) if (f[1]) m = n; else n = 18;
-  if (n == 18) if (f[0]) m = n;
-
-  n = fmt; if (m) return m;
-
-  if (n == 18) if (f[0]) m = n; else n = 19;
-  if (n == 19) if (f[1]) m = n; else n = 22;
-  if (n == 22) if (f[2]) m = n; else n = 37;
-  if (n == 37) if (f[3]) m = n;
-
-  n = fmt; if (m) return m;
-
-  if (n == 46) if (f[7]) m = n; else n = 45;
-  if (n == 45) if (f[6]) m = n; else n = 44;
-  if (n == 44) if (f[5]) m = n; else n = 43;
-  if (n == 43) if (f[4]) m = n;
-
-  n = fmt; if (m) return m;
-
-  if (n == 43) if (f[4]) m = n; else n = 44;
-  if (n == 44) if (f[5]) m = n; else n = 45;
-  if (n == 45) if (f[6]) m = n; else n = 46;
-  if (n == 46) if (f[7]) m = n;
-
-  return m;
-}
 
 </script></body></html>
 
