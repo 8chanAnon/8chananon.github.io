@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>YouTube</title>
+<title>YouTube Player</title>
 
 <style type="text/css">
 
@@ -38,17 +38,31 @@ iframe {
   pointer-events: auto;
 }
 
-input {
-  height: 17px; font-size: 13px;
-  font-family: verdana, sans-serif;
-  border-width: 2px; border-style: solid;
-  border-color: tan lemonchiffon lemonchiffon burlywood;
-  padding: 3px 5px 3px 5px; caret-color: navy; outline: none;
+input[type=text] {
+  height: 19px; padding: 2px 6px 1px; outline: none; margin: 0;
+  font-size: 13px; font-family: verdana, sans-serif;
+  border: 1px solid peru; border-radius: 4px;
+  color: darkred; background-color: snow;
+}
+
+input[type=text][disabled] {
+  background-color: papayawhip; text-align: center;
 }
 
 input[type=radio] {
   vertical-align: middle; margin: -2px 1px 1px 2px;
   filter: contrast(1.0) brightness(1.2) opacity(90%);
+}
+
+button {
+  width: auto; height: auto; margin: 1px 0; padding: 2px 12px 1px;
+  line-height: 17px; font-size: 13px; font-family: helvetica, sans-serif;
+  outline: none; border: 1px solid peru; border-radius: 5px;
+  color: slateblue; background-color: moccasin;
+}
+
+button:hover:not(:active) {
+  background-color: gainsboro;
 }
 
 table {
@@ -67,20 +81,6 @@ td.vidbox {
   text-align: left; border-left: 1px solid firebrick;
 }
 
-button {
-  width: auto; height: auto;
-  font-size: 14px; line-height: 20px;
-  padding: 2px 6px 0 6px; margin: 0;
-  font-family: helvetica, sans-serif;
-  color: darkblue; background-color: pink;
-  outline: none; border-size: 2px; border-style: solid;
-  border-color: #e8e8e8 #9c9c9c #9c9c9c #ececec;
-}
-
-button:hover:active {
-  border-color: #a8a8a8 #f8f8f8 #f4f4f4 #acacac;
-}
-
 hr {
   border-color: thistle; border-style: solid; margin: 12px 0;
 }
@@ -93,7 +93,7 @@ r_ { color: crimson; }
 g_ { color: seagreen; }
 b_ { color: blue; }
 
-</style></head><body onload="javascript:start()">
+</style></head><body>
 
 <h2 style="text-align:center;margin:7px 0 10px 0"><r_>YouTube Player</r_></h2>
 
@@ -108,8 +108,8 @@ b_ { color: blue; }
 <br><input type=radio name="tv" onclick="javascript:tv ('0ZwfXUURS3g')"> Dukes of Hazzard
 <br><input type=radio name="tv" onclick="javascript:tv ('uQJoar17jyo')"> Schiff Hits the Fan
 <br><input type=radio name="tv" onclick="javascript:tv ('wLTGXblgUoc')"> Never Forget
+<br><input type=radio name="tv" onclick="javascript:tv ('CGq8Ee2gOe4')"> DooM at QuakeCon
 <br><input type=radio name="tv" onclick="javascript:tv ('FnV0LqHd3h8')"> Make America Great Again
-<br><input type=radio name="tv" onclick="javascript:tv ('0pKfxbCHLoU')"> AKB48: Sustainable
 <br><input type=radio name="tv" onclick="javascript:tv ('kJAsn_vJyY4')"> Starship Enterprise
 <br><input type=radio name="tv" onclick="javascript:tv ('74VHwppfHuI')"> The Best Is Yet To Come
 <br><input type=radio name="tv" onclick="javascript:tv ('XkkvC3D_srM')"> March of the Frogs
@@ -130,37 +130,31 @@ b_ { color: blue; }
 </div></td></tr></table>
 
 <div style="margin:12px 0 12px 0">
-<!--
-<input type=radio name="format" style="vertical-align:middle" value="18" checked> 360p &nbsp;
-<input type=radio name="format" style="vertical-align:middle" value="22"> 720p</span> &nbsp;&nbsp;
--->
-<g_>All videos are 360p only</g_> &nbsp;
 <input type=text style="width:350px"> &nbsp;&nbsp;
+<input type=text class="static" style="width:60px" disabled> &nbsp;&nbsp;
 <button onclick="javascript:play_url()">Play</button> &nbsp;
 <button onclick="javascript:clear_video()">Stop</button>
 
-</div><r_>Note: age-gated videos will not work.</r_> (<g_>updated August 10, 2024</g_>)
+</div><r_>All videos are 360p. Some videos might not work due to IP address mismatch.</r_> (<g_>August 12, 2024</g_>)
 
 <script>
 
-var cors_bypass = "https://m3u8.justchill.workers.dev/?url=";
 var cors_kraker = "https://kraker-remote.vercel.app/?url=";
+if (location.hostname == "localhost") cors_kraker = "/";
+
+var proxies = [
+  '23.19.244.109:1080',
+  '31.170.22.127:1080',
+  '178.17.170.76:1080',
+  '146.70.149.46:1080',
+  '95.183.52.30:1080'
+];
 
 var response, textData, jsonData, busy = 0, cookies = {};
-var line = document.querySelector ("input[type=text]");
+var proxy = Math.trunc (Math.random() * proxies.length);
 
-var start = function ()
-{
-  if (location.hostname == "localhost") cors_bypass = cors_kraker = "/";
-}
-
-var clear_video = function ()
-{
-  var vid = document.getElementById ("frame"), win = vid.parentNode;
-  win.removeChild (vid); vid.src = "about:blank"; win.appendChild (vid);
-  document.getElementById ("msg").innerHTML = "No Video";
-}
-////////////////////
+var line = document.querySelectorAll ("input[type=text]");
+var stat = line [1]; line = line [0]; stat.value = "Proxy " + proxy;
 
 var is_busy = function ()
 {
@@ -182,6 +176,14 @@ var pullstring = function (s, t, u)
   var m = t.length, n = s.indexOf (t) + m;
   m = n < m ? -1 : (u ? s.indexOf (u, n) : s.length);
   return (m < 0 ? "" : s.substr (n, m - n));
+}
+////////////////////
+
+var clear_video = function ()
+{
+  var vid = document.getElementById ("frame"), win = vid.parentNode;
+  win.removeChild (vid); vid.src = "about:blank"; win.appendChild (vid);
+  document.getElementById ("msg").innerHTML = "No Video";
 }
 ////////////////////
 
@@ -213,20 +215,27 @@ var play_url = function ()
 
 const request_youtube = async (id, fmt) =>
 {
-  var n, s, t, sub, vid, key, sig, nkey, f = [0,0,0,0,0,0,0,0,0,0];
+  var n, s, t, sub, vid, key, sig, nkey; if (is_busy()) return;
 
-  if (is_busy()) return; var url = cors_bypass + "https://www.youtube.com/watch?v=" + id;
+  var url = cors_kraker + "user-agent=|!vpx:XXX|*https://www.youtube.com/embed/" + id;
+
+  for (s = "", n = 0; n < proxies.length; n++) try
+  {
+    stat.value = "Proxy " + proxy;
+    response = await fetch (url.replace ("XXX", proxies [proxy]));
+    textData = await response.text();
+
+    if (s = pullstring (textData, '"jsUrl":"', '"')) break; throw ("");
+  }
+  catch { if (++proxy >= proxies.length) proxy = 0; } 
 
 try
 {
-  response = await fetch (url);
-  textData = await response.text();
+  if (!s) throw ("???");
+  key = cookies [s]; nkey = cookies ["!" + s]; n = cookies ["?" + s];
+  var ua = "user-agent=!Mozilla/5.0 (Android 14)|!vpx:" + proxies [proxy] + "|*";
 
-  sub = pullstring (textData, '"formats":[', ']');
-
-  if (!(s = pullstring (textData, '"jsUrl":"', '"'))) throw ("!!!");
-
-  if (!(key = cookies [s]) || !(nkey = cookies ["!" + s]))
+  if (!key || !nkey || !n)
   {
     response = await fetch (cors_kraker + "https://www.youtube.com" + s);
     textData = await response.text();
@@ -238,18 +247,41 @@ try
       nkey = "var nsig=" + t + " sig=nsig(sig);";
     }
 
-    cookies [s] = key = yt_algo (textData); cookies ["!" + s] = nkey;
+    cookies [s] = key = yt_algo (textData);
+    cookies ["!" + s] = nkey; t = pullstring (textData, "signatureTimestamp:", "}");
+    cookies ["?" + s] = n = t ? t * 1 : Math.trunc (Date.now() / 86400000) - 1;
   }
 
-  sub = JSON.parse ('{"formats":[' + sub + ']}');
-  sub = sub.formats; if (!sub.length) throw ("!!!");
+  t = JSON.stringify ({
+    videoId: id, playbackContext: { contentPlaybackContext: { signatureTimestamp: n }},
+    context: { client: { gl: 'US', hl: 'en', clientName: 'TVHTML5_SIMPLY_EMBEDDED_PLAYER', clientVersion: '2.0' }}
+  });
 
-  vid = yt_split (sub [0]); url = vid [0]; sig = vid [1]; if (!url) throw ("!!!");
+  try
+  {
+    url = cors_kraker + ua + "https://www.youtube.com/youtubei/v1/player";
+    response = await fetch (url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: t });
+    jsonData = await response.json();
+  } catch { jsonData = {}; }
+
+  if (!(sub = jsonData.streamingData))
+  {
+    response = await fetch (cors_kraker + ua + "https://m.youtube.com/watch?v=" + id);
+    textData = await response.text();
+
+    s = pullstring (textData, '"formats":[', ']');
+    t = pullstring (textData, '"adaptiveFormats":[', ']');
+
+    sub = JSON.parse ('{"formats":[' + s + '],"adaptiveFormats":[' + t + ']}');
+  }
+  if (!(sub = sub.formats [0])) throw ("!!!");
+
+  vid = yt_split (sub); url = vid [0]; sig = vid [1]; if (!url) throw ("!!!");
   url = yt_nsig (url, nkey); if (sig && key) { eval (key); url += "&sig=" + sig; }
 
 } catch (err) { console.log (err); busy = 0; }
 
-  if (no_fail()) load_stream (url);
+  if (no_fail()) load_stream (url, true);
 }
 ////////////////////
 
@@ -304,13 +336,307 @@ var load_stream = function (url)
 {
   var bstyle = "<body style='margin:0;padding:0;overflow:hidden;background-color:";
   var istyle = " style='position:absolute;border:none;outline:none;width:100%;height:100%'";
-  var vstyle = " autoplay controls allowfullscreen ";
+  var vstyle = " autoplay allowfullscreen ";
 
   var insert = bstyle + "black'><video" + istyle + vstyle + "id='video'></video></body>";
 
   var doc = document.getElementById ("frame").contentDocument;
   doc.open(); doc.write ("<!DOCTYPE html>" + insert); doc.close();
-  doc.getElementById ("video").src = url;
+
+  win = doc.getElementById ("video"); create_controls (win);
+  win.src = url; win.onerror = function() { vid_error (win); }
+}
+////////////////////
+
+</script>
+
+<!-- This element must be cloned and inserted into a video frame. -->
+
+<div id="video_control" style="display:none">
+
+<div class="v-control">
+  <input type=range value=1 min=0 max=1 step=0.01 style="width:calc(70% - 250px)">
+  <input type=range value=1 min=0 max=1 step=0.05 style="width:calc(30% - 110px);max-width:150px">
+  <input type=text style="width:72px;color:azure;background-color:transparent" disabled>
+  <input type=text style="width:72px;color:azure;background-color:transparent" disabled>
+  <button class="v-seek" style="width:42px">15s</button>
+  <button class="v-seek" style="width:36px">1m</button>
+  <button class="v-seek" style="width:36px">5m</button>
+    <span class="v-span" style="width:14px;margin-left:1px">FS</span>
+</div>
+
+<style type="text/css">
+
+.v-control {
+  position: absolute; bottom: 0; width: 100%; margin: 0; padding: 4px 0 4px 0;
+  text-align: center; font-family: 'segoe ui', serif; font-size: 14px; line-height: 19px;
+  background-color: steelblue; cursor: default; user-select: none;
+}
+
+.v-control span {
+  display: inline-block; vertical-align: top; cursor: pointer;
+}
+
+.v-control input {
+  height: 13px; padding: 1px 3px 1px 3px; margin: 2px 1px 2px 1px;
+  font-family: 'consolas', 'lucida console', monospace; font-size: 14px; line-height: 12px;
+  text-align: center; vertical-align: top; border: 1px solid darksalmon; border-radius: 7px;
+  color: darkviolet; background-color: lightpink; user-select: auto; outline: none;
+  appearance: none; -moz-appearance: none; -webkit-appearance: none;
+}
+
+.v-control input::-moz-range-thumb {
+  -moz-appearance: none; width: 4px; height: 19px;
+  background: greenyellow; border: none; border-radius: 0;
+}
+
+.v-control input::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 4px; height: 19px;
+  background: greenyellow; border: none; border-radius: 0;
+}
+
+.v-control input::selection {
+  color: yellow; background-color: orchid;
+}
+
+.v-control button {
+  height: 17px; vertical-align: top; margin: 2px 0 2px 0; padding: 0;
+  border-style: solid; border-radius: 4px; border-width: 1px 6px 1px 6px;
+  outline: none; font-family: 'consolas', 'lucida console', monospace;
+  font-size: 14px; line-height: 12px; cursor: pointer; outline: none;
+}
+
+.v-control button:hover {
+  border-color: mediumturquoise;
+}
+
+.v-seek {
+  border-color: mediumseagreen; color: snow; background-color: mediumslateblue;
+}
+
+.v-span {
+  padding: 0 3px 1px 3px; margin: 1px 0 0 0;
+  color: yellow; background-color: mediumpurple;
+}
+
+.anim-bar {
+  animation-name: waiting;
+  animation-delay: 5s;
+  animation-duration: 2.5s;
+  animation-fill-mode: both;
+  animation-direction: normal;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes waiting {
+   0%  { background-color: lightpink; }
+  30%  { background-color: lightpink; }
+  70%  { background-color: salmon; }
+ 100%  { background-color: lightpink; }
+}
+
+</style></div>
+
+<!-- Video control script - NOT inserted into a video frame. -->
+
+<script>
+
+var create_controls = function (vid)
+{
+  var control = document.getElementById ("video_control").cloneNode (true);
+
+  var doc = vid.ownerDocument;          // document
+  var ctr = control.firstElementChild;  // video control
+  var sib = ctr.children;               // video control elements
+
+  sib [0].onchange = function() { vid_click (this, 1); }
+  sib [1].onchange = function() { vid_click (this, 3); }
+  sib [7].onclick  = function() { vid_click (this, 7); }
+
+  vid.onended      = function() { vid_cntrl (this, 1); }
+  vid.onclick      = function() { vid_cntrl (this, 2); }
+  vid.onplay       = function() { vid_cntrl (this, 3); }
+  vid.onpause      = function() { vid_cntrl (this, 4); }
+  vid.onseeking    = function() { vid_cntrl (this, 5); }
+  vid.onwaiting    = function() { vid_cntrl (this, 6); }
+  vid.onstalled    = function() { vid_cntrl (this, 7); }
+  vid.ontimeupdate = function() { vid_cntrl (this, 8); }
+
+  vid.onmousemove  = function(e) { vid_event (e, 1); }
+  ctr.onclick      = function(e) { vid_event (e, 2); }
+
+  ctr.onmouseleave = function() { vid_cntrl (vid, 0); }
+  ctr.onmouseenter = function() { vid_cntrl (vid, 1); }
+
+  sib [0].classList.add ("anim-bar");
+  control.style.display = "inline-block";
+  vid.checked = 0; ctr.step = 1; ctr.checked = 30;
+
+  doc.body.appendChild (control);
+}
+////////////////////
+
+var vid_error = function (vid)
+{
+  var ctr = vid.nextElementSibling.firstElementChild, sib = ctr.children;
+  vid.disabled = true; vid_cursor (vid, true); ctr.style.display = "initial";
+  sib [0].classList.remove ("anim-bar"); sib [0].style.background = "crimson";
+  if (!sib [2].value) sib [2].value = "ERROR"; sib [3].value = "!!!!!";
+}
+////////////////////
+
+var vid_cntrl = function (vid, mode)
+{
+  var ctr = vid.nextElementSibling.firstElementChild, sib = ctr.children;
+  if (ctr.value == undefined && mode > 2 && mode < 8) return;
+  if (vid.disabled && mode > 2 && mode < 9) return;
+
+  var t = vid.currentTime, d = vid.duration;
+  if (isNaN (t)) t = 0; if (isNaN (d) || !isFinite (d)) d = 0;
+  var z = (t > 0 && d > 0) ? 400 * t / d : 0; z = Math.round (z) * 0.25;
+
+  var no_action = ctr.value == undefined || vid.disabled;
+  var got_video = vid.videoWidth && vid.videoHeight;
+
+  if (mode == 0)  // hide
+  {
+    ctr.disabled = false; if (no_action) return;
+    ctr.value = 4; if (vid.paused && got_video) ctr.style.display = "none";
+  }
+  if (mode == 1)  // show
+  {
+    ctr.disabled = true; if (no_action) return;
+    ctr.value = 0; ctr.style.display = "initial";
+  }
+  if (mode == 2)  // play/pause
+  {
+    vid_cursor (vid, true);
+    if (vid.paused) vid.play(); else vid.pause();
+    if (no_action) vid_external (vid.value, mode); else
+      if (!ctr.disabled && !got_video) ctr.style.display = "none";
+  }
+  if (mode == 3)  // is playing
+  {
+    vid_external (vid.value, mode); mode = 10;
+    // special case of video paused at video start
+    if (!ctr.disabled && ctr.value <= 0) ctr.value = 1 - ctr.value;
+  }
+  if (mode == 4)  // is paused
+  {
+    vid_external (vid.value, mode); mode = 10;
+    // special case of video paused while doing countdown or countup
+    if (!ctr.disabled && ctr.value) { ctr.style.display = "none"; ctr.value = 0; }
+  }
+  if (mode == 5)  // is seeking
+  {
+    sib [0].style.background = "linear-gradient(90deg, darkorange " + z + "%, orange 0%)";
+  }
+  if (mode == 6)  // is waiting
+  {
+    sib [0].style.background = "linear-gradient(90deg, darkorange " + z + "%, orange 0%)";
+    setTimeout (function() { vid_timer (vid, ctr, t); }, 2000);
+  }
+  if (mode == 7)  // is stalled
+  {
+    sib [0].style.background = "linear-gradient(90deg, deeppink " + z + "%, hotpink 0%)";
+    setTimeout (function() { vid_timer (vid, ctr, t); }, 2000);
+  }
+
+  if (mode == 8)  // time update
+  {
+    if (t == vid.checked) return; vid.checked = t;
+    var v = ctr.value, ts = Math.round (t), ds = Math.round (d);
+    var th = Math.trunc (ts / 3600), dh = Math.trunc (ds / 3600); ts -= th * 3600; ds -= dh * 3600;
+    var tm = Math.trunc (ts / 60), dm = Math.trunc (ds / 60); ts -= tm * 60; ds -= dm * 60;
+
+    sib [0].style.background = "linear-gradient(90deg, skyblue " + z + "%, transparent 0%)";
+    sib [2].value = th + ":" + (tm < 10 ? "0" : "") + tm + ":" + (ts < 10 ? "0" : "") + ts;
+    sib [3].value = dh + ":" + (dm < 10 ? "0" : "") + dm + ":" + (ds < 10 ? "0" : "") + ds;
+
+    if (v != undefined) v = v * 1; else
+    {
+      v = (vid.paused || ctr.disabled) ? -5 : 6;
+      mode = 10; sib [0].classList.remove ("anim-bar");
+    }
+    if (v > 0 && !--v) { if (got_video) ctr.style.display = "none"; v = -5; }
+    if (v < 0 && !++v) vid_cursor (vid, false); ctr.value = v;
+  }
+}
+////////////////////
+
+var vid_timer = function (vid, ctr, time)  // catch wait/stall false flags
+{
+  if (vid.currentTime == time)
+  {
+    if (!ctr.disabled) ctr.value = 4; ctr.style.display = "initial";
+  }
+}
+////////////////////
+
+var vid_cursor = function (vid, mode)
+{
+  vid.style.cursor = (mode || vid.disabed) ? "default" : "none";
+}
+////////////////////
+
+var vid_external = function (param, mode)
+{
+}
+////////////////////
+
+var vid_click = function (item, mode)
+{
+  var min_vt = 0, ctr = item.parentNode, vid = ctr.parentNode.previousElementSibling;
+
+  if (mode == 1)
+  {
+    var t = vid.duration * item.value; if (isNaN (t) || !isFinite (t)) return;
+    if (t < min_vt) t = min_vt; vid.currentTime = t; //ctr.children [11].value = t.toFixed(2);
+  }
+
+  if (mode == 3) { var m = vid.muted; vid.muted = true; vid.volume = item.value; vid.muted = m; }
+
+  if (mode == 7) if (vid.ownerDocument.fullscreen || vid.ownerDocument.fullscreenElement)
+    vid.ownerDocument.exitFullscreen(); else vid.parentNode.requestFullscreen();
+}
+////////////////////
+
+var vid_event = function (event, type)
+{
+  var min_vt = 0, item = event.target, node = item.nodeName;
+
+  if (type == 1)
+  {
+    var ctr = item.nextElementSibling.firstElementChild;
+    vid_cursor (item, true); if (ctr.value == undefined) return;
+
+    if (ctr.value <= 0) ctr.value = -8;
+    if (event.clientY > item.clientHeight - ctr.checked) vid_cntrl (item, 1);
+  }
+  if (type != 2 || node != "BUTTON") return;
+
+  var ctr = item.parentNode, vid = ctr.parentNode.previousElementSibling;
+
+  var a = item.offsetLeft, b = item.offsetWidth / 2;
+  var c = Math.abs (ctr.step), d = ctr.clientWidth / 2;
+
+  var dir = (event.clientX < (a + b - d) * c + d) ? -1 : 1;
+  var txt = item.innerText, speed = txt * 1;
+
+  if (speed)
+  {
+    speed += dir * 0.1; if (speed > 0.4) speed += dir * 0.1;
+    if (speed > 2) speed += dir * 0.3; if (speed < 0.1) speed = 0.1; if (speed > 5) speed = 5;
+    item.innerText = speed.toFixed(1); vid.playbackRate = speed; return;
+  }
+
+  if (txt == "15s") dir *= 15;
+  if (txt == "1m" ) dir *= 60;
+  if (txt == "5m" ) dir *= 300;
+
+  if ((dir += vid.currentTime) < min_vt) dir = min_vt;
+  vid.currentTime = dir > vid.duration ? vid.duration : dir;
 }
 ////////////////////
 
