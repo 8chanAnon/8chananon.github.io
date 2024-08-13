@@ -152,7 +152,7 @@ var proxies = [
 ];
 
 var response, textData, jsonData, busy = 0, cookies = {};
-var proxy = Math.trunc (Math.random() * proxies.length);
+var proxy = 0; //Math.trunc (Math.random() * proxies.length);
 
 var line = document.querySelectorAll ("input[type=text]");
 var stat = line [1]; line = line [0]; stat.value = "Proxy " + proxy;
