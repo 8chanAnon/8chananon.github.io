@@ -8,7 +8,7 @@
 <style type="text/css">
 
 body {
-  font-size: 17px; line-height: 20px;
+  font-size: 17px; line-height: 19px;
   font-family: 'times new roman', serif; 
   color: maroon; background-color: navajowhite;
   text-align: center;
@@ -39,7 +39,7 @@ iframe {
 }
 
 input[type=text] {
-  height: 19px; padding: 2px 6px 1px; outline: none; margin: 0;
+  height: 20px; padding: 1px 6px; outline: none; margin: 0;
   font-size: 13px; font-family: verdana, sans-serif;
   border: 1px solid peru; border-radius: 4px;
   color: darkred; background-color: snow;
@@ -70,15 +70,13 @@ table {
 }
 
 td.textbox {
-  width: 30vw; max-width: 250px;
-  padding: 0 2px 0 0; vertical-align: top;
-  text-align: center; white-space: nowrap;
+  width: 30vw; max-width: 250px; vertical-align: top; line-height: 20px;
+  padding: 0 2px 0 0; text-align: center; white-space: nowrap;
 }
 
 td.vidbox {
-  font-size: 15px; line-height: normal;
-  padding: 0 0 0 2px; vertical-align: middle;
-  text-align: left; border-left: 1px solid firebrick;
+  font-size: 15px; vertical-align: middle; line-height: normal;
+  padding: 0 0 0 2px; text-align: left; border-left: 1px solid firebrick;
 }
 
 hr {
@@ -99,7 +97,7 @@ b_ { color: blue; }
 
 <table><tr><td class="textbox">
 
-<span style="display:block;font-size:22px;margin:15px 0 -8px">&#x1f408;</span>
+<span style="display:block;font-size:22px;margin:16px 0 -7px">&#x1f408;</span>
 
 <span style="display:inline-block;text-align:left">
 
@@ -132,10 +130,10 @@ b_ { color: blue; }
 <div style="margin:12px 0 12px 0">
 <input type=text style="width:350px"> &nbsp;&nbsp;
 <input type=text class="static" style="width:60px" disabled> &nbsp;&nbsp;
-<button onclick="javascript:play_url()">Play</button> &nbsp;
-<button onclick="javascript:clear_video()">Stop</button>
+<button onclick="javascript:play_video()">Play</button> &nbsp;
+<button onclick="javascript:stop_video()">Stop</button>
 
-</div><r_>All videos are 360p. Some videos might not work due to IP address mismatch.</r_> (<g_>August 12, 2024</g_>)
+</div><r_>All videos are 360p. Some videos might not work due to IP address mismatch.</r_> (<g_>August 13, 2024</g_>)
 
 <script>
 
@@ -143,11 +141,14 @@ var cors_kraker = "https://kraker-remote.vercel.app/?url=";
 if (location.hostname == "localhost") cors_kraker = "/";
 
 var proxies = [
-  '23.19.244.109:1080',
-  '31.170.22.127:1080',
-  '178.17.170.76:1080',
-  '146.70.149.46:1080',
-  '95.183.52.30:1080'
+  '23.19.244.109:1080'    , // New Jersey
+  '31.170.22.127:1080'    , // Latvia
+  '82.165.198.169:24161'  , // Germany
+  '95.183.52.30:1080'     , // Switzerland
+  '132.148.167.243:20180' , // Virginia
+  '146.70.149.46:1080'    , // Singapore
+  '172.233.25.232:1080'   , // Brazil
+  '178.17.170.76:1080'    , // Moldova
 ];
 
 var response, textData, jsonData, busy = 0, cookies = {};
@@ -179,8 +180,9 @@ var pullstring = function (s, t, u)
 }
 ////////////////////
 
-var clear_video = function ()
+var stop_video = function ()
 {
+  if (busy) return;
   var vid = document.getElementById ("frame"), win = vid.parentNode;
   win.removeChild (vid); vid.src = "about:blank"; win.appendChild (vid);
   document.getElementById ("msg").innerHTML = "No Video";
@@ -189,14 +191,15 @@ var clear_video = function ()
 
 var tv = function (id)
 {
+  if (busy) return;
   line.value = "https://www.youtube.com/watch?v=" + id;
-  clear_video(); request_youtube (id, 18);
+  stop_video(); request_youtube (id, 18);
 }
 ////////////////////
 
-var play_url = function ()
+var play_video = function ()
 {
-  var m, n, s, url = line.value.trim();
+  var m, n, s, url = line.value.trim(); if (!url || busy) return;
 
   if (url.includes ("youtube") || url.includes ("youtu.be"))
   {
@@ -221,13 +224,13 @@ const request_youtube = async (id, fmt) =>
 
   for (s = "", n = 0; n < proxies.length; n++) try
   {
-    stat.value = "Proxy " + proxy;
+    if (proxy >= proxies.length) proxy = 0; stat.value = "Proxy " + proxy;
     response = await fetch (url.replace ("XXX", proxies [proxy]));
     textData = await response.text();
 
     if (s = pullstring (textData, '"jsUrl":"', '"')) break; throw ("");
   }
-  catch { if (++proxy >= proxies.length) proxy = 0; } 
+  catch { ++proxy } 
 
 try
 {
@@ -279,7 +282,7 @@ try
   vid = yt_split (sub); url = vid [0]; sig = vid [1]; if (!url) throw ("!!!");
   url = yt_nsig (url, nkey); if (sig && key) { eval (key); url += "&sig=" + sig; }
 
-} catch (err) { console.log (err); busy = 0; }
+} catch (err) { console.log (err); busy = 0; ++proxy; }
 
   if (no_fail()) load_stream (url, true);
 }
