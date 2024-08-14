@@ -46,7 +46,7 @@ input[type=text] {
 }
 
 input[type=text][disabled] {
-  background-color: papayawhip; text-align: center;
+  background-color: papayawhip; text-align: center; padding-right: 5px;
 }
 
 input[type=radio] {
@@ -129,9 +129,10 @@ b_ { color: blue; }
 
 <div style="margin:12px 0 12px 0">
 <input type=text style="width:350px"> &nbsp;&nbsp;
-<input type=text class="static" style="width:60px" disabled> &nbsp;&nbsp;
 <button onclick="javascript:play_video()">Play</button> &nbsp;
-<button onclick="javascript:stop_video()">Stop</button>
+<button onclick="javascript:stop_video()">Stop</button> &nbsp;&nbsp;
+<input type=text class="static" style="width:56px" disabled> &nbsp;&nbsp;
+<button onclick="javascript:next_proxy()">Next</button>
 
 </div><r_>All videos are 360p. Some videos might not work due to IP address mismatch.</r_> (<g_>August 13, 2024</g_>)
 
@@ -142,13 +143,10 @@ if (location.hostname == "localhost") cors_kraker = "/";
 
 var proxies = [
   '23.19.244.109:1080'    , // New Jersey
-  '31.170.22.127:1080'    , // Latvia
-  '82.165.198.169:24161'  , // Germany
-  '95.183.52.30:1080'     , // Switzerland
-  '132.148.167.243:20180' , // Virginia
-  '146.70.149.46:1080'    , // Singapore
-  '172.233.25.232:1080'   , // Brazil
   '178.17.170.76:1080'    , // Moldova
+  '95.183.52.30:1080'     , // Switzerland
+  '82.165.198.169:24161'  , // Germany
+  '146.70.149.46:1080'    , // Singapore
 ];
 
 var response, textData, jsonData, busy = 0, cookies = {};
@@ -179,6 +177,11 @@ var pullstring = function (s, t, u)
   return (m < 0 ? "" : s.substr (n, m - n));
 }
 ////////////////////
+
+var next_proxy = function ()
+{
+  ++proxy; if (proxy >= proxies.length) proxy = 0; stat.value = "Proxy " + proxy;
+}
 
 var stop_video = function ()
 {
@@ -224,13 +227,13 @@ const request_youtube = async (id, fmt) =>
 
   for (s = "", n = 0; n < proxies.length; n++) try
   {
-    if (proxy >= proxies.length) proxy = 0; stat.value = "Proxy " + proxy;
+    stat.value = "Proxy " + proxy;
     response = await fetch (url.replace ("XXX", proxies [proxy]));
     textData = await response.text();
 
     if (s = pullstring (textData, '"jsUrl":"', '"')) break; throw ("");
   }
-  catch { ++proxy } 
+  catch { next_proxy() } 
 
 try
 {
@@ -282,7 +285,7 @@ try
   vid = yt_split (sub); url = vid [0]; sig = vid [1]; if (!url) throw ("!!!");
   url = yt_nsig (url, nkey); if (sig && key) { eval (key); url += "&sig=" + sig; }
 
-} catch (err) { console.log (err); busy = 0; ++proxy; }
+} catch (err) { console.log (err); busy = 0; next_proxy(); }
 
   if (no_fail()) load_stream (url, true);
 }
