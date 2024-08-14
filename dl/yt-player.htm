@@ -285,7 +285,7 @@ try
   vid = yt_split (sub); url = vid [0]; sig = vid [1]; if (!url) throw ("!!!");
   url = yt_nsig (url, nkey); if (sig && key) { eval (key); url += "&sig=" + sig; }
 
-} catch (err) { console.log (err); busy = 0; next_proxy(); }
+} catch (err) { console.log (err); busy = 0; }
 
   if (no_fail()) load_stream (url, true);
 }
