@@ -173,7 +173,7 @@ Brightness:
 </div><script>
 
 var cors_bypass = cors_kraker = "https://kraker-remote.vercel.app/?url=";
-var response, textData, jsonData, busy = 0;
+var response, textData, jsonData, msg_timer, msg_result, busy = 0, cookies = {};
 
 var line = document.querySelector ("input[type=text]");
 var file = document.querySelector ("input[type=file]");
@@ -196,10 +196,28 @@ var crypt = async () =>
   }
   catch { return "" }; return (textData);
 }
+////////////////////
+
+var getmessage = function (msg)
+{
+  if (typeof (msg) == "number")
+  {
+    msg_timer = setTimeout (function() { getmessage ("@"); }, msg * 1000);
+    return new Promise (function (success, failure) { msg_result = success; });
+  }
+  else
+  {
+    if (msg_result) msg_result (msg.substr (1));
+    clearTimeout (msg_timer); msg_timer = msg_result = null;
+  }
+}
+////////////////////
 
 var start = async () =>
 {
   file.onchange = function (e) { load_list (e.target.files [0]); }
+
+  window.onmessage = function (e) { if (e.data [0] == "@") getmessage (e.data); }
 
   if (location.hostname == "localhost") cors_bypass = cors_kraker = "/";
 
@@ -223,11 +241,22 @@ var get_checked = function (name, value)
 }
 ////////////////////
 
+var allow_cookie = function (source, cookie)
+{
+  if (!cors_kraker) return ({});
+
+  if (source) if (cookie) cookies [source] = cookie; else cookie = cookies [source];
+
+  if (!cookie) cookie = "null"; return ({ headers: { 'Accept': '**' + cookie } });
+}
+////////////////////
+
 var show_list = function (show)
 {
   var win = document.querySelector (".popbox");
   win.focus(); win.style.zIndex = show ? 2 : -1;
 }
+////////////////////
 
 var load_list = function (data)
 {
@@ -249,13 +278,14 @@ var load_list = function (data)
     m = (s.indexOf ("http") && s.indexOf ("#:")) ? " disabled" : "";
 
     if (!m) cnt ++; m += " title='";
-    r = "<span" + m + r + "'>" + r + "</span>";
+    r = "<span" + m + r + "'>" + r + "</span> ";
     p += "<p" + m + s + "'><button>X</button>" + r + s + "</p>";
   }
 
   document.querySelector (".popbox").innerHTML = p + "<p>&nbsp;</p>";
   stop_video(); line.value = "Number of channels = " + cnt;
 }
+////////////////////
 
 var save_list = function ()
 {
@@ -271,6 +301,7 @@ var save_list = function ()
   s = new Blob ([s]); list = document.createElement ('A'); list.download = "untitled.m3u";
   list.href = URL.createObjectURL (s); list.click(); URL.revokeObjectURL (list.href);
 }
+////////////////////
 
 var stop_video = function ()
 {
@@ -296,19 +327,21 @@ var tv = async (event) =>
 
   if (r && r[0] == "#")
   {
-    busy = 1; show_list (false); line.value = "** WORKING **";
-    q = r.split (":"); r = ""; src = q[1]; id = q[2];
+    show_list (false); line.value = "** WORKING **";
+    busy = 1; q = r.split (":"); r = ""; src = q[1]; id = q[2];
 
     if (src == "distro")  r = await req_distro (id);
     if (src == "lindell") r = await req_lindell (id);
     if (src == "plextv")  r = await req_plextv (id);
     if (src == "tvapp")   r = await req_tvapp (id);
     if (src == "vtube")   r = await req_vtube (id);
-
-    busy = 0; if (r.indexOf ("http")) { r = ""; show_list (true); }
   }
 
-  line.value = r || "** ERROR **"; if (r) { p.style.color = "crimson"; play_video(); }
+  q = "** " + (r[0] == "?" ? r.substr (1) : "ERROR") + " **";
+
+  busy = 0; if (r.indexOf ("http")) r = ""; line.value = r || q;
+
+  if (!r) show_list (true); else { p.style.color = "crimson"; play_video(); }
 }
 ////////////////////
 
@@ -368,21 +401,6 @@ var req_plextv = async (url) =>
 }
 ////////////////////
 
-var req_tvapp = async (url) =>
-{
-  try
-  {
-    response = await fetch (cors_bypass + "https://www.braflix.ru/livestream/tv_" + url);
-    textData = await response.text();
-
-    url = pullstring (textData, '"sources":[{"url":"', '"'); if (!url) throw ("");
-    url = pullstring (url, "?url=", "track") + "index.m3u8?" + pullstring (url, "%3F", "");
-    url = decodeURIComponent (url);
-  }
-  catch { url = "" }; return (url);
-}
-////////////////////
-
 const req_vtube = async (id) =>
 {
   try
@@ -394,6 +412,57 @@ const req_vtube = async (id) =>
     eval ("(sub=function(p,a,c,k,e,d" + sub); url = pullstring (sub, 'file:"', '"');
   }
   catch { url = "" }; return (url);
+}
+////////////////////
+
+var req_tvapp = async (url) =>
+{
+try
+{
+  var a, b, n, s, t, u, v, src = "https://thetvapp.to";
+
+  var get_link = async () =>
+  {
+    response = await fetch (cors_kraker + src + u, { method: 'POST', body: t, headers: s });
+    url = await response.text(); url = pullstring (url, '"', '"').replace (/\\/g, "");
+    if (!url.includes (".m3u8")) url = ""; return (url);
+  }
+
+  response = await fetch (cors_kraker + src + "/tv/" + url, { headers: { accept: "**" }});
+  textData = await response.text();
+
+  if (response.status == 403) throw ("?BLOCKED");
+
+  s = response.headers.get ("zz-set-cookie") || "";
+  a = (a = "thetvapp_session=") + pullstring (s, a, ";");
+  b = pullstring (textData, '"csrf-token" content="', '"');
+  s = { accept: "**" + t + ";" + a, 'content-type': 'application/json', 'x-csrf-token': b }
+  u = pullstring (textData, '"get-m3u8-link" data="', '"'); if (!a || !b || !u) throw ("!!!");
+
+  if (!(t = cookies ["thetvapp"]) || !await get_link())
+  {
+    t = pullstring (textData, '<script type="module" src="', '"'); if (!t) throw ("!!!");
+    response = await fetch (cors_bypass + t, allow_cookie ("thetvapp-cf", ""));
+    textData = await response.text();
+
+    a = textData.indexOf ("body:JSON"); if (a < 0) throw ("!!!"); t = textData.substr (a - 600, 600);
+    for (b = t.length, n = 0; n < 4; n++) b = t.lastIndexOf ("const ", b) - 1;
+
+    n = a - 600 + t.indexOf (";", b + 1) + 1; t = pullstring (t.substr (b), " ", "=");
+    b = pullstring (textData.substr (a), "{", ":"); if (!t || !b) throw ("!!!");
+
+    t = '<!DOCTYPE html><html><body style="display:none"><div id="get-m3u8-link" data="">\n' +
+        '<button id="loadVideoBtnOne"></button><button id="loadVideoBtnTwo"></button>\n<script>' +
+        textData.substr (0, n) + '\nparent.postMessage ("@" + ' + t + ', "*");\n' +
+        textData.substr (n) + '\n<\/script></body></html>';
+
+    a = document.getElementById ("frame"); v = a.contentDocument;
+    v.open(); v.write (t); v.close(); t = await getmessage (3); a.src = ""; if (!t) throw ("!!!");
+    t = cookies ["thetvapp"] = '{"' + b + '":"' + t + '"}'; await get_link();
+  }
+}
+
+catch (e) { console.log (e); url = e[0] == "?" ? e : "" }; return (url);
 }
 ////////////////////
 
