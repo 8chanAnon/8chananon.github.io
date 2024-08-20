@@ -185,27 +185,7 @@ var meta_url = "https://rumble.com/embedJS/u3/?request=video&ver=2&v=";
 
 var proxy = "https://kraker-remote.vercel.app/?url=", blank_page = "widget.htm#black";
 
-//proxy = "/~"; blank_page = proxy + blank_page;
-
-var missing = [
-  "FM40bdQ0kSY<>0938 USCG00NorthwestDriveMiddle<>16"
-];
-
-/*
-  "G9IMOJ_ShO0<>0602 USCG00NWDrivenearNJ-ConNW<>123",
-  "IrCHGAgigY4<>0746 FHOB002nd-DSW<>72",
-  "FgvzsUHc_gU<>0753 QSE00SCap-DSE<>72",
-  "Dz_T8zW9dQk<>0754 KIO00K10SCap-DSE<>71",
-  "I7z7yy_gnsQ<>0755 KIO00K10SCap-DSE<>73",
-  "LHjFtImmVq8<>0763 KIO00K162nd-IndepSE<>93",
-  "V3Zm6xf-YA0<>0767 USCG00K18HousePlaza<>93",
-  "cp3Do3O5rzw<>0771 KIO00K6HSOBLoadDock<>72",
-  "et0Q2O0AxQM<>0772 KIO00K81st-CNE<>73",
-  "I3XYB5OL0Js<>0906 USCDLASouthDome<>104",
-  "PySwdZmBZMw<>0907 USCDLAEastDome<>88",
-  "Hse_mnEqQ4s<>0910 USCDPLDomeStairsUpper<>72",
-  "KAnEZ4yeMIw<>0911 USCDPLDomeStairsLower<>72",
-*/
+if (location.hostname == "localhost") { proxy = "/~"; blank_page = proxy + blank_page; }
 
 var selectmake = function (name)
 {
@@ -293,18 +273,21 @@ var init = async () =>
   vidlist = []; data = data.split ('<div class="playlist">');
   data.shift(); if (!data.length) { stat.value = "Error"; return; }
 
-  for (n = 0; n < missing.length; n++)
-  {
-    m = missing [n].split ("<>");
-    vidlist.push (m [1] + " <w_>(" + m [2] + ")</w_><>------<>" + m [0]);
-  }
-
   for (n = 0; n < data.length; n++)
   {
     m = data [n]; p = pullstring (m, 'alt="', '"');
-    if ((q = p.indexOf ("_2021")) > 0) p = p.substr (0, q);
-    if (!p.indexOf ("Camera")) p = p.substr (6);
-    p = p.substr (0, 4) + " " + p.substr (4);
+
+    if (!p)  // August 19: thumbnail alt is blank
+    {
+      p = pullstring (m, 'title="', '"').split (" ")[1] || "";
+      p = "Camera " + ("000" + p).substr (-4);
+    }
+    else
+    {
+      if ((q = p.indexOf ("_2021")) > 0) p = p.substr (0, q);
+      if (!p.indexOf ("Camera")) p = p.substr (6);
+      p = p.substr (0, 4) + " " + p.substr (4);
+    }
 
     q = pullstring (m, '<span class="playlist__videos">', '<').trim();
     q = p + " <w_>(" + q.substr (0, q.indexOf (" ")) + ")</w_> ";
