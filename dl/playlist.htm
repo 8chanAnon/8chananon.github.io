@@ -485,7 +485,7 @@ var load_stream = function (url, hls)
 
   var js = get_js ("HLS", !window.Hls);
   js.onload = function() { play_hls (0, url, doc, win, get_checked ("format", 0)); }
-  if (window.Hls) js.onload(); else js.src = "hls_player-1-3-5.js";
+  if (window.Hls) js.onload(); else js.src = "hls_player.js";
 }
 ////////////////////
 
