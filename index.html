@@ -117,30 +117,43 @@ Send your questions and feedback to my email: <g_>8chananon@mail.com</g_>
 
 <!-- PANEL --><table class="panel"><tr><td class="textbox">
 
-The U.S. TV channels are back on the menu, boys! I had to drop them because the source started putting up a Cloudflare
-bot challenge. That's possible to bypass with the local proxy but not the remote proxy. The source has dropped
-Cloudflare or Cloudflare dropped them. I see from the IP address that they are in Ukraine. In Kyiv. Not exactly
-in the middle of a war zone but close. I suppose they are pretty safe from the copyright warriors there.
+<r_>Kraker Local Proxy Server</r_> basic features:<e_>&#x1f63a;</e_>
+<ul><li>
+configurable DNS manager with support for DNS-over-HTTPS
+</li><li>
+ability to route specific domains over a Socks5 or HTTP proxy
+</li><li>
+use Tor, I2P and normal Internet with the same web browser
+</li><li>
+ability to pin the SSL certificate for sensitive domains
+</li><li>
+observe and modify HTTP requests and responses
+</li></ul>
+You might get the idea that the purpose of the proxy server is to support your web browser. That's true. It is also
+for developers. The last feature listed above supports the analysis and reverse engineering of complex websites in order
+to scrape data from them. I use a special tool that I call Kraker Mockery which works with the proxy server and the web
+browser to help me figure out how to scrape a site to get video links. Alleycat Player can then use the proxy server to
+bypass browser restrictions to find and play the videos.
 <p></p>
-You can download the <r_>Free TV & Movies Playlist</r_> app from <a href="dl/playlist.htm" download>here</a> and the
-playlist from <a href="dl/playlist.txt" download>here</a>. You will also need the
-<a href="dl/hls_player.js" download>HLS player</a> to play the videos. If you have Kraker installed then put the files in
-your Kraker folder. If you run the app from there then it will use the local proxy instead of the remote proxy. For those
-that don't have or don't want Kraker then click the link below to run it from this website.
+Some additional features:
+<ul><li>
+access to the local file system
+</li><li>
+websocket for global messaging
+</li><li>
+cryptographic support for RSA and AES
+</li><li>
+ability to mimic websites to fool the browser
+</li></ul>
+That last item can be especially useful to bypass security measures meant to block bots (like the Cloudflare bot fight
+mode). You can steal cookies. You can hijack code from a website and run it in your own app. The sky is the limit.
 <p></p>
-<a href="dl/playlist.htm">Free TV & Movies Playlist</a> --
-<a href="https://github.com/iptv-org/iptv/tree/master/streams">go here</a> for playlists organized by country
+If you have used man-in-the-middle (MITM) proxies like Fiddler, Charles or HTTP Toolkit then I have to tell you that
+Kraker is not the same. Kraker is meant to be always online and it only intercepts HTTP requests on demand. It is not a
+tool that you only run as needed. You need it all of the time.
 <p></p>
-The app has a zoom feature and a brightness control (to compensate for HDR which looks dark and over-saturated when you
-don't have HDR support). You can select 360p, 480p or 720p. You can load a playlist or save a playlist. The app should be
-able to load any playlist that you find on the Internet. The playlist is saved with just the channel name and the URL. That
-is, it cleans up the list, removing the other garbage that makes the playlist very hard to manage in a text editor.
-<p></p>
-On startup, the app loads a default playlist. As protection from the psychotic copyright warriors, the playlist is encoded.
-The radio stations in the default playlist are mostly HTTP. If you run the app from this site (which is HTTPS), your browser
-will likely reject HTTP audio or video.
-<p></p>
-The <a href="dl/yt-player.htm">YouTube Player</a> is still working fine. I guess Google is done messing around (for now).
+Kraker has a very small memory footprint. It is 15 to 25 megabytes, depending on usage patterns. It runs under Node.js
+and, as far as I can tell, it is bulletproof (crossing fingers, kek).
 
 </td></tr></table>
 
@@ -171,6 +184,35 @@ to say later. I'm not satisfied with the instruction manual. Some details are no
 I did on the installation tutorial so I'll be hacking away at that again.
 <p></p>
 Keep checking back for news.
+
+</td></tr></table>
+
+<!-- PANEL --><table class="panel"><tr><td class="textbox">
+
+The U.S. TV channels are back on the menu, boys! I had to drop them because the source started putting up a Cloudflare
+bot challenge. That's possible to bypass with the local proxy but not the remote proxy. The source has dropped
+Cloudflare or Cloudflare dropped them. I see from the IP address that they are in Ukraine. In Kyiv. Not exactly
+in the middle of a war zone but close. I suppose they are pretty safe from the copyright warriors there.
+<p></p>
+You can download the <r_>Free TV & Movies Playlist</r_> app from <a href="dl/playlist.htm" download>here</a> and the
+playlist from <a href="dl/playlist.txt" download>here</a>. You will also need the
+<a href="dl/hls_player.js" download>HLS player</a> to play the videos. If you have Kraker installed then put the files in
+your Kraker folder. If you run the app from there then it will use the local proxy instead of the remote proxy. For those
+that don't have or don't want Kraker then click the link below to run it from this website.
+<p></p>
+<a href="dl/playlist.htm">Free TV & Movies Playlist</a> --
+<a href="https://github.com/iptv-org/iptv/tree/master/streams">go here</a> for playlists organized by country
+<p></p>
+The app has a zoom feature and a brightness control (to compensate for HDR which looks dark and over-saturated when you
+don't have HDR support). You can select 360p, 480p or 720p. You can load a playlist or save a playlist. The app should be
+able to load any playlist that you find on the Internet. The playlist is saved with just the channel name and the URL. That
+is, it cleans up the list, removing the other garbage that makes the playlist very hard to manage in a text editor.
+<p></p>
+On startup, the app loads a default playlist. As protection from the psychotic copyright warriors, the playlist is encoded.
+The radio stations in the default playlist are mostly HTTP. If you run the app from this site (which is HTTPS), your browser
+will likely reject HTTP audio or video.
+<p></p>
+The <a href="dl/yt-player.htm">YouTube Player</a> is still working fine. I guess Google is done messing around (for now).
 
 </td></tr></table>
 
@@ -229,48 +271,6 @@ website which wants to block my access and the browser which needs to be told to
 Then all I have to do is write some HTML and some Javascript to tell the browser to go get what I want from where
 I want without any bullshit. That's it in a nutshell. I invite you to follow me on my journey. Liberate your browser from
 the tyranny of the Internet.
-
-</td></tr></table>
-
-<!-- PANEL --><table class="panel"><tr><td class="textbox">
-
-<r_>Kraker Local Proxy Server</r_> basic features:<e_>&#x1f63a;</e_>
-<ul><li>
-configurable DNS manager with support for DNS-over-HTTPS
-</li><li>
-ability to route specific domains over a Socks5 or HTTP proxy
-</li><li>
-use Tor, I2P and normal Internet with the same web browser
-</li><li>
-ability to pin the SSL certificate for sensitive domains
-</li><li>
-observe and modify HTTP requests and responses
-</li></ul>
-You might get the idea that the purpose of the proxy server is to support your web browser. That's true. It is also
-for developers. The last feature listed above supports the analysis and reverse engineering of complex websites in order
-to scrape data from them. I use a special tool that I call Kraker Mockery which works with the proxy server and the web
-browser to help me figure out how to scrape a site to get video links. Alleycat Player can then use the proxy server to
-bypass browser restrictions to find and play the videos.
-<p></p>
-Some additional features:
-<ul><li>
-access to the local file system
-</li><li>
-websocket for global messaging
-</li><li>
-cryptographic support for RSA and AES
-</li><li>
-ability to mimic websites to fool the browser
-</li></ul>
-That last item can be especially useful to bypass security measures meant to block bots (like the Cloudflare bot fight
-mode). You can steal cookies. You can hijack code from a website and run it in your own app. The sky is the limit.
-<p></p>
-If you have used man-in-the-middle (MITM) proxies like Fiddler, Charles or HTTP Toolkit then I have to tell you that
-Kraker is not the same. Kraker is meant to be always online and it only intercepts HTTP requests on demand. It is not a
-tool that you only run as needed. You need it all of the time.
-<p></p>
-Kraker has a very small memory footprint. It is 15 to 25 megabytes, depending on usage patterns. It runs under Node.js
-and, as far as I can tell, it is bulletproof (crossing fingers, kek).
 
 </td></tr></table>
 
