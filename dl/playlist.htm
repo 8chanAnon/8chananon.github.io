@@ -182,7 +182,7 @@ var crypt = async () =>
 {
   var n, p = "", q = "", r = false;
 
-  try { if (response = await fetch ("playlist.m3u")).result == 200) p = await response.text(); } catch {}
+  try { if ((response = await fetch ("playlist.m3u")).result == 200) p = await response.text(); } catch {}
 
   if (!r) if (p) return (p); else try
   {
