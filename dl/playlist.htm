@@ -45,8 +45,8 @@ iframe {
 }
 
 .popbox span {
-  display: inline-block; width: calc(50% - 20px); padding-left: 5px;
-  vertical-align: top; overflow: hidden; color: darkgreen;
+  display: inline-block; width: calc(50% - 20px); padding: 0 4px; margin: 0 1px;
+  vertical-align: top; overflow: hidden; text-overflow: ellipsis; color: darkgreen;
 }
 
 .popbox span:hover:not([disabled]) {
@@ -182,19 +182,17 @@ var crypt = async () =>
 {
   var n, p = "", q = "", r = false;
 
-  if (!r) try
+  try { response = await fetch ("playlist.m3u"); p = await response.text(); } catch {}
+
+  if (!r) if (p) return (p); else try
   {
     response = await fetch ("playlist.txt"); return (atob (await response.text()));
   }
   catch { return "" }
 
-  try
-  {
-    response = await fetch ("playlist.m3u"); textData = await response.text();
-    for (n = 0, p = btoa (textData); n < p.length; n += 64) q += p.substr (n, 64) + "\n";
-    response = await fetch ("playlist.txt", { method: 'PUT', body: q });
-  }
-  catch { return "" }; return (textData);
+  for (n = 0, r = btoa (p); n < r.length; n += 64) q += r.substr (n, 64) + "\n";
+
+  await fetch ("playlist.txt", { method: 'PUT', body: q }); return (p);
 }
 ////////////////////
 
@@ -219,7 +217,7 @@ var start = async () =>
 
   window.onmessage = function (e) { if (e.data [0] == "@") getmessage (e.data); }
 
-  if (location.hostname == "localhost") cors_bypass = cors_kraker = "/";
+  if (location.hostname == "localhost") cors_bypass = cors_kraker = "/!timeout:15|*";
 
   load_list (await crypt());
 }
@@ -260,7 +258,9 @@ var show_list = function (show)
 
 var load_list = function (data)
 {
-  var m, n, p, q, r, s, t, cnt = 0; if (!data) { file.click(); return; }
+  var m, n, p, q, r, s, t, cnt = 0;
+
+  if (data == undefined) { file.click(); return; }
 
   if (typeof (data) != "string") if (data.size > 5000000) return; else
   {
@@ -274,11 +274,11 @@ var load_list = function (data)
   {
     q = m.trim().split ("\n"); r = q[0];
     r = r.substr (r.lastIndexOf (",") + 1).trim();
-    s = (q.length < 2 ? "" : q [q.length - 1].trim());
+    s = q.length < 2 ? "" : q [q.length - 1].trim();
     m = (s.indexOf ("http") && s.indexOf ("#:")) ? " disabled" : "";
 
     if (!m) cnt ++; m += " title='";
-    r = "<span" + m + r + "'>" + r + "</span> ";
+    r = "<span" + m + r + "'>" + r + "</span>";
     p += "<p" + m + s + "'><button>X</button>" + r + s + "</p>";
   }
 
@@ -307,13 +307,13 @@ var stop_video = function ()
 {
   var vid = document.getElementById ("frame"), win = vid.parentNode;
   vid.src = "about:blank"; win.removeChild (vid); win.appendChild (vid);
-  show_list (true); document.getElementById ("info").value = "";
+  if (busy) return; show_list (true); document.getElementById ("info").value = "";
 }
 ////////////////////
 
 var play_video = function ()
 {
-  var url = line.value.trim(); if (url.indexOf ("http")) return;
+  var url = line.value.trim(); if (busy || url.indexOf ("http")) return;
   stop_video(); show_list (false); load_stream (url, url.includes (".m3u"));
 }
 ////////////////////
@@ -331,7 +331,7 @@ var tv = async (event) =>
     busy = 1; q = r.split (":"); r = ""; src = q[1]; id = q[2];
 
     if (src == "distro")  r = await req_distro (id);
-    if (src == "lindell") r = await req_lindell (id);
+    if (src == "franksp") r = await req_franksp (id);
     if (src == "plextv")  r = await req_plextv (id);
     if (src == "tvapp")   r = await req_tvapp (id);
     if (src == "vtube")   r = await req_vtube (id);
@@ -360,20 +360,14 @@ var req_distro = async (url) =>
 }
 ////////////////////
 
-var req_lindell = async (url) =>
+var req_franksp = async (url) =>
 {
   try
   {
-    response = await fetch (cors_kraker + "https://frankspeech.com");
+    response = await fetch (cors_kraker + "https://frankspeech.com/live/" + url);
     textData = await response.text();
 
-    var a = textData.indexOf ("<video ");
-    var b = textData.indexOf ("<video ", a + 1);
-    var c = textData.indexOf ("<video ", b + 1);
-    if (url == "lindell-1") url = textData.substr (a, 500);
-    if (url == "lindell-2") url = textData.substr (b, 500);
-    if (url == "lindell-3") url = textData.substr (c, 500);
-    url = pullstring (url, 'application/x-mpegURL" src="', '"');
+    url = pullstring (textData, 'application/x-mpegURL" src="', '"');
   }
   catch { url = "" }; return (url);
 }
@@ -428,7 +422,7 @@ try
     if (!url.includes (".m3u8")) url = ""; return (url);
   }
 
-  response = await fetch (cors_kraker + src + "/tv/" + url, { headers: { accept: "**" }});
+  response = await fetch (cors_kraker + src + "/tv/" + url, allow_cookie ("",""));
   textData = await response.text();
 
   if (response.status == 403) throw ("?BLOCKED");
@@ -617,7 +611,7 @@ var getformat = function (f, fmt)
 <style type="text/css">
 
 .v-control {
-  position: absolute; bottom: 0; width: 100%; margin: 0; padding: 4px 0 4px 0;
+  position: absolute; bottom: 0; width: 100%; margin: 0; padding: 4px 0;
   text-align: center; font-family: 'segoe ui', serif; font-size: 14px; line-height: 19px;
   background-color: steelblue; cursor: default; user-select: none;
 }
@@ -627,7 +621,7 @@ var getformat = function (f, fmt)
 }
 
 .v-control input {
-  height: 13px; padding: 1px 3px 1px 3px; margin: 2px 1px 2px 1px;
+  height: 13px; padding: 1px 3px; margin: 2px 1px;
   font-family: 'consolas', 'lucida console', monospace; font-size: 14px; line-height: 12px;
   text-align: center; vertical-align: top; border: 1px solid darksalmon; border-radius: 7px;
   color: darkviolet; background-color: lightpink; user-select: auto; outline: none;
@@ -649,8 +643,8 @@ var getformat = function (f, fmt)
 }
 
 .v-control button {
-  height: 17px; vertical-align: top; margin: 2px 0 2px 0; padding: 0;
-  border-style: solid; border-radius: 4px; border-width: 1px 6px 1px 6px;
+  height: 17px; vertical-align: top; margin: 2px 0; padding: 0;
+  border-style: solid; border-radius: 4px; border-width: 1px 6px;
   outline: none; font-family: 'consolas', 'lucida console', monospace;
   font-size: 14px; line-height: 12px; cursor: pointer; outline: none;
 }
