@@ -182,7 +182,8 @@ var crypt = async () =>
 {
   var n, p = "", q = "", r = false;
 
-  try { if ((response = await fetch ("playlist.m3u")).result == 200) p = await response.text(); } catch {}
+  try { response = await fetch ("playlist.m3u");
+        p = await response.text(); if (p.indexOf ("#EXTM3U")) p = ""; } catch {}
 
   if (!r) if (p) return (p); else try
   {
@@ -192,7 +193,7 @@ var crypt = async () =>
 
   for (n = 0, r = btoa (p); n < r.length; n += 64) q += r.substr (n, 64) + "\n";
 
-  await fetch ("playlist.txt", { method: 'PUT', body: q }); return (p);
+  if (p) await fetch ("playlist.txt", { method: 'PUT', body: q }); return (p);
 }
 ////////////////////
 
@@ -218,8 +219,8 @@ var start = async () =>
   window.onmessage = function (e) { if (e.data [0] == "@") getmessage (e.data); }
 
   if (location.hostname == "localhost") cors_bypass = cors_kraker = "/!timeout:15|*";
-
-  load_list (await crypt());
+var x = await crypt(); load_list(x);
+//  load_list (await crypt());
 }
 ////////////////////
 
