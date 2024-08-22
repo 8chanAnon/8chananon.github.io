@@ -37,7 +37,7 @@ iframe {
 .popbox p {
   width: 100%; height: 18px; line-height: 19px; margin: 0;
   white-space: nowrap; overflow: hidden; vertical-align: top;
-  color: purple; background-color: blanchedalmond; cursor: default;
+  color: firebrick; background-color: blanchedalmond; cursor: default;
 }
 
 .popbox p[disabled] {
@@ -56,7 +56,7 @@ iframe {
 .popbox button {
   width: 15px; height: 100%; padding: 0; margin: 0;
   font-size: 11px; line-height: 0; font-weight: bold; vertical-align: top;
-  border: none; border-radius: 0; color: tomato; background-color: wheat;
+  border: none; border-radius: 0; color: chocolate; background-color: wheat;
 }
 
 input[type=text] {
@@ -892,9 +892,9 @@ var vid_scaler = function (a, b)
   if (a && b) document.getElementById ("info").value = (video_w = a) + " x " + (video_h = b);
 
   a = video_w; b = video_h; a = (a && b) ? (a * 9) / (b * 16) : 1;
-  b = get_checked ("scale", 0); if (b > 1) a = 1.4; if (!b || a < 1) a = 1;
+  b = get_checked ("scale", 0); if (b > 1) a = 1.35; if (!b || a < 1) a = 1;
 
-  b = get_checked ("brite", 0); b = b ? (b > 1 ? [1.3, 0.75, 0.7] : [1.15, 0.9, 0.8]) : [1, 1, 1];
+  b = get_checked ("brite", 0); b = b ? (b > 1 ? [1.3, 0.8, 0.7] : [1.15, 0.9, 0.8]) : [1, 1, 1];
   b = "brightness(" + b[0] + ") contrast(" + b[1] + ") saturate(" + b[2] + ")";
 
   vid.style.transform = "scale(" + a + ")"; vid.style.filter = b;
