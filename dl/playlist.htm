@@ -219,8 +219,8 @@ var start = async () =>
   window.onmessage = function (e) { if (e.data [0] == "@") getmessage (e.data); }
 
   if (location.hostname == "localhost") cors_bypass = cors_kraker = "/!timeout:15|*";
-var x = await crypt(); load_list(x);
-//  load_list (await crypt());
+
+  load_list (await crypt());
 }
 ////////////////////
 
@@ -237,16 +237,6 @@ var get_checked = function (name, value)
   var i = 0, j = value, k = document.getElementsByName (name);
   if (k && k.length) for (; i < k.length; i++) if (k [i].checked) j = k [i].value;
   if (isNaN (i = parseFloat (j))) return (j); else return (i);
-}
-////////////////////
-
-var allow_cookie = function (source, cookie)
-{
-  if (!cors_kraker) return ({});
-
-  if (source) if (cookie) cookies [source] = cookie; else cookie = cookies [source];
-
-  if (!cookie) cookie = "null"; return ({ headers: { 'Accept': '**' + cookie } });
 }
 ////////////////////
 
@@ -414,7 +404,7 @@ var req_tvapp = async (url) =>
 {
 try
 {
-  var a, b, n, s, t, u, v, src = "https://thetvapp.to";
+  var a, b, n, s, t, u, src = "https://thetvapp.to";
 
   var get_link = async () =>
   {
@@ -423,7 +413,7 @@ try
     if (!url.includes (".m3u8")) url = ""; return (url);
   }
 
-  response = await fetch (cors_kraker + src + "/tv/" + url, allow_cookie ("",""));
+  response = await fetch (cors_kraker + src + "/tv/" + url, { headers: { accept: "**" }});
   textData = await response.text();
 
   if (response.status == 403) throw ("?BLOCKED");
@@ -431,29 +421,30 @@ try
   s = response.headers.get ("zz-set-cookie") || "";
   a = (a = "thetvapp_session=") + pullstring (s, a, ";");
   b = pullstring (textData, '"csrf-token" content="', '"');
-  s = { accept: "**" + t + ";" + a, 'content-type': 'application/json', 'x-csrf-token': b }
+  s = { accept: "**" + a, 'content-type': 'application/json', 'x-csrf-token': b }
   u = pullstring (textData, '"get-m3u8-link" data="', '"'); if (!a || !b || !u) throw ("!!!");
 
   if (!(t = cookies ["thetvapp"]) || !await get_link())
   {
     t = pullstring (textData, '<script type="module" src="', '"'); if (!t) throw ("!!!");
-    response = await fetch (cors_bypass + t, allow_cookie ("thetvapp-cf", ""));
+    response = await fetch (cors_bypass + t);
     textData = await response.text();
 
-    a = textData.indexOf ("body:JSON"); if (a < 0) throw ("!!!"); t = textData.substr (a - 600, 600);
-    for (b = t.length, n = 0; n < 4; n++) b = t.lastIndexOf ("const ", b) - 1;
+    a = textData.indexOf ("body:JSON"); if (a < 0) throw ("!!!");
+    b = pullstring (textData.substr (a), "{", "}").split (":");
+    a = b[0]; b = b[1]; if (!a || !b) throw ("!!!");
 
-    n = a - 600 + t.indexOf (";", b + 1) + 1; t = pullstring (t.substr (b), " ", "=");
-    b = pullstring (textData.substr (a), "{", ":"); if (!t || !b) throw ("!!!");
+    n = textData.indexOf ("const " + b + "="); if (n < 0) throw ("!!!");
+    n = textData.indexOf (";", n) + 1;
 
-    t = '<!DOCTYPE html><html><body style="display:none"><div id="get-m3u8-link" data="">\n' +
-        '<button id="loadVideoBtnOne"></button><button id="loadVideoBtnTwo"></button>\n<script>' +
-        textData.substr (0, n) + '\nparent.postMessage ("@" + ' + t + ', "*");\n' +
+    t = '<!DOCTYPE html><html><body style="display:none">' +
+        '<div id="get-m3u8-link" data=""></div><button id="loadVideoBtn"></button>\n<script>\n' +
+        textData.substr (0, n) + '\nparent.postMessage ("@" + ' + b + ', "*");\n' +
         textData.substr (n) + '\n<\/script></body></html>';
 
-    a = document.getElementById ("frame"); v = a.contentDocument;
-    v.open(); v.write (t); v.close(); t = await getmessage (3); a.src = ""; if (!t) throw ("!!!");
-    t = cookies ["thetvapp"] = '{"' + b + '":"' + t + '"}'; await get_link();
+    var w = document.getElementById ("frame"), v = w.contentDocument;
+    v.open(); v.write (t); v.close(); t = await getmessage (3); w.src = ""; if (!t) throw ("!!!");
+    t = cookies ["thetvapp"] = '{"' + a + '":"' + t + '"}'; await get_link();
   }
 }
 
@@ -463,15 +454,14 @@ catch (e) { console.log (e); url = e[0] == "?" ? e : "" }; return (url);
 
 var load_stream = function (url, hls)
 {
-  var bstyle = "<body style='margin:0;padding:0;overflow:hidden;background-color:";
-  var istyle = " style='position:absolute;border:none;outline:none;width:100%;height:100%'";
-  var vstyle = " autoplay allowfullscreen ";
+  var bstyle = " style='margin:0;padding:0;overflow:hidden;background-color:black'>";
+  var vstyle = " style='position:absolute;border:none;outline:none;width:100%;height:100%'>";
 
-  var insert = bstyle + "black'><video" + istyle + vstyle + "id='video'></video></body>";
+  var insert = "<body" + bstyle + "<video autoplay allowfullscreen" + vstyle + "</video></body>";
 
   var doc = document.getElementById ("frame").contentDocument;
   doc.open(); doc.write ("<!DOCTYPE html>" + insert); doc.close();
-  var win = doc.getElementById ("video"); doc = doc.body;
+  var win = doc.querySelector ("video"); doc = doc.body;
 
   win.onerror = function() { vid_error (win); }
   win.onloadedmetadata = function() { vid_scaler (this.videoWidth, this.videoHeight); }
