@@ -1,0 +1,258 @@
+<!DOCTYPE html><html><head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<base target="_blank">
+
+<title>YouTube Player</title>
+
+<style type="text/css">
+
+body {
+  font-size: 17px; line-height: 19px;
+  font-family: 'times new roman', serif; 
+  color: maroon; background-color: navajowhite;
+  text-align: center;
+}
+
+input[type=text] {
+  height: 20px; padding: 1px 6px; outline: none; margin: 0;
+  font-size: 13px; font-family: verdana, sans-serif;
+  border: 1px solid peru; border-radius: 4px;
+  color: darkred; background-color: snow;
+}
+
+input[type=text][disabled] {
+  background-color: papayawhip; text-align: center; padding-right: 5px;
+}
+
+button {
+  width: auto; height: auto; margin: 1px 0; padding: 2px 12px 1px;
+  line-height: 17px; font-size: 13px; font-family: helvetica, sans-serif;
+  outline: none; border: 1px solid peru; border-radius: 5px;
+  color: slateblue; background-color: moccasin;
+}
+
+button:hover:not(:active) {
+  background-color: gainsboro;
+}
+
+.box {
+  display: inline-block; width: calc(100% - 50px); height: 160px;
+  padding: 4px 6px; border: 2px tan solid; border-radius: 4px;
+  text-align: left; overflow: auto; outline: none;
+}
+
+::selection {
+  color: yellow; background-color: orchid;
+}
+
+r_ { color: crimson; }
+g_ { color: seagreen; }
+b_ { color: blue; }
+
+</style></head><body>
+
+<h2 style="text-align:center;margin:10px 0 15px 0"><r_>Sample YouTube Extractor</r_></h2>
+
+<button onclick="javascript:grab_video()">Go</button> &nbsp;&nbsp;
+<input type=text style="width:400px"> &nbsp;&nbsp;
+<input type=text class="static" style="width:56px" disabled> &nbsp;&nbsp;
+<button onclick="javascript:next_proxy()">Next</button>
+
+<p></p><div class="box"></div>
+
+<script>
+
+var cors_kraker = "https://kraker-remote.vercel.app/?url=";
+if (location.hostname == "localhost") cors_kraker = "/";
+
+var proxies = [
+  '23.19.244.109:1080'    , // New Jersey
+  '178.17.170.76:1080'    , // Moldova
+  '31.170.22.127:1080'    , // Latvia
+  '146.70.149.46:1080'    , // Singapore
+  '72.167.46.207:1080'      // Arizona
+];
+
+var response, textData, jsonData, busy = 0, cookies = {}, proxy = 0;
+
+var line = document.querySelectorAll ("input[type=text]");
+var stat = line [1]; line = line [0]; stat.value = "Proxy " + proxy;
+var box = document.querySelector (".box");
+
+var message = function (msg)
+{
+  if (!msg) box.innerHTML = ""; else box.innerHTML += msg;
+}
+
+var pullstring = function (s, t, u)
+{
+  var m = t.length, n = s.indexOf (t) + m;
+  m = n < m ? -1 : (u ? s.indexOf (u, n) : s.length);
+  return (m < 0 ? "" : s.substr (n, m - n));
+}
+////////////////////
+
+var next_proxy = function ()
+{
+  if (++proxy >= proxies.length) proxy = 0; stat.value = "Proxy " + proxy;
+}
+
+var grab_video = function ()
+{
+  var m, n, s, url = line.value.trim(); if (!url || busy) return;
+
+  if (url.includes ("youtube") || url.includes ("youtu.be"))
+  {
+    if ((n = url.indexOf ("?")) >= 0)
+    {
+      s = url.substr (n); url = url.substr (0, n);
+      m = pullstring (s, "?v=", "") || pullstring (s, "&v=", "");
+      if ((n = m.indexOf ("&")) >= 0) m = m.substr (0, n); if (m) url = "/" + m;
+    }
+    url = (n = url.lastIndexOf ("/")) < 0 ? "" : url.substr (n + 1);
+  }
+
+  message (""); if (url.length == 11) request_youtube (url); else message ("Invalid ID");
+}
+
+const request_youtube = async (id) =>
+{
+  var m, n, s, t, sub, vid, key, sig, nkey; if (busy) return; busy = 1;
+
+  var url = cors_kraker + "user-agent=|!vpx:XXX|*https://www.youtube.com/embed/" + id;
+
+  message ("Loading...<br>https://www.youtube.com/embed/" + id + "<br>");
+
+  for (s = "", n = 0; n < proxies.length; n++) try
+  {
+    response = await fetch (url.replace ("XXX", proxies [proxy]));
+    textData = await response.text();
+
+    if (s = pullstring (textData, '"jsUrl":"', '"')) break; throw ("");
+  }
+  catch { next_proxy() } 
+
+try
+{
+  if (!s) throw ("File not found or proxy not working.");
+  key = cookies [s]; nkey = cookies ["!" + s]; n = cookies ["?" + s];
+  var ua1 = "user-agent=!Mozilla/5.0 (Android 14)|!vpx:" + proxies [proxy] + "|*";
+  var ua2 = "!vpx:" + proxies [proxy] + "|*";
+
+  if (!key || !nkey || !n)
+  {
+    message ("https://www.youtube.com" + s + "<br>");
+    response = await fetch (cors_kraker + "https://www.youtube.com" + s);
+    textData = await response.text();
+
+    if ((n = textData.indexOf ('var b=a.split(a.slice(0,0))')) < 0) nkey = ""; else
+    {
+      t = textData.substr (n, textData.indexOf ('b.join("")', n) - n);
+      t = 'function(a){var b=a.split(""' + t.substr (t.indexOf ('),')) + 'b.join("")};';
+      nkey = "var nsig=" + t + " sig=nsig(sig);";
+    }
+
+    cookies [s] = key = yt_algo (textData);
+    cookies ["!" + s] = nkey; t = pullstring (textData, "signatureTimestamp:", "}");
+    cookies ["?" + s] = n = t ? t * 1 : Math.trunc (Date.now() / 86400000) - 1;
+  }
+
+  if (!key || !nkey || !n) throw ("Cannot extract signature information.");
+
+  t = JSON.stringify ({
+    videoId: id, playbackContext: { contentPlaybackContext: { signatureTimestamp: n }},
+    context: { client: { gl: 'US', hl: 'en', clientName: 'TVHTML5_SIMPLY_EMBEDDED_PLAYER', clientVersion: '2.0' }}
+  });
+
+  try
+  {
+    message ("https://www.youtube.com/youtubei/v1/player<br>");
+    url = cors_kraker + ua2 + "https://www.youtube.com/youtubei/v1/player";
+    response = await fetch (url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: t });
+    jsonData = await response.json();
+  } catch { jsonData = {}; }
+
+  if (!(sub = jsonData.streamingData))
+  {
+    message ("https://m.youtube.com/watch?v=" + id + "<br>");
+    response = await fetch (cors_kraker + ua1 + "https://m.youtube.com/watch?v=" + id);
+    textData = await response.text();
+
+    s = pullstring (textData, '"formats":[', ']');
+    t = pullstring (textData, '"adaptiveFormats":[', ']');
+
+    sub = JSON.parse ('{"formats":[' + s + '],"adaptiveFormats":[' + t + ']}');
+  }
+
+  sub = sub.adaptiveFormats || ""; console.log (sub);
+  if (!sub.length) throw ("Cannot extract formats list."); message ("<br>");
+
+  for (m = [], n = 0; n < sub.length; n++) m.push (sub[n].itag + " " + n);
+
+  for (m.sort(), t = "", n = 0; n < m.length; n++)
+  {
+    s = m[n].split (" "); if (t == s[0]) continue; t = s[0]; s = s[1];
+
+    vid = yt_split (sub [s]); url = vid [0]; sig = vid [1]; if (!url) continue;
+    url = yt_nsig (url, nkey); if (sig && key) { eval (key); url += "&sig=" + sig; }
+
+    message ("<a href='" + url + "'>" + t + "</a> &nbsp; ");
+  }
+
+} catch (err) { console.log (err); message (err ? err : "ERROR"); }
+
+  message ("<br>"); busy = 0;
+}
+////////////////////
+
+var yt_split = function (data)
+{
+  var d, i, r, s, u = data.url; i = r = s = "";
+
+  if (!u) if (!(u = data.signatureCipher)) u = ""; else
+  {
+    u = u.replace (/%25/g, "%"); u = decodeURIComponent (u);
+    s = pullstring (u, "s=", "&"); u = pullstring (u, "url=", "");
+  }
+
+  i = (d = data.initRange)  ? d.start + "-" + d.end : "";
+  r = (d = data.indexRange) ? d.start + "-" + d.end : "";
+
+  if (!(d = data.approxDurationMs)) d = 0;
+
+  return ([u, s, d / 1000, i + "," + r]);
+}
+////////////////////
+
+var yt_algo = function (data)
+{
+  var i, j, n, s, v;
+
+  for (i = 0; i < 3; i++)
+  {
+    j = data.indexOf ('a=a.split("")'); if (j < 0) return "";
+    s = data.substr (j + 14, 300); if ((n = s.indexOf ("a.join")) > 0) break;
+    if (i > 1) return ""; data = data.substr (j + 1);
+  }
+
+  s = s.substr (0, n - 7);
+  v = "var " + s.substr (0, s.indexOf (".")) + "={";
+  if ((n = data.indexOf (v)) < 0) return "";
+
+  v = data.substr (n, 300); v = v.substr (0, v.indexOf ("};") + 2);
+  return (v + "var a=sig.split('');" + s + "sig=a.join('');");
+}
+////////////////////
+
+var yt_nsig = function (url, nkey)
+{
+  var sig = pullstring (url, "&n=", "&"); if (!nkey || !sig) return url;
+  var s = "&n=" + sig + "&"; eval (nkey); sig = "&n=" + sig + "&";
+  return (url.replace (s, sig));
+}
+////////////////////
+
+</script></body></html>
+
