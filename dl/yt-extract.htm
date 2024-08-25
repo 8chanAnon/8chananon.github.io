@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <base target="_blank">
 
-<title>YouTube Player</title>
+<title>YouTube</title>
 
 <style type="text/css">
 
@@ -119,7 +119,7 @@ var grab_video = function ()
 
 const request_youtube = async (id) =>
 {
-  var m, n, s, t, sub, vid, key, sig, nkey; if (busy) return; busy = 1;
+  var m, n, s, t, sub, vid, key, sig, nkey; busy = 1;
 
   var url = cors_kraker + "user-agent=|!vpx:XXX|*https://www.youtube.com/embed/" + id;
 
@@ -139,7 +139,7 @@ try
   if (!s) throw ("File not found or proxy not working.");
   key = cookies [s]; nkey = cookies ["!" + s]; n = cookies ["?" + s];
   var ua1 = "user-agent=!Mozilla/5.0 (Android 14)|!vpx:" + proxies [proxy] + "|*";
-  var ua2 = "!vpx:" + proxies [proxy] + "|*";
+  var ua2 = "user-agent=|!vpx:" + proxies [proxy] + "|*";
 
   if (!key || !nkey || !n)
   {
