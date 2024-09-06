@@ -79,9 +79,19 @@ button:hover:active {
   border: 2px dashed firebrick; background-color: mistyrose;
 }
 
+.tw-image {
+  display: flex; flex-direction: column; justify-content: space-around;
+  padding: 0; margin: 0; border: 0 solid tan; border-width: 0 2px 1px 0;
+  background-color: ghostwhite; user-select: none;
+}
+
+.tw-image img {
+  width: 48px; height: 48px; padding: 0; margin: 0; border: 3px solid floralwhite;
+}
+
 .tw-header {
-  display: block; min-height: 54px; line-height: 26px;
-  background-color: floralwhite; border-bottom: 1px solid tan;
+  display: block; width: 100%; min-height: 54px; line-height: 26px;
+  padding: 0 6px; background-color: floralwhite; border-bottom: 1px solid tan;
 }
 
 .tw-header[checked="1"] {
@@ -90,6 +100,14 @@ button:hover:active {
 
 .tw-header[checked="2"] {
   background-color: lemonchiffon;
+}
+
+.tw-thread {
+  float: right;
+}
+
+.tw-arrow {
+  float: right; cursor: pointer; color: chocolate;
 }
 
 .tw-info {
@@ -104,28 +122,9 @@ button:hover:active {
   background-color: wheat;
 }
 
-.tw-image {
-  width: 48px; height: 48px; padding: 3px; margin: 0 6px 0 0;
-  float: left; border-right: 2px solid tan; background-color: honeydew;
-  user-select: none;
-}
-
-.tw-thread {
-  margin: 0 6px; float: right;
-}
-
-.tw-arrow {
-  margin: 0; padding: 2px 4px 0; float: right;
-  cursor: pointer; color: chocolate;
-}
-
 .tw-text {
   display: flex; flex-direction: column; justify-content: space-around;
-  text-align: left; padding: 3px 6px 4px 6px; outline: none; overflow: auto;
-}
-
-.tw-text:focus {
-  outline: 2px solid coral;
+  width: 100%; text-align: left; padding: 3px 6px 4px 6px; outline: none; overflow: auto;
 }
 
 .tw-long {
@@ -300,6 +299,7 @@ var start = function (cmd)
   }
   else if (type == "video")
   {
+//    if (proxy != remote_proxy) url = proxy + url;
     doc.innerHTML = "<video controls autoplay id='image' src='" + url + "'" +
       " onloadedmetadata='javascript:resize(0)' onerror='javascript:oops()'></video>";
   }
@@ -374,27 +374,34 @@ var variables = {
 }
 
 var features = {
-  rweb_lists_timeline_redesign_enabled: true, responsive_web_graphql_exclude_directive_enabled: true,
+  rweb_tipjar_consumption_enabled: true, responsive_web_graphql_exclude_directive_enabled: true,
   verified_phone_label_enabled: false, creator_subscriptions_tweet_preview_api_enabled: true,
   responsive_web_graphql_timeline_navigation_enabled: true,
   responsive_web_graphql_skip_user_profile_image_extensions_enabled: false,
+  communities_web_enable_tweet_community_results_fetch: true,
+  c9s_tweet_anatomy_moderator_badge_enabled: true, articles_preview_enabled: true,
   tweetypie_unmention_optimization_enabled: true, responsive_web_edit_tweet_api_enabled: true,
   graphql_is_translatable_rweb_tweet_is_translatable_enabled: true,
   view_counts_everywhere_api_enabled: true, longform_notetweets_consumption_enabled: true,
-  responsive_web_twitter_article_tweet_consumption_enabled: false, tweet_awards_web_tipping_enabled: false,
+  responsive_web_twitter_article_tweet_consumption_enabled: true, tweet_awards_web_tipping_enabled: false,
+  creator_subscriptions_quote_tweet_preview_enabled: false,
   freedom_of_speech_not_reach_fetch_enabled: true, standardized_nudges_misinfo: true,
   tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled: true,
-  longform_notetweets_rich_text_read_enabled: true, longform_notetweets_inline_media_enabled: true,
-  responsive_web_media_download_video_enabled: false, responsive_web_enhance_cards_enabled: false
+  rweb_video_timestamps_enabled: true, longform_notetweets_rich_text_read_enabled: true,
+  longform_notetweets_inline_media_enabled: true, responsive_web_enhance_cards_enabled: false
+}
+
+var fieldToggles = {
+  withArticleRichContentState: true, withArticlePlainText: false, withGrokAnalyze: false
 }
 
 const fetchtweet = async (doc, msg, id) =>
 {
   doc.innerHTML = "<span class='tweetbox' tabindex='-1'></span>"; var box = doc.firstChild;
   
-  var url = proxy + "https://twitter.com/i/api/graphql/3XDB26fBve-MmjHaWTUZxA/TweetDetail";
+  var url = proxy + "https://x.com/i/api/graphql/VwKJcAd7zqlBOitPLUrB8A/TweetDetail";
 
-  var bb = "Bearer AAAAAAAAAAAAAAAAAAAAAPYXBAAAAAAACLXUNDekMxqa8h%2F40K4moUkGsoc%3DTYfbDKbT3jJPCEVnMYqilB28NHfOPqkca3qaAxGfsyKCs0wRbw";
+  var bb = "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA";
   var tt = "a00c423812149cefa8a26ed20bd34b6976f4511c52f07cb37e787adf883c438c1dc59e2537f073c78c3bfae81dcc86af592efed2a51655ad7835445a73c1b964a5b60b68b571967dc0e3674d058ab0df";
   var cc = "ct0=" + tt + "; auth_token=bfe4fab329336d5c2ddfd0a292e116413f197b13";
 
@@ -402,7 +409,7 @@ try
 {
   var m, n, p, q, r, s, t, twitlist, replies, twits = {}, users = {};
   var this_id = sort_id = id; while (sort_id.length < 19) sort_id = "0" + sort_id;
-  var next_id = sort_id, tw_convo, tw_reply, cursor = "";
+  var next_id = sort_id, tw_convo, tw_reply, tw_user, cursor = "";
 
   for (var cnt = 0; cnt < 20; cnt++)
   {
@@ -410,7 +417,7 @@ try
     variables.focalTweetId = id; variables.cursor = cursor;
     p = encodeURIComponent (JSON.stringify (variables));
     q = encodeURIComponent (JSON.stringify (features));
-    r = encodeURIComponent ('{"withArticleRichContentState":false}');
+    r = encodeURIComponent (JSON.stringify (fieldToggles));
     u = url + "?variables=" + p + "&features=" + q + "&fieldToggles=" + r;
 
     resp = await fetch (u, { headers: { authorization: bb, accept: "**" + cc, 'x-csrf-token': tt }});
@@ -420,7 +427,7 @@ try
     try { data = (await resp.json()).data.threaded_conversation_with_injections_v2.instructions[0].entries;
         } catch (e) { data = ""; }
 
-    for (m = data.length, n = 0; n < data.length; n++) try
+    for (t_thread = "", m = data.length, n = 0; n < data.length; n++) try
     {
       if ((p = data [n]).content)
       {
@@ -438,30 +445,33 @@ try
         p = p.itemContent.tweet_results.result;
       }
 
-      t = p.quoted_status_result; if (t) data.push (t);
+      if (p.tweet) p = p.tweet; t = p.quoted_status_result; if (t) data.push (t);
       t = p.note_tweet; if (t) t = t.note_tweet_results.result;
 
       q = p.core.user_results.result; s = q.is_blue_verified; q = q.legacy; q.verified = s;
       s = p.views; if (s) s = s.count; p = p.legacy; p.long = t; p.views = s || "0";
       p.self_thread = r ? p.conversation_id_str : "";
 
-      twits [p.id_str] = p; users [p.user_id_str] = q;
+      if (!twits [p.id_str]) { twits [p.id_str] = p; users [p.user_id_str] = q; }
     }
     catch (e) { }
 
     if (!(t = twits [id])) throw ("!Not found");
     twitlist = []; t_total = t_count = 0;
 
+    tw_user  = t.user_id_str;
     tw_reply = t.in_reply_to_status_id_str || id;
     tw_convo = t.conversation_id_str || id;
-    t_thread = t.self_thread || "null";
+    t_thread = t.self_thread || "0";
 
     for (p in twits)
     {
-      q = p; while (q.length < 19) q = "0" + q;
-      r = twits [p].in_reply_to_status_id_str;
-      s = twits [p].conversation_id_str;
-      t = twits [p].self_thread;
+      t = twits [p]; q = p; while (q.length < 19) q = "0" + q;
+      r = t.in_reply_to_status_id_str; s = t.conversation_id_str;
+
+      if (t.self_thread || t.user_id_str != tw_user) t = t.self_thread; else
+        if (s != t_thread || !(t = twits [r]) || t.user_id_str != tw_user) t = "";
+          else twits [p].self_thread = t = s;
 
       if (s != tw_convo) q = ""; else if (t == t_thread)
       {
@@ -525,7 +535,7 @@ try
 var peek = function (item)
 {
   var x = item; do item = item.parentNode; while (item.nodeName != "SPAN");
-  item = item.nextElementSibling.children [1];
+  item = item.parentNode.nextElementSibling.children [1];
 
   if (item.classList.contains ("tw-drop"))
     { item.classList.remove ("tw-drop"); x.style.transform = "scale(1)"; } else
@@ -534,7 +544,7 @@ var peek = function (item)
 
 var newtweet = function (id, box, twits, users, item, check, reply)
 {
-  var a, b, c, i, j, k, m, n, image = "", retweet = "";
+  var a, b, c, i, j, k, m, n, image = " ", retweet = "";
   var twit, user, urls = [], tw_link = "<a href='" + origin;
 
   if (!(twit = twits [item]) || !(user = users [twit.user_id_str])) return "";
@@ -543,14 +553,15 @@ var newtweet = function (id, box, twits, users, item, check, reply)
     for (n = 0; n < m.length; n++) if (k = m [n].media_url_https)
     {
       if (c = m [n].url) { urls.push (c); urls.push (""); }
-      image += "  " + tw_link + "?image##" + k + "'>IMAGE</a>";
+      image += " " + tw_link + "?image##" + k + "'>IMAGE</a>";
       if (!(k = m [n].video_info) || !(k = k.variants)) continue;
 
       for (i = 0; i < k.length; i++) if ((a = k [i].url) && a.includes (".mp4"))
       {
         b = "VIDEO"; if (j = a.match ("/\\d+x(\\d+)/")) b = j [1] + "p";
-        image += "  " + tw_link + "?video##" + a + "'>" + b + "</a>";
+        image += "&nbsp;" + tw_link + "?video##" + a + "'>" + b + "</a>";
       }
+      image += " ";
     }
 
   var time = new Date (twit.created_at);
@@ -565,16 +576,16 @@ var newtweet = function (id, box, twits, users, item, check, reply)
       else j = "<b_" + a + (++t_count) + " of " + t_total + "</b_>";
   }    
 
-  c = user.profile_image_url_https || profile_img;
-  a = "<img class='tw-image' src='" + c + "'><r_>" + user.name + "</r_>";
+  a = user.profile_image_url_https || profile_img;
   b = "<a href='" + tweet_embed + item + "'>@" + user.screen_name + "</a>";
   c = id == item ? "<r_>" + item + "</r_>" : tw_link + "?tweet##" + item + "'>" + item + "</a>";
 
   if (twit.long) image += "<span class='tw-arrow' onclick='javascript:peek(this)'>&#x25bc;</span>";
 
-  var head = "<span class='tw-header' checked=" +
-    (id == item ? 2 : ((twit.self_thread == t_thread && id != t_thread) ? 1 : 0)) + ">" +
-    a + "  " + b + j + "<br><b_>" + time + "</b_>  " + c + image + "</span>";
+  var head = "<span style='display:flex'>" +
+    "<span class='tw-image'><img src='" + a + "'></span><span class='tw-header' " +
+    "checked=" + (id == item ? 2 : ((twit.self_thread == t_thread && id != t_thread) ? 1 : 0)) + ">" +
+    "<r_>" + user.name + "</r_>  " + b + j + "<br><b_>" + time + "</b_>  " + c + image + "</span></span>";
 
   a = b = ""; i = twit.display_text_range [0]; j = twit.display_text_range [1];
   var text = (Array.from (twit.full_text)).slice (i, j).join ("");
