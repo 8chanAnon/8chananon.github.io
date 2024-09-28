@@ -11,11 +11,11 @@
 body {
   font-size: 16px; line-height: 19px;
   font-family: 'times new roman', serif; 
-  color: darkred; background-color: peachpuff;
+  color: darkred; background-color: wheat;
 }
 
 hr {
-  border-color: orange; border-style: solid;
+  border-color: tan; border-style: solid;
 }
 
 p {
@@ -36,12 +36,16 @@ li {
 
 pre {
   font-size: 14px; line-height: 17px; padding: 6px 8px; border-radius: 5px;
-  border: 1px solid violet; color: darkmagenta; background-color: bisque; overflow: auto;
+  color: saddlebrown; background-color: blanchedalmond; overflow: auto;
 }
 
 .list {
   line-height: 21px; padding: 3px 7px 4px; border-radius: 5px;
-  border: 1px solid violet; color: firebrick; background-color: bisque;
+  color: firebrick; background-color: blanchedalmond;
+}
+
+::selection {
+  color: yellow; background-color: orchid;
 }
 
 r_ { color: crimson; }
@@ -53,7 +57,7 @@ n_ { color: green; white-space: nowrap; }
 
 <h2 style="margin:16px 0;text-align:center"><span style="float:left">&#x1f638;</span>
 <g_>Web Scraping with your Web Browser:</g_> <r_>Why Not?</r_>
-<span style="float:right">&#x1f63a;</span></h2><hr><p>
+<span style="float:right">&#x1f638;</span></h2><hr><p>
 
 You can find plenty of tutorials on the Internet about the art of web scraping (for example,
 <a href="https://medium.com/@joerosborne/intro-to-web-scraping-build-your-first-scraper-in-5-minutes-1c36b5c4b110">here</a>
@@ -65,7 +69,7 @@ So the question is: can you write a web scraper in your browser? The answer is: 
 Web scraping has a long history, even pre-dating the advent of Javascript in its current incarnation. Though Javascript was
 first introduced by Netscape in 1995, it would take another decade for it to mature into a language suitable for much more
 than managing the presentation of a web page. Python was introduced in 1991 and was a fairly mature language from the start.
-Due to simple inertia, it remains the predominant tool for web scraping. Over the past five years or so, Node.js has seen
+Due to simple inertia, it remains the predominant tool for web scraping. Over the past several years, Node.js has seen
 rising interest and there are tools written in Javascript for Node.js but still nothing for web browsers.
 <p>
 One of the issues is what is called CORS (Cross-Origin Resource Sharing) which is a set of protocols which may forbid or
@@ -262,7 +266,12 @@ it quickly hits a barrier such as that posed by YouTube which blocks data center
 next article. The trick involves letting the browser solve the bot challenge and then using the proxy to capture the
 cookie (it may or may not be feasible to completely automate the task).
 <p>
-If you're at all serious about web scraping, whether for personal or professional reasons, you should seriously consider
+What else do you get? How about the ability to read and write files on the local disk? This is one big reason why the web
+browser has not been popular for web scraping. Where do you put the data? You also get a websocket service which could
+be pretty darn useful if you have multiple apps that need to talk to each other. You could use the browser facility called
+<g_>postMessage</g_> but it has tight security restrictions.
+<p>
+If you're at all serious about web scraping, whether for personal or professional reasons, you should carefully consider
 what I've discussed here. Go to my main web page, check out the interesting apps and install the local proxy server.
 Till next time.
 <p>
