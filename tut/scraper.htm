@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html><html><head>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<meta charset='utf-8'>
+
+<title>Scraper</title>
+
+<style type='text/css'>
+
+body {
+  padding: 0 2px 0 1px; text-align: center;
+  font-size: 16px; line-height: 19px; font-family: 'times new roman', serif;
+  color: brown; background-color: lemonchiffon;
+}
+
+button {
+  width: auto; height: auto; margin: 1px 0; padding: 2px 8px 1px 8px;
+  line-height: 17px; font-size: 13px; font-family: helvetica, sans-serif;
+  outline: none; border: 1px solid peru; border-radius: 5px;
+  color: slateblue; background-color: moccasin;
+}
+
+button:hover:not(:active) {
+  background-color: gainsboro;
+}
+
+input {
+  height: 19px; padding: 2px 6px 1px; outline: none; margin: 0;
+  font-size: 13px; font-family: helvetica, sans-serif;
+  border: 1px solid peru; border-radius: 4px;
+  color: darkred; background-color: snow;
+}
+
+.textarea {
+  width: 100%; height: calc(100vh - 100px);
+  box-sizing: border-box; padding: 4px 8px 12px; margin: 10px 0;
+  font-size: 14px; line-height: 17px; font-family: monospace;
+  text-align: left; white-space: pre-wrap; line-break: anywhere;
+  outline: none; overflow-x: auto; overflow-y: scroll;
+  border: 2px solid burlywood; border-radius: 4px;
+  color: mediumblue; background-color: snow;
+}
+
+</style></head><body>
+
+<h2 style="margin:0 0 10px">Web Scraper</h2>
+
+<div style="padding:5px 10px;background-color:pink">
+<button onclick="javascript:scrape()">Go</button> &nbsp;
+<input type=text style="width:calc(100% - 350px);min-width:220px;max-width:600px">
+&nbsp; <button onclick="javascript:print('')">Clear</button>
+
+</div><div class="textarea" tabindex="-1"></div>
+
+<script>
+
+var proxy = "https://kraker-remote.vercel.app/?url=";
+
+var text = document.querySelector (".textarea");
+var line = document.querySelector ("input");
+
+var print = function (msg)
+{
+  if (typeof (msg) != "string") return;
+  if (text.innerText.length > 60000) text.innerText = text.innerText.substr (-50000);
+  if (msg) text.innerText += msg + "\n"; else text.innerText = "";
+  text.scrollTop = text.scrollHeight;
+}
+
+var pullstring = function (s, t, u)
+{
+  if (!s) return ""; var m = t.length, n = s.indexOf (t) + m;
+  m = n < m ? -1 : (u ? s.indexOf (u, n) : s.length);
+  return (m < 0 ? "" : s.substr (n, m - n));
+}
+
+var scrape = async () =>
+{
+  var m, n, resp, data, count = 0; print ("");
+
+  var url = "https://rumble.com/-playlists/htmx/get-playlist-details?playlist_id=";
+  url = proxy + url + line.value.split ("/").pop() + "&page_size=10&extended=1&page_num=";
+
+  for (m = 1; m <= 5; m++) try
+  {
+    print ("-- Loading page " + m + " --");
+
+    resp = await fetch (url + m); if (resp.status != 200) throw ("");
+    data = await resp.text();
+
+    data = data.split ('class="videostream thumbnail__grid-item"');
+    if (data.length < 2) break;  // print (data [1]); break;
+
+    for (n = 1; n < data.length; n++)
+    {
+      count++; print (pullstring (data [n], 'title="', '"'));
+    }
+  }
+  catch { print ("Error"); break; }
+
+  print ("Found " + count + " videos");
+}
+
+</script></body></html>

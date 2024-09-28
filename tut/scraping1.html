@@ -1,0 +1,273 @@
+<!DOCTYPE html><html><head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<base target="_blank">
+
+<title>Web Scraping with your Web Browser: Why Not?</title>
+
+<style type="text/css">
+
+body {
+  font-size: 16px; line-height: 19px;
+  font-family: 'times new roman', serif; 
+  color: darkred; background-color: peachpuff;
+}
+
+hr {
+  border-color: orange; border-style: solid;
+}
+
+p {
+  margin: 0.8em 0;
+}
+
+td {
+  padding: 0 5px 0 3px; margin: 0;
+}
+
+ul {
+  margin: 0; padding: 0 1em; list-style: square;
+}
+
+li {
+  margin: 4px 0;
+}
+
+pre {
+  font-size: 14px; line-height: 17px; padding: 5px 7px; border-radius: 5px;
+  border: 1px solid orange; color: brown; background-color: bisque; overflow: auto;
+}
+
+.list {
+  line-height: 21px; padding: 3px 7px 4px; border-radius: 5px;
+  border: 1px solid orange; color: firebrick; background-color: bisque;
+}
+
+r_ { color: crimson; }
+g_ { color: green; }
+b_ { color: blue; }
+n_ { color: green; white-space: nowrap; }
+
+</style></head><body>
+
+<h2 style="margin:16px 0;text-align:center"><span style="float:left">&#x1f601;</span>
+<g_>Web Scraping with your Web Browser:</g_> <r_>Why Not?</r_>
+<span style="float:right">&#x1f601;</span></h2><hr><p>
+
+You can find plenty of tutorials on the Internet about the art of web scraping (for example,
+<a href="https://medium.com/@joerosborne/intro-to-web-scraping-build-your-first-scraper-in-5-minutes-1c36b5c4b110">here</a>
+and <a href="https://www.jcchouinard.com/web-scraping/">here</a>) and the first things you will learn about are Python and
+Beautiful Soup. There is no tutorial on web scraping with Javascript in a web browser though you will find browser
+extensions that claim to do it all without any need for coding (this only works for simplistic and unprotected websites).
+So the question is: can you write a web scraper in your browser? The answer is: YES, you can! So why is nobody doing it?
+<p>
+Web scraping has a long history, even pre-dating the advent of Javascript in its current incarnation. Though Javascript was
+first introduced by Netscape in 1995, it would take another decade for it to mature into a language suitable for much more
+than managing the presentation of a web page. Python was introduced in 1991 and was a fairly mature language from the start.
+Due to simple inertia, it remains the predominant tool for web scraping. Over the past five years or so, Node.js has seen
+rising interest and there are tools written in Javascript for Node.js but still nothing for web browsers.
+<p>
+One of the issues is what is called CORS (Cross-Origin Resource Sharing) which is a set of protocols which may forbid or
+allow access to a web resource by Javascript. There are two possible workarounds: a browser extension or a proxy server.
+The first choice is fairly limited since some security restrictions still apply. The latter choice is more flexible but
+requires the presence of an external resource. Python gets around the CORS limitations because the web browser is not
+involved. Unfortunately, this also means that additional support is required in order to parse HTML or JSON and perhaps
+even to execute Javascript in cases where a resource is protected by obfuscation.
+<p>
+In the early days, such issues were easily resolved but the web has changed and everything has gotten more complicated. This
+is where headless browsers come in, at which point one must begin wondering if it would be better to just write the web
+scraper in the web browser in the first place. A headless browser is simply a browser (usually Google Chrome) with no
+graphical interface coupled with a controller like Puppeteer or Selenium. The Python app can send commands to the browser
+in order to make it behave like a normal user. This technique certainly has its limits.
+<p>
+How do we go about writing a web scraper in the browser? First of all, I need to quickly get the issue of the proxy
+server out of the way. For the code examples in this article, I will be using a remote proxy server. This is good enough for
+simple use cases. For heavy lifting, however, a local proxy server is the only choice. An example of some heavy lifting is
+executing Javascript in an <i>iframe</i> under a fake domain.
+
+<p><hr><p>
+
+<b><b_>Bypassing the browser restrictions with a proxy server</b_></b>
+<p>
+You can choose between using a local proxy or a remote proxy. In the latter case, your options are extremely limited to the
+point where there may be no option at all, depending on what you need to accomplish. You could certainly host your own proxy
+in the cloud somewhere but why bother? That option is only useful if you need to share the proxy with others for some
+reason. What does the proxy server need to do?
+<p class="list">
+<g_>1 -</g_> set the Access-Control-Allow-Origin response header to the value "*"<br>
+<g_>2 -</g_> allow setting arbitrary request headers (especially Referer) via the URL
+<p>
+These are the minimum requirements. The first one is essential and might be sufficient. However, some resources may be
+blocked if the Referer is not correctly set (this is often the cause of the 403 error). It may also be necessary to set a
+special header such as <g_>x-requested-from</g_>. For simplicity, the proxy should support setting the headers via the URL
+(perhaps in addition to some other method like a configuration file).
+<p class="list">
+<g_>3 -</g_> OPTIONS pre-flight auto-complete<br>
+<g_>4 -</g_> adding or modifying response headers<br>
+<g_>5 -</g_> intercepting the "set-cookie" response header<br>
+<g_>6 -</g_> transmitting cookies via an alternative header<br>
+<g_>7 -</g_> mimicking a browser's TLS handshake
+<p>
+The OPTIONS pre-flight is emitted by the web browser for POST requests or when certain headers are set by Javascript. Since
+the destination might reject the request, it is important for the proxy server to be able to auto-respond. Some response
+headers may be problematic, such as cache directives or <n_>x-frame-options</n_>. Sometimes, you will need to intercept
+and transmit cookies. The last requirement involves TLS handshake fingerprinting, which is something that few servers
+actually do, aside from Cloudflare (that's a tough topic which I won't be covering in this article).
+<p>
+It is important to distinguish between two modes of proxy interaction: direct and transparent. By <g_>direct</g_>, I mean
+that the web scraping app communicates directly with the proxy server as it would communicate with any server, using the
+proxy's domain name (such as "localhost"). The URL would contain a command and a destination URL. The <g_>transparent</g_>
+mode of interaction is only possible by configuring the browser's proxy settings so that all HTTP requests go through the
+proxy. This mode will be discussed in my next article.
+
+<p><hr><p>
+
+<b><b_>Scraping a website with just a few lines of code</b_></b>
+<p>
+Let me be clear about this. You won't be needing to drag in a third-party package in order to satisfy the claim of "just a
+few lines of code". The claim is all too common and it is facetious because it always turns out that you need to install
+a bunch of cumbersome tools with a long learning curve. I'm saying a few lines of code because it is literally true. Your
+web browser is perfectly capable of parsing arbitrary data structures of the sort that you will find on the Internet. That
+is the browser's first job, after all. You can parse HTML as text or as a fully-rendered DOM. You can parse JSON and you can
+even watch a video. The browser is built for this, unlike Python or Node.js or whatever.
+<p>
+After you have done the work of scraping a website, you can then use the browser to visualize the data with some HTML and
+CSS. You could do this in the form of a fully functional app or you could just display the raw data in a <i>div</i> (as we
+will be doing here). No third-party cruft is required. Of course, you will be doing some programming in Javascript so you
+should do some research if you're not already comfortable with this. I confess that I don't qualify as an expert. For that
+reason, you can rest assured that the code that I present here will be clean and simple.
+<p>
+First of all, I want you to download this <a href="scraper.htm" download>small template</a> which contains HTML and CSS
+along with some example Javascript. Save it on your desktop and then open the app in your browser. It's just a simple page
+with an input line, two buttons and a display area for text messages. Open up the source code and study it for a while.
+The main area of interest is this block of Javascript:
+<pre>
+var scrape = async () =>
+{
+  var m, n, resp, data, count = 0; print ("");
+
+  var url = "https://rumble.com/-playlists/htmx/get-playlist-details?playlist_id=";
+  url = proxy + url + line.value.split ("/").pop() + "&page_size=10&extended=1&page_num=";
+
+  for (m = 1; m <= 5; m++) try
+  {
+    print ("-- Loading page " + m + " --");
+
+    resp = await fetch (url + m); if (resp.status != 200) throw ("");
+    data = await resp.text();
+
+    data = data.split ('class="videostream thumbnail__grid-item"');
+    if (data.length < 2) break;  // print (data [1]); break;
+
+    for (n = 1; n < data.length; n++)
+    {
+      count++; print (pullstring (data [n], 'title="', '"'));
+    }
+  }
+  catch { print ("Error"); break; }
+
+  print ("Found " + count + " videos");
+}
+</pre>
+Aside from a function called <g_>pullstring</g_>, that is the whole of the scraper code. I devised <g_>pullstring</g_>
+years ago and it has proven to be invaluable to the point that it should be a native part of Javascript. You will be seeing
+it a lot in my code. All it does is pull the text found in between two search tokens. It is great for parsing HTML and it
+avoids the trouble of rendering the HTML to a DOM. You could DOMify the HTML if you want but I've never found this to be
+necessary. The HTML is divided into sections using <g_>split</g_> with a class name as the search token. Then the code steps
+through the array to extract the data. In this example, I'm just grabbing the title of the video but you can easily
+modify the code to extract the date, view count and playing time.
+<p>
+Let's run the app. As you can see, it involves Rumble so you need to go to <a href="https://rumble.com">the site</a> and
+find a channel with a playlist. Copy the playlist link to the app and press "Go". There's not much more that I can say about
+it. Play with the app for a while before continuing to the next experiment.
+
+<p><hr><p>
+
+<b><b_>Converting HTML to DOM</b_></b>
+<p>
+Although I have already stated that rendering the HTML to a DOM (Document Object Model) is not usually necessary, it can
+sometimes be helpful in hard cases so I'll discuss that now. First, you will need to augment the app's HTML with this:
+<pre>
+&lt;div id="dom" style="display:none"&gt;&lt;/div&gt;
+</pre>
+It doesn't matter where you put it because it will be invisible. We're going to use it to host the new DOM which we will
+create from the HTML in order to study it. Next, modify your scraper code so it looks like this:
+<pre>
+var scrape = async () =>
+{
+  var m, n, resp, data, count = 0; print ("");
+
+  var vids, dom = new DOMParser(), doc = document.getElementById ("dom");
+
+  var url = "https://rumble.com/-playlists/htmx/get-playlist-details?playlist_id=";
+  url = proxy + url + line.value.split ("/").pop() + "&page_size=10&extended=1&page_num=";
+
+  for (m = 1; m <= 5; m++) try
+  {
+    print ("-- Loading page " + m + " --");
+
+    resp = await fetch (url + m); if (resp.status != 200) throw ("");
+    data = await resp.text();
+
+    data = dom.parseFromString (data, "text/html");
+    doc.innerHTML = ""; doc.appendChild (data.body); break;
+
+    vids = data.querySelectorAll (".videostream"); if (!vids.length) break;
+
+    for (n = 0; n < vids.length; n++)
+    {
+      doc = vids [n].querySelector (".thumbnail__title"); count++; print (doc.title);
+    }
+  }
+  catch { print ("Error"); break; }
+
+  print ("Found " + count + " videos");
+}
+</pre>
+Not much different from the original. Now load a playlist from Rumble. The code will render the HTML to a DOM on the first
+pass and then quit. Open your browser's developer tools and inspect the app's own DOM to find the special <i>div</i> you
+inserted. Inside the <i>div</i> should be the new DOM. Browse through it. The code sample is already configured to do the
+same thing it did before: it will print a list of the video titles. Delete or comment out the line beginning with
+"doc.innerHTML" and run the app again. Play with it for a while.
+<p>
+What we've done here is pretty amazing compared to the lengths you would need to go through to get the same result in
+a non-browser environment. And it really is "just a few lines of code". So why not scrape the web with your browser?
+
+<p><hr><p>
+
+<b><b_>Where to go from here</b_></b>
+<p>
+After reading the above, some of you might be tempted to say to yourself: But, of course, this is all pretty obvious, isn't
+it? It doesn't seem to be, judging from the prevailing advice being generously handed out to questioners on Internet forums
+like Reddit, not to mention the countless YouTube videos. It seems ironic to me that people are using the web browser to
+discuss web scraping without ever considering the possibility that the browser could be the very tool that can do the job.
+Perhaps it is the inertia generated by the many developers who have an economic stake in this. Web scraping is big business,
+both for the tool developers and the companies that consume the scraped data.
+<p>
+At this point, I want to clarify that I'm not suggesting that the browser is a sufficient tool for web scraping on a grand
+scale, though I'm not sure why that wouldn't be feasible. Think about those bot farms driven by hundreds of cell phones
+cabled together and maybe it's not such a wild idea. Consider that the browser can multi-task so it's certainly capable of
+running multiple apps that could be scraping the net 24 hours a day.
+<p>
+In any case, that's not where I'm coming from. My use case for web scraping consists primarily of extracting video links
+from websites for the purpose of playing the videos on my own terms, either in the browser or with an external player. I
+don't normally care about scraping playlists on Rumble or anywhere else though I've actually already done that for the
+<a href="/dl/j6-rumble.htm">January 6 videos</a> uploaded by the U.S. Congress. It was not a hard thing to code and it's
+just a single file with no third-party addons whatsoever. I'm guessing that my point is made.
+<p>
+The next phase is to install and use a local proxy server. The remote server is fine for simple use cases (like Rumble) but
+it quickly hits a barrier such as that posed by YouTube which blocks data center IP addresses. Of course, there is the
+80-kiloton elephant in the room known as Cloudflare. Yes, Cloudflare can be dealt with easily and I'll show you that in the
+next article. The trick involves letting the browser solve the bot challenge and then using the proxy to capture the
+cookie (it may or may not be feasible to completely automate the task).
+<p>
+If you're at all serious about web scraping, whether for personal or professional reasons, you should seriously consider
+what I've discussed here. Go to my main web page, check out the interesting apps and install the local proxy server.
+Till next time.
+<p>
+<a href="https://8chananon.github.io">My website</a> - <a href="https://github.com/8chananon">My GitHub repository</a>
+
+<div style="width: 90vw; height: 50vh"></div>
+
+</body></html>
