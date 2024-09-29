@@ -36,12 +36,12 @@ li {
 
 pre {
   font-size: 14px; line-height: 17px; padding: 6px 8px; border-radius: 5px;
-  color: saddlebrown; background-color: blanchedalmond; overflow: auto;
+  color: maroon; background-color: #f9e6c4; overflow: auto;
 }
 
 .list {
   line-height: 21px; padding: 3px 7px 4px; border-radius: 5px;
-  color: firebrick; background-color: blanchedalmond;
+  color: firebrick; background-color: #f9e6c4;
 }
 
 ::selection {
@@ -154,7 +154,7 @@ var scrape = async () =>
   var url = "https://rumble.com/-playlists/htmx/get-playlist-details?playlist_id=";
   url = proxy + url + line.value.split ("/").pop() + "&page_size=10&extended=1&page_num=";
 
-  for (m = 1; m <= 5; m++) try
+  for (m = 1; m &lt;= 5; m++) try
   {
     print ("-- Loading page " + m + " --");
 
@@ -162,9 +162,9 @@ var scrape = async () =>
     data = await resp.text();
 
     data = data.split ('class="videostream thumbnail__grid-item"');
-    if (data.length < 2) break;  // print (data [1]); break;
+    if (data.length &lt; 2) break;  // print (data [1]); break;
 
-    for (n = 1; n < data.length; n++)
+    for (n = 1; n &lt; data.length; n++)
     {
       count++; print (pullstring (data [n], 'title="', '"'));
     }
@@ -207,7 +207,7 @@ var scrape = async () =>
   var url = "https://rumble.com/-playlists/htmx/get-playlist-details?playlist_id=";
   url = proxy + url + line.value.split ("/").pop() + "&page_size=10&extended=1&page_num=";
 
-  for (m = 1; m <= 5; m++) try
+  for (m = 1; m &lt;= 5; m++) try
   {
     print ("-- Loading page " + m + " --");
 
@@ -219,7 +219,7 @@ var scrape = async () =>
 
     vids = data.querySelectorAll (".videostream"); if (!vids.length) break;
 
-    for (n = 0; n < vids.length; n++)
+    for (n = 0; n &lt; vids.length; n++)
     {
       doc = vids [n].querySelector (".thumbnail__title"); count++; print (doc.title);
     }
@@ -275,7 +275,11 @@ If you're at all serious about web scraping, whether for personal or professiona
 what I've discussed here. Go to my main web page, check out the interesting apps and install the local proxy server.
 Till next time.
 <p>
-<a href="https://8chananon.github.io">My website</a> - <a href="https://github.com/8chananon">My GitHub repository</a>
+<a href="https://8chananon.github.io">My website</a> -
+<a href="https://github.com/8chananon">My GitHub repository</a>
+<span style="float:right"><r_>September 28, 2024</r_></span>
+
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=8chananon.github.io/clicks" style="display:none">
 
 <div style="width: 90vw; height: 50vh"></div>
 
