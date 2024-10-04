@@ -1,0 +1,229 @@
+<!DOCTYPE html><html><head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<base target="_blank">
+
+<title>Web Scraping with your Web Browser: Bot Challenges</title>
+
+<style type="text/css">
+
+body {
+  font-size: 16px; line-height: 19px;
+  font-family: 'times new roman', sans-serif;
+  color: #740050; background-color: antiquewhite;
+}
+
+hr {
+  border-color: tan; border-style: solid;
+}
+
+p {
+  margin: 0.8em 0;
+}
+
+td {
+  padding: 0 5px 0 3px; margin: 0;
+}
+
+ul {
+  margin: 0; padding: 0 1em; list-style: square;
+}
+
+li {
+  margin: 4px 0;
+}
+
+pre {
+  font-size: 14px; line-height: 17px; padding: 6px 8px; border-radius: 5px;
+  border: 1px solid thistle; color: maroon; background-color: linen; overflow: auto;
+}
+
+.list {
+  line-height: 21px; padding: 1px 7px 3px; border-radius: 5px;
+  border: 1px solid thistle; color: firebrick; background-color: linen;
+}
+
+::selection {
+  color: yellow; background-color: orchid;
+}
+
+r_ { color: crimson; }
+g_ { color: green; }
+b_ { color: blue; }
+n_ { color: green; white-space: nowrap; }
+
+</style></head><body>
+
+<h2 style="margin:16px 0;text-align:center"><span style="float:left">&#x1f638;</span>
+<g_>Web Scraping with your Web Browser:</g_> <r_>Bot Challenges</r_>
+<span style="float:right">&#x1f638;</span></h2><hr><p>
+
+In the <a href="scraping1.html">first article</a> of this series, I gave a demonstration of a simple scraping task to get
+the conversation going and to encourage you to visit my website and install the Kraker local proxy server. However, I will
+assume that you have not done that and that's okay. Hopefully, you will take that step after this discussion. I will show
+you some code designed to bypass a bot challenge, whether presented by Cloudflare or any other such service provider.
+<p>
+The web browser's proxy settings must be configured to use the Socks5 port on the local proxy. This is a transparent proxy
+which will only intercept HTTP requests on demand. It is undetectable by an outside observer except when it is intercepting
+a connection. In this respect, it is quite different from man-in-the-middle proxies like Charles or Fiddler. In order to
+initiate the interception, a "shadow port" must be created via a configuration file or directly from the web browser. The
+shadow port consists of a domain name and a port number along with a set of instructions.
+<p>
+You are no doubt familiar with status code 403 which means that you are not authorized to access the requested service.
+This is the code issued by Cloudflare when your system has been flagged as a possible bot and you are presented with a
+page containing the bot challenge. Sometimes this can be very easily avoided and there are three things that need to be
+checked before attempting to answer the challenge: <g_>1)</g_> the Referer header, <g_>2)</g_> the case of certain header
+names and <g_>3)</g_> the TLS handshake.
+<p>
+The destination could be expecting either no Referer or a specific Referer. If you are accessing the site with Javascript
+in the web browser, both the Origin and the Referer header values will be set to the domain name of the web page (or null if
+the page is a local file). You must remove the headers or set the value to some other domain (perhaps the website itself).
+In the case of Cloudflare specifically, certain header names must be presented in camel-case. Lastly, some service providers
+are capable of fingerprinting the TLS handshake. Cloudflare and DataDome do this, DDoS Guard does not.
+<p>
+Perhaps a light has suddenly become lit because you've encountered a 403 error recently and had no idea why it happened.
+Keep reading because it's more complicated than that. My experience is with Cloudflare and I've deduced that there are at
+least four security levels:
+<p class="list">
+<g_>Level 1 -</g_> certain request header names must be mixed-case (camel-case)<br>
+<g_>Level 2 -</g_> the TLS handshake must be an 80% match with known browsers<br>
+<g_>Level 3 -</g_> the TLS handshake must be a 100% match with known browsers<br>
+<g_>Level 4 -</g_> the bot challenge is presented to all comers
+<p>
+Level 3 is rarely used because it risks alienating potential customers who might be using an off-brand web browser or a
+custom configuration (for example, some ciphers could be disabled). Level 2 is fairly common even though it is still
+guaranteed to block users who may be connecting from behind a corporate firewall. I have seen the level 1 setting on a few
+sites. The important thing to know is that the security level can change, depending on the amount and type of activity seen
+by Cloudflare's servers. This can be frustrating if you're web scraping just fine and then suddenly you are getting blocked.
+It may not be anything you did but just Cloudflare doing its thing.
+<p>
+Obviously, if you are seeing the bot challenge when you browse the site normally (level 4 security) then there is no
+way to avoid it while scraping. Partway through the bot challenge, you will see a checkbox and a human is needed to click it
+(that is how it works right now though the situation could change at any time). I took a look at the DOM structure and the
+Cloudflare developers are downright mean. The checkbox is inside a "closed shadow DOM". I had no idea that there was such a
+thing but it means that a script cannot initiate a click event on the checkbox. Perhaps it is possible with remote mouse
+control but the devs have no doubt considered that. If you are working a project where human input is out of the question
+then you have two options: reverse-engineer the code youself or subscribe to a scraping service.
+<p>
+I won't be reverse-engineering the Cloudflare bot challenge, not now or in the future, but I can at least make the process
+as painless as possible, aside from clicking the damn checkbox. The code is not much bigger than the scraper code from the 
+previous article:
+<pre>
+var scrape = async () =>
+{
+  var m, n, p, q, site, resp, data; print ("");
+
+  m = line.value.split ("="); if (m.length &lt; 2) return; print ("Working...");
+
+  site = "https://" + m[0]; n = "?" + String (Math.random()).substr (-3);
+  p = "/@" + m[1] + "@" + m[0] + ":443"; q = (m[2] || "robots.txt") + n;
+
+  await fetch (p + "@@@$~**!key|!mock:1A|!x-frame-options=|!content-security-policy=|*https://$$$");
+
+  try { resp = await fetch (site + n, { method: 'HEAD' }); n = resp.status; } catch { n = "?" }
+
+  if (n != 403) { print ("Website responded with status " + n); fetch (p); return; }
+
+  n = '&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;body style="margin:0;padding:0;overflow:hidden"&gt;\n' +
+      '&lt;iframe style="border:none;width:100vw;height:100vh" src="' + q + '">&lt;/iframe&gt;\n' +
+      '&lt;script&gt; async function z(x) { if (frames[0].document.querySelector ("script")) return;\n' +
+      'x = await fetch ("?@@"); x = await x.text(); opener.postMessage (x, "*"); close(); }\n' +
+      'setInterval (function() { z() }, 1000);&lt;\/script&gt;&lt;/body&gt;&lt;/html&gt;';
+
+  await fetch ("/~wanna_scratch=iframe.htm", { method: 'POST', body: n });
+
+  n = window.open (site + "?@@~iframe.htm"); window.onmessage = function (e) { check (e.data); }
+
+  async function check (x)
+  {
+    fetch (p); print (x); print ("\nTesting...");
+    resp = await fetch ("/~**!mock:1A|*" + site, { headers: { accept: x }});
+    data = await resp.text(); print (data.substr (0,1000) || "Error"); print ("\nDONE");
+  }
+}
+</pre><p>
+There is a LOT going on here:
+<p>
+&nbsp;<g_>1)</g_> create the shadow port and test the site to verify that it generates a 403 error<br>
+&nbsp;<g_>2)</g_> open a new browser tab with the site loaded in an <i>iframe</i><br>
+&nbsp;<g_>3)</g_> let the browser solve the bot challenge<br>
+&nbsp;<g_>4)</g_> capture the cookie and send it back to the scraper app<br>
+&nbsp;<g_>5)</g_> close the tab and try the site with the cookie.
+<p>
+If you have Kraker installed, you can test this by using the scraping <a href="scraper.htm" download>template</a> (edit
+the code to match the above) and the following example inputs where "secret" is your shadow secret. Unless specified
+otherwise (as shown in the first example), the app will start the bot challenge using "robots.txt" as the destination
+rather than the site's main page. The new tab will close when the <i>iframe</i> no longer contains a <i>script</i> tag.
+<pre>
+banned.video=secret=favicon.ico -- supernova.to=secret -- needtoknow.news=secret
+</pre>
+
+<p><hr><p>
+
+<b><b_>Let's unpack this mess</b_></b>
+<p>
+First of all, the command to create the shadow port looks like this:
+<pre>
+http://localhost:8080/@secret@banned.video@@@$~**!key|!mock:1A|!x-frame-options=|!content-security-policy=|*https://$$$
+</pre>
+This will seem familiar to readers who have completed the Kraker installation walkthrough but it is, of course, a foreign
+language to everyone else. The <g_>**!key|!mock:1A</g_> part instructs the proxy to do the following: use the site domain
+name as the Referer, enable CORS, fix certain header names to camel-case and mimic a Firefox TLS handshake. Also, we want
+the proxy to remove two response headers which can prevent loading the site in an <i>iframe</i>. The app checks to see if
+the 403 error occurs before doing the bot challenge because the header fixes and the handshake mimickry may be all that is
+needed. That's not true for the above example domains but it does work with <n_>www.footlocker.co.uk</n_>
+and <n_>www.crunchyroll.com</n_>.
+<p>
+The issues with header name case and the TLS handshake occur with non-browser HTTP requests because web browsers have their
+own unique way of doing things and this makes it possible to distinguish browser requests from non-browser requests.
+According to the official specifications, header name case must be ignored and it is recommended that only lower-case be
+used (HTTP/2 enforces this but HTTP/1.1 does not). Cloudflare is breaking the rules by not ignoring case. The TLS handshake
+is a much harder problem to solve. Every platform has its own idiosyncrasies and Node.js, which is based on OpenSSL, does
+NOT look like a browser. However, some tweaks can make the TLS handshake look rather similar.
+<p>
+Back to the code. Notice the use of a randomized query string to break the browser cache. This is important because we need
+to be sure that the browser will actually hit the site and not return a previously cached response. We use a proxy trick to
+set up the HTML page for the bot challenge. Firstly, we need the bot challenge to run in an <i>iframe</i> so that it can be
+monitored for completion. Secondly, the top window must be the same origin as the <i>iframe</i> else the <i>iframe</i>
+cannot be accessed. Thirdly, the cookie capture must be same-origin else the browser may block the cookie due to the
+third-party cookie rules.
+<p>
+This was not so complicated in the past but what can you do? We have to work with what we've got. While it is possible to
+save the HTML page to disk to load it in a new tab, the proxy offers a shortcut. Currently, this is an undocumented feature
+(yeah, yeah, I'm working on it) but it is simple enough that I can document it here. You can use the POST method with
+the path "wanna_scratch", an equal sign and an arbitrary name to write a short (less than 10000 bytes) text file to the
+proxy's local memory for later retrieval using the GET method. Now it's documented.
+<p>
+What we need to do next is to load the HTML page under the target site's domain. This can be done with the shadow secret or
+with a shortcut specified in the shadow port setting. For example, with or without the shadow secret:
+<pre>
+https://banned.video/?$secret$~iframe.htm
+https://banned.video/?@@~iframe.htm
+</pre><p>
+The code in the HTML page sets up a timer to check the <i>iframe</i> at one-second intervals to see whether the bot
+challenge is still running. When the challenge is solved, the <i>iframe</i> will relocate to the destination that was
+originally requested (the new page must not contain a <i>script</i> tag). Then the code makes a request like the above
+example URL but without a file name. The proxy returns the cookie string that the browser attached to the request.
+<p>
+Using the cookie is a simple matter of passing it through the Accept header (we can't use the Cookie header because the
+browser forbids it). The request is made directly to the proxy server on the localhost domain with the directive
+<g_>**!mock:1A</g_> to fix the headers and the TLS handshake (just to be sure). As long as the cookie does not expire,
+you can scrape the website until the cows come home or until you get caught.
+<p>
+I wish this wasn't so darn complicated but the problem is not that we are fighting Cloudflare but we are also fighting the
+web browser. As I ranted on my website, the very security precautions that are meant to protect us can also be used
+against us by websites and others. Not sure what my next article should be about but ... just wait till I start talking
+about obfuscated Javascript.
+
+<p><hr><p>
+
+<a href="https://8chananon.github.io">My website</a> -
+<a href="https://github.com/8chananon">My GitHub repository</a>
+<span style="float:right"><r_>October 4, 2024</r_></span>
+
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=8chananon.github.io/click2" style="display:none">
+
+<div style="width: 90vw; height: 50vh"></div>
+
+</body></html>
