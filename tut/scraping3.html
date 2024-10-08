@@ -1,0 +1,189 @@
+<!DOCTYPE html><html><head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<base target="_blank">
+
+<title>Web Scraping with your Web Browser: Evil Code</title>
+
+<style type="text/css">
+
+body {
+  font-size: 16px; line-height: 19px;
+  font-family: 'times new roman', sans-serif;
+  color: #702000; background-color: blanchedalmond;
+}
+
+hr {
+  border-color: tan; border-style: solid;
+}
+
+p {
+  margin: 0.8em 0;
+}
+
+td {
+  padding: 0 5px 0 3px; margin: 0;
+}
+
+ul {
+  margin: 0; padding: 0 1em; list-style: square;
+}
+
+li {
+  margin: 4px 0;
+}
+
+pre {
+  font-size: 14px; line-height: 17px; padding: 4px 6px; border-radius: 5px;
+  border: 1px solid thistle; color: maroon; background-color: linen; overflow: auto;
+}
+
+.list {
+  line-height: 21px; padding: 1px 7px 3px; border-radius: 5px;
+  border: 1px solid thistle; color: firebrick; background-color: linen;
+}
+
+::selection {
+  color: yellow; background-color: orchid;
+}
+
+r_ { color: crimson; }
+g_ { color: green; }
+b_ { color: blue; }
+n_ { color: green; white-space: nowrap; }
+
+</style></head><body>
+
+<h2 style="margin:16px 0;text-align:center"><span style="float:left">&#x1f638;</span>
+<g_>Web Scraping with your Web Browser:</g_> <r_>Evil Code</r_>
+<span style="float:right">&#x1f638;</span></h2><hr><p>
+
+In the <a href="scraping2.html">previous article</a> of this series, I talked about Cloudflare and gave some code which
+can only run on the Kraker local proxy server. This time, we'll be using a remote proxy again so all of you undecideds who
+can't (yet) justify investing the time to set up a local proxy can still play along. I can't keep doing this though. A local
+proxy server will become more necessary as we keep diving deeper into the muck. I'm going to talk about the evil of
+<i>eval</i> and self-executing or self-invoking functions or the newer terminology
+<a href="https://en.wikipedia.org/wiki/Immediately_invoked_function_expression">immediately invoked function expression</a>
+though that's a bit of a mouthful.
+<p>
+Seriously, read that article on Wikipedia because it is the absolute best tutorial on the subject. It even covers the
+problem of "automatic semicolon insertion" which I ran into while preparing the sample code for this article:
+<pre>
+<r_>This code snippet will print "test" and "hello":</r_>
+&nbsp; var hello = function () { console.log ('hello'); }
+&nbsp; (function () { console.log ('test'); } ());
+
+<r_>This will only print "test":</r_>
+&nbsp; var hello = function () { console.log ('hello') };
+&nbsp; (function () { console.log ('test'); } ());
+
+<r_>Same here for some reason:</r_>
+&nbsp; function hello () { console.log ('hello'); }
+&nbsp; (function () { console.log ('test'); } ());
+</pre><p>
+I can't explain why the third sample works correctly. You can see that I moved the semicolon in the second sample. I
+developed a brain clot while puzzling this out though it should have been obvious what was going on. In my defense, my
+original code was somewhat more verbose. This serves as a really good example of how misplacing or missing a semicolon or a
+comma or whatever can totally hose what appears to be perfectly good code. When we get into heavily obfuscated Javascript,
+this will be important to remember because self-invoking functions and commas (in place of semicolons) are often used just
+to confuse. Messing around with that kind of code can lead to total madness.
+<p>
+The supposed evil of <i>eval</i> has been widely discussed and, with modern Javascript, there is indeed no good reason for
+using it though nobody mentions the fact that it is still being used to obfuscate both HTML and Javascript. Yes, it can be
+used to inject malware but it is mostly used to hide functionality from ad blockers and other prying eyes. The usage that
+I am specifically discussing here involves a twenty-year-old algorithm called "Packer", developed by
+<a href="http://dean.edwards.name/packer/">Dean&nbsp;Edwards</a> (site is currently down and might be for a while).
+There is a pretty good description <a href="https://www.secureworks.com/research/thepacker">here</a> in case you are
+interested. The usage is easy to recognize by the signature string "p,a,c,k,e,d" or "p,a,c,k,e,r" (rarely).
+<p>
+The original intent of the Packer algorithm was to compress HTML and/or Javascript in order to improve the loading time.
+Nowadays, web servers routinely compress content and usage of Packer can only hurt the compression ratio. It is still useful
+as a method of obfuscation though I have actually only seen it on video sites (since I rarely bother with web scraping
+anything else). The key thing about Packer is that it involves the dreaded <i>eval</i> to run the unpacking algorithm. Here's
+a simplified example of what it might look like:
+<pre>
+eval (function (p,a,c,k,e,d) {
+  while (c--)
+    if (k[c]) p = p.replace (new RegExp ('\\b' + c.toString(a) + '\\b', 'g'), k[c]);
+ return p
+}
+('...', 36, 161, '...|...|...'.split ('|')))
+</pre><p>
+The code runs as a self-invoking function with four arguments (some versions may have six arguments). The first argument is
+always the string to be unpacked. The second is usually some number, whose purpose may vary. The third is the length of the
+array created by the fourth argument which is a collection of strings split across the vertical bar. The purpose of the
+unpacker may be readily apparent by simply looking at the content of the fourth argument because you will see familiar
+references. Buried in there may be something you are looking for but you may need to run the code.
+<p>
+The <i>eval</i> function takes a string as its only argument. In the example, the string is generated by a function. I point
+this out so that it is perfectly clear that <i>eval</i> is NOT evaluating the function but the result that it returns. This
+distinction is important because we will do the opposite: evaluate the function and return the result from <i>eval</i>. We
+are not interested in executing the unpacked content because, first of all, it is most likely to crash and, secondly, it may
+do things like mess with the DOM (before it crashes). The data we are looking for is somewhere inside the unpacked content
+and we (generally) don't care about the intended functionality (such as initializing a video player).
+<p>
+For this experiment, we will use the same scraping <a href="scraper.htm" download>template</a> as in the previous
+articles. We will scrape this <a href="https://pkspeed.net">video upload site</a> which has a few demo videos that we can
+play with. Modify the scraper code to look like this:
+<pre>
+var scrape = async () =>
+{
+  var m, n, p, q, resp, data; print (""); 
+
+  resp = await fetch (proxy + line.value); data = await resp.text();
+
+  m = "(function(p,a,c,k,e,d)"; p = m + pullstring (data, m, "&lt;/script");
+
+  data = eval (p); q = pullstring (data, 'file:"', '"');
+  print (p); print (data); print ("\n" + q + "\n");
+}
+</pre><p>
+The important piece of code is <n_>data = eval (p)</n_> which could also be written as <n_>eval ("data=" + p)</n_> which
+does exactly the same thing, namely assigning the return value of the function to a variable. The <i>eval</i> function is
+not sandboxed so any code executing inside of it has access to variables in the outer scope. Copy a link from the example
+site to the scraper app and run it. The app will show the unpacker script extracted from the page, the unpacked content and
+a playable video link. Now we're going to do something even more evil. Modify the code to include an extra two lines:
+<pre>
+var scrape = async () =>
+{
+  var m, n, p, q, resp, data; print (""); 
+
+  resp = await fetch (proxy + line.value); data = await resp.text();
+
+  m = "(function(p,a,c,k,e,d)"; p = m + pullstring (data, m, "&lt;/script");
+
+  data = eval (p); q = pullstring (data, 'file:"', '"');
+  print (p); print (data); print ("\n" + q + "\n");
+
+  m = pullstring (data, "setup(", ");"); eval ("data=" + m); // data = eval ("(" + m + ")");
+  print (JSON.stringify (data, null, 2)); print ("\n" + data.sources [0].file);
+}
+</pre><p>
+The video link is part of an object structure so, for this experiment, you will extract it but you need to correctly
+identify where it begins and ends. It is fairly easy in this case but, for larger constructs, it can be helpful to
+<a href="https://www.freeformatter.com/javascript-beautifier.html">beautify</a> the content. The process of beautifying
+(also called prettifying) simply adds whitespace to make the content more readable. The sample code will extract the
+object literal including its starting and ending braces. If you're thinking that we could use <n_>JSON.parse</n_> then
+you've got it wrong. It won't work because it is not proper JSON syntax. The content is meant to be executed so we have to
+<i>eval</i> this. There are two ways to do it: the method shown in the sample code or the other method which is commented
+out. The reason for the parentheses is because <i>eval</i> will normally treat the opening brace as the beginning of a
+statement block rather than an object literal.
+<p>
+With the object structure extracted, you can access the data using object references instead of parsing the text. This can
+be useful if you need to iterate through arrays or access embedded structures. Lastly, I want to reiterate that doing this
+with arbitrary sources can be hazardous since <i>eval</i> is evil. See this
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/evalarticle">article</a>
+for advice on safer options. In practice, there should be no issue if you know what you're dealing with.
+<p>
+In the next article, we will venture far into the woods as we hunt for a mythical beast called Algo.
+
+<p><hr><p>
+
+<a href="https://8chananon.github.io">My website</a> -
+<a href="https://github.com/8chananon">My GitHub repository</a>
+<span style="float:right"><r_>October 8, 2024</r_></span>
+
+<div style="width: 90vw; height: 50vh"></div>
+
+</body></html>
