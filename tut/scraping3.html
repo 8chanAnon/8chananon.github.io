@@ -133,7 +133,7 @@ var scrape = async () =>
 
   resp = await fetch (proxy + line.value); data = await resp.text();
 
-  m = "(function(p,a,c,k,e,d)"; p = m + pullstring (data, m, "&lt;/script");
+  m = "(function(p,a,c,k,e,d)"; p = m + pullstring (data, m, "&lt;/scrip");
 
   data = eval (p); q = pullstring (data, 'file:"', '"');
   print (p); print (data); print ("\n" + q + "\n");
@@ -151,7 +151,7 @@ var scrape = async () =>
 
   resp = await fetch (proxy + line.value); data = await resp.text();
 
-  m = "(function(p,a,c,k,e,d)"; p = m + pullstring (data, m, "&lt;/script");
+  m = "(function(p,a,c,k,e,d)"; p = m + pullstring (data, m, "&lt;/scrip");
 
   data = eval (p); q = pullstring (data, 'file:"', '"');
   print (p); print (data); print ("\n" + q + "\n");
