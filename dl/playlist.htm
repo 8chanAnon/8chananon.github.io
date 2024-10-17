@@ -420,7 +420,7 @@ try
       a += String.fromCharCode (((s.charCodeAt (0) - d - b [c++ % 16]) % 26) + d);
     }
 
-    url = atob (a);
+    url = atob (a); if (url.indexOf ("http")) url = ""; return (url);
   }
 
   response = await fetch (cors_bypass + src + "/tv/" + url);
