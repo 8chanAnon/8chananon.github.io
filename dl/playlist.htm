@@ -173,7 +173,8 @@ Brightness:
 </div><script>
 
 var cors_bypass = cors_kraker = "https://kraker-remote.vercel.app/?url=";
-var response, textData, jsonData, msg_timer, msg_result, busy = 0, cookies = {};
+var response, textData, jsonData, busy = 0, cookies = {};
+var video_w, video_h, msg_timer, msg_result;
 
 var line = document.querySelector ("input[type=text]");
 var file = document.querySelector ("input[type=file]");
@@ -296,9 +297,10 @@ var save_list = function ()
 
 var stop_video = function ()
 {
+  if (busy) return;
   var vid = document.getElementById ("frame"), win = vid.parentNode;
   vid.src = "about:blank"; win.removeChild (vid); win.appendChild (vid);
-  if (busy) return; show_list (true); document.getElementById ("info").value = "";
+  show_list (true); document.getElementById ("info").value = "";
 }
 ////////////////////
 
@@ -386,11 +388,11 @@ var req_plextv = async (url) =>
 }
 ////////////////////
 
-const req_vtube = async (id) =>
+const req_vtube = async (url) =>
 {
   try
   {
-    response = await fetch (cors_bypass + "https://vtube.network/" + id);
+    response = await fetch (cors_bypass + "https://vtube.network/" + url);
     textData = await response.text();
 
     var sub = pullstring (textData, "p,a,c,k,e,d", "<\/script>"); if (!sub) throw ("!!!");
@@ -404,51 +406,45 @@ var req_tvapp = async (url) =>
 {
 try
 {
-  var a, b, n, s, t, u, src = "https://thetvapp.to";
+  var s, t, u, src = "https://thetvapp.to";
 
-  var get_link = async () =>
+  var decrypt = function ()
   {
-    response = await fetch (cors_kraker + src + u, { method: 'POST', body: t, headers: s });
-    url = await response.text(); url = pullstring (url, '"', '"').replace (/\\/g, "");
-    if (!url.includes (".m3u8")) url = ""; return (url);
+    var a = "", b = [], c = 0, d; for (s of t) b.push ((s.charCodeAt (0) % 26) - 26);
+
+    for (s of u)
+    {
+      if (s >= "A" && s <= "Z") d = 65; else
+        if (s >= "a" && s <= "z") d = 97; else { a += s; continue; }
+
+      a += String.fromCharCode (((s.charCodeAt (0) - d - b [c++ % 16]) % 26) + d);
+    }
+
+    url = atob (a);
   }
 
-  response = await fetch (cors_kraker + src + "/tv/" + url, { headers: { accept: "**" }});
+  response = await fetch (cors_bypass + src + "/tv/" + url);
   textData = await response.text();
 
-  if (response.status == 403) throw ("?BLOCKED");
+  u = pullstring (textData, 'data="', '"'); if (!u) throw ("!!!");
 
-  s = response.headers.get ("zz-set-cookie") || "";
-  a = (a = "thetvapp_session=") + pullstring (s, a, ";");
-  b = pullstring (textData, '"csrf-token" content="', '"');
-  s = { accept: "**" + a, 'content-type': 'application/json', 'x-csrf-token': b }
-  u = pullstring (textData, '"get-m3u8-link" data="', '"'); if (!a || !b || !u) throw ("!!!");
-
-  if (!(t = cookies ["thetvapp"]) || !await get_link())
+  if (!(t = cookies ["thetvapp"]) || !decrypt())
   {
     t = pullstring (textData, '<script type="module" src="', '"'); if (!t) throw ("!!!");
     response = await fetch (cors_bypass + t);
     textData = await response.text();
 
-    a = textData.indexOf ("body:JSON"); if (a < 0) throw ("!!!");
-    b = pullstring (textData.substr (a), "{", "}").split (":");
-    a = b[0]; b = b[1]; if (!a || !b) throw ("!!!");
+    s = pullstring (textData, "}catch{", "(){").split (" ").pop(); if (!s) throw ("!!!");
 
-    n = textData.indexOf ("const " + b + "="); if (n < 0) throw ("!!!");
-    n = textData.indexOf (";", n) + 1;
-
-    t = '<!DOCTYPE html><html><body style="display:none">' +
-        '<div id="get-m3u8-link" data=""></div><button id="loadVideoBtn"></button>\n<script>\n' +
-        textData.substr (0, n) + '\nparent.postMessage ("@" + ' + b + ', "*");\n' +
-        textData.substr (n) + '\n<\/script></body></html>';
+    t = '<!DOCTYPE html><html><body style="display:none"><script>\n' +
+        textData + '\nparent.postMessage ("@" + ' + s + '(), "*")<\/script></body></html>';
 
     var w = document.getElementById ("frame"), v = w.contentDocument;
-    v.open(); v.write (t); v.close(); t = await getmessage (3); w.src = ""; if (!t) throw ("!!!");
-    t = cookies ["thetvapp"] = '{"' + a + '":"' + t + '"}'; await get_link();
+    v.open(); v.write (t); v.close(); t = await getmessage (3); w.src = "";
+    if (!t) throw ("!!!"); cookies ["thetvapp"] = t; decrypt();
   }
 }
-
-catch (e) { console.log (e); url = e[0] == "?" ? e : "" }; return (url);
+catch { url = "" }; return (url);
 }
 ////////////////////
 
@@ -469,7 +465,7 @@ var load_stream = function (url, hls)
   video_w = video_h = 0; create_controls (win); if (!hls) { win.src = url; return; }
 
   var js = get_js ("HLS", !window.Hls);
-  js.onload = function() { play_hls (0, url, doc, win, get_checked ("format", 0)); }
+  js.onload = function() { play_hls (0, url, doc, win, get_checked ("format", 18)); }
   if (window.Hls) js.onload(); else js.src = "hls_player.js";
 }
 ////////////////////
