@@ -1,0 +1,204 @@
+<!DOCTYPE html><html><head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<base target="_blank">
+
+<title>Web Scraping with your Web Browser: Bad Dog</title>
+
+<style type="text/css">
+
+body {
+  font-size: 16px; line-height: 19px;
+  font-family: 'times new roman', sans-serif;
+  color: #702000; background-color: blanchedalmond;
+}
+
+hr {
+  border-color: tan; border-style: solid;
+}
+
+p {
+  margin: 0.8em 0;
+}
+
+td {
+  padding: 0 5px 0 3px; margin: 0;
+}
+
+ul {
+  margin: 0; padding: 0 1em; list-style: square;
+}
+
+li {
+  margin: 4px 0;
+}
+
+pre {
+  font-size: 14px; line-height: 17px; padding: 4px 6px; border-radius: 5px;
+  border: 1px solid thistle; color: maroon; background-color: linen; overflow: auto;
+}
+
+.list {
+  line-height: 21px; padding: 1px 7px 3px; border-radius: 5px;
+  border: 1px solid thistle; color: firebrick; background-color: linen;
+}
+
+::selection {
+  color: yellow; background-color: orchid;
+}
+
+r_ { color: crimson; }
+g_ { color: green; }
+b_ { color: blue; }
+n_ { color: green; white-space: nowrap; }
+
+</style></head><body>
+
+<h2 style="margin:16px 0;text-align:center"><span style="float:left">&#x1f638;</span>
+<g_>Web Scraping with your Web Browser:</g_> <r_>Bad Dog</r_>
+<span style="float:right">&#x1f638;</span></h2><hr><p>
+
+In the <a href="scraping3.html">previous article</a> of this series, I explored the problem of <i>eval</i> and an old
+algorithm called Packer. For this article, I originally intended to begin exploring obfuscated Javascript but something else
+came up which I want to talk about. There is a problem with <i>fetch</i> which I'd been meaning to fix for the past two
+years. In a nutshell, <i>fetch</i> operates like a bitch in heat, if you'll forgive my poor attempt at a joke.
+<p>
+The scenario is this: you submit a link to your app with the intent of scraping the HTML but, for whatever reason, you
+mistakenly provide a link to an mp4 file. Big oops. What happens is that the browser will happily download the entire file
+into memory before passing control back to your app. If you open Task Manager or whatever, you can watch your system memory
+being gobbled up bit by bit. The only thing you can do is close the app or reload it. This is a poor way of dealing with
+the issue so what we need is a way to stop <i>fetch</i> from downloading anything larger than a certain size.
+<p>
+You might think that the problem could be resolved by simply checking the content type before accepting the file but that
+won't work either. Once the download has been initiated, it literally cannot be stopped! For example, the following code
+naively attempts to abort the download:
+<pre>
+response = await fetch (url);
+if (response.headers.get ("content-type") != "text/html") return "";
+return await response.text();
+</pre><p>
+The browser assumes that your app will, at some point, accept the download so it goes ahead and consumes the whole thing.
+This will waste memory until your app is closed or the garbage collector kicks in (which might take a while). It is time to
+start treating <i>fetch</i> as the undisciplined dog that it is (another crummy joke and I might have more). This is
+unfortunate since <i>fetch</i> was originally intended as a simplified alternative to <i>XMLHttpRequest</i> which has the
+same issue but at least it provides a method of dealing with it. With <i>fetch</i>, we will have to override its default
+behaviour by digging up the internals and substituting our own code. This is not very simple and there are a few gotchas.
+<pre>
+var busy = 0, dogfetch = {abort: () => {}}, oldfetch = fetch; fetch = newfetch;
+
+async function newfetch (url, arg)
+{
+  if (!busy) throw ("Oops!"); var e = dogfetch = new AbortController();
+  if (!arg) arg = {}; arg.signal = e.signal; var f = await oldfetch (url, arg);
+  var d = 0, r = f.body; try { r = r.getReader() } catch { return (f) }
+
+  function a (c)
+  {
+    return r.read().then ((x) => b (c, x));
+  }
+
+  function b (c, x)
+  {
+    if (x.done) c.close(); else d += x.value.length;
+    if (d > 3500000) e.abort(); c.enqueue (x.value); return a (c);
+  }
+
+  var s = new ReadableStream ({ start (c) { return a (c) }});
+  s = new Response (s, { statusText: f.statusText, headers: f.headers });
+
+  Object.defineProperty (s, "status", { value: f.status });
+  Object.defineProperty (s, "url", { value: f.url }); return (s);
+}
+</pre><p>
+You might be relieved to notice that the code does not contain the typical inscrutable nesting of <i>then</i> statements
+(except for that one <i>then</i> which is simpler to keep than to get rid of). I did my usual search of the Internet for
+code samples and could not find anything close to readable so I painstakingly evolved my own code. So what are the
+gotchas? For one thing, the <g_>Response</g_> constructor only allows setting the values for "status", "statusText" and
+"headers". Secondly, it throws an error if the "status" value is not in the range of 200 to 599. This is not the default
+behaviour of <i>fetch</i> so I had to force it using <g_>defineProperty</g_>. Some of my scraper code relies on "url"
+in case of redirection so I have to force that as well.
+<p>
+I'm not explaining the details of how the code works or why it is structured the way it is (I'm not sure either). This
+should have been simpler but that's on the designers of <i>fetch</i> and I could go on a rant about "design by committee" as
+I am often tempted to do but I won't. One thing that is surprisingly simple is <g_>AbortController</g_> which is a generic
+operator that can be used in any case where a complex function needs to be made abortable. The variable "dogfetch" is a
+global to be used to abort an ongoing <i>fetch</i> in response to a button press or whatever. It is initialized with a dummy
+abort function. We also override the default <i>fetch</i>. You don't need to do this since you can simply call the
+replacement code directly.
+<p>
+The variable "busy" is meant as a catch-all in the case where you want to abort ALL subsequent operations after aborting the
+current one. Your app will need to set the busy flag before beginning and clear the flag when concluded or upon the request
+of the user. After checking the "busy" flag, the code initializes the abort controller and passes the value of "signal" to
+<i>fetch</i>. The process of aborting the operation is as simple as a call to <g_>dogfetch.abort</g_>. It is also possible
+to abort multiple operations at once from a single abort controller but we're not doing that here. The code calls
+<i>fetch</i> and gets a reference to the stream reader if it exists (it may not in the case of an empty body). The code then
+creates a new readable stream which it monitors for download size to trigger an abort if it exceeds a certain threshold (I
+used the value 3,500,000 which is a reasonable upper limit).
+<p>
+We have killed two dogs with one bone here. Not only are we protected from accidentally downloading a video in place of an
+HTML or text file but we also have a method to just stop everything at the push of a button. However, if you're thinking of
+building an upload progress monitor inspired by this example, rest assured that the design committee has deigned that it not be
+possible. For that, you'll need to fall back to the old dog <i>XMLHttpRequest</i> but that's a whole different ballgame and
+I won't be covering that at any point. In your app, you will need this basic structure:
+<p>
+<pre>
+function buttonpress ()
+{
+  busy = 0; dogfetch.abort();
+}
+
+async function scrape (url)
+{
+  var response, data; busy = 1;
+
+  try
+  {
+    response = await fetch (url); data = await response.text();
+    ... process data, do more fetches, process more data, etc.
+  }
+  catch { busy = 0 }
+
+  if (!busy) cleanupthedogshit(); busy = 0;
+}
+</pre><p>
+You may notice a fundamental difference between the sample code in this article and the samples that I gave in my
+previous articles. Namely, why did I change the function declarations? There are multiple ways of declaring a function:
+<pre>
+var x = function () {}
+var x = () => {}
+var x = async function () {}
+var x = async () => {}
+function x () {}
+async function x () {}
+</pre><p>
+You could also use "let" or "const" instead of "var". The difference has to do with variable name scoping. It's a heady
+subject that I'm still trying to wrap my head around and it is, along with the lack of static typing, the main cause of the
+claim that Javascript is an unsafe language. I grant that if you're talking about rocket science but I won't bother to
+argue the point. In any case, I started using the form "function x" when I began working with JS and Firefox back in 2017
+but stopped using that form because it didn't work with Google Chrome for some reason.
+<p>
+The sample code shows how the "busy" flag is used to ensure that a series of operations will be properly aborted and
+a cleanup operation performed if the flag is unexpectedly cleared as the result of an exception. The try/catch structure is
+critical as the replacement fetch code assumes that the caller will catch any potential exceptions, including the one that
+may be thrown as a result of the abort operation. Word of warning: never use <i>fetch</i> without consuming or aborting the
+response. The naive example code shown at the top of this article should be written this way:
+<pre>
+response = await fetch (url);
+if (response.headers.get ("content-type") != "text/html") { dogfetch.abort(); return ""; }
+return await response.text();
+</pre><p>
+The ignored response will be quietly discarded and no exception will be thrown. This ensures that the browser will not be
+left running a pointless download in the background while wasting memory and bandwidth. Now go fetch, Fido.
+
+<p><hr><p>
+
+<a href="https://8chananon.github.io">My website</a> -
+<a href="https://github.com/8chananon">My GitHub repository</a>
+<span style="float:right"><r_>October 21, 2024</r_></span>
+
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=8chananon.github.io/click4" style="display:none">
+
+<div style="width: 90vw; height: 50vh"></div>
+
+</body></html>
