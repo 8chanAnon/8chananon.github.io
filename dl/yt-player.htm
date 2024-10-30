@@ -219,7 +219,7 @@ var play_video = function ()
 
 const request_youtube = async (id, fmt) =>
 {
-  var n, s, t, u, sub, vid, key, sig, nkey; if (is_busy()) return;
+  var n, s, t, sub, vid, key, sig, nkey; if (is_busy()) return;
 
   var url = cors_kraker + "user-agent=|!vpx:XXX|*https://www.youtube.com/embed/" + id;
 
@@ -255,17 +255,15 @@ try
     cookies ["?" + s] = n = t ? t * 1 : Math.trunc (Date.now() / 86400000) - 1;
   }
 
-  t = {
+  t = JSON.stringify ({
     videoId: id, playbackContext: { contentPlaybackContext: { signatureTimestamp: n }},
     context: { client: { gl: 'US', hl: 'en', clientName: 'WEB_EMBEDDED_PLAYER', clientVersion: '1.20241009.01.00' }}
-  };
-
-  u = { 'content-type': 'application/json' }; s = JSON.stringify (t);
+  });
 
   try
   {
     url = cors_kraker + ua + "https://www.youtube.com/youtubei/v1/player";
-    response = await fetch (url, { method: 'POST', headers: u, body: s });
+    response = await fetch (url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: t });
     jsonData = await response.json();
   }
   catch { jsonData = {}; }

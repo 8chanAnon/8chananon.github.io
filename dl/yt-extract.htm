@@ -118,7 +118,7 @@ var grab_video = function ()
 
 const request_youtube = async (id) =>
 {
-  var m, n, s, t, u, sub, vid, key, sig, nkey; busy = 1;
+  var m, n, s, t, sub, vid, key, sig, nkey; busy = 1;
 
   var url = cors_kraker + "user-agent=|!vpx:XXX|*https://www.youtube.com/embed/" + id;
 
@@ -160,17 +160,15 @@ try
 
   if (!key || !nkey || !n) throw ("Cannot extract signature information.");
 
-  t = {
+  t = JSON.stringify ({
     videoId: id, playbackContext: { contentPlaybackContext: { signatureTimestamp: n }},
     context: { client: { gl: 'US', hl: 'en', clientName: 'WEB_EMBEDDED_PLAYER', clientVersion: '1.20241009.01.00' }}
-  };
-
-  u = { 'content-type': 'application/json' }; s = JSON.stringify (t);
+  });
 
   try
   {
-    url = cors_kraker + ua2 + "https://www.youtube.com/youtubei/v1/player";
-    response = await fetch (url, { method: 'POST', headers: u, body: s });
+    s = "https://www.youtube.com/youtubei/v1/player"; url = cors_kraker + ua2 + s; message (s + "<br>");
+    response = await fetch (url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: t });
     jsonData = await response.json();
   }
   catch { jsonData = {}; }
