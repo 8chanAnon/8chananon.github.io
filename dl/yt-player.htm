@@ -106,7 +106,7 @@ b_ { color: blue; }
 <br><input type=radio name="tv" onclick="javascript:tv ('0ZwfXUURS3g')"> Dukes of Hazzard
 <br><input type=radio name="tv" onclick="javascript:tv ('uQJoar17jyo')"> Schiff Hits the Fan
 <br><input type=radio name="tv" onclick="javascript:tv ('wLTGXblgUoc')"> Never Forget
-<br><input type=radio name="tv" onclick="javascript:tv ('CGq8Ee2gOe4')"> DooM at QuakeCon
+<br><input type=radio name="tv" onclick="javascript:tv ('fXjtDs2wO4Q')"> The Martians in Surrey
 <br><input type=radio name="tv" onclick="javascript:tv ('FnV0LqHd3h8')"> Make America Great Again
 <br><input type=radio name="tv" onclick="javascript:tv ('kJAsn_vJyY4')"> Starship Enterprise
 <br><input type=radio name="tv" onclick="javascript:tv ('74VHwppfHuI')"> The Best Is Yet To Come
@@ -134,7 +134,7 @@ b_ { color: blue; }
 <input type=text class="static" style="width:56px" disabled> &nbsp;&nbsp;
 <button onclick="javascript:next_proxy()">Next</button>
 
-</div><r_>All videos are 360p. Some videos might not work due to IP address mismatch.</r_> (<g_>October 15, 2024</g_>)
+</div><r_>All videos are 360p. Some videos might not work due to IP address mismatch.</r_> (<g_>October 30, 2024</g_>)
 
 <script>
 
@@ -142,14 +142,13 @@ var cors_kraker = "https://kraker-remote.vercel.app/?url=";
 if (location.hostname == "localhost") cors_kraker = "/";
 
 var proxies = [
-  '23.19.244.109:1080'    , // New Jersey
-  '31.170.22.127:1080'    , // Latvia
-  '72.167.46.207:1080'    , // Arizona
-  '194.36.178.61:1080'    , // Singapore
+  '173.0.9.70:5653:peocdjhq:3mdwpu3exlgo',
+  '173.0.9.209:5792:peocdjhq:3mdwpu3exlgo',
+  '167.160.180.203:6754:peocdjhq:3mdwpu3exlgo'
 ];
 
 var response, textData, jsonData, busy = 0, cookies = {};
-var proxy = 0; //Math.trunc (Math.random() * proxies.length);
+var proxy = Math.trunc (Math.random() * proxies.length);
 
 var line = document.querySelectorAll ("input[type=text]");
 var stat = line [1]; line = line [0]; stat.value = "Proxy " + proxy;
@@ -268,16 +267,8 @@ try
     url = cors_kraker + ua + "https://www.youtube.com/youtubei/v1/player";
     response = await fetch (url, { method: 'POST', headers: u, body: s });
     jsonData = await response.json();
-
-    if ((s = jsonData.playabilityStatus.reason) && s.includes ("age-restricted"))
-    {
-      s = t.context.client; s.clientName = 'TVHTML5_SIMPLY_EMBEDDED_PLAYER';
-      s.clientVersion = '2.0'; s = JSON.stringify (t);
-
-      response = await fetch (url, { method: 'POST', headers: u, body: s });
-      jsonData = await response.json();
-    }
-  } catch { jsonData = {}; }
+  }
+  catch { jsonData = {}; }
 
   if (!(sub = jsonData.streamingData))
   {
