@@ -434,7 +434,8 @@ try
     response = await fetch (cors_bypass + t);
     textData = await response.text();
 
-    s = pullstring (textData, "}catch{", "(){").split (" ").pop(); if (!s) throw ("!!!");
+    s = textData.lastIndexOf ("(){", textData.indexOf ("String.fromCharCode"));
+    s = textData [s - 1];
 
     t = '<!DOCTYPE html><html><body style="display:none"><script>\n' +
         textData + '\nparent.postMessage ("@" + ' + s + '(), "*")<\/script></body></html>';
