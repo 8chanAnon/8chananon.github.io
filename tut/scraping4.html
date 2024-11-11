@@ -100,7 +100,7 @@ async function newfetch (url, arg)
 
   function b (c, x)
   {
-    if (x.done) c.close(); else d += x.value.length;
+    if (x.done) return c.close(); d += x.value.length;
     if (d > 3500000) e.abort(); c.enqueue (x.value); return a (c);
   }
 
