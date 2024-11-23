@@ -14,9 +14,8 @@ body {
 }
 
 .widevid {
-  width: 736px; height: 414px;
-  position: relative; overflow: hidden;
-  border: 2px solid red; background-color: indigo;
+  position: relative; width: 736px; height: 414px;
+  border: 2px solid red; background-color: navy; overflow: hidden;
 }
 
 .widevid:fullscreen {
@@ -24,9 +23,8 @@ body {
 }
 
 .widevid img {
-  position: absolute; width: 100%;
-  top: 0; left: 0; right: 0; bottom: 0;
-  height: auto; margin: auto; border: none;
+  position: absolute; width: 100%; height: auto;
+  margin: auto; border: none; top: 0; left: 0; right: 0; bottom: 0;
 }
 
 iframe {
@@ -35,7 +33,7 @@ iframe {
 }
 
 .msgbox {
-  display: block; position: absolute; top: 36%; left: 40%; right: 40%;
+  display: block; position: absolute; top: 38%; left: 40%; right: 40%;
   text-align: center; border-radius: 10px; font-style: italic; cursor: pointer;
   color: paleturquoise; background-color: slateblue;
 }
@@ -54,18 +52,16 @@ iframe {
 }
 
 .popbox button {
-  width: 100%; height: auto;
-  text-align: left; text-overflow: ellipsis;
-  white-space: nowrap; overflow: hidden;
-  font-size: 12px; font-family: 'segoe ui', serif;
-  line-height: 14px; padding: 2px 5px 2px 5px;
+  width: 100%; height: auto; line-height: 14px; padding: 2px 5px 2px 5px;
+  overflow: hidden; font-size: 12px; font-family: 'segoe ui', sans-serif;
+  text-align: left; text-overflow: ellipsis; white-space: nowrap;
   border-width: 1px; color: maroon; pointer-events: auto;
 }
 
 .ranger button {
-  vertical-align: top; padding: 2px 4px 1px 3px;
-  font-size: 13px; line-height: 17px; margin-top: 1px;
-  color: maroon; background-color: blanchedalmond;
+  line-height: 17px; padding: 1px 4px 1px 3px;
+  font-size: 13px; color: maroon; background-color: peachpuff;
+  border-color: #f0f0f0 #b4b4b4 #b0b0b0 #f4f4f4;
 }
 
 .ranger input {
@@ -73,118 +69,121 @@ iframe {
 }
 
 input[type=text] {
-  height: 17px; font-size: 13px;
-  font-family: 'helvetica', sans-serif;
-  border-width: 2px; border-style: solid;
-  border-color: tan lemonchiffon lemonchiffon burlywood;
-  padding: 3px 5px 1px 5px; caret-color: navy; outline: none;
+  height: 17px; padding: 3px 5px 1px 5px; margin: 0; outline: none;
+  font-size: 13px; font-family: 'helvetica', sans-serif; caret-color: navy;
+  border: 2px solid; border-color: tan lemonchiffon lemonchiffon burlywood;
 }
 
 input[type=radio] {
-  vertical-align: bottom; margin: 0 1px 2px 2px;
+  vertical-align: bottom; margin: 0 1px 2px 0; outline: none;
   filter: contrast(1.0) brightness(1.2) opacity(90%);
 }
 
 input[type=checkbox] {
-  vertical-align: bottom; margin: 0 2px 2px 2px;
+  vertical-align: bottom; margin: 0 2px 2px 0; outline: none;
   filter: contrast(1.0) brightness(1.2) opacity(90%);
 }
 
 input.idspec {
-  width: 100%; margin: -4px 0 -1px -7px;
-  color: sienna; background-color: cornsilk;
+  width: calc(100% - 28px); margin: -4px 0 0 0;
+  color: firebrick; background-color: oldlace;
 }
 
 input.urlspec {
-  width: 60%; padding: 4px 6px 3px 6px; margin: -2px 1px 1px 1px;
-  color: slateblue; background-color: cornsilk;
+  width: 60%; padding: 4px 6px 3px 6px; margin: -2px 2px 1px 2px;
+  color: slateblue; background-color: oldlace;
 }
 
 input.static {
-  margin: 0 1px 0 2px; padding: 4px 0 3px 0; text-align: center;
+  padding: 4px 0 3px 0; text-align: center;
   color: mediumvioletred; background-color: papayawhip;
   border-radius: 3px; border: 1px solid darkorange;
 }
 
 .dropbox {
-  width: 100%; position: relative;
-  display: inline-block; white-space: nowrap;
-  color: firebrick; background-color: papayawhip;
+  display: inline-block; color: mediumvioletred; background-color: papayawhip;
 }
 
 .dropbox input {
-  width: calc(100% - 32px); margin: -3px 0 -1px 0;
-  vertical-align: top; color: inherit; background-color: inherit;
+  box-sizing: border-box; height: 25px; width: calc(100% - 24px);
+  color: inherit; background-color: inherit;
 }
 
 .dropbox button, .dropbox button:hover:active {
-  vertical-align: top; width: 24px; height: 25px;
-  margin: -3px 0 -1px 0; padding: 0 0 4px 0;
-  line-height: 17px; font-size: 16px; font-family: 'segoe ui', serif;
-  font-weight: bold; border-width: 2px; border-style: solid;
-  border-color: tan lemonchiffon lemonchiffon burlywood;
+  vertical-align: top; width: 24px; height: 25px; padding: 0 0 4px 0;
+  font-size: 18px; font-family: 'segoe ui', sans-serif; font-weight: bold;
+  border: 2px solid; border-color: tan lemonchiffon lemonchiffon burlywood;
   color: indianred; background-color: mistyrose;
 }
 
 .dropbox0 {
-  width: 160px; color: sienna; background-color: cornsilk;
+  width: 160px; color: firebrick; background-color: oldlace;
 }
 
 .dropbox1 {
-  max-width: 320px; width: calc(100% + 8px); margin-left: -7px;
+  margin-top: -4px; width: calc(100% - 14px); max-width: 320px;
 }
 
 .dropbox2 {
-  max-width: 270px; width: calc(100% + 8px); margin-left: -7px;
-  margin-bottom: 1px; color: red;
+  margin-top: -4px; width: calc(100% - 14px); max-width: 270px; color: red;
 }
 
 .dropbox3 {
-  width: 140px; margin-left: -7px;
+  margin-top: -2px; width: 140px;
 }
 
 .dropdown {
-  z-index: 2; max-height: 50vh;
-  position: absolute; display: none;
-  overflow-x: hidden; overflow-y: auto;
-  margin: 3px 0 0 1px; outline: 1px solid peru;
-  border-top: 3px solid transparent;
-  border-bottom: 3px solid transparent;
-  font-size: 13.5px; font-style: normal; font-weight: normal;
-  font-family: 'consolas', 'lucida console', monospace;
-  color: darkgreen; background-color: ivory; cursor: default;
+  display: none; position: absolute; max-height: 50vh; z-index: 2;
+  text-align: left; margin: 3px 0 0 1px; overflow-x: hidden; overflow-y: auto;
+  outline: 1px solid peru; border: 0 solid transparent; border-width: 3px 0;
+  font-size: 13.5px; font-family: 'consolas', monospace;
+  color: darkgreen; background-color: ivory;
 }
 
 .dropdown option {
-  height: 15px; min-height: 15px; max-height: 15px;
-  line-height: 15px; position: relative; text-align: left;
   margin: 0 3px 0 3px; padding: 0 22px 0 6px;
+  min-height: 15px; max-height: 15px; line-height: 15px;
+}
+
+.dropdown option[checked] {
+  background-color: lightgray;
+}
+
+.dropdown option:hover {
+  color: yellow; background-color: orchid;
 }
 
 .dropdown0 {
 }
 
 .dropdown1 {
-  max-height: calc(100vh - 165px);
+  max-height: calc(100vh - 155px);
 }
 
 .dropdown2 {
-  max-height: calc(100vh - 200px);
+  max-height: calc(100vh - 190px);
 }
 
 .dropdown3 {
 }
 
 .pickpanel {
-  z-index: 0; width: 166px; height: auto;
-  position: relative; display: inline-block;
-  overflow: hidden; margin: -1px 0 -1px 0; padding: 2px;
-  outline: 1px solid thistle; border: 2px solid skyblue;
-  color: mediumvioletred; background-color: cornsilk;
+  display: inline-block; position: relative; z-index: 0;
+  margin-top: -1px; padding: 1px; border: 2px solid skyblue;
+  outline: 1px solid thistle; color: crimson; background-color: cornsilk;
 }
 
-.pickpanel option {
-  text-align: center; margin: 0; padding: 0 0 0 2px;
+.pickpanel span {
+  display: inline-block; height: 19px; line-height: 19px; white-space: pre;
+  padding: 0 6px 0 7px; margin: 1px 1px; border: 1px solid orange;
+}
+
+.pickpanel span[checked] {
+  background-color: gainsboro;
+}
+
+.pickpanel span:hover {
+  background-color: peachpuff;
 }
 
 table {
@@ -215,15 +214,14 @@ td {
 }
 
 td.textbox {
-  font-size: 14px; line-height: 17px;
-  width: 30vw; padding: 0 15px 0 14px;
+  width: 30vw; min-width: 220px;
+  padding: 0; font-size: 14px; line-height: 17px;
   text-align: center; white-space: nowrap;
 }
 
 td.vidbox {
-  font-size: 15px; line-height: normal;
-  padding: 0 0 0 2px; vertical-align: middle;
-  border-left: 1px solid firebrick;
+  font-size: 15px; line-height: normal; padding: 0 0 0 2px;
+  vertical-align: middle; border-left: 1px solid firebrick;
 }
 
 td.grill {
@@ -234,38 +232,39 @@ td.grill {
 }
 
 button {
-  width: auto; height: auto;
-  font-size: 12px; line-height: 18px;
-  padding: 2px 6px 0 6px; margin: 0;
-  font-family: 'helvetica', sans-serif;
-  color: darkblue; background-color: powderblue;
-  outline: none; border-size: 2px; border-style: solid;
-  border-color: #e8e8e8 #9c9c9c #9c9c9c #ececec;
+  line-height: 18px; padding: 2px 6px 0 6px; margin: 0;
+  font-size: 12px; font-family: 'helvetica', sans-serif; outline: none;
+  border: 2px solid; color: darkblue; background-color: powderblue;
+  border-color: #e8e8e8 #acacac #a8a8a8 #ececec;
 }
 
 button:hover:active {
-  border-color: #a8a8a8 #f8f8f8 #f4f4f4 #acacac;
+  border-color: #b4b4b4 #f4f4f4 #f8f8f8 #b8b8b8;
 }
 
 button.is_off {
   background-color: pink;
-  border-color: #e8e8e8 #9c9c9c #9c9c9c #ececec;
+  border-color: #e8e8e8 #acacac #a8a8a8 #ececec;
 }
 
 button.is_on {
   background-color: lightgreen;
-  border-color: #a8a8a8 #f8f8f8 #f4f4f4 #acacac;
+  border-color: #b4b4b4 #f4f4f4 #f8f8f8 #b8b8b8;
 }
 
 button.wrapper, button.wrapper:hover:active {
-  width: 58px; height: 18px; font-size: 13px; line-height: 15px;
-  margin: 0 2px 0 0; padding: 0; border: 1px solid pink;
-  color: red; background-color: blanchedalmond;
+  width: 56px; height: 18px; font-size: 13px; line-height: 17px;
+  margin: 0 2px 0 1px; padding: 0; border: 1px solid pink;
+  color: red; background-color: papayawhip;
 }
 
 .stack button {
   font-size: 19px; line-height: 23px;
   padding: 2px 10px 1px 10px; background-color: pink;
+}
+
+.grill button {
+  background-color: pink;
 }
 
 .slider {
@@ -319,12 +318,12 @@ hr.skinny {
   padding: 0; margin: 3px -3px;
 }
 
-h3.skinny {
-  margin: 0 0 6px 1px; padding-top: 4px;
-}
-
 h3 {
   vertical-align: top; padding: 0; margin: 0 2px 11px 1px;
+}
+
+h3.skinny {
+  margin: 0 0 6px 1px; padding-top: 4px;
 }
 
 ul {
@@ -339,18 +338,6 @@ li {
   color: yellow; background-color: orchid;
 }
 
-option:hover {
-  color: yellow; background-color: orchid;
-}
-
-.mark {
-  background-color: lightgray;
-}
-
-.show {
-  display: block;
-}
-
 .r { color: crimson; }
 .g { color: seagreen; }
 .b { color: blue; }
@@ -360,12 +347,13 @@ r_ { color: crimson; }
 g_ { color: seagreen; }
 b_ { color: blue; }
 w_ { color: #A02000; }
+z_ { color: royalblue; }
 
 </style></head>
 
 <body
-  onload="javascript:load_all()" onunload="javascript:dump_all()" onresize="javascript:resize_all()"
-  onclick="javascript:MEOW(event)" onkeydown="javascript:MEOW(event)">
+  onload="load_all()" onunload="dump_all()" onresize="resize_all()"
+  onfocusout="MEOW(event,0)" onclick="MEOW(event,1)" onkeydown="MEOW(event,2)">
 
 <div>
 
@@ -441,9 +429,9 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 <span style="float:right">
 
 <div class="dropbox dropbox0"><input type=text disabled><button>+</button>
-<div id="ctr5z" class="dropdown dropdown0">
-  <option value= 1 class="w">youtube.com
-  <option value= 9 class="w" checked>YouTube DASH
+<div id="ytx5" class="dropdown dropdown0">
+  <option value="1" class="w">youtube.com
+  <option value="9" class="w" checked>YouTube DASH
 
 </div></div> &nbsp; &nbsp;&nbsp;
 
@@ -453,20 +441,17 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 <button onclick="javascript:brightness(5,2)">&gt;</button>&nbsp;&nbsp;
 <button onclick="javascript:brightness(5,3)">&lt;</button>
 <input type=text value="Sat:  0" id="ctr5y" class="static" disabled>
-<button onclick="javascript:brightness(5,4)">&gt;</button> &nbsp;&nbsp;
+<button onclick="javascript:brightness(5,4)">&gt;</button> &nbsp;
 <button onclick="javascript:brightness(5,5)">&nbsp;Reset&nbsp;</button>
-</span>
 
-</span></div><table><tr><td class="textbox">
+</span></span></div><table><tr><td class="textbox">
 
 <a id="dload5" onclick="return false">
-<button onclick="javascript:open_downloader(5)"><b_>DLoad</b_></button></a>
+<button onclick="javascript:btn_dload(5)"><b_>DLoad</b_></button></a>
 <button onclick="javascript:frame_req(5,0)">Play ID</button>
 <button onclick="javascript:reset_frame(5)">Clear</button>
 <p></p>
-
-<input type=text id="id5" maxlength=256 class="idspec" onfocus="javascript:hidelist(5)"
-  onclick="javascript:input_onclick('id5')" onblur="javascript:input_onblur('id5')">
+<input type=text id="id5" maxlength=256 class="idspec" onfocus="javascript:nostack(5)">
 <p></p>
 
 <div class="dropbox dropbox1"><input type=text disabled><button>+</button>
@@ -476,7 +461,7 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 <div class="dropbox dropbox2"><input type=text disabled><button>+</button>
 <div id="src5" class="dropdown dropdown2">
-  <option value= 0 class="w">YouTube / Invidious
+  <option value="0" class="w">YouTube / Invidious
 </div></div>
 
 <p><span class="box">
@@ -485,12 +470,10 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 </span></p>
 
 <div><div id="fmt5" class="dropdown pickpanel">
-  <option value= 18 >&nbsp;mp4 [18] 360p &nbsp;*
-  <option value= 19 >&nbsp;mp4 [19] 480p &nbsp;*
-  <option value= 22 >&nbsp;mp4 [22] 720p &nbsp;*
-  <option value= 43 >webm [43] 360p &nbsp;*
-  <option value= 44 >webm [44] 480p &nbsp;*
-  <option value= 45 >webm [45] 720p &nbsp;*
+  <span value="18">mp4<z_> 360</z_> *</span><span value="43">webm<z_> 360</z_> *</span><br>
+  <span value="19">^  <z_> 480</z_> *</span><span value="44">^   <z_> 480</z_> *</span><br>
+  <span value="22">^  <z_> 720</z_> *</span><span value="45">^   <z_> 720</z_> *</span><br>
+  <span value="37">^  <z_>1080</z_> *</span><span value="46">^   <z_>1080</z_> *</span><br>
 </div></div><p></p>
 
 <div class="dropbox dropbox3"><input type=text disabled><button>+</button>
@@ -507,17 +490,17 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
   <option value="960:720">&nbsp;[4:3]&nbsp; 960 x 720
 </div></div><p></p>
 
-<p style="margin:0 -6px"> <!-- for Pale Moon -->
-<button id="btn5a" class="is_off" onclick="javascript:buttonpress(5,0)">New Window</button> &nbsp;&nbsp;
-<button id="btn5b" class="is_off" onclick="javascript:buttonpress(5,1)">Popup Window</button>
-</p><p style="margin-top:-2px"></p>
+<p style="margin-left:-2px">
+<button id="btn5a" class="is_off" onclick="javascript:btn_toggle(5,0)">New Window</button> &nbsp;
+<button id="btn5b" class="is_off" onclick="javascript:btn_toggle(5,1)">Popup Window</button>
 
+</p><p style="margin-top:-1px"></p>
 <input type=checkbox id="mov5m"> Allow Multiple &nbsp;&nbsp;
 <input type=checkbox id="mov5n"> No Play
-<p style="margin-top:-3px"></p>
 
+<p style="margin-top:-2px"></p>
 <input type=radio id="mov5a" name="chk5"> Raw&nbsp;
-<input type=radio id="mov5b" name="chk5" checked><button onclick="javascript:toggle_hls(5,0)"
+<input type=radio id="mov5b" name="chk5" checked><button onclick="javascript:poke_hls(5,0)"
   class="wrapper" id="hls5">Wrapper</button><input type=radio id="mov5c" name="chk5"> Sandbox
 
 </td><td class="vidbox">
@@ -527,20 +510,18 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 <h2 id="vid5" class="msgbox" onclick="javascript:popper(5,1)">No Video</h2>
 <iframe id="mov5" autoplay allowfullscreen controls></iframe>
 
-</div></td><td class="grill"></td></tr></table><p>
+</div></td><td id="hood5" class="grill"></td></tr></table><p>
 
 <button onclick="javascript:frame_req(5,1)">Play URL</button>
 <button onclick="javascript:urlcopy(5,true)">Copy</button>
 <button onclick="javascript:frame_dig(5)"><b_>DIG</b_></button>
 
-<input type=text id="line5" class="urlspec"
-  onclick="javascript:input_onclick('line5')" onblur="javascript:input_onblur('line5')">
-
-<input type=text id="meta5" class="static" disabled style="width:80px">
+<input type=text id="line5" class="urlspec">
+<input type=text id="meta5" class="static" disabled style="width:82px">
 
 <span class="ranger" style="white-space:nowrap;margin-left:4px">
 <button onclick="javascript:scalingfactor(5,1)">&lt;</button>
-<input type=text value="100" id="ctr5w" class="static" style="width:36px" disabled>
+<input type=text id="ctr5z" value="100" class="static" style="width:40px" disabled>
 <button onclick="javascript:scalingfactor(5,2)">&gt;</button>
 </span>
 
@@ -561,9 +542,9 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 <span style="float:right">
 
 <div class="dropbox dropbox0"><input type=text disabled><button>+</button>
-<div id="ctr6z" class="dropdown dropdown0">
-  <option value= 1 class="w">youtube.com
-  <option value= 9 class="w" checked>YouTube DASH
+<div id="ytx6" class="dropdown dropdown0">
+  <option value="1" class="w">youtube.com
+  <option value="9" class="w" checked>YouTube DASH
 
 </div></div> &nbsp; &nbsp;&nbsp;
 
@@ -573,20 +554,17 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 <button onclick="javascript:brightness(6,2)">&gt;</button>&nbsp;&nbsp;
 <button onclick="javascript:brightness(6,3)">&lt;</button>
 <input type=text value="Sat:  0" id="ctr6y" class="static" disabled>
-<button onclick="javascript:brightness(6,4)">&gt;</button> &nbsp;&nbsp;
+<button onclick="javascript:brightness(6,4)">&gt;</button> &nbsp;
 <button onclick="javascript:brightness(6,5)">&nbsp;Reset&nbsp;</button>
-</span>
 
-</span></div><table><tr><td class="textbox">
+</span></span></div><table><tr><td class="textbox">
 
 <a id="dload6" onclick="return false">
-<button onclick="javascript:open_downloader(6)"><b_>DLoad</b_></button></a>
+<button onclick="javascript:btn_dload(6)"><b_>DLoad</b_></button></a>
 <button onclick="javascript:frame_req(6,0)">Play ID</button>
 <button onclick="javascript:reset_frame(6)">Clear</button>
 <p></p>
-
-<input type=text id="id6" maxlength=256 class="idspec" onfocus="javascript:hidelist(6)"
-  onclick="javascript:input_onclick('id6')" onblur="javascript:input_onblur('id6')">
+<input type=text id="id6" maxlength=256 class="idspec" onfocus="javascript:nostack(6)">
 <p></p>
 
 <div class="dropbox dropbox1"><input type=text disabled><button>+</button>
@@ -596,7 +574,7 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 <div class="dropbox dropbox2"><input type=text disabled><button>+</button>
 <div id="src6" class="dropdown dropdown2">
-  <option value= 0 class="w">YouTube / Invidious
+  <option value="0" class="w">YouTube / Invidious
 </div></div>
 
 <p><span class="box">
@@ -605,12 +583,10 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 </span></p>
 
 <div><div id="fmt6" class="dropdown pickpanel">
-  <option value= 18 >&nbsp;mp4 [18] 360p &nbsp;*
-  <option value= 19 >&nbsp;mp4 [19] 480p &nbsp;*
-  <option value= 22 >&nbsp;mp4 [22] 720p &nbsp;*
-  <option value= 43 >webm [43] 360p &nbsp;*
-  <option value= 44 >webm [44] 480p &nbsp;*
-  <option value= 45 >webm [45] 720p &nbsp;*
+  <span value="18">mp4<z_> 360</z_> *</span><span value="43">webm<z_> 360</z_> *</span><br>
+  <span value="19">^  <z_> 480</z_> *</span><span value="44">^   <z_> 480</z_> *</span><br>
+  <span value="22">^  <z_> 720</z_> *</span><span value="45">^   <z_> 720</z_> *</span><br>
+  <span value="37">^  <z_>1080</z_> *</span><span value="46">^   <z_>1080</z_> *</span><br>
 </div></div><p></p>
 
 <div class="dropbox dropbox3"><input type=text disabled><button>+</button>
@@ -627,17 +603,17 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
   <option value="960:720">&nbsp;[4:3]&nbsp; 960 x 720
 </div></div><p></p>
 
-<p style="margin:0 -6px"> <!-- for Pale Moon -->
-<button id="btn6a" class="is_off" onclick="javascript:buttonpress(6,0)">New Window</button> &nbsp;&nbsp;
-<button id="btn6b" class="is_off" onclick="javascript:buttonpress(6,1)">Popup Window</button>
-</p><p style="margin-top:-2px"></p>
+<p style="margin-left:-2px">
+<button id="btn6a" class="is_off" onclick="javascript:btn_toggle(6,0)">New Window</button> &nbsp;
+<button id="btn6b" class="is_off" onclick="javascript:btn_toggle(6,1)">Popup Window</button>
 
+</p><p style="margin-top:-1px"></p>
 <input type=checkbox id="mov6m"> Allow Multiple &nbsp;&nbsp;
 <input type=checkbox id="mov6n"> No Play
-<p style="margin-top:-3px"></p>
 
+<p style="margin-top:-2px"></p>
 <input type=radio id="mov6a" name="chk6"> Raw&nbsp;
-<input type=radio id="mov6b" name="chk6" checked><button onclick="javascript:toggle_hls(6,0)"
+<input type=radio id="mov6b" name="chk6" checked><button onclick="javascript:poke_hls(6,0)"
   class="wrapper" id="hls6">Wrapper</button><input type=radio id="mov6c" name="chk6"> Sandbox
 
 </td><td class="vidbox">
@@ -647,22 +623,19 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 <h2 id="vid6" class="msgbox" onclick="javascript:popper(6,1)">No Video</h2>
 <iframe id="mov6" autoplay allowfullscreen controls></iframe>
 
-</div></td><td class="grill"></td></tr></table><p>
+</div></td><td id="hood6" class="grill"></td></tr></table><p>
 
 <button onclick="javascript:frame_req(6,1)">Play URL</button>
 <button onclick="javascript:urlcopy(6,true)">Copy</button>
 <button onclick="javascript:frame_dig(6)"><b_>DIG</b_></button>
 
-<input type=text id="line6" class="urlspec"
-  onclick="javascript:input_onclick('line6')" onblur="javascript:input_onblur('line6')">
-
-<input type=text id="meta6" class="static" disabled style="width:80px">
+<input type=text id="line6" class="urlspec">
+<input type=text id="meta6" class="static" disabled style="width:82px">
 
 <span class="ranger" style="white-space:nowrap;margin-left:4px">
 <button onclick="javascript:scalingfactor(6,1)">&lt;</button>
-<input type=text value="100" id="ctr6w" class="static" style="width:36px" disabled>
-<button onclick="javascript:scalingfactor(6,2)">&gt;</button>
-</span>
+<input type=text id="ctr6z" value="100" class="static" style="width:40px" disabled>
+<button onclick="javascript:scalingfactor(6,2)">&gt;</button></span>
 
 <p id="butt6" class="stack"></p><div style="width:90vw;height:50vh"></div>
 
@@ -681,9 +654,9 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 <span style="float:right">
 
 <div class="dropbox dropbox0"><input type=text disabled><button>+</button>
-<div id="ctr7z" class="dropdown dropdown0">
-  <option value= 1 class="w">youtube.com
-  <option value= 9 class="w" checked>YouTube DASH
+<div id="ytx7" class="dropdown dropdown0">
+  <option value="1" class="w">youtube.com
+  <option value="9" class="w" checked>YouTube DASH
 
 </div></div> &nbsp; &nbsp;&nbsp;
 
@@ -693,20 +666,17 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 <button onclick="javascript:brightness(7,2)">&gt;</button>&nbsp;&nbsp;
 <button onclick="javascript:brightness(7,3)">&lt;</button>
 <input type=text value="Sat:  0" id="ctr7y" class="static" disabled>
-<button onclick="javascript:brightness(7,4)">&gt;</button> &nbsp;&nbsp;
+<button onclick="javascript:brightness(7,4)">&gt;</button> &nbsp;
 <button onclick="javascript:brightness(7,5)">&nbsp;Reset&nbsp;</button>
-</span>
 
-</span></div><table><tr><td class="textbox">
+</span></span></div><table><tr><td class="textbox">
 
 <a id="dload7" onclick="return false">
-<button onclick="javascript:open_downloader()"><b_>DLoad</b_></button></a>
+<button onclick="javascript:btn_dload()"><b_>DLoad</b_></button></a>
 <button onclick="javascript:frame_req(7,0)">Play ID</button>
 <button onclick="javascript:reset_frame(7)">Clear</button>
 <p></p>
-
-<input type=text id="id7" maxlength=256 class="idspec" onfocus="javascript:hidelist(7)"
-  onclick="javascript:input_onclick('id7')" onblur="javascript:input_onblur('id7')">
+<input type=text id="id7" maxlength=256 class="idspec" onfocus="javascript:nostack(7)">
 <p></p>
 
 <div class="dropbox dropbox1"><input type=text disabled><button>+</button>
@@ -716,7 +686,7 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 <div class="dropbox dropbox2"><input type=text disabled><button>+</button>
 <div id="src7" class="dropdown dropdown2">
-  <option value= 0 class="w">YouTube / Invidious
+  <option value="0" class="w">YouTube / Invidious
 </div></div>
 
 <p><span class="box">
@@ -725,12 +695,10 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 </span></p>
 
 <div><div id="fmt7" class="dropdown pickpanel">
-  <option value= 18 >&nbsp;mp4 [18] 360p &nbsp;*
-  <option value= 19 >&nbsp;mp4 [19] 480p &nbsp;*
-  <option value= 22 >&nbsp;mp4 [22] 720p &nbsp;*
-  <option value= 43 >webm [43] 360p &nbsp;*
-  <option value= 44 >webm [44] 480p &nbsp;*
-  <option value= 45 >webm [45] 720p &nbsp;*
+  <span value="18">mp4<z_> 360</z_> *</span><span value="43">webm<z_> 360</z_> *</span><br>
+  <span value="19">^  <z_> 480</z_> *</span><span value="44">^   <z_> 480</z_> *</span><br>
+  <span value="22">^  <z_> 720</z_> *</span><span value="45">^   <z_> 720</z_> *</span><br>
+  <span value="37">^  <z_>1080</z_> *</span><span value="46">^   <z_>1080</z_> *</span><br>
 </div></div><p></p>
 
 <div class="dropbox dropbox3"><input type=text disabled><button>+</button>
@@ -747,17 +715,17 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
   <option value="960:720">&nbsp;[4:3]&nbsp; 960 x 720
 </div></div><p></p>
 
-<p style="margin:0 -6px"> <!-- for Pale Moon -->
-<button id="btn7a" class="is_off" onclick="javascript:buttonpress(7,0)">New Window</button> &nbsp;&nbsp;
-<button id="btn7b" class="is_off" onclick="javascript:buttonpress(7,1)">Popup Window</button>
-</p><p style="margin-top:-2px"></p>
+<p style="margin-left:-2px">
+<button id="btn7a" class="is_off" onclick="javascript:btn_toggle(7,0)">New Window</button> &nbsp;
+<button id="btn7b" class="is_off" onclick="javascript:btn_toggle(7,1)">Popup Window</button>
 
+</p><p style="margin-top:-1px"></p>
 <input type=checkbox id="mov7m"> Allow Multiple &nbsp;&nbsp;
 <input type=checkbox id="mov7n"> No Play
-<p style="margin-top:-3px"></p>
 
+<p style="margin-top:-2px"></p>
 <input type=radio id="mov7a" name="chk7"> Raw&nbsp;
-<input type=radio id="mov7b" name="chk7" checked><button onclick="javascript:toggle_hls(7,0)"
+<input type=radio id="mov7b" name="chk7" checked><button onclick="javascript:poke_hls(7,0)"
   class="wrapper" id="hls7">Wrapper</button><input type=radio id="mov7c" name="chk7"> Sandbox
 
 </td><td class="vidbox">
@@ -767,22 +735,19 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 <h2 id="vid7" class="msgbox" onclick="javascript:popper(7,1)">No Video</h2>
 <iframe id="mov7" autoplay allowfullscreen controls></iframe>
 
-</div></td><td class="grill"></td></tr></table><p>
+</div></td><td id="hood7" class="grill"></td></tr></table><p>
 
 <button onclick="javascript:frame_req(7,1)">Play URL</button>
 <button onclick="javascript:urlcopy(7,true)">Copy</button>
 <button onclick="javascript:frame_dig(7)"><b_>DIG</b_></button>
 
-<input type=text id="line7" class="urlspec"
-  onclick="javascript:input_onclick('line7')" onblur="javascript:input_onblur('line7')">
-
-<input type=text id="meta7" class="static" disabled style="width:80px">
+<input type=text id="line7" class="urlspec">
+<input type=text id="meta7" class="static" disabled style="width:82px">
 
 <span class="ranger" style="white-space:nowrap;margin-left:4px">
 <button onclick="javascript:scalingfactor(7,1)">&lt;</button>
-<input type=text value="100" id="ctr7w" class="static" style="width:36px" disabled>
-<button onclick="javascript:scalingfactor(7,2)">&gt;</button>
-</span>
+<input type=text id="ctr7z" value="100" class="static" style="width:40px" disabled>
+<button onclick="javascript:scalingfactor(7,2)">&gt;</button></span>
 
 <p id="butt7" class="stack"></p><div style="width:90vw;height:50vh"></div>
 
@@ -794,23 +759,24 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 <div><h1><r_>Internet Radio</r_></h1>
 
-<div style="margin:-8px 0 11px 0">
+<p style="margin:-8px 0 10px 0">
 <button onclick="javascript:ir_action(0)">Stop</button>
 <button onclick="javascript:ir_action(1)">Pause</button>
 <button onclick="javascript:ir_action(2)">Play</button>&nbsp;
 <input type=text value="Stopped" class="static" id="ir_status" style="width:80px" disabled>&nbsp;
 <button onclick="javascript:ir_action(3)" class="is_off" id="ir_popup">Popup</button>
-&nbsp;&nbsp; <r_>Volume</r_> :&nbsp;
-<button onclick="javascript:ir_action(4)" style="font-size:13px;line-height:17px">&lt;</button>
-<input type=text value="50" class="static" id="ir_volume" style="width:40px" disabled>
-<button onclick="javascript:ir_action(5)" style="font-size:13px;line-height:17px">&gt;</button>
 
-</div><table id="ir" class="list ir" style="width:100%;padding-bottom:2px"></table>
+<span class="ranger">&nbsp;&nbsp; <r_>Volume</r_> :&nbsp;
+<button onclick="javascript:ir_action(4)">&lt;</button>
+<input type=text value="50" class="static" id="ir_volume" style="width:40px" disabled>
+<button onclick="javascript:ir_action(5)">&gt;</button></span>
+
+</p><table id="ir" class="list ir" style="width:100%;padding-bottom:2px"></table>
 
 <audio id="internet_radio"
-  onerror="javascript:ir_action(-2)" ontimeupdate="javascript:ir_update()"></audio>
+  onerror="javascript:ir_action(-2)" ontimeupdate="javascript:ir_update(event)"></audio>
 
-<p style="margin:10px 0 -5px 0">
+<p style="margin:11px 0 -5px 0">
 <input type=text class="static" style="width:60px;border-radius:8px" disabled>&nbsp;
 
 <input type=range class="slider" onclick="javascript:ir_action(6)"
@@ -818,13 +784,10 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 <input type=text class="static" style="width:60px;border-radius:8px" disabled>
 
-<p><input type=text class="urlspec" id="ir_url"
-  onclick="javascript:input_onclick('ir_url')" onblur="javascript:input_onblur('ir_url')">
-
-<p style="margin:-6px 0 2px 0">
+</p><p><input type=text class="urlspec" id="ir_url"></p><p style="margin:-4px 0 -5px 0">
 <a href="#info">Info</a>&nbsp; | &nbsp;<a href="#news">News</a>&nbsp; | &nbsp;<a href="#free">Movies</a>
 
-</div><div style="width:90vw;height:calc(100vh - 567px"></div>
+</p></div><div style="width:90vw;height:calc(100vh - 560px"></div>
 
 <!--
 /////
@@ -836,19 +799,19 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 <script>
 
-var doc_head =
-  "<!DOCTYPE html><html><head><meta charset='utf-8'>" +
-  "<title>Downloader</title></head><body><h2>Downloader</h2>";
-
-var doc_tail = "<p></body></html>", download_doc = doc_head + doc_tail;
-
 var localhost, cors_bypass, cors_kraker, us_geo_bypass;
-var worker, client, last_client, error, vidwin, blank_page;
+var worker, client, last_client, vidwin, blank_page, download;
 
 var last_h = last_w = last_raw = last_time = the_time = busy = 0;
-var response, textData, jsonData, dropdown, dloader, msg_timer, msg_result;
+var response, textData, jsonData, dropdown, msg_timer, msg_result;
 
-var freetv = {}, cookies = {}, poorkitty = { abort: () => {} };
+var cookies = {}, streams = {}, poorkitty = { abort: () => {} };
+
+var HLS_PLAYER  = "https://cdn.jsdelivr.net/npm/hls.js@0.12.0/dist/hls.min.js";
+var DASH_PLAYER = "https://reference.dashif.org/dash.js/v3.2.0/dist/dash.all.min.js";
+var CRYPTO_SRC  = "https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js";
+
+////////////////////
 
 var pullstring = function (s, t, u)
 {
@@ -875,14 +838,13 @@ var getmessage = function (msg)
 
 var get_time = function ()
 {
-  the_time = Date.now() / 500; return (the_time);
+  var x = last_time + 2; return ((the_time = last_time = Date.now() / 500) < x ? 0 : the_time);
 }
 ////////////////////
 
 var got_crypto = function ()
 {
-  if (window.CryptoJS) return true;
-  alert ("CryptoJS module is missing!"); return false;
+  if (window.CryptoJS) return true; alert ("CryptoJS module is missing!"); return false;
 }
 ////////////////////
 
@@ -907,7 +869,7 @@ var msg_worker = function (id, msg)
 
   if (msg [0] == "@") { getmessage (msg); return; }
 
-  if (busy) { say_worker (id, "retry"); return; }
+  if (busy || !get_time()) { say_worker (id, "retry"); return; }
 
   client = id; id = msg.split (" "); var frm = id [0] * 1;
   if (isNaN (frm) || frm < 1 || frm > 3) frm = 1;
@@ -915,28 +877,28 @@ var msg_worker = function (id, msg)
 
   if (!id || !src) { say_worker (client, "error"); client = ""; return; }
 
-  frm += 4; var doc = document.getElementById ("fmt" + frm);
-  var fmt = doc.value; if (!fmt) fmt = doc.children [0].value;
-  clear_video (frm); setup_cors (frm);
+  frm += 4; clear_video (frm); setup_cors (frm);
+  var fmt = document.getElementById ("fmt" + frm).value;
 
   if (src.substr (0, 4) == "raw_")
   {
     fmt = 1; src = src.substr (4); if (src == "m3u8") fmt = 2;
-    if (src == "dash") fmt = 3; toggle_hls (frm, fmt);
+    if (src == "dash") fmt = 3; poke_hls (frm, fmt); fixformat ("", frm);
 
     if (id.substr (0,4) != "http") id = localhost ? localhost + id : "";
 
     say_worker (client, id ? "okay" : "error"); last_client = client;
-    client = ""; if (id) loadwindow (id, frm, "raw_video"); return;
+    client = ""; if (id) loadwindow (id, frm, "@ raw stream"); return;
   }
 
-  if (open_video (id, frm, fmt, src)) return; say_worker (client, "error"); client = "";
+  if (request_jump (id, frm, fmt, src)) return; say_worker (client, "error"); client = "";
 }
 ////////////////////
 
 var load_all = function ()
 {
   localhost = location.hostname == "localhost" ? location.origin + "/" : "";
+  var crypto = document.getElementById ("cryptojs"); document.body.style = "display:block";
 
   if (!localhost) document.getElementById ("proxy").children [1].setAttribute ("checked", "");
   selectmake ("proxy"); load_boxes (5); load_boxes (6); load_boxes (7); resize_all ();
@@ -945,12 +907,13 @@ var load_all = function ()
   worker.onmessage = function (e) { msg_worker (e.data.id, e.data.msg); }
   window.onmessage = function (e) { if (e.data [0] == "@") getmessage (e.data); }
 
-  blank_page = ""; document.body.style = "display:block";
-  var crypto = document.getElementById ("cryptojs");
+  if (localhost)
+  {
+    HLS_PLAYER = "/~hls_player-1-3-5.js"; DASH_PLAYER = "/~dash.all.min.js";
+    blank_page = "/~widget.htm"; crypto.src = "/~crypto.js"; return;
+  }
 
-  if (localhost) { blank_page = "/~widget.htm"; crypto.src = "/~crypto.js"; return; }
-
-  crypto.src = "https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js";
+  blank_page = ""; crypto.src = CRYPTO_SRC;
 
   alert (
     "The origin of this document is not the preferred origin (http://localhost).\n\n" +
@@ -976,95 +939,113 @@ var clear_frame = function (frame)
 
 var resize_all = function ()
 {
-  resize_frame ("info", 5); resize_frame ("news", 6); resize_frame ("free", 7);
+  resize_frame (5); resize_frame (6); resize_frame (7);
 }
 ////////////////////
 
-var resize_frame = function (name, frame)
+var resize_frame = function (frame)
 {
-  var win = document.getElementById (name).nextElementSibling;
-  var sib = win.firstElementChild.firstElementChild.children;
-  var a = sib [0].clientWidth, b = sib [2].clientWidth;
+  var hood = document.getElementById ("hood" + frame);
+  var butt = document.getElementById ("butt" + frame).children;
 
-  sib [2].style.width = (a < 300 && b < 40) ? "0" : "35vw";
-  a += b; sib = sib [2]; b = sib.children.length;
+  var a = hood.previousSibling.previousSibling.clientWidth, b = hood.clientWidth;
 
-  if (a > 400)
+  hood.style.width = (a < 300 && b < 40) ? "0" : "35vw";
+  a += b; b = hood.children.length; hood.style.minWidth = "100px";
+
+  if (a < 400)
   {
-    if (!b) for (b = 1; b <= 9; b++)
-    {
-      if (!(win = document.getElementById ("stk" + frame + "-" + b))) break;
-      sib.appendChild (win.cloneNode (true)); win.style.visibility = "hidden";
-      sib.appendChild (document.createElement ("P"));
-    }
-    sib.style.minWidth = "100px";
+    hood.style.minWidth = 0; hood.innerHTML = "";
+    if (b) for (b of butt) if (b.nodeName == "BUTTON") b.style.visibility = "visible";
   }
-  else
+  else if (!b) for (b of butt) if (b.nodeName == "BUTTON")
   {
-    sib.innerHTML = ""; sib.style.minWidth = 0;
-
-    for (b /= 2; b > 0; b--)
-      document.getElementById ("stk" + frame + "-" + b).style.visibility = "visible";
+    hood.appendChild (b.cloneNode (true)); b.style.visibility = "hidden";
+    hood.appendChild (document.createElement ("P"));
   }
 }
 ////////////////////
 
 var load_boxes = function (frame)
 {
-  selectmake ("ctr" + frame + "z"); selectmake ("fmt" + frame);
+  selectmake ("ytx" + frame); selectmake ("fmt" + frame);
   selectmake ("stk" + frame); selectmake ("src" + frame); selectmake ("win" + frame);
 }
 ////////////////////
 
 var selectmake = function (name)
 {
-  var m = 0, n = 0, v = document.getElementById (name), w = v.children;
-  for (; n < w.length; n++) if (w [n].hasAttribute ("checked")) m = n;
-  m = w [m]; v.value = m.value; m.classList.add ("mark");
+  var v = document.getElementById (name);
+  var w = v.children; if (!w.length) return;
 
-  if ((w = v.parentNode.firstElementChild).nodeName == "DIV") w = null;
-  v.onclick = function (event) { selectpick (event.target, w); }
+  var n, m = w[0]; for (n of w) if (n.hasAttribute ("checked")) m = n;
+  m.setAttribute ("checked", ""); v.value = m.getAttribute ("value");
+  w = v.parentNode.firstElementChild; n = w.nodeName != "DIV";
 
-  if (w) w.value = m.innerText.trimEnd();
-  if (w) w.nextSibling.onclick = function() { selectdrop (this, w); }
+  if (n) w.value = m.innerText.trim();
+  if (n) w.nextSibling.onclick = function() { selectdrop (this, w); }
+  v.onclick = function (event) { selectpick (event.target, n ? w : 0); }
 }
 ////////////////////
 
-var selectpick = function (item, top)
+var selectpick = function (a, b)
 {
-  var w = item.nodeName; if (w == "DIV") return;
-  if (w != "SPAN" && w != "OPTION") item = item.parentNode;
+  var m, n = a.nodeName; if (n == "DIV") return;
+  if (n != "SPAN" && n != "OPTION") a = a.parentNode;
 
-  var n = 0, m = item.parentNode; w = m.children;
-  for (; n < w.length; n++) if (w [n].classList.contains ("mark"))
-    { w [n].classList.remove ("mark"); break; }
-
-  item.classList.add ("mark"); m.value = item.value;
-  if (top) top.value = item.innerText.trimEnd();
+  if (b) b.value = a.innerText.trim();
+  m = a.parentNode; for (n of m.children) n.removeAttribute ("checked");
+  a.setAttribute ("checked", ""); m.value = a.getAttribute ("value");
 }
 ////////////////////
 
-var selectdrop = function (item, top)
+var selectdrop = function (a, b)
 {
-  var m = item.nextElementSibling, w = m.classList; w.toggle ("show");
-  m.style.minWidth = (top.clientWidth + item.clientWidth + 6) + "px";
+  var m = a.nextElementSibling; if (m == dropdown) return;
+  m.style.minWidth = (a.clientWidth + b.clientWidth + 6) + "px";
 
-  if (dropdown && m != dropdown) dropdown.classList.remove ("show");
-  m.step = 0; dropdown = w.contains ("show") ? m : null;
+  if (dropdown) dropdown.style.display = "none";
+  dropdown = m; m.step = 0; m.style.display = "block";
 }
 ////////////////////
 
-var MEOW = function (event)
+var MEOW = function (e, type)
 {
-  if (!dropdown || (event.type != "click" && event.type != "keydown")) return;
-  var w = dropdown.step; dropdown.step = event.timeStamp;
+  var a = e.target, b = a.nodeName, d = dropdown, t = e.timeStamp;
 
-  if (w > 0 && w != event.timeStamp)
-    { dropdown.classList.remove ("show"); dropdown = null; }
+  if (type < 2 && b == "INPUT" && a.type == "text" && !a.disabled)
+  {
+    b = !a.checked && type; a.checked = type;
+    if (b && a.selectionStart >= a.selectionEnd) a.select();
+  }
+
+  if (!d || !type) return; b = d.step && b != t; d.step = t;
+  if (b) { d.style.display = "none"; dropdown = null; }
 } 
 ////////////////////
 
-var copylist = function (butt, frame, num)
+var nostack = function (frame)
+{
+  var doc = document.getElementById ("stk" + frame);
+  var box = doc.children[0]; doc.value = box.value;
+  doc.parentNode.firstElementChild.value = box.innerText;
+}
+////////////////////
+
+var urlcopy = function (frame, copy)
+{
+  var url = document.getElementById ("line" + frame);
+  var btn = document.getElementById ("dload" + frame);
+
+  if (copy && !document.getElementById ("mov" + frame + "m").checked)
+    { url.select(); document.execCommand ("copy"); }
+
+  url = url.value; if (copy) popper (frame, 2);
+  if (!url) btn.removeAttribute ("href"); else btn.href = url;
+}
+////////////////////
+
+var copylist = function (btn, frame, num)
 {
   var iptv = num < 0; if (iptv) num = -num; if (!num) return;
   var list = window ["stack_" + frame + "_" + num]; if (!list) return;
@@ -1079,21 +1060,23 @@ var copylist = function (butt, frame, num)
     box.appendChild (new Option ("[" + (j < 10 ? "0" : "") + j + "] " + txt, val));
   }
 
-  list = "Select a channel (" + butt.innerText + ")";
+  list = "Select a channel (" + btn.innerText + ")";
   item [0].innerText = box.parentNode.firstElementChild.value = list;
   box.value = 0; popper (frame, 0);
 }
 ////////////////////
 
-var hidelist = function (frame)
+var btn_dload = function (frame)
 {
-  var doc = document.getElementById ("stk" + frame);
-  var box = doc.children[0]; doc.value = box.value;
-  doc.parentNode.firstElementChild.value = box.innerText;
+  var a = "<!DOCTYPE html><html><head><meta charset='utf-8'>" +
+          "<title>Downloader</title></head><body><h2>Downloader</h2>" +
+          (download || "") + "</body></html>";
+
+  var b = window.open().document; b.write (a); b.close();
 }
 ////////////////////
 
-var buttonpress = function (frame, num)
+var btn_toggle = function (frame, num)
 {
   var id1, id2, doc1, doc2, chk, txt;
 
@@ -1145,59 +1128,43 @@ var brightness = function (frame, mode)
 
 var scalingfactor = function (frame, mode)
 {
-  var win = document.getElementById ("ctr" + frame + "w"), scale = win.value * 1;
+  var win = document.getElementById ("ctr" + frame + "z");
   var vid = document.getElementById ("mov" + frame).contentDocument;
-  if (vid) vid = vid.getElementById ("video");
+  var scale = win.value * 1; if (vid) vid = vid.getElementById ("video");
 
-  if (mode == 1) if ((scale -= 5) <  25) scale = 25;
-  if (mode == 2) if ((scale += 5) > 200) scale = 200;
+  if (mode == 1 && scale >  25) scale -= scale > 130 ? 10 : 5;
+  if (mode == 2 && scale < 200) scale += scale < 130 ? 5 : 10;
 
   win.value = scale; if (vid) vid_scaler (vid, 0, scale);
 }
 ////////////////////
 
-var urlcopy = function (frame, copy)
+var reset_frame = function (frame)
 {
-  var url = document.getElementById ("line" + frame);
-  var btn = document.getElementById ("dload" + frame);
-
-  if (copy && !document.getElementById ("mov" + frame + "m").checked)
-    { url.select(); document.execCommand ("copy"); }
-
-  url = url.value; if (copy) popper (frame, 2);
-  if (!url) btn.removeAttribute ("href"); else btn.href = url;
+  if (busy) poorkitty.abort(); else clear_video (frame); busy = 0;
 }
 ////////////////////
 
-var input_onclick = function (id)
+var clear_video = function (frame)
 {
-  var doc = document.getElementById (id);
-  if (!doc.checked && doc.selectionStart >= doc.selectionEnd - 1) doc.select();
-  doc.checked = true;
+  loadwindow ("", frame, ""); vid_info (frame, 0, 0, 1); popper (frame, 3);
 }
 ////////////////////
 
-var input_onblur = function (id)
+var setup_cors = function (frame)
 {
-  document.getElementById (id).checked = false;
+  cors_kraker = ""; cors_bypass = document.getElementById ("proxy").value;
+  if (!document.getElementById ("mov" + frame + "p").checked) cors_bypass = "";
+
+  if (cors_bypass [0] == "!") cors_bypass = cors_kraker = cors_bypass.substr (1);
+  if (cors_bypass == "LOCAL") cors_bypass = cors_kraker = localhost || "http://localhost:8080/";
+
+  us_geo_bypass = "https://kraker-remote.vercel.app/?url=";
+  if (cors_kraker == localhost) us_geo_bypass = cors_kraker + us_geo_bypass;
 }
 ////////////////////
 
-var toggle_site = function (frame, value)
-{
-  var doc = document.getElementById ("src" + frame);
-  var box = doc.parentNode.firstElementChild;
-  doc.value = value; doc = doc.children;
-
-  for (var d, n = 0; n < doc.length; n++) if ((d = doc [n]).value == value)
-  {
-    box.value = d.innerText; d.classList.add ("mark");
-  }
-  else if (d.classList.contains ("mark")) d.classList.remove ("mark");
-}
-////////////////////
-
-var toggle_hls = function (frame, state)
+var poke_hls = function (frame, state)
 {
   if (state < 0) return;
 
@@ -1213,20 +1180,35 @@ var toggle_hls = function (frame, state)
 }
 ////////////////////
 
-var is_busy = function (frame, msg)
+var poke_site = function (frame, value)
 {
-  if (busy) return 1;
-  document.getElementById ("vid" + frame).innerHTML = "Busy";
-  if (msg) document.getElementById ("id" + frame).value = msg;
-  no_format (frame); busy = 1; error = ""; return 0;
+  var doc = document.getElementById ("src" + frame);
+  var box = doc.parentNode.firstElementChild, a, b, d;
+  doc.value = value; doc = doc.children;
+
+  for (d of doc) if (d.value == value)
+  {
+    a = d; box.value = d.innerText; d.setAttribute ("checked", "");
+  }
+  else if (d.hasAttribute ("checked")) b = d;
+
+  if (a && b) b.removeAttribute ("checked");
 }
 ////////////////////
 
-var no_fail = function (frame, msg)
+var is_busy = function (frame, msg)
 {
-  if (busy) toggle_hls (frame, busy); else
+  if (busy) return true; fixformat ("", frame); busy = 1;
+  document.getElementById ("vid" + frame).innerHTML = "Busy";
+  if (msg) document.getElementById ("id" + frame).value = msg;
+}
+////////////////////
+
+var no_fail = function (frame, err, msg)
+{
+  if (busy) poke_hls (frame, busy); else
   {
-    no_format (frame); if (!msg && error) msg = "err: " + error;
+    fixformat ("", frame); if (err) msg = "err: " + err;
     if (msg) document.getElementById ("id" + frame).value = msg;
     document.getElementById ("vid" + frame).innerHTML = "Error";
   }
@@ -1241,44 +1223,20 @@ var no_fail = function (frame, msg)
 
 var stream_all = function (frame, type)
 {
-  if (busy) busy = type + 1;
-  return (!document.getElementById ("mov" + frame + "f").checked);
+  frame = document.getElementById ("mov" + frame + (type ? "f" : "c")).checked;
+  if (type && busy) busy = type + 1; return (type ? !frame : frame);
 }
 ////////////////////
 
-var reset_frame = function (frame)
+var stream_cache = function (name, url, timeout)
 {
-  if (busy) poorkitty.abort(); else clear_video (frame); busy = 0;
-}
-////////////////////
+  var path, time; if (!timeout) timeout = 0;
 
-var clear_video = function (frame)
-{
-  loadwindow ("", frame, ""); vid_info (frame, 0, 0, 1);
-  popper (frame, 3); document.getElementById ("meta" + frame).step = 0;
-}
-////////////////////
+  if (url) { streams [name] = the_time + " " + timeout + " " + url; return; }
 
-var setup_cors = function (frame)
-{
-  if (document.getElementById ("mov" + frame + "p").checked)
-    cors_bypass = document.getElementById ("proxy").value; else cors_bypass = "";
-
-  cors_kraker = "";
-  if (cors_bypass [0] == "!") cors_bypass = cors_kraker = cors_bypass.substr (1);
-  if (cors_bypass == "LOCAL") cors_bypass = cors_kraker = localhost || "http://localhost:8080/";
-
-  us_geo_bypass = "https://kraker-remote.vercel.app/?url=";
-  if (cors_kraker == localhost) us_geo_bypass = cors_kraker + us_geo_bypass;
-}
-////////////////////
-
-var saved_path = function (name)
-{
-  var path, time, timeout;  // default timeout = 14280 = 119 minutes x 120 half-seconds
-
-  if (!(path = freetv [name])) path = ""; else
+  if (!(path = streams [name])) path = ""; else
   {
+    // default timeout = 14280 = 119 minutes x 120 half-seconds
     path = path.split (" "); time = path [0] * 1; timeout = path [1] * 120;
     if (!timeout) timeout = 14280; path = (time > the_time - timeout) ? path [2] : "";
   }
@@ -1286,12 +1244,16 @@ var saved_path = function (name)
 }
 ////////////////////
 
+var stream_player = function (frame)
+{
+  return (document.getElementById ("mov" + frame));
+}
+////////////////////
+
 var allow_cookie = function (source, cookie)
 {
   if (!cors_kraker) return ({});
-
   if (source) if (cookie) cookies [source] = cookie; else cookie = cookies [source];
-
   if (!cookie) cookie = "null"; return ({ headers: { accept: '**' + cookie } });
 }
 ////////////////////
@@ -1333,14 +1295,11 @@ var kitty = async (url, arg) =>
 
 </script><script>
 
-var frame_req = function (frame, mode)
+var frame_req = function (frame, mode, url)
 {
-  var url, fmt, doc, sub, src;
+  var sub, src, fmt = document.getElementById ("fmt" + frame).value;
 
-  if (busy) return; clear_video (frame); setup_cors (frame);
-
-  doc = document.getElementById ("fmt" + frame);
-  if (!(fmt = doc.value)) fmt = doc.children [0].value;
+  if (busy || !get_time()) return; clear_video (frame); setup_cors (frame);
 
   if (mode == 0)
   {
@@ -1353,36 +1312,31 @@ var frame_req = function (frame, mode)
     url = url.replace (/\\u0025/g, "%"); url = url.replace (/\\u002F/g, "/"); 
     url = url.replace (/&amp;/g, "&"); url = url.replace (/\\\//g, "/");
   }
-  else url = error;
 
   if (url [0] == "?") { open_stream (url, frame, fmt); return; }
 
-  if (mode == 1) { loadwindow (url, frame, ""); return; }
+  if (!url) return; if (mode == 1) { loadwindow (url, frame, ""); return; }
 
-  src = document.getElementById ("src" + frame).value;
+  url = url.split (": ").pop(); src = document.getElementById ("src" + frame).value;
 
   if ((sub = url.split (":")).length > 1 && sub [0].length < 4)
   {
-    src = sub [0] * 1; url = sub [1]; toggle_site (frame, src);
+    src = sub [0] * 1; url = sub [1]; poke_site (frame, src);
   }
 
-  if (url) window ["frame_req_" + frame] (src || 0, url, frame, fmt);
+  if (url) window ["frame_req_" + frame] (src, url, frame, fmt);
 }
 ////////////////////
 
 var frame_dig = function (frame)
 {
-  var doc, src, fmt;
+  if (busy || !get_time()) return; clear_video (frame); setup_cors (frame);
 
-  if (busy) return; clear_video (frame); setup_cors (frame);
+  var fmt = document.getElementById ("fmt" + frame).value;
+  var src = document.getElementById ("src" + frame).value;
+  var doc = document.getElementById ("line" + frame).value.trim();
 
-  doc = document.getElementById ("fmt" + frame);
-  if (!(fmt = doc.value)) fmt = doc.children[0].value;
-
-  src = document.getElementById ("src" + frame).value;
-  doc = document.getElementById ("line" + frame).value.trim();
-
-  if (doc) window ["frame_dig_" + frame] (src, doc, frame, fmt);
+  nostack (frame); if (doc) window ["frame_dig_" + frame] (src, doc, frame, fmt);
 }
 ////////////////////
 
@@ -1415,7 +1369,7 @@ var open_stream = function (url, frame, fmt)
   if (src == "0") { request (url, frame, -fmt); return; }
   if (src == "1") { request ("@" + url, frame, -fmt); return; }
 
-  open_iptv (url, frame, fmt, src, f);
+  request_iptv (url, frame, fmt, src, f);
 }
 ////////////////////
 
@@ -1433,135 +1387,102 @@ var open_dloader = async (url, frame, fmt) =>
 
   busy = -busy; if (!no_fail (frame)) return;
   document.getElementById ("vid" + frame).innerHTML = "Download";
-  dloader = name; crack_m3u8 (url, data, frame, fmt); dloader = "";
-}
-////////////////////
-
-var open_tv = async (frame, mode, f, fmt, url) =>
-{
-  if (is_busy (frame)) return;
-
-  if (url [0] == "*") if (localhost) url = localhost + "~" + url; else
-  {
-    url = url.substr (1); url = url.substr (url.indexOf ("*") + 1);
-  }
-
-  if (stream_all (frame, 1)) fmt = mode = 0; else
-  {
-    var x = 0, n = getformat (f, fmt);
-    if ((n = argformat (n)) >= 0)
-    {
-      x = pixformat (n); n = f[n]; var y = Math.trunc (n); if (n != y) x = y;
-    }
-    if (mode) mode = (x ? x : 2); else { fmt = x; if (x) mode = 1; }
-  }
-
-  if (mode > 1) try
-  {
-    response = await kitty (url);
-    textData = await response.text();
-
-    url = crack_m3u8 (response.url, textData, frame, fmt); if (!url) throw ("!!!");
-    fmt = pullstring (url, "<>", ""); url = pullstring (url, "", "<>");
-    if (fmt && mode > 2) fmt = mode; else mode = 0;
-  }
-  catch (err) { console.log (err); busy = 0; }
-
-  if (mode) fixformat (f, frame); else if (!fmt) { fmt = 0; no_format (frame); }
-  fmt = " [" + fmt + "]"; if (no_fail (frame)) loadwindow (url, frame, "Internet TV" + fmt);
+  crack_m3u8 (url, data, frame, fmt, name);
 }
 ////////////////////
 
 var radio = function (url)
 {
+  if (!url) return; setTimeout (() => ir_action (url), 1000);
   document.getElementById ("ir_url").value = url;
-  ir_action (0); if (url) ir_action (2);
 }
 ////////////////////
 
 var ir_action = function (mode)
 {
-  var win = document.getElementById ("internet_radio");
+  var vid = document.getElementById ("internet_radio");
   var pop = document.getElementById ("ir_popup");
   var sts = document.getElementById ("ir_status");
   var vol = document.getElementById ("ir_volume");
   var url = document.getElementById ("ir_url").value;
+  var sib = vid.nextElementSibling.children;
 
-  var src_ok = (win.src && win.src != "file:///");
-  var volume = vol.value * 1;
+  var src_ok = (vid.src && vid.src != "file:///"), volume = vol.value * 1;
 
-  if (mode == 3)
+  if (typeof (mode) == "string")
   {
-    sts = pop.checked; pop.checked = !sts;
-    pop.className = (sts ? "is_off" : "is_on"); return;
+    if (mode != url || mode == vid.src) return; mode = 2; src_ok = false;
   }
 
-  if (mode == 2 && url.length == 11 && url.indexOf (":") < 0)
+  if (mode == 2 && url.length == 11 && !url.includes (":"))
   {
-    var src = document.getElementById ("ctr7z").value; if (src < 10) src = 0;
+    var src = document.getElementById ("ytx7").value; if (src < 10) src = 0;
     url = invidious_site [src] + "/latest_version?local=true&itag=251&id=" + url;
     document.getElementById ("ir_url").value = url;
   }
 
-  if (mode == 2 && pop.checked && url)
+  if (mode == 2) if (!url)
+  {
+    vid = document.getElementsByName ("ir");
+    for (sib of vid) if (sib.checked) sib.onclick(); return;
+  }
+  else if (pop.checked)
   {
     popup_radio (volume, 440, 120, url); mode = 0;
   }
-
-  if (mode == 2 && !src_ok) if (url)
+  else if (!src_ok)
   {
-    if (last_time > get_time() - 2) mode = 0; else win.src = url; last_time = the_time;
-  }
-  else
-  {
-    url = document.getElementsByName ("ir");
-    for (var i = 0; i < url.length; i++) if (url[i].checked) url[i].onclick();
-    return;
+    vid.src = url; vid.curtime = vid.durtime = 0;
   }
 
   if (mode == 0 || (mode == -2 && src_ok))
   {
-    sts.value = (mode ? "ERROR" : "Stopped"); win.pause(); win.src = "file:///";
-    win = win.nextElementSibling; win.children [0].value = ""; win.children [2].value = "";
-    win.children [1].style.background = "transparent"; win.children [1].value = 0.5;
+    sts.value = (mode ? "ERROR" : "Stopped");
+    sib [1].style.background = "transparent"; sib [1].value = 0.5;
+    sib [0].value = sib [2].value = ""; vid.src = "file:///"; vid.pause();
+  }
+
+  if (mode == 1 && src_ok)
+  {
+    sts.value = "Paused"; vid.pause();
   }
 
   if (mode == 2 || (mode == -1 && src_ok))
-    { sts.value = "Playing"; win.play(); }
+  {
+    sts.value = "Playing"; vid.play();
+  }
 
-  if (mode == 1 && src_ok)
-    { sts.value = "Paused"; win.pause(); }
+  if (mode == 3)
+  {
+    sts = pop.checked; pop.checked = !sts; pop.className = (sts ? "is_off" : "is_on");
+  }
 
   if (mode == 4 && volume > 0) volume -= volume > 40 ? 10 : 5;
   if (mode == 5 && volume < 100) volume += volume < 40 ? 5 : 10;
+  if (mode == 6) vid.currentTime = vid.durtime * sib [1].value;
 
-  if (mode == 6)
-  {
-    var s = win.duration * win.nextElementSibling.children [1].value;
-    if (!isNaN (s) && isFinite (s)) win.currentTime = s;
-  }
-
-  win.muted = true; win.volume = volume / 100;
-  win.muted = false; vol.value = volume;
+  vid.muted = true; vid.volume = volume / 100;
+  vid.muted = false; vol.value = volume;
 }
 ////////////////////
 
-var ir_update = function ()
+var ir_update = function (event)
 {
-  var win = document.getElementById ("internet_radio"); if (win.paused) return;
+  var vid = document.getElementById ("internet_radio");
+  var sib = vid.nextElementSibling.children; if (vid.paused) return;
 
-  var t = win.currentTime, d = win.duration;
-  if (isNaN (t)) t = 0; if (isNaN (d) || !isFinite (d)) d = 0;
-  var z = (t > 0 && d > 0) ? 400 * t / d : 0; z = Math.round (z) * 0.25;
+  var e = event.timeStamp / 1000, c = vid.curtime || e, d = vid.durtime;
+  var t = vid.currentTime; vid.curtime = e; d += e - c; if (t > d) d = t;
+  vid.durtime = d = isFinite (c = vid.duration) ? c : d;
 
   var ts = Math.round (t), ds = Math.round (d);
   var th = Math.trunc (ts / 3600), dh = Math.trunc (ds / 3600); ts -= th * 3600; ds -= dh * 3600;
   var tm = Math.trunc (ts / 60), dm = Math.trunc (ds / 60); ts -= tm * 60; ds -= dm * 60;
-  t = th + ":" + (tm < 10 ? "0" : "") + tm + ":" + (ts < 10 ? "0" : "") + ts;
-  d = dh + ":" + (dm < 10 ? "0" : "") + dm + ":" + (ds < 10 ? "0" : "") + ds;
+  var z = (t && d) ? 400 * t / d : 0; z = Math.round (z) * 0.25;
 
-  win = win.nextElementSibling; win.children [0].value = t; win.children [2].value = d;
-  win.children [1].style.background = "linear-gradient(90deg, lightpink " + z + "%, mistyrose 0%)";
+  sib [1].style.background = "linear-gradient(90deg, lightpink " + z + "%, mistyrose 0%)";
+  sib [0].value = th + ":" + (tm < 10 ? "0" : "") + tm + ":" + (ts < 10 ? "0" : "") + ts;
+  sib [2].value = dh + ":" + (dm < 10 ? "0" : "") + dm + ":" + (ds < 10 ? "0" : "") + ds;
 }
 ////////////////////
 
@@ -1610,7 +1531,7 @@ var popper = function (frame, mode)
     }
 
     box.parentNode.firstElementChild.value = "@ " + txt;
-    box.value = ""; error = val; frame_req (frame, 2); return;
+    box.value = val; frame_req (frame, 2, val); return;
   }
 
   var start = '<button onclick="javascript:popper(' + frame + ',this.value)" value="';
@@ -1672,11 +1593,11 @@ var popup_radio = function (volume, width, height, url)
 
 </script><script>
 
-var loadwindow = function (url, frame, site)
+var loadwindow = function (url, frame, site, id, fmt)
 {
   var h, w, raw, win, title, insert, specs;
   var sandbox = "allow-scripts allow-same-origin allow-forms";
-  var client = last_client; last_client = ""; get_time();
+  var client = last_client; last_client = "";
 
   var bstyle = "<body style='margin:0;padding:0;overflow:hidden;background-color:";
   var istyle = " style='position:absolute;border:none;outline:none;width:100%;height:100%'";
@@ -1689,30 +1610,30 @@ var loadwindow = function (url, frame, site)
   {
     // remove and append <iframe> to block history
     frm.src = "about:blank"; frm.removeAttribute ("sandbox");
-    win = frm.parentNode; win.removeChild (frm); win.appendChild (frm);
+//    win = frm.parentNode; win.removeChild (frm); win.appendChild (frm);
     if (site) document.getElementById ("id" + frame).value = site;
     frm.style.backgroundColor = ""; frm.style.pointerEvents = "none";
     frm.style.filter = ""; msg.innerHTML = "No Video"; return;
   }
 
-  if (last_time > the_time - 2) return; last_time = the_time;
-
   var btn_a = document.getElementById ("btn" + frame + "a").checked;
   var btn_b = document.getElementById ("btn" + frame + "b").checked;
   var multi = document.getElementById ("mov" + frame + "m").checked;
   var nplay = document.getElementById ("mov" + frame + "n").checked;
-  var scale = document.getElementById ("ctr" + frame + "w").value * 10;
+  var scale = document.getElementById ("ctr" + frame + "z").value * 10;
 
-  if (site != "")
+  if (site)
   {
-    if (url [0] == "~") url = localhost ? localhost + url : url.substr (1);
-    specs = url.substr (0,4); scale += document.getElementById ("meta" + frame).step * 1;
+    if (id == "?") id = "id-none"; id = id ? ": " + id : "";
+    fmt = site + (fmt != undefined ? " [" + (fmt || 0) + "]" : "");
 
-    if (specs != "http" && specs != "file")
+    document.getElementById ("id" + frame).value = fmt + id;
+    if (url [0] == "~") url = localhost ? localhost + url : url.substr (1);
+
+    if (url.substr (0,4) != "http" && url.substr (0,4) != "file")
     {
       msg.innerHTML = "Bad URL"; return;
     }
-    document.getElementById ("id" + frame).value = site;
     document.getElementById ("line" + frame).value = url; urlcopy (frame, false);
 
     if (nplay) if (client && (btn_a || btn_b)) client = ""; else
@@ -1780,7 +1701,7 @@ var loadwindow = function (url, frame, site)
   if (!vidwin || vidwin.closed) win = vidwin = window.open (blank_page + "#" + raw, "", specs);
   if (!vidwin) { msg.innerHTML = "Blocked"; return; }
 
-  vidwin.focus(); msg.innerHTML = ""; win = (win && blank_page) ? null : vidwin.document;
+  vidwin.focus(); msg.innerHTML = "Popup"; win = (win && blank_page) ? null : vidwin.document;
 
   load_window (vidwin, win, title, insert, w + " " + h,
     function (doc) { load_stream (frame, false, url, doc, filter, scale); });
@@ -1841,7 +1762,7 @@ var load_stream = function (frame, is_local, url, doc, filter, scale)
   var fmt = document.getElementById ("fmt" + frame).value;
   var hls = document.getElementById ("hls" + frame).checked;
 
-  if (hls == 1 && !document.getElementById ("mov" + frame + "f").checked) fmt = 0;
+  if (hls && !document.getElementById ("mov" + frame + "f").checked) fmt = 0;
 
   if (!win)
   {
@@ -1868,16 +1789,14 @@ var load_stream = function (frame, is_local, url, doc, filter, scale)
   {
     var js = get_js ("HLS", !window.Hls);
     js.onload = function() { play_hls (frame, url, doc, win, fmt); }
-    if (window.Hls) js.onload(); else if (localhost) js.src = "/~hls_player-1-3-5.js";
-      else js.src = "https://cdn.jsdelivr.net/npm/hls.js@0.12.0/dist/hls.min.js";
+    if (window.Hls) js.onload(); else js.src = HLS_PLAYER;
   }
 
   if (hls == 2)
   {
     var js = get_js ("DASH", !window.dashjs);
     js.onload = function() { play_dash (frame, url, doc, win, fmt); }
-    if (window.dashjs) js.onload(); else if (localhost) js.src = "/~dash.all.min.js";
-      else js.src = "https://reference.dashif.org/dash.js/v3.2.0/dist/dash.all.min.js";
+    if (window.dashjs) js.onload(); else js.src = DASH_PLAYER;
   }
 }
 ////////////////////
@@ -1943,6 +1862,7 @@ var play_hls = async (frame, url, doc, win, fmt, js) =>
   vid.on (Hls.Events.ERROR, function (event,data) { vid_oops (frame, win, data.fatal); });
 
   vid.on (Hls.Events.MANIFEST_LOADED, function (event,data)
+//    { vid.loadLevel = hls_quality (vid.levels, fmt); vid.startLoad(); });
     { vid.loadLevel = hls_quality (vid.levels, fmt); vid.startLoad(); });
 
   vid.on (Hls.Events.BUFFER_CODECS, function (event,data) {
@@ -2076,7 +1996,7 @@ var config = {
 
 </script><script>
 
-var crack_m3u8 = function (path, data, frame, fmt)
+var crack_m3u8 = function (path, data, frame, fmt, dload)
 {
   var i, j, k, b, h, w, sub, str, url, audio, levels = [];
 
@@ -2084,7 +2004,7 @@ var crack_m3u8 = function (path, data, frame, fmt)
 
   if (sub.length < 2)
   {
-    if (dloader) make_downloader (dloader, "", path); return (path + "<>");
+    if (dload) make_downloader (dload, "", path); return ([path, ""]);
   }
 
   for (i = 1; i < sub.length; i++)
@@ -2104,7 +2024,7 @@ var crack_m3u8 = function (path, data, frame, fmt)
 
   if ((j = argformat (fmt)) < 0 || (i = k[j] - 1) < 0)
   {
-    if (dloader) make_downloader (dloader, "", ""); return (path + "<>0");
+    if (dload) make_downloader (dload, "", ""); return ([path, ""]);
   }
 
   if (!(fmt = levels [i].height)) fmt = pixformat (j);
@@ -2120,29 +2040,29 @@ var crack_m3u8 = function (path, data, frame, fmt)
   }
   audio = j ? merge_url (path, j) + j : "";
 
-  if (dloader) make_downloader (dloader, audio, url);
-  if (audio) return (path + "<>0"); else return (url + "<>" + fmt);
+  if (dload) make_downloader (dload, audio, url);
+  if (audio) return ([path, 0]); else return ([url, fmt]);
 }
 ////////////////////
 
 var formats_m3u8 = function (levels)
 {
-  var i, j, k, w, h, b, f = [0,0,0,0,0,0,0,0], p = [0,0,0,0], r = [0,0,0,0];
+  var i, j, k, w, h, b, f = [0,0,0,0], p = [0,0,0,0], r = [0,0,0,0];
 
   if (!levels || !levels.length) return (f);
 
-  for (i = 0; i < levels.length; i++)
+  for (i = 0; i < levels.length; i++) if (k = levels [i])
   {
-    k = levels [i]; w = k.width || 0; h = k.height || 0; b = k.bitrate || 0;
+    w = k.width * 1 || 0; h = k.height * 1 || 0; b = k.bitrate * 1 || 0;
 
     if (!h) if ((b -= 175000) < 0) continue; else
       { h = Math.trunc (Math.sqrt (b * 0.2)); b = -1 } else
-        { if (b) b -= w * h * 2 + 250000; if (b > 0) b *= 3; else b *= -2; }
+        { if (b) b -= w * h * 2 + 250000; b *= b > 0 ? 3 : -2; }
 
     if ((j = chkformat (h)) < 0 || (b < 0 && r[j])) continue;
 
-    k = ((b >= 0 && !r[j]) || (p[j] == h && b < r[j]));
-    if (k || p[j] < h) { f[j] = i + 1; p[j] = h; r[j] = b + 1; }
+    w = ((b >= 0 && !r[j]) || (p[j] == h && b < r[j]));
+    if (w || p[j] < h) { f[j] = i + 1; p[j] = h; r[j] = b + 1; }
   }
 
   if (f[1] && p[0] < 240) f[0] = 0; return (f);
@@ -2165,12 +2085,6 @@ var merge_url = function (path1, path2)
   if (k > 1) url = url.substr (0, url.length - 1);
 
   return url;
-}
-////////////////////
-
-var open_downloader = function ()
-{
-  var doc = window.open().document; doc.write (download_doc); doc.close ();
 }
 ////////////////////
 
@@ -2311,19 +2225,23 @@ for (i = 0; i < 2; i++) try
 }
 ////////////////////
 
-var chkformat = function (p)
+var chkformat = function (n)
 {
-  if (p > 100 && p <= 432) return 0;
-  if (p > 432 && p <= 580) return 1;
-  if (p > 580 && p <= 800) return 2; return -1;
+  n = Number (n);
+  if (n > 100 && n <= 432)  return 0;
+  if (n > 432 && n <= 580)  return 1;
+  if (n > 580 && n <= 800)  return 2;
+  if (n > 800 && n <= 1200) return 3; return -1;
 }
 ////////////////////
 
-var pixformat = function (q)
+var pixformat = function (n)
 {
-  if (q == 0 || q == 4) return 360;
-  if (q == 1 || q == 5) return 480;
-  if (q == 2 || q == 6) return 720; return -1;
+  n = Number (n);
+  if (n == 0 || n == 4) return 360;
+  if (n == 1 || n == 5) return 480;
+  if (n == 2 || n == 6) return 720;
+  if (n == 3 || n == 7) return 1080; return -1;
 }
 ////////////////////
 
@@ -2341,50 +2259,39 @@ var argformat = function (fmt)
 
 var getformat = function (f, fmt)
 {
-  var m, n, itag = [18,19,22,37,43,44,45,46];
+  var m, n = 0, r = [], itag = [18,19,22,37,43,44,45,46];
+
+  for (; n < 8; n++) r.push ((!f || isNaN (f[n])) ? -1 : f[n]);
 
   n = itag.indexOf (fmt * 1); if (n < 0) n = 0;
 
-  if (f[0] <= 0 && f[1] <= 0 && f[2] <= 0 && f[3] <= 0) n = n | 4;
-  if (f[4] <= 0 && f[5] <= 0 && f[6] <= 0 && f[7] <= 0) n = n & ~4;
+  if (r[0] <= 0 && r[1] <= 0 && r[2] <= 0 && r[3] <= 0) n = n | 4;
+  if (r[4] <= 0 && r[5] <= 0 && r[6] <= 0 && r[7] <= 0) n = n & ~4;
 
-  for (m = n; m >= (n & ~3); m--) if (f[m] > 0) { n = m; break; }
-  for (m = n; m <= (n | 3);  m++) if (f[m] > 0) { n = m; break; }
+  for (m = n; m >= (n & ~3); m--) if (r[m] > 0) { n = m; break; }
+  for (m = n; m <= (n | 3);  m++) if (r[m] > 0) { n = m; break; }
 
-  return (f[n] <= 0 ? 0 : itag [n]);
+  return (r[n] <= 0 ? 0 : itag [n]);
 }
 ////////////////////
 
-var fixlist = function (item, doc, state)
+var gotformat = function (f, fmt)
 {
-  var txt = doc.children [item].text.slice (0, -1);
-  if (state < 0) txt = txt + '*'; else if (state > 0) txt = txt + '+'; else txt = txt + '-';
-  doc.children [item].text = txt;
+  return (argformat (getformat (f, fmt)));
 }
 ////////////////////
 
 var fixformat = function (f, frame)
 {
-  var doc = document.getElementById ("fmt" + frame);
+  var m, n, p, q, r = [0,3,6,9,1,4,7,10];
+  var doc = document.getElementById ("fmt" + frame).children;
 
-  fixlist (0, doc, f[0]); fixlist (1, doc, f[1]); fixlist (2, doc, f[2]);
-  fixlist (3, doc, f[4]); fixlist (4, doc, f[5]); fixlist (5, doc, f[6]);
-
-/*
-  fixlist (0, doc, f[0]); fixlist (1, doc, f[1]);
-  fixlist (2, doc, f[2]); fixlist (3, doc, f[3]);
-  fixlist (4, doc, f[4]); fixlist (5, doc, f[5]);
-  fixlist (6, doc, f[6]); fixlist (7, doc, f[7]);
-*/
-}
-////////////////////
-
-var no_format = function (frame)
-{
-  var doc = document.getElementById ("fmt" + frame);
-
-  fixlist (0, doc, -1); fixlist (1, doc, -1); fixlist (2, doc, -1);
-  fixlist (3, doc, -1); fixlist (4, doc, -1); fixlist (5, doc, -1);
+  for (n = 0; n < 8; n++)
+  {
+    m = r[n]; p = f ? f[n] : -1; if (isNaN (p)) p = -1;
+    if (p < 0) p = "*"; else if (p > 0) p = "+"; else p = "-";
+    q = doc [m]; q.innerHTML = q.innerHTML.slice (0, -1) + p;
+  }
 }
 ////////////////////
 
@@ -2443,8 +2350,8 @@ var no_format = function (frame)
 
 .v-control {
   position: absolute; bottom: 0; width: 100%; margin: 0; padding: 4px 0;
-  text-align: center; font-family: 'segoe ui', serif; font-size: 14px; line-height: 19px;
-  background-color: steelblue; cursor: default; user-select: none;
+  font-family: 'segoe ui', sans-serif; font-size: 14px; line-height: 19px;
+  text-align: center; background-color: steelblue; cursor: default; user-select: none;
 }
 
 .v-control span {
@@ -2452,11 +2359,12 @@ var no_format = function (frame)
 }
 
 .v-control input {
-  height: 13px; padding: 1px 3px; margin: 2px 1px;
-  font-family: 'consolas', 'lucida console', monospace; font-size: 14px; line-height: 12px;
-  text-align: center; vertical-align: top; border: 1px solid darksalmon; border-radius: 7px;
-  color: darkviolet; background-color: lightpink; user-select: auto; outline: none;
+  vertical-align: top; height: 13px; padding: 1px 3px; margin: 2px 1px;
+  line-height: 12px; font-size: 14px; font-family: 'consolas', monospace;
+  outline: none; border: 1px solid darksalmon; border-radius: 7px;
   appearance: none; -moz-appearance: none; -webkit-appearance: none;
+  color: darkviolet; background-color: lightpink;
+  user-select: auto; text-align: center;
 }
 
 .v-control input::-moz-range-thumb {
@@ -2474,10 +2382,10 @@ var no_format = function (frame)
 }
 
 .v-control button {
-  height: 17px; vertical-align: top; margin: 2px 0; padding: 0;
+  height: 17px; line-height: 12px; margin: 2px 0; padding: 0;
   border-style: solid; border-radius: 4px; border-width: 1px 6px;
-  outline: none; font-family: 'consolas', 'lucida console', monospace;
-  font-size: 14px; line-height: 12px; cursor: pointer; outline: none;
+  font-size: 14px; font-family: 'consolas', monospace;
+  outline: none; cursor: pointer; vertical-align: top;
 }
 
 .v-control button:hover {
@@ -2567,8 +2475,8 @@ var create_controls = function (vid)
   vid.onseeking    = function() { vid_cntrl (this, 5); }
   vid.onwaiting    = function() { vid_cntrl (this, 6); }
   vid.onstalled    = function() { vid_cntrl (this, 7); }
-  vid.ontimeupdate = function() { vid_cntrl (this, 8); }
 
+  vid.ontimeupdate = function(e) { vid_event (e, 0); }
   vid.onmousemove  = function(e) { vid_event (e, 1); }
   ctr.onclick      = function(e) { vid_event (e, 2); }
 
@@ -2580,9 +2488,8 @@ var create_controls = function (vid)
   ctr.onmousemove = function(e) { vid.onmousemove (e); }
   ctr.onclick     = function(e) { vid.onclick (e); }
 
-  sib [0].classList.add ("anim-bar");
-  control.style.display = "inline-block";
-  vid.checked = 0; vid_scaler (vid, 0, 0, sib);
+  control.style.display = "inline-block"; vid_scaler (vid, 0, 0, sib);
+  sib [0].classList.add ("anim-bar"); vid.curtime = vid.durtime = 0;
 
   doc.body.appendChild (control); vid_resize (vid);
   doc.body.onresize = function() { vid_resize (vid); }
@@ -2604,12 +2511,11 @@ var vid_cntrl = function (vid, mode)
   if (ctr.value == undefined && mode > 2 && mode < 8) return;
   if (vid.disabled && mode > 2 && mode < 9) return;
 
-  var t = vid.currentTime, d = vid.duration;
-  if (isNaN (t)) t = 0; if (isNaN (d) || !isFinite (d)) d = 0;
-  var z = (t > 0 && d > 0) ? 400 * t / d : 0; z = Math.round (z) * 0.25;
-
   var no_action = ctr.value == undefined || vid.disabled;
   var got_video = vid.videoWidth && vid.videoHeight;
+
+  var t = vid.currentTime, d = vid.durtime;
+  var z = (t && d) ? 400 * t / d : 0; z = Math.round (z) * 0.25;
 
   if (mode == 0)  // hide
   {
@@ -2657,7 +2563,6 @@ var vid_cntrl = function (vid, mode)
 
   if (mode == 8)  // time update
   {
-    if (t == vid.checked) return; vid.checked = t;
     var v = ctr.value, ts = Math.round (t), ds = Math.round (d);
     var th = Math.trunc (ts / 3600), dh = Math.trunc (ds / 3600); ts -= th * 3600; ds -= dh * 3600;
     var tm = Math.trunc (ts / 60), dm = Math.trunc (ds / 60); ts -= tm * 60; ds -= dm * 60;
@@ -2719,8 +2624,8 @@ var vid_click = function (item, mode)
 
   if (mode == 1)
   {
-    var t = vid.duration * item.value; if (isNaN (t) || !isFinite (t)) return;
-    if (t < min_vt) t = min_vt; vid.currentTime = t; ctr.children [11].value = t.toFixed(2);
+    var t = vid.durtime * item.value; if (t < min_vt) t = min_vt;
+    vid.currentTime = t; ctr.children [11].value = t.toFixed(2);
   }
 
   if (mode == 2) item.style.outline = (vid.muted = !vid.muted) ? "1px solid pink" : "none";
@@ -2736,7 +2641,7 @@ var vid_click = function (item, mode)
     i = v[j-1] * 1; if (j > 1) i += v[j-2] * 60; if (j > 2) i += v[j-3] * 3600;
     if (t) { i *= t; i += vid.currentTime; }
 
-    if (i < min_vt) i = min_vt; if (i > vid.duration) i = vid.duration; vid.currentTime = i;
+    if (i < min_vt) i = min_vt; vid.currentTime = i < vid.durtime ? i : vid.durtime;
   }
 
   if (mode == 5) vid_rotate (vid, ctr.children, 1);
@@ -2750,24 +2655,31 @@ var vid_click = function (item, mode)
 
 var vid_event = function (event, type)
 {
-  var min_vt = 0, item = event.target, node = item.nodeName;
+  var min_vt = 0, item = event.target, node = item.nodeName, vid = item;
+
+  if (type == 0)
+  {
+    var e = event.timeStamp / 1000, c = vid.curtime || e, d = vid.durtime;
+    var t = vid.currentTime; vid.curtime = e; d += e - c; if (t > d) d = t;
+    vid.durtime = isFinite (c = vid.duration) ? c : d; vid_cntrl (item, 8);
+  }
 
   if (type == 1)
   {
-    if (node != "VIDEO") item = item.parentNode.previousElementSibling;
+    if (node != "VIDEO") vid = vid.parentNode.previousElementSibling;
 
-    var ctr = item.nextElementSibling.firstElementChild;
-    vid_cursor (item, true); if (ctr.value == undefined) return;
+    var ctr = vid.nextElementSibling.firstElementChild;
+    vid_cursor (vid, true); if (ctr.value == undefined) return;
 
-    var h = item.step, e = event.clientY, s = ctr.step * ctr.checked;
-    h = (h % 10) & 2 ? item.clientWidth : item.clientHeight;
+    var h = vid.step, e = event.clientY, s = ctr.step * ctr.checked;
+    h = (h % 10) & 2 ? vid.clientWidth : vid.clientHeight;
+
     if (s < 0) { h += s; s /= -2; } else { h -= s; s = 0; }
-
-    if (ctr.value <= 0) ctr.value = -8; if (e > h || e < s) vid_cntrl (item, 1);
+    if (ctr.value <= 0) ctr.value = -8; if (e > h || e < s) vid_cntrl (vid, 1);
   }
   if (type != 2 || node == "DIV") return;
 
-  var ctr = item.parentNode, vid = ctr.parentNode.previousElementSibling;
+  var ctr = item.parentNode; vid = ctr.parentNode.previousElementSibling;
 
   if (node == "SPAN")
   {
@@ -2801,7 +2713,7 @@ var vid_event = function (event, type)
   if (txt == "10m") dir *= 600;
 
   if ((dir += vid.currentTime) < min_vt) dir = min_vt;
-  vid.currentTime = dir > vid.duration ? vid.duration : dir;
+  vid.currentTime = dir > vid.durtime ? vid.durtime : dir;
 }
 ////////////////////
 
@@ -2816,8 +2728,6 @@ var vid_resize = function (vid)
   w = w & 2 ? vid.clientHeight : vid.clientWidth;
 
   if (h <= 0 || w <= 0) return;  // looks like window is not ready
-
-  // Dec. 2022 - this.hh & this.ww changed to vid.hh & vid.ww
 
   if (ctr.checked)  // block unnecessary calls
   {
@@ -2835,7 +2745,7 @@ var vid_resize = function (vid)
 
   sib [0].style.width = (w - 246) + "px";
   sib [0].style.minWidth = (w > 260 && w < 380 ? w - 192 : 68) + "px";
-  sib [1].style.display = w < 380 ? "none" : "inline-block";
+  sib [1].style.display = w < 380 ? "none" : "";
 
   var sizes = [0,0,0,0,0,0,0,0,0,0,34,88,36,42,36,36,36,42,30,30,30,0,0,0];
   var scale = [0,0,0,0,0,0,0,0,0,0, 6, 6, 8, 7, 5, 2, 4, 1, 3, 3, 3,0,0,0];
@@ -2847,7 +2757,7 @@ var vid_resize = function (vid)
   sib [9].style.width = w + "px";
 
   for (i = 0; i < sib.length; i++) if (k = scale [i])
-    sib [i].style.display = (!block [k] || j < k) ? "inline-block" : "none";
+    sib [i].style.display = (!block [k] || j < k) ? "" : "none";
 }
 ////////////////////
 

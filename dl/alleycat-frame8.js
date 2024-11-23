@@ -51,20 +51,18 @@ document.getElementById ("ir").innerHTML = `
   ('https://s9.voscast.com:9311/live')"><a target=_blank
     href='https://www.renseradio.com'>Rense Radio Live</a>
 <br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
+  ('http://stream-mp3.infowars.com/')"><a target=_blank
+    href='https://www.infowars.com/radio-archive'>Alex Jones Live</a>
 <br><input type=radio name="ir" onclick="javascript:radio
   ('')">
 <br><input type=radio name="ir" onclick="javascript:radio
   ('')">
 <br><input type=radio name="ir" onclick="javascript:radio
-  ('http://50.7.69.18/alexjonesshow')"><a target=_blank
-    href='https://www.infowars.com/radio-archive/Alex/'>InfoWars - Alex Jones</a>
+  ('')">
 <br><input type=radio name="ir" onclick="javascript:radio
-  ('http://50.7.69.18/realnews')"><a target=_blank
-    href='https://www.infowars.com/radio-archive/AmericanJournal/'>InfoWars - Harrison Smith</a>
+  ('')">
 <br><input type=radio name="ir" onclick="javascript:radio
-  ('http://50.7.69.18/warroom')"><a target=_blank
-    href='https://www.infowars.com/radio-archive/WarRoom/'>InfoWars - Owen Shroyer</a>
+  ('')">
 </td>
 
 <td><input type=radio name="ir" onclick="javascript:radio
@@ -74,11 +72,11 @@ document.getElementById ("ir").innerHTML = `
 <br><input type=radio name="ir" onclick="javascript:radio
   ('http://rock-lynxradio.radioca.st/;')">Lynx Classic Rock
 <br><input type=radio name="ir" onclick="javascript:radio
-  ('https://pl-play.adtonos.com/rock-radio')">Rock Radio
+  ('http://mars.streamerr.co:8066/stream/1/')">Antenna Web
 <br><input type=radio name="ir" onclick="javascript:radio
   ('http://sc2.radiocaroline.net:10568/;')">Radio Caroline
 <br><input type=radio name="ir" onclick="javascript:radio
-  ('http://149.56.183.178:8014/;')">Retro Hits
+  ('http://solid24.streamupsolutions.com:8010/stream/1/')">Bar Legend Radio
 <br><input type=radio name="ir" onclick="javascript:radio
   ('http://stream.dancewave.online:8080/dance.mp3')">Dance Wave
 <br><input type=radio name="ir" onclick="javascript:radio
@@ -130,7 +128,7 @@ document.getElementById ("ir").innerHTML = `
 <br><input type=radio name="ir" onclick="javascript:radio
   ('http://lin3.ash.fastserv.com:6026/stream_96')">Rockabilly Radio
 <br><input type=radio name="ir" onclick="javascript:radio
-  ('http://91.121.91.172:9414/;')">Dandelion Radio
+  ('http://streamz.anytek.co.uk/proxy/dandelio2?mp=/stream')">Dandelion Radio
 <br><input type=radio name="ir" onclick="javascript:radio
   ('http://31.3.245.162:8000/;')">Splinterwood
 <br><input type=radio name="ir" onclick="javascript:radio
@@ -196,7 +194,7 @@ document.getElementById ("ir").innerHTML = `
 <td><input type=radio name="ir" onclick="javascript:radio
   ('http://el-dorado.stream.laut.fm/el-dorado')">Radio El Dorado
 <br><input type=radio name="ir" onclick="javascript:radio
-  ('http://igor.torontocast.com:1025/;')">Asia Dream Radio
+  ('http://kathy.torontocast.com:3330/;')">Asia Dream Jazz
 <br><input type=radio name="ir" onclick="javascript:radio
   ('http://hi5.streamingsoundtracks.com/;')">Streaming Sound Tracks
 <br><input type=radio name="ir" onclick="javascript:radio
@@ -208,7 +206,7 @@ document.getElementById ("ir").innerHTML = `
 <br><input type=radio name="ir" onclick="javascript:radio
   ('http://stream.silvacast.com/RPLive/mp3-128/radio_de')">Radio Paloma
 <br><input type=radio name="ir" onclick="javascript:radio
-  ('http://radio-ballermann.stream24.net/ballermann-radio.mp3')">Ballermann Radio
+  ('http://stream.bmr-radio.de/ballermann-radio.mp3')">Ballermann Radio
 <br><input type=radio name="ir" onclick="javascript:radio
   ('http://cc6.beheerstream.com/proxy/src1?mp=/stream;stream.mp3')">SRC FM
 <br><input type=radio name="ir" onclick="javascript:radio
@@ -238,32 +236,32 @@ document.getElementById ("ir").innerHTML = `
 
 // Worker access
 
-var open_video = function (id, frm, fmt, src)
+var request_jump = function (id, frm, fmt, src)
 {
   if (src == "youtube")      request (id, frm, fmt); else
   if (src == "bitchute")     req_bitchute (id, frm, fmt); else
   if (src == "rumble")       req_rumble (id, frm, fmt); else
   if (src == "vimeo")        req_vimeo (id, frm, fmt); else
   if (src == "infowars")     req_infowars (id, frm, fmt); else
-  if (src == "brighteon")    req_brighteon ("*" + id, frm, fmt); else
+  if (src == "brighteon")    req_brighteon (id, frm, fmt); else
   if (src == "dailymotion")  req_dailymotion (id, frm, fmt); else
-  if (src == "twitter")      req_twitter ("*" + id, frm, fmt); else src = "";
+  if (src == "twitter")      req_twitter (id, frm, fmt); else src = "";
 
   return (src);
 }
 
 // Internet TV
 
-var open_iptv = function (url, frame, fmt, src, f)
+var request_iptv = function (url, frame, fmt, src, f)
 {
   if (src == "a")
     return popup_radio (-1, 400, 200, "https://www.iheart.com/live/" + url + "/?embed=1&autoplay=1");
 
   document.getElementById ("id" + frame).value = "Tuning...";
 
-  if (src == "7") open_tv (frame, 0, f, fmt, url);
-  if (src == "8") open_tv (frame, 1, f, fmt, url);
-  if (src == "9") open_tv (frame, 1, f, fmt, cors_bypass + url);
+  if (src == "7") open_tv0 (frame, 0, f, fmt, url);
+  if (src == "8") open_tv0 (frame, 1, f, fmt, url);
+  if (src == "9") open_tv0 (frame, 1, f, fmt, cors_bypass + url);
 
   if (src == "1a") open_tv1 (frame, 2, f, fmt, url, src);  // tv247.us
   if (src == "1b") open_tv1 (frame, 3, f, fmt, url, src);  // tv247.us
@@ -282,6 +280,38 @@ var open_iptv = function (url, frame, fmt, src, f)
   if (src == "7a") open_tv7 (frame, 1, f, fmt, url, "https://watch.plex.tv");
   if (src == "8a") open_tv8 (frame, 0, f, fmt, url, "https://easycatchup.eu");
   if (src == "9a") open_tv9 (frame, 1, f, fmt, url, "https://www.distro.tv");
+}
+////////////////////
+
+const open_tv0 = async (frame, mode, f, fmt, url) =>
+{
+  if (is_busy (frame)) return;
+
+  if (url [0] == "*") if (localhost) url = localhost + "~" + url; else
+  {
+    url = url.substr (1); url = url.substr (url.indexOf ("*") + 1);
+  }
+
+  if (stream_all (frame, 1)) fmt = mode = 0; else
+  {
+    var x = 0, n = getformat (f, fmt);
+    if ((n = argformat (n)) >= 0)
+    {
+      x = pixformat (n); n = f[n]; var y = Math.trunc (n); if (n != y) x = y;
+    }
+    if (mode) mode = (x ? x : 2); else { fmt = x; if (x) mode = 1; }
+  }
+
+  if (mode > 1) try
+  {
+    response = await kitty (url); textData = await response.text();
+    [url,fmt] = crack_m3u8 (response.url, textData, frame, fmt);
+    if (fmt && mode > 2) fmt = mode; else mode = 0;
+  }
+  catch (err) { console.log (err); busy = 0; }
+
+  if (mode) fixformat (f, frame);
+  if (no_fail (frame)) loadwindow (url, frame, "Internet TV", "", fmt);
 }
 ////////////////////
 
@@ -329,7 +359,7 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv (frame, mode & 1, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode & 1, f, fmt, url);
 }
 ////////////////////
 
@@ -337,12 +367,12 @@ const open_tv2 = async (frame, mode, f, fmt, url, src) =>
 {
   var n, s, sub = "2," + url; if (is_busy (frame)) return;
 
-if (s = saved_path (sub)) url = s; else try
+if (s = stream_cache (sub)) url = s; else try
 {
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv (frame, mode, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
 }
 ////////////////////
 
@@ -351,7 +381,7 @@ const open_tv3 = async (frame, mode, f, fmt, url, src) =>
 {
   var s, t, sub = "3," + url; if (is_busy (frame)) return;
 
-if (s = saved_path (sub)) url = s; else try
+if (s = stream_cache (sub)) url = s; else try
 {
   if (url.substr (0,3) != "id-") url = btoa (url); else
   {
@@ -381,13 +411,12 @@ if (s = saved_path (sub)) url = s; else try
   response = await kitty (url, { method: 'POST', headers: t, body: s } );
   textData = await response.text();
 
-  url = pullstring (textData, "='", "'"); if (!url || url.includes (".cgtn.")) throw ("!!!");
-
-  freetv [sub] = the_time + " 0 " + url;
+  url = pullstring (textData, "='", "'");
+  if (!url || url.includes (".cgtn.")) throw ("!!!"); stream_cache (sub, url, 0);
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv (frame, mode, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
 }
 ////////////////////
 
@@ -404,7 +433,7 @@ const open_tv4 = async (frame, mode, f, fmt, url, src) =>
 {
   var n, s, sub = "4," + url; if (is_busy (frame)) return;
 
-if (s = saved_path (sub)) url = s; else try
+if (s = stream_cache (sub)) url = s; else try
 {
   if (!localhost || localhost != cors_kraker) throw ("???");
   url = cors_kraker + "**" + src + "/0x10x00xxs101xsdwx0101001xs/" + url + ".phtml";
@@ -418,7 +447,7 @@ if (s = saved_path (sub)) url = s; else try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv (frame, mode, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
 }
 ////////////////////
 
@@ -426,7 +455,7 @@ const open_tv5 = async (frame, mode, f, fmt, url, src) =>
 {
   var s, t, u, sub = "5," + url; if (is_busy (frame)) return;
 
-if (s = saved_path (sub)) url = s; else try
+if (s = stream_cache (sub)) url = s; else try
 {
   var decrypt = function ()
   {
@@ -461,16 +490,16 @@ if (s = saved_path (sub)) url = s; else try
     t = '<!DOCTYPE html><html><body style="display:none"><script>\n' +
         textData + '\nparent.postMessage ("@" + ' + s + '(), "*")<\/script></body></html>';
 
-    var w = document.getElementById ("mov" + frame), v = w.contentDocument;
+    var w = stream_player (frame), v = w.contentDocument;
     v.open(); v.write (t); v.close(); t = await getmessage (3); w.src = "";
-    if (!t) throw ("!!!"); cookies ["thetvapp"] = t; decrypt(); console.log(t);
+    if (!t) throw ("!!!"); cookies ["thetvapp"] = t; decrypt();
   }
 
-  if (!url) throw ("!!!"); freetv [sub] = the_time + " 0 " + url;
+  if (!url) throw ("!!!"); stream_cache (sub, url, 0);
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv (frame, mode, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
 }
 ////////////////////
 
@@ -479,7 +508,7 @@ const open_tv5 = async (frame, mode, f, fmt, url, src) =>
 {
   var a, b, n, s, t, u, sub = "5," + url; if (is_busy (frame)) return;
 
-if (s = saved_path (sub)) url = s; else try
+if (s = stream_cache (sub)) url = s; else try
 {
   if (!cors_kraker) throw ("???");
 
@@ -517,16 +546,16 @@ if (s = saved_path (sub)) url = s; else try
         textData.substr (0, n) + '\nparent.postMessage ("@" + ' + b + ', "*");\n' +
         textData.substr (n) + '\n<\/script></body></html>';
 
-    var w = document.getElementById ("mov" + frame), v = w.contentDocument;
+    var w = stream_player (frame), v = w.contentDocument;
     v.open(); v.write (t); v.close(); t = await getmessage (3); w.src = ""; if (!t) throw ("!!!");
     t = cookies ["thetvapp"] = '{"' + a + '":"' + t + '"}'; await get_link();
   }
 
-  if (!url) throw ("!!!"); freetv [sub] = the_time + " 0 " + url;
+  if (!url) throw ("!!!"); stream_cache (sub, url, 0);
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv (frame, mode, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
 }
 ////////////////////
 */
@@ -537,7 +566,7 @@ const open_tv5 = async (frame, mode, f, fmt, url, src) =>
 {
   var a, b, i, j, s, t, u, v, sub = "5," + url; if (is_busy (frame)) return;
 
-if (s = saved_path (sub)) url = s; else try
+if (s = stream_cache (sub)) url = s; else try
 {
   var decode = function ()
   {
@@ -578,11 +607,11 @@ if (s = saved_path (sub)) url = s; else try
     await getmessage (1); cookies ["thetvapp"] = t; if (!t || !decode()) throw ("!!!");
   }
 
-  url = url.split (",")[0]; freetv [sub] = the_time + " 0 " + url;
+  url = url.split (",")[0]; stream_cache (sub, url, 0);
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv (frame, mode, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
 }
 ////////////////////
 */
@@ -592,7 +621,7 @@ const open_tv6 = async (frame, mode, f, fmt, url, src) =>
 {
   var n, p, q, r, s, sub = "6," + url; if (is_busy (frame)) return;
 
-if (s = saved_path (sub)) url = s; else try
+if (s = stream_cache (sub)) url = s; else try
 {
   s = localhost ? "/**" : "";
 
@@ -609,13 +638,12 @@ if (s = saved_path (sub)) url = s; else try
 
   response = await kitty (us_geo_bypass + src + "/api/v3/playback", r);
   textData = await response.text(); url = pullstring (textData, '"url":"', '&');
-  if (!url) throw ("!!!");
 
-  freetv [sub] = the_time + " 0 " + url;
+  if (!url) throw ("!!!"); stream_cache (sub, url, 0);
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv (frame, mode, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
 }
 ////////////////////
 
@@ -624,7 +652,7 @@ const open_tv7 = async (frame, mode, f, fmt, url, src) =>
 {
   var h, s, t, sub = "7," + url; if (is_busy (frame)) return;
 
-if (s = saved_path (sub)) url = s; else try
+if (s = stream_cache (sub)) url = s; else try
 {
   if (!cors_kraker) throw ("???");
 
@@ -636,15 +664,14 @@ if (s = saved_path (sub)) url = s; else try
   response = await kitty (cors_kraker + src + "/en-GB/live-tv/" + url);
   textData = await response.text();
 
-  s = pullstring (textData, '/library/parts/', '\\"'); if (!s.includes (".m3u8")) throw ("!!!");
-
+  s = pullstring (textData, '/library/parts/', '\\"');
   url = "https://epg.provider.plex.tv/library/parts/" + s + "?X-Plex-Token=" + t;
 
-  freetv [sub] = the_time + " 0 " + url;
+  if (!s.includes (".m3u8")) throw ("!!!"); stream_cache (sub, url, 0);
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv (frame, mode, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
 }
 ////////////////////
 
@@ -653,7 +680,7 @@ const open_tv8 = async (frame, mode, f, fmt, url, src) =>
 {
   var n, s, sub = "8," + url; if (is_busy (frame)) return;
 
-if (s = saved_path (sub)) url = s; else try
+if (s = stream_cache (sub)) url = s; else try
 {
   if (!cors_kraker) throw ("???"); url = src + "/watch.php?" + url;
 
@@ -661,13 +688,12 @@ if (s = saved_path (sub)) url = s; else try
   textData = await response.text();
 
   url = pullstring (textData, "video.src='", "'");
-  if (url == "") throw ("!!!");
 
-  url = "**" + url; freetv [sub] = the_time + " 0 " + url;
+  if (url == "") throw ("!!!"); url = "**" + url; stream_cache (sub, url, 0);
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv (frame, mode, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
 }
 ////////////////////
 
@@ -676,22 +702,22 @@ const open_tv9 = async (frame, mode, f, fmt, url, src) =>
 {
   var n, s, sub = "9," + url; if (is_busy (frame)) return;
 
-if (s = saved_path (sub)) url = s; else try
+if (s = stream_cache (sub)) url = s; else try
 {
   url = src + "/" + url + "/";
 
   response = await kitty (cors_bypass + url);
   textData = await response.text();
 
-  url = pullstring (textData, '"contentUrl":"', '"'); if (!url) throw ("!!!");
+  url = pullstring (textData, '"contentUrl":"', '"');
   n = url.indexOf ("&url="); if (n > 0) url = url.substr (n + 5);
   n = url.indexOf ("?"); if (n > 0) url = url.substr (0, n);
 
-  freetv [sub] = the_time + " 0 " + url;
+  if (!url) throw ("!!!"); stream_cache (sub, url, 0);
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv (frame, mode, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
 }
 ////////////////////
 

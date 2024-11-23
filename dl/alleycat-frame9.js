@@ -1,7 +1,7 @@
 console.log (window);
 
 var invidious_site = [
-  "https://inv.tux.pizza",
+  "https://invidious.nerdvpn.de",
   "", "", "", "", "", "", "", "", "",
   "https://invidious.ethibox.fr",
   "https://invidious.nerdvpn.de",
@@ -14,11 +14,11 @@ var invidious_site = [
   "https://inv.tux.pizza"
 ];
 
-var invidious_url = invidious_site [0];
+var invidious_link = invidious_site [0];
 
-document.getElementById ("ctr5z").innerHTML =
-document.getElementById ("ctr6z").innerHTML =
-document.getElementById ("ctr7z").innerHTML = `
+document.getElementById ("ytx5").innerHTML =
+document.getElementById ("ytx6").innerHTML =
+document.getElementById ("ytx7").innerHTML = `
   <option value= 1  class="w">youtube.com
   <option value= 10>invidious.ethibox.fr (fr)
   <option value= 11>invidious.nerdvpn.de (de)
@@ -50,20 +50,68 @@ var frame_dig_7 = function (src, doc, frame, fmt)
   if (src == 15) dig_pressplay (doc, frame, fmt); else
   if (src == 2 ) dig_vidcloud (doc, frame, fmt); else
   if (src == 9 ) dig_xvideos (doc, frame, fmt); else
-  if (src == 41) dig_audiorealm (doc, frame, fmt); else
-  if (src == 42) dig_radionet (doc, frame, fmt); else
+  if (src == 40) dig_internetradio (doc, frame, fmt); else
   if (src == 16) dig_9vids (doc, frame, fmt); else
   if (src == 19) dig_goodporn (doc, frame, fmt); else
 
-  no_fail (frame, "Not supported");
+  no_fail (frame, "", "Not supported");
+}
+////////////////////
+
+var frame_req_5 = function (src, url, frame, fmt)
+{
+  if (src == 0 ) request (url, frame, fmt); else
+  if (src == 1 ) req_bitchute (url, frame, fmt); else
+  if (src == 14) req_rumble (url, frame, fmt); else
+  if (src == 2 ) req_vimeo2 (url, frame, fmt); else
+  if (src == 3 ) req_infowars (url, frame, fmt); else
+  if (src == 4 ) req_brighteon (url, frame, fmt); else
+  if (src == 5 ) req_dailymotion (url, frame, fmt); else
+  if (src == 11) req_153news (url, frame, fmt); else
+  if (src == 21) req_twitter (url, frame, fmt); else
+  if (src == 27) req_twitchtv (url, frame, fmt); else
+  if (src == 25) req_iheartradio (url, frame, fmt); else
+
+  no_fail (frame, "", "Not supported");
+}
+////////////////////
+
+const req_vimeo2 = async (id, frame, fmt) =>
+{
+  var tag = "vimeo"; id = getid (frame, id, -9);
+  if (!id || is_busy (frame, tag + " (ID)")) return;
+  var f, n, s, t, u, v = [], url = "https://player.vimeo.com/video/" + id;
+
+if (stream_all (frame, 0)) fmt = ""; else try
+{
+  if (!localhost || localhost != cors_kraker) throw ("???");
+
+  response = await kitty (cors_kraker + "https://vimeo.com/_next/viewer");
+  jsonData = await response.json();
+
+  if (!(s = jsonData.jwt)) throw ("!!!");
+
+  url = "https://api.vimeo.com/videos/" + id + "?fields=config_url,download";
+
+  response = await kitty (cors_kraker + url, { headers: { authorization: "jwt " + s }});
+  jsonData = await response.json();
+
+  if (!(t = jsonData.download)) throw ("!!!");
+
+  for (u of t) v.push ({ width: u.width, height: u.height, url: u.link });
+  f = formats_m3u8 (v); n = gotformat (f, fmt); if (n < 0) throw ("!!!");
+  n = f[n] - 1; url = v[n].url; fmt = v[n].height; fixformat (f, frame);
+
+} catch (err) { console.log (err); busy = 0; }
+
+  if (no_fail (frame, id)) loadwindow (url, frame, tag, id, fmt);
 }
 ////////////////////
 
 const dig_9vids = async (doc, frame, fmt) =>
 {
-  var tag = "9vids"; if (is_busy (frame)) return;
-  document.getElementById ("id" + frame).value = tag + " (DIG)";
-  var url = cors_bypass + doc;
+  var tag = "9vids", url = cors_bypass + doc;
+  if (is_busy (frame, tag + " (DIG)")) return;
 
 try
 {
@@ -76,17 +124,14 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  if (no_fail (frame)) loadwindow (url, frame, tag + ": id-none");
+  if (no_fail (frame)) loadwindow (url, frame, tag, "?");
 }
 ////////////////////
 
 const dig_goodporn = async (doc, frame, fmt) =>
 {
-  var n, a, b, r, s, t, sub, f = [0,0,0,0,0,0,0,0], u = [0,0,0,0];
-
-  var tag = "goodporn"; if (is_busy (frame)) return;
-  document.getElementById ("id" + frame).value = tag + " (DIG)";
-  var url = doc;
+  var tag = "goodporn"; if (is_busy (frame, tag + " (DIG)")) return;
+  var n, a, b, r, s, t, sub, f = [0,0,0,0], u = [0,0,0,0], url = doc;
 
 try
 { 
@@ -149,7 +194,7 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  if (no_fail (frame)) loadwindow (url, frame, tag + " [" + fmt + "]: id-none");
+  if (no_fail (frame)) loadwindow (url, frame, tag, "?", fmt);
 }
 ////////////////////
 
