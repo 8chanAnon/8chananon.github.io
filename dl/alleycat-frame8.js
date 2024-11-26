@@ -1,3 +1,19 @@
+// Worker access
+
+var request_jump = function (src, id, frm, fmt, func)
+{
+  if (src == "youtube")      func = request;
+  if (src == "bitchute")     func = req_bitchute;
+  if (src == "rumble")       func = req_rumble;
+  if (src == "vimeo")        func = req_vimeo;
+  if (src == "infowars")     func = req_infowars;
+  if (src == "brighteon")    func = req_brighteon;
+  if (src == "dailymotion")  func = req_dailymotion;
+  if (src == "twitter")      func = req_twitter;
+
+  if (func) func (id, frm, fmt); else src = ""; return (src);
+}
+
 // Internet Radio
 
 document.getElementById ("ir").innerHTML = `
@@ -62,7 +78,7 @@ document.getElementById ("ir").innerHTML = `
 <br><input type=radio name="ir" onclick="javascript:radio
   ('')">
 <br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
+  ('http://18063.live.streamtheworld.com:80/CFRAAMAAC_SC')">CFRA
 </td>
 
 <td><input type=radio name="ir" onclick="javascript:radio
@@ -234,42 +250,20 @@ document.getElementById ("ir").innerHTML = `
 </td>
 `;
 
-// Worker access
-
-var request_jump = function (id, frm, fmt, src)
-{
-  if (src == "youtube")      request (id, frm, fmt); else
-  if (src == "bitchute")     req_bitchute (id, frm, fmt); else
-  if (src == "rumble")       req_rumble (id, frm, fmt); else
-  if (src == "vimeo")        req_vimeo (id, frm, fmt); else
-  if (src == "infowars")     req_infowars (id, frm, fmt); else
-  if (src == "brighteon")    req_brighteon (id, frm, fmt); else
-  if (src == "dailymotion")  req_dailymotion (id, frm, fmt); else
-  if (src == "twitter")      req_twitter (id, frm, fmt); else src = "";
-
-  return (src);
-}
-
 // Internet TV
 
-var request_iptv = function (url, frame, fmt, src, f)
+var request_iptv = function (src, url, frame, fmt, f)
 {
-  if (src == "a")
-    return popup_radio (-1, 400, 200, "https://www.iheart.com/live/" + url + "/?embed=1&autoplay=1");
-
   document.getElementById ("id" + frame).value = "Tuning...";
 
   if (src == "7") open_tv0 (frame, 0, f, fmt, url);
   if (src == "8") open_tv0 (frame, 1, f, fmt, url);
-  if (src == "9") open_tv0 (frame, 1, f, fmt, cors_bypass + url);
 
   if (src == "1a") open_tv1 (frame, 2, f, fmt, url, src);  // tv247.us
   if (src == "1b") open_tv1 (frame, 3, f, fmt, url, src);  // tv247.us
-  if (src == "1c") open_tv1 (frame, 2, f, fmt, url, src);  // tv247.us
-  if (src == "1d") open_tv1 (frame, 3, f, fmt, url, src);  // https://daddyhd.com/24-7-channels.php
+  if (src == "1c") open_tv1 (frame, 0, f, fmt, url, src);  // tv247.us
   if (src == "1e") open_tv1 (frame, 1, f, fmt, url, src);  // content.uplynk.com
   if (src == "1f") open_tv1 (frame, 1, f, fmt, url, src);  // https://frankspeech.com
-  if (src == "1g") open_tv1 (frame, 2, f, fmt, url, src);
   if (src == "1p") open_tv1 (frame, 1, f, fmt, url, src);  // Pluto TV
   if (src == "1x") open_tv1 (frame, 1, f, fmt, url, src);  // Olympics
 
@@ -285,12 +279,7 @@ var request_iptv = function (url, frame, fmt, src, f)
 
 const open_tv0 = async (frame, mode, f, fmt, url) =>
 {
-  if (is_busy (frame)) return;
-
-  if (url [0] == "*") if (localhost) url = localhost + "~" + url; else
-  {
-    url = url.substr (1); url = url.substr (url.indexOf ("*") + 1);
-  }
+  if (is_busy (frame)) return; if (url [0] == "*") url = cors_local + "~" + url;
 
   if (stream_all (frame, 1)) fmt = mode = 0; else
   {
@@ -317,12 +306,10 @@ const open_tv0 = async (frame, mode, f, fmt, url) =>
 
 const open_tv1 = async (frame, mode, f, fmt, url, src) =>
 {
-  var n, p, s, sub = src + "," + url; if (is_busy (frame)) return;
+  var n, p, s, sub = src + "," + url; if (is_busy (frame, "", mode & 2)) return;
 
 try
 {
-  if (mode & 2) if (!localhost) throw ("???");
-
   if (src == "1a") url = "*http://tv247.us,,ts*http://live.tv247us.com/hls/" + url + ".m3u8";
   if (src == "1b") url = "*http://tv247.us,,*http://cdn.tv247.us/channel/" + url + ".m3u8";
 
@@ -379,7 +366,7 @@ if (s = stream_cache (sub)) url = s; else try
 // http://www.freeintertv.com  format: ?????
 const open_tv3 = async (frame, mode, f, fmt, url, src) =>
 {
-  var s, t, sub = "3," + url; if (is_busy (frame)) return;
+  var s, t, sub = "3," + url; if (is_busy (frame, "", 2)) return;
 
 if (s = stream_cache (sub)) url = s; else try
 {
@@ -406,7 +393,7 @@ if (s = stream_cache (sub)) url = s; else try
   t = { 'content-type': 'application/x-www-form-urlencoded' };
   s = "chname=" + url + "&html5=11";
 
-  url = cors_bypass + src + "/myAjax/get_item_m3u8/";
+  url = cors_kraker + src + "/myAjax/get_item_m3u8/";
 
   response = await kitty (url, { method: 'POST', headers: t, body: s } );
   textData = await response.text();
@@ -429,13 +416,13 @@ if (s = stream_cache (sub)) url = s; else try
 4a:foxnews
 */
 
+// http://streamw.ink
 const open_tv4 = async (frame, mode, f, fmt, url, src) =>
 {
-  var n, s, sub = "4," + url; if (is_busy (frame)) return;
+  var n, s, sub = "4," + url; if (is_busy (frame), "", 2) return;
 
 if (s = stream_cache (sub)) url = s; else try
 {
-  if (!localhost || localhost != cors_kraker) throw ("???");
   url = cors_kraker + "**" + src + "/0x10x00xxs101xsdwx0101001xs/" + url + ".phtml";
 
   response = await kitty (url);
@@ -451,6 +438,7 @@ if (s = stream_cache (sub)) url = s; else try
 }
 ////////////////////
 
+// https://thetvapp.to
 const open_tv5 = async (frame, mode, f, fmt, url, src) =>
 {
   var s, t, u, sub = "5," + url; if (is_busy (frame)) return;
@@ -623,7 +611,7 @@ const open_tv6 = async (frame, mode, f, fmt, url, src) =>
 
 if (s = stream_cache (sub)) url = s; else try
 {
-  s = localhost ? "/**" : "";
+  s = cors_local ? "/**" : "";
 
   response = await kitty (us_geo_bypass + src + "/watch/" + url, allow_cookie ("", s));
   textData = await response.text();
@@ -650,12 +638,10 @@ if (s = stream_cache (sub)) url = s; else try
 // https://watch.plex.tv/live-tv  format: channel/?????
 const open_tv7 = async (frame, mode, f, fmt, url, src) =>
 {
-  var h, s, t, sub = "7," + url; if (is_busy (frame)) return;
+  var h, s, t, sub = "7," + url; if (is_busy (frame, "", 1)) return;
 
 if (s = stream_cache (sub)) url = s; else try
 {
-  if (!cors_kraker) throw ("???");
-
   s = { accept: 'application/json', 'X-Plex-Product': 'Plex Mediaverse', 'X-Plex-Client-Identifier': 'x' };
 
   response = await kitty (cors_kraker + "https://plex.tv/api/v2/users/anonymous", { method: 'POST', headers: s });
@@ -678,11 +664,11 @@ if (s = stream_cache (sub)) url = s; else try
 // https://easycatchup.eu  format: stream=?????
 const open_tv8 = async (frame, mode, f, fmt, url, src) =>
 {
-  var n, s, sub = "8," + url; if (is_busy (frame)) return;
+  var n, s, sub = "8," + url; if (is_busy (frame, "", 2)) return;
 
 if (s = stream_cache (sub)) url = s; else try
 {
-  if (!cors_kraker) throw ("???"); url = src + "/watch.php?" + url;
+  url = src + "/watch.php?" + url;
 
   response = await kitty (cors_kraker + url);
   textData = await response.text();

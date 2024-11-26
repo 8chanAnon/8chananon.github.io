@@ -28,7 +28,6 @@ document.getElementById ("src7").innerHTML = `
 `;
 
 document.getElementById ("butt7").innerHTML = `
-  <button onclick="javascript:copylist(this,7,-1)">Radio</button>
   <button onclick="javascript:copylist(this,7,-2)">Dance</button>
   &nbsp;
   <button onclick="javascript:copylist(this,7,-3)">TV US1</button>
@@ -39,31 +38,51 @@ document.getElementById ("butt7").innerHTML = `
   <button onclick="javascript:copylist(this,7,-7)">TV Alt</button>
   &nbsp;
   <button onclick="javascript:copylist(this,7,-8)">Int'l</button>
-  <button onclick="javascript:copylist(this,7,-9)">Misc</button>
 `;
 
+var frame_req_7 = function (src, id, frame, fmt, func)
+{
+  if (src == 0 ) func = request;
+  if (src == 1 ) func = req_tubitv;
+  if (src == 4 ) func = req_thearchive;
+  if (src == 6 ) func = req_bilibili;
+  if (src == 10) func = req_emovies;
+  if (src == 11) func = req_goku;
+  if (src == 12) func = req_goojara;
+  if (src == 5 ) func = req_playtaku;
+  if (src == 8 ) func = req_xhamster;
+  if (src == 26) func = req_eplayvid;
+  if (src == 21) func = req_doodstream;
+  if (src == 22) func = req_dropload;
+  if (src == 29) func = req_mixdrop;
+  if (src == 31) func = req_pkspeed;
+  if (src == 20) func = req_streamtape;
+  if (src == 27) func = req_upstream;
+  if (src == 24) func = req_vtube;
+  if (src == 30) func = req_wootly;
+
+  if (func) func (id, frame, fmt); else no_fail (frame, "", "Not supported");
+}
+
+var frame_dig_7 = function (src, url, frame, fmt, func)
+{
+  if (src == 1 ) func = dig_tubitv;
+  if (src == 4 ) func = dig_thearchive;
+  if (src == 3 ) func = dig_darkmatter;
+  if (src == 7 ) func = dig_plextv;
+  if (src == 5 ) func = dig_playtaku;
+  if (src == 10) func = dig_emovies;
+  if (src == 11) func = dig_goku;
+  if (src == 14) func = dig_noxx;
+  if (src == 15) func = dig_pressplay;
+  if (src == 2 ) func = dig_vidcloud;
+  if (src == 9 ) func = dig_xvideos;
+  if (src == 40) func = dig_internetradio;
+
+  if (func) func (url, frame, fmt); else no_fail (frame, "", "Not supported");
+}
+
 var stack_7_1 = [""
-  , "a:" , "majic-100-7483"
-  , "a:" , "chum-1045-6270"
-  , "a:" , "iheartradio-top-20-7556"
-  , "a:" , "the-hit-mix-7553"
-  , "a:" , "z1035-7757"
-  , "a:" , "971-the-eagle-2241"
-  , "a:" , "heavy-rock-7554"
-  , "a:" , "z100-1469"
-  , "a:" , "1027-kiis-fm-los-angeles-185"
-  , "a:" , "y100-561"
-  , "a:" , "1017-the-bull-6586"
-  , "a:" , "1035-kiss-fm-849"
-  , "a:" , "alt-987-los-angeles-201"
-  , "a:" , "1035-ktu-1473"
-  , "a:" , "1067-lite-fm-1477"
-  , "a:" , "smooth-jazz-4242"
-  , "a:" , "the-vinyl-experience-6878"
-  , "a:" , "iheart80s-radio-5060"
-  , "a:" , "lone-star-925-3379"
-  , "a:" , "q1043-1465"
-  , "a:" , "500-cfra-7500"
 ];
 
 var stack_7_2 = [""
@@ -303,54 +322,11 @@ var stack_7_9 = [""
 
 */
 
-var frame_req_7 = function (src, url, frame, fmt)
-{
-  if (src == 0 ) request (url, frame, fmt); else
-  if (src == 1 ) req_tubitv (url, frame, fmt); else
-  if (src == 4 ) req_thearchive (url, frame, fmt); else
-  if (src == 6 ) req_bilibili (url, frame, fmt); else
-  if (src == 10) req_emovies (url, frame, fmt); else
-  if (src == 11) req_goku (url, frame, fmt); else
-  if (src == 12) req_goojara (url, frame, fmt); else
-  if (src == 5 ) req_playtaku (url, frame, fmt); else
-  if (src == 8 ) req_xhamster (url, frame, fmt); else
-  if (src == 26) req_eplayvid (url, frame, fmt); else
-  if (src == 21) req_doodstream (url, frame, fmt); else
-  if (src == 22) req_dropload (url, frame, fmt); else
-  if (src == 29) req_mixdrop (url, frame, fmt); else
-  if (src == 31) req_pkspeed (url, frame, fmt); else
-  if (src == 20) req_streamtape (url, frame, fmt); else
-  if (src == 27) req_upstream (url, frame, fmt); else
-  if (src == 24) req_vtube (url, frame, fmt); else
-  if (src == 30) req_wootly (url, frame, fmt); else
-
-  no_fail (frame, "", "Not supported");
-}
-////////////////////
-
-var frame_dig_7 = function (src, doc, frame, fmt)
-{
-  if (src == 1 ) dig_tubitv (doc, frame, fmt); else
-  if (src == 4 ) dig_thearchive (doc, frame, fmt); else
-  if (src == 3 ) dig_darkmatter (doc, frame, fmt); else
-  if (src == 7 ) dig_plextv (doc, frame, fmt); else
-  if (src == 5 ) dig_playtaku (doc, frame, fmt); else
-  if (src == 10) dig_emovies (doc, frame, fmt); else
-  if (src == 11) dig_goku (doc, frame, fmt); else
-  if (src == 14) dig_noxx (doc, frame, fmt); else
-  if (src == 15) dig_pressplay (doc, frame, fmt); else
-  if (src == 2 ) dig_vidcloud (doc, frame, fmt); else
-  if (src == 9 ) dig_xvideos (doc, frame, fmt); else
-  if (src == 40) dig_internetradio (doc, frame, fmt); else
-
-  no_fail (frame, "", "Not supported");
-}
-////////////////////
-
 const req_tubitv = async (id, frame, fmt) =>
 {
   var tag = "tubitv"; id = getid (frame, id, 9, -7);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 0)) return;
+
   var n, s, t, u, url = "https://tubitv.com/oz/videos/" + id + "/content";
 
 try
@@ -391,8 +367,9 @@ try
 const req_thearchive = async (id, frame, fmt) =>
 {
   var tag = "thearchive"; id = getid (frame, id, -6);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
-  var url = localhost + "https://api-ott.thearchive.tv/search";
+  if (!id || is_busy (frame, tag + " (ID)", 0)) return;
+
+  var url = cors_local + "https://api-ott.thearchive.tv/search";
 
 try
 { 
@@ -418,13 +395,12 @@ try
 const req_emovies = async (id, frame, fmt) =>
 {
   var tag = "emovies"; id = getid (frame, id, -6);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 2)) return;
+
   var url = "https://emovies.si/ajax/v4_get_sources?s=oserver&id=" + id;
 
 try
 {
-  if (!localhost || localhost != cors_kraker) throw ("???");
-
   response = await kitty (cors_kraker + url);
   jsonData = await response.json();
 
@@ -434,7 +410,7 @@ try
   textData = await response.text();
 
   if (!(url = pullstring (textData, '"file":"', '"'))) throw ("!!!");
-  url = url.replace (/\\/g, ""); url = localhost + "~*/,,*" + url;
+  url = url.replace (/\\/g, ""); url = cors_kraker + "~*/,,*" + url;
 
   if (stream_all (frame, 1)) fmt = ""; else
   {
@@ -451,14 +427,13 @@ try
 const req_bilibili = async (id, frame, fmt) =>
 {
   var tag = "bilibili"; id = getid (frame, id, 16);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 2)) return;
+
   var url = "https://api.bilibili.tv/intl/gateway/web/playurl?platform=web&aid=" + id;
   var n, r, s, t, f = [0,0,0,0], u = [];
 
 try
 {
-  if (!localhost || localhost != cors_kraker) throw ("???");
-
   response = await kitty (cors_kraker + url);
   jsonData = await response.json();
 
@@ -504,13 +479,12 @@ try
 const req_goku = async (id, frame, fmt) =>
 {
   var tag = "goku"; id = getid (frame, id, -7);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 2)) return;
+
   var m, n, s, src = cors_kraker + "https://goku.sx/ajax/movie/episode/";
 
 try
 {
-  if (!localhost || localhost != cors_kraker) throw ("???");
-
   response = await kitty (src + "servers/" + id);
   textData = await response.text();
 
@@ -556,13 +530,12 @@ try
 const req_goojara = async (id, frame, fmt) =>
 {
   var tag = "goojara"; id = getid (frame, id, 6);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 2)) return;
+
   var c, s, t, u, url = "https://ww1.goojara.to/" + id;
 
 try
 {
-  if (!localhost || localhost != cors_kraker) throw ("???");
-
   response = await kitty (cors_kraker + url, allow_cookie ("", ""));
   textData = await response.text();
 
@@ -615,7 +588,8 @@ try
 const req_playtaku = async (id, frame, fmt) =>
 {
   var tag = "playtaku"; id = getid (frame, id, -8, -6);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 2)) return;
+
   var src = "https://playtaku.net", url = src + "/loadserver.php?id=" + id;
   var n, s, t, e, f = [0,0,0,0];
 
@@ -628,7 +602,7 @@ const req_playtaku = async (id, frame, fmt) =>
 
 try
 {
-  if (!localhost || localhost != cors_kraker || !got_crypto()) throw ("???");
+  if (!got_crypto()) throw ("???");
 
   response = await kitty (cors_kraker + url);
   textData = await response.text();
@@ -648,7 +622,7 @@ try
   if (!sub || !url) sub = "Not available"; else
   {
     sub = "<a href='" + url + "'>" + sub + "</a>";
-    url = localhost + "~**!content-disposition=|!content-type=video/mp4|*" + url;
+    url = cors_kraker + "~**!content-disposition=|!content-type=video/mp4|*" + url;
     sub += " - <a href='" + url + "'>playable link</a>";
   }
 
@@ -720,7 +694,7 @@ try
   if (n != 3)  // mp4 may not be available anymore
   {
     fixformat (f, frame); fmt = pixformat (n);
-    url = localhost + "~*" + src + "*" + url;
+    url = cors_kraker + "~*" + src + "*" + url;
   }
   else if (stream_all (frame, 1)) fmt = 0; else
   {
@@ -738,15 +712,14 @@ try
 const req_xhamster = async (id, frame, fmt) =>
 {
   var tag = "xhamster"; id = getid (frame, id, -8);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 2)) return;
+
   var url = "https://xhamster.com/embed/" + id;
   var i, j, k, f = [0,0,0,0], r = [0,0,0,0];
 
 if (stream_all (frame, 0)) fmt = ""; else try
 {
-  if (!localhost || localhost != cors_kraker) throw ("???");
-
-  response = await kitty (cors_kraker + "**" + url);
+  response = await kitty (cors_kraker + url);
   textData = await response.text();
 
   var s = '"standard":';
@@ -778,13 +751,12 @@ if (stream_all (frame, 0)) fmt = ""; else try
 const req_doodstream = async (id, frame, fmt) =>
 {
   var tag = "doodstream"; id = getid (frame, id, 12);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 2)) return;
+
   var src = "https://dood.pm", url = src + "/d/" + id;
 
 try
 {
-  if (!localhost || localhost != cors_kraker) throw ("???");
-
   response = await kitty (cors_kraker + "!mock:1A|*" + url);
   textData = await response.text();
 
@@ -806,15 +778,13 @@ try
 const req_dropload = async (id, frame, fmt) =>
 {
   var tag = "dropload"; id = getid (frame, id, 12);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 2)) return;
+
   var src = "https://dropload.io", url = src + "/" + id + ".html";
+  var u = "*!/,,*user-agent=|accept=|accept-language=|accept-encoding=|*";
 
 try
 {
-  if (!localhost || localhost != cors_kraker) throw ("???");
-
-  var u = "*!/,,*user-agent=|accept=|accept-language=|accept-encoding=|*";
-
   response = await kitty (cors_kraker + u + url);
   textData = await response.text();
 
@@ -838,13 +808,12 @@ try
 const req_eplayvid = async (id, frame, fmt) =>
 {
   var tag = "eplayvid"; id = getid (frame, id, 15);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 2)) return;
+
   var url = "https://eplayvid.net/watch/" + id;
 
 if (stream_all (frame, 0)) fmt = ""; else try
 {
-  if (!localhost || localhost != cors_kraker) throw ("???");
-
   response = await kitty (cors_kraker + url);
   textData = await response.text();
 
@@ -859,23 +828,15 @@ if (stream_all (frame, 0)) fmt = ""; else try
 
 const req_mixdrop = async (id, frame, fmt) =>
 {
-  var n, tag = "mixdrop"; if (is_busy (frame, tag + " (ID)")) return;
+  if (id [0] != "*") id = "*" + id; id = getid (frame, id);
 
-  if (id [0] == "*") id = id.substr (1); else
-  {
-    if ((n = id.lastIndexOf ("/")) >= 0) id = id.substr (n + 1);
-    if (id.length < 5)
-    {
-      busy = 0; no_fail (frame, "", "Invalid ID"); return;
-    }
-  }
+  var tag = "mixdrop", url = getid (frame, id, 5);
+  if (!url || is_busy (frame, tag + " (ID)", 2)) return;
 
-  var url = "https://mixdrop.ag/e/" + id;
+  url = "https://mixdrop.ag/e/" + id;
 
 if (stream_all (frame, 0)) fmt = ""; else try
 {
-  if (!localhost || localhost != cors_kraker) throw ("!!!");
-
   response = await kitty (cors_kraker + url);
   textData = await response.text();
 
@@ -896,14 +857,13 @@ if (stream_all (frame, 0)) fmt = ""; else try
 const req_pkspeed = async (id, frame, fmt) =>
 {
   var tag = "pkspeed"; id = getid (frame, id, 12);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 2)) return;
+
   var src = "https://pkspeed.net", url = src + "/embed-" + id + ".html";
   var n, s, t, f = [0,0,0,0];
 
 if (stream_all (frame, 0)) fmt = ""; else try
 {
-  if (!localhost || localhost != cors_kraker) throw ("???");
-
   response = await kitty (cors_kraker + url);
   textData = await response.text();
 
@@ -932,13 +892,12 @@ if (stream_all (frame, 0)) fmt = ""; else try
 const req_streamtape = async (id, frame, fmt) =>
 {
   var tag = "streamtape"; id = getid (frame, id, -15);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 2)) return;
+
   var url = "https://streamtape.com/e/" + id;
 
 try
 {
-  if (!localhost || localhost != cors_kraker) throw ("???");
-
   response = await kitty (cors_kraker + url);
   textData = await response.text();
 
@@ -955,13 +914,12 @@ try
 const req_upstream = async (id, frame, fmt) =>
 {
   var tag = "upstream"; id = getid (frame, id, 12);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 1)) return;
+
   var src = "https://upstream.to", url = src + "/embed-" + id + ".html";
 
 if (stream_all (frame, 0)) fmt = ""; else try
 {
-  if (!cors_kraker) throw ("???");
-
   response = await kitty (cors_kraker + url);
   textData = await response.text();
 
@@ -993,7 +951,8 @@ if (stream_all (frame, 0)) fmt = ""; else try
 const req_vtube = async (id, frame, fmt) =>
 {
   var tag = "vtube"; id = getid (frame, id, 12);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 0)) return;
+
   var src = "https://vtube.network", url = src + "/" + id + ".html";
 
 if (stream_all (frame, 0)) fmt = ""; else try
@@ -1020,13 +979,12 @@ if (stream_all (frame, 0)) fmt = ""; else try
 const req_wootly = async (id, frame, fmt) =>
 {
   var tag = "wootly"; id = getid (frame, id, 8);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 2)) return;
+
   var c, s, t, u, url = "https://www.wootly.ch/?v=" + id;
 
 try
 {
-  if (!localhost || localhost != cors_kraker) throw ("???");
-
   response = await kitty (cors_kraker + url);
   textData = await response.text();
 
@@ -1053,15 +1011,15 @@ try
 }
 ////////////////////
 
-const dig_tubitv = async (doc, frame, fmt) =>
+const dig_tubitv = async (url, frame, fmt) =>
 {
-  var tag = "tubitv"; if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "tubitv"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 {
-  var n = doc.indexOf ("?"); if (n >= 0) doc = doc.substr (0, n);
-  if (doc.substr (-1) == "/") doc = doc.substr (0, doc.length - 1);
-  var url = doc.split ("/"); n = url.length - 1;
+  var n = url.indexOf ("?"); if (n >= 0) url = url.substr (0, n);
+  if (url.substr (-1) == "/") url = url.substr (0, url.length - 1);
+  url = url.split ("/"); n = url.length - 1;
 
   var s = url [n].replace (/\d+/g, ""), t = url [n - 1].replace (/\d+/g, "");
   if (!s) url = url [n]; else if (!t) url = url [n - 1]; else throw ("");
@@ -1072,14 +1030,13 @@ try
 }
 ////////////////////
 
-const dig_thearchive = async (doc, frame, fmt) =>
+const dig_thearchive = async (url, frame, fmt) =>
 {
-  var tag = "thearchive", url = localhost + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "thearchive"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 { 
-  response = await kitty (url);
+  response = await kitty (cors_local + url);
   textData = await response.text();
 
   url = pullstring (textData, 'data-ottera-id="', '"');
@@ -1090,14 +1047,13 @@ try
 }
 ////////////////////
 
-const dig_darkmatter = async (doc, frame, fmt) =>
+const dig_darkmatter = async (url, frame, fmt) =>
 {
-  var tag = "darkmatter", url = cors_bypass + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "darkmatter"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 { 
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
   url = pullstring (textData, 'class="elementor-button-wrapper"', '>Watch Now<');
@@ -1128,14 +1084,14 @@ try
 }
 ////////////////////
 
-const dig_plextv = async (doc, frame, fmt) =>
+const dig_plextv = async (url, frame, fmt) =>
 {
-  var s, tag = "plextv"; if (is_busy (frame, tag + " (DIG)")) return;
-  var url = cors_bypass + doc, src = "https://vod.provider.plex.tv/library/";
+  var s, tag = "plextv"; if (is_busy (frame, tag + " (DIG)", 0)) return;
+  var src = "https://vod.provider.plex.tv/library/";
 
 try
 { 
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
   s = "y4HPwxZ_yvns7d1zysEK";
@@ -1163,14 +1119,13 @@ try
 }
 ////////////////////
 
-const dig_playtaku = async (doc, frame, fmt) =>
+const dig_playtaku = async (url, frame, fmt) =>
 {
-  var tag = "playtaku", url = cors_bypass + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "playtaku"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 { 
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
   var s = pullstring (textData, '<iframe src="', '"'); url = pullstring (s, "?id=", "");
@@ -1184,13 +1139,14 @@ try
 }
 ////////////////////
 
-const dig_emovies = async (doc, frame, fmt) =>
+const dig_emovies = async (url, frame, fmt) =>
 {
-  var tag = "emovies"; if (is_busy (frame, tag + " (DIG)")) return;
-  var n, p, q = "/watching.html", url = cors_bypass + doc;
+  var tag = "emovies"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 {
+  var n, p, q = "/watching.html"; url = cors_bypass + url;
+
   if ((n = url.indexOf ("?episode_id=")) > 0) url = url.substr (n + 12); else
   {
     response = await kitty (url);
@@ -1216,14 +1172,13 @@ try
 }
 ////////////////////
 
-const dig_goku = async (doc, frame, fmt) =>
+const dig_goku = async (url, frame, fmt) =>
 {
-  var s, tag = "goku"; if (is_busy (frame, tag + " (DIG)")) return;
-  var url = doc.replace ("/movie/", "/watch-movie/").replace ("/series/", "/watch-series/");
+  var s, tag = "goku"; if (is_busy (frame, tag + " (DIG)", 2)) return;
 
 try
 {
-  if (!localhost || localhost != cors_kraker) throw ("???");
+  url = url.replace ("/movie/", "/watch-movie/").replace ("/series/", "/watch-series/");
 
   if ((s = url.split ("/")).length == 6) url = s [5]; else
   {
@@ -1240,16 +1195,13 @@ try
 }
 ////////////////////
 
-const dig_noxx = async (doc, frame, fmt) =>
+const dig_noxx = async (url, frame, fmt) =>
 {
-  var tag = "noxx", url = cors_kraker + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "noxx"; if (is_busy (frame, tag + " (DIG)", 2)) return;
 
 try
 {
-  if (!localhost || localhost != cors_kraker) throw ("???");
-
-  response = await kitty (url, allow_cookie (tag, ""));
+  response = await kitty (cors_kraker + url, allow_cookie (tag, ""));
   textData = await response.text();
 
   if (response.status == 403)
@@ -1279,21 +1231,19 @@ try
 }
 ////////////////////
 
-const dig_pressplay = async (doc, frame, fmt) =>
+const dig_pressplay = async (url, frame, fmt) =>
 {
-  var tag = "pressplay"; if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "pressplay"; if (is_busy (frame, tag + " (DIG)", 2)) return;
 
-  var m = "", n = doc.indexOf ("?"), u = "*!,,*user-agent=|*";
-  if (n > 0) { m = "-" + doc.substr (n + 1); doc = doc.substr (0, n); }
-  if (doc.substr (-1) != "/") doc += "/";
-
-  var p, q, url = cors_kraker + doc, src = "https://moviesapi.club";
+  var m = "", n = url.indexOf ("?"), u = "*!,,*user-agent=|*";
+  if (n > 0) { m = "-" + url.substr (n + 1); url = url.substr (0, n); }
+  if (url.substr (-1) != "/") url += "/";
 
 try
 {
-  if (!localhost || localhost != cors_kraker || !got_crypto()) throw ("???");
+  var p, q, src = "https://moviesapi.club"; if (!got_crypto()) throw ("???");
 
-  response = await kitty (url);
+  response = await kitty (cors_kraker + url);
   textData = await response.text();
 
   url = pullstring (textData, 'data-cinemaplayer-query-api-tmdb_id="', '"');
@@ -1334,14 +1284,13 @@ try
 }
 ////////////////////
 
-const dig_vidcloud = async (doc, frame, fmt) =>
+const dig_vidcloud = async (url, frame, fmt) =>
 {
-  var tag = "vidcloud", url = cors_bypass + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "vidcloud"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 {
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
   if (!(url = pullstring (textData, "torrents.php?search=", "#"))) throw ("!!!");
@@ -1352,14 +1301,13 @@ try
 }
 ////////////////////
 
-const dig_xvideos = async (doc, frame, fmt) =>
+const dig_xvideos = async (url, frame, fmt) =>
 {
-  var tag = "xvideos", url = cors_bypass + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "xvideos"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 {
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
   if (url = pullstring (textData, "setVideoHLS('", "'")) if (stream_all (frame, 1)) fmt = 0; else
@@ -1375,14 +1323,13 @@ try
 }
 ////////////////////
 
-const dig_internetradio = async (doc, frame, fmt) =>
+const dig_internetradio = async (url, frame, fmt) =>
 {
-  var tag = "internetradio", url = cors_bypass + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "internetradio"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 {
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
   url = pullstring (textData, "var stream", "}");

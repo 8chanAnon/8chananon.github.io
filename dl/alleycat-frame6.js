@@ -11,7 +11,7 @@ document.getElementById ("src6").innerHTML = `
   <option value= 8  >+ m3u - PBS
   <option value= 11 class="w">+ m3u - CBC
   <option value= 15 class="w"># m3u - CPAC
-  <option value= 12 class="w">+ m3u - CTV
+  <option value= 12 class="w">+ mpd - CTV
   <option value= 13 class="w">+ mp4 - Global
   <option value= 14 class="w">+ mp4 - TVO
   <option value= 21 class="b">+ m3u - BBC
@@ -24,104 +24,89 @@ document.getElementById ("src6").innerHTML = `
 `;
 
 document.getElementById ("butt6").innerHTML = `
-  <button onclick="javascript:copylist(this,6,1)">Stack 1</button>
-  <button onclick="javascript:copylist(this,6,2)">Stack 2</button>
-  <button onclick="javascript:copylist(this,6,3)">Stack 3</button>
-  &nbsp;
-  <button onclick="javascript:copylist(this,6,4)">Fox</button>
-  <button onclick="javascript:copylist(this,6,5)">PBS</button>
-  <button onclick="javascript:copylist(this,6,6)">BBC</button>
+  <button onclick="javascript:copylist(this,6,1)">Fox</button>
+  <button onclick="javascript:copylist(this,6,2)">PBS</button>
+  <button onclick="javascript:copylist(this,6,3)">BBC</button>
 `;
 
+var frame_req_6 = function (src, id, frame, fmt, func)
+{
+  if (src == 0 ) func = request;
+  if (src == 1 ) func = req_fox;
+  if (src == 2 ) func = req_abc;
+  if (src == 4 ) func = req_cnbc;
+  if (src == 7 ) func = req_msnbc;
+  if (src == 8 ) func = req_pbs;
+  if (src == 11) func = req_cbc;
+  if (src == 15) func = req_cpac;
+  if (src == 12) func = req_ctv;
+  if (src == 13) func = req_global;
+  if (src == 14) func = req_tvo;
+  if (src == 21) func = req_bbc;
+  if (src == 22) func = req_aljazeera;
+  if (src == 25) func = req_bloomberg;
+
+  if (src == 30) { load_brightcove ("", id, "", frame, fmt); return; }
+
+  if (func) func (id, frame, fmt); else no_fail (frame, "", "Not supported");
+}
+
+var frame_dig_6 = function (src, url, frame, fmt, func)
+{
+  if (src == 1 ) func = dig_fox;
+  if (src == 2 ) func = dig_abc;
+  if (src == 3 ) func = dig_cbs;
+  if (src == 4 ) func = dig_cnbc;
+  if (src == 6 ) func = dig_cspan;
+  if (src == 7 ) func = dig_msnbc;
+  if (src == 8 ) func = dig_pbs;
+  if (src == 11) func = dig_cbc;
+  if (src == 12) func = dig_ctv;
+  if (src == 13) func = dig_global;
+  if (src == 14) func = dig_tvo;
+  if (src == 21) func = dig_bbc;
+  if (src == 24) func = dig_presstv;
+  if (src == 22) func = dig_aljazeera;
+  if (src == 25) func = dig_bloomberg;
+  if (src == 26) func = dig_deutsche;
+  if (src == 27) func = dig_epochtimes;
+
+  if (src == 30) { find_brightcove (url, "", frame, fmt); return; }
+
+  if (func) func (url, frame, fmt); else no_fail (frame, "", "Not supported");
+}
+
 var stack_6_1 = [""
-];
-
-var stack_6_2 = [""
-];
-
-var stack_6_3 = [""
-];
-
-var stack_6_4 = [""
   , "1:6041387345001" , "Steve Hilton"
   , "1:6035600008001" , "Judge Jeanine Pirro"
 ];
 
-var stack_6_5 = [""
+var stack_6_2 = [""
   , "8:2365338020" , "Austin City Limits: 40 Years (2014)"
   , "8:1946795242" , "Frontline: WikiSecrets (2011)"
 ];
 
-var stack_6_6 = [""
+var stack_6_3 = [""
   , "21:p035dt58" , "Dragonfly"
   , "21:p076m7sh" , "Desert Art"
   , "21:p07bj7pv" , "Follow the Food"
 ];
 
-var frame_req_6 = function (src, url, frame, fmt)
-{
-  if (src == 0 ) request (url, frame, fmt); else
-  if (src == 1 ) req_fox (url, frame, fmt); else
-  if (src == 2 ) req_abc (url, frame, fmt); else
-  if (src == 4 ) req_cnbc (url, frame, fmt); else
-  if (src == 7 ) req_msnbc (url, frame, fmt); else
-  if (src == 8 ) req_pbs (url, frame, fmt); else
-  if (src == 11) req_cbc (url, frame, fmt); else
-  if (src == 15) req_cpac (url, frame, fmt); else
-  if (src == 12) req_ctv (url, frame, fmt); else
-  if (src == 13) req_global (url, frame, fmt); else
-  if (src == 14) req_tvo (url, frame, fmt); else
-  if (src == 21) req_bbc (url, frame, fmt); else
-  if (src == 22) req_aljazeera (url, frame, fmt); else
-  if (src == 25) req_bloomberg (url, frame, fmt); else
-
-  if (src == 30) load_brightcove ("", url, "", frame, fmt); else
-
-  no_fail (frame, "", "Not supported");
-}
-////////////////////
-
-var frame_dig_6 = function (src, doc, frame, fmt)
-{
-  if (src == 1 ) dig_fox (doc, frame, fmt); else
-  if (src == 2 ) dig_abc (doc, frame, fmt); else
-  if (src == 3 ) dig_cbs (doc, frame, fmt); else
-  if (src == 4 ) dig_cnbc (doc, frame, fmt); else
-  if (src == 6 ) dig_cspan (doc, frame, fmt); else
-  if (src == 7 ) dig_msnbc (doc, frame, fmt); else
-  if (src == 8 ) dig_pbs (doc, frame, fmt); else
-  if (src == 11) dig_cbc (doc, frame, fmt); else
-  if (src == 12) dig_ctv (doc, frame, fmt); else
-  if (src == 13) dig_global (doc, frame, fmt); else
-  if (src == 14) dig_tvo (doc, frame, fmt); else
-  if (src == 21) dig_bbc (doc, frame, fmt); else
-  if (src == 24) dig_presstv (doc, frame, fmt); else
-  if (src == 22) dig_aljazeera (doc, frame, fmt); else
-  if (src == 25) dig_bloomberg (doc, frame, fmt); else
-  if (src == 26) dig_deutsche (doc, frame, fmt); else
-  if (src == 27) dig_epochtimes (doc, frame, fmt); else
-
-  if (src == 30) find_brightcove (doc, "", frame, fmt); else
-
-  no_fail (frame, "", "Not supported");
-}
-////////////////////
-
 const req_fox = async (id, frame, fmt) =>
 {
   var tag = "fox"; id = getid (frame, id, 13);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 0)) return;
   var url, src = "https://api.foxnews.com/v3/video-player/" + id;
 
 try
 {
-  response = await kitty (localhost + src);
+  response = await kitty (cors_local + src);
   jsonData = await response.json();
 
   if (jsonData.error != undefined)
   {
     src = "https://api.foxbusiness.com/v3/video-player/" + id;
-    response = await kitty (localhost + src);
+    response = await kitty (cors_local + src);
     jsonData = await response.json();
     if (jsonData.error != undefined) throw ("!!!");
   }
@@ -146,7 +131,7 @@ try
 const req_abc = async (id, frame, fmt) =>
 {
   var tag = "abc"; id = getid (frame, id, -10);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 0)) return;
   var url = "https://abcnews.go.com/video/itemfeed?id=" + id;
 
 try
@@ -172,7 +157,7 @@ try
 const req_cnbc = async (id, frame, fmt) =>
 {
   var tag = "cnbc"; id = getid (frame, id, 10);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 0)) return;
   var url = "https://player.cnbc.com/p/gZWlPC/cnbc_global?playertype=synd&byGuid=" + id;
 
 try
@@ -198,7 +183,7 @@ try
 const req_msnbc = async (id, frame, fmt) =>
 {
   var tag = "msnbc"; id = getid (frame, id, -13);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 0)) return;
   var n, url = "https://www.msnbc.com/msnbc/embedded-video/mmvo" + id;
 
 //var url = "https://www.nbcnews.com/news/embedded-video/mmvo" + id;
@@ -229,7 +214,7 @@ try
 const req_pbs = async (id, frame, fmt) =>
 {
   var tag = "pbs"; id = getid (frame, id, 10);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 0)) return;
   var url = "https://player.pbs.org/portalplayer/" + id + "/";
 
 try
@@ -258,23 +243,31 @@ try
 
 const req_cbc = async (id, frame, fmt) =>
 {
-  var tag = "cbc"; id = getid (frame, id, -13, -10);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
-  var url = "https://link.theplatform.com/s/ExhSPC/media/guid/2655402169/" + id + "/meta.smil?format=smil";
+  var tag = "cbc"; id = getid (frame, id, -10);
+  if (!id || is_busy (frame, tag + " (ID)", 0)) return;
+
+  var s = '{"query":"{contentItem(sourceId:\\"' + id + '\\"){media{id assets{key}}}}"}';
+  var t = { 'content-type': 'application/json' }
+  var url = "https://www.cbc.ca/graphql";
 
 try
-{ 
-  response = await kitty (localhost + url);
+{
+  response = await kitty (cors_local + url, { method: 'POST', body: s, headers: t });
   textData = await response.text();
 
-  url = crack_smil (textData, frame, fmt); if (!url) throw ("!!!");
-  fmt = pullstring (url, "<>", "") * 1; url = pullstring (url, "", "<>");
+  url = pullstring (textData, '"key":"', '"'); if (!url) throw ("!!!");
+
+  response = await kitty (cors_local + url);
+  jsonData = await response.json();
+
+  if (!(url = jsonData.url)) throw ("!!!");
 
   if (url.includes (".m3u8")) if (stream_all (frame, 1)) fmt = 0; else
   {
     response = await kitty (url); textData = await response.text();
     [url,fmt] = crack_m3u8 (url, textData, frame, fmt);
   }
+  else if (url.includes (".mp3")) fmt = "audio"; else throw ("!!!");
 
 } catch (err) { console.log (err); busy = 0; }
 
@@ -285,12 +278,12 @@ try
 const req_cpac = async (id, frame, fmt) =>
 {
   var tag = "cpac"; id = getid (frame, id, 36);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 0)) return;
   var url = "https://www.cpac.ca/api/1/services/contentModel.json?url=%2Fsite%2Fwebsite%2Fepisode%2Findex.xml&crafterSite=cpacca&id=" + id;
 
 try
 { 
-  response = await kitty (localhost + url);
+  response = await kitty (cors_local + url);
   jsonData = await response.json();
 
   if (!(url = jsonData.page.details.videoUrl)) throw ("!!!");
@@ -310,7 +303,7 @@ try
 const req_ctv = async (id, frame, fmt) =>
 {
   var tag = "ctv"; id = getid (frame, id, 7);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 0)) return;
 
   var hub = ["ctvnews_web", "ctv_hub", "ctvthrowback_hub"];
   var url = "https://capi.9c9media.com/destinations/xxx/platforms/desktop/contents/" + id;
@@ -326,8 +319,8 @@ try
   }
 
   url = s + "/contentpackages/" + jsonData.ContentPackages[0].Id + "/manifest.mpd";
-
-  stream_all (frame, 2); if (localhost) url += "##" + localhost + "~https://license.9c9media.ca/widevine";
+  if (cors_local) url += "##" + cors_local + "~https://license.9c9media.ca/widevine";
+  stream_all (frame, 2);
 
 } catch (err) { console.log (err); busy = 0; }
 
@@ -338,7 +331,7 @@ try
 const req_global = async (id, frame, fmt) =>
 {
   var tag = "global"; id = getid (frame, id, -8);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 0)) return;
   var url = "https://globalnews.ca/video/embed/" + id;
 
 try
@@ -364,7 +357,7 @@ const req_tvo = async (id, frame, fmt) =>
 const req_bbc = async (id, frame, fmt) =>
 {
   var tag = "bbc"; id = getid (frame, id, 8);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 0)) return;
   var url = "https://open.live.bbc.co.uk/mediaselector/6/select/version/2.0/mediaset/pc/vpid/" + id + "/format/xml/atk/";
 
 //var url = "https://open.live.bbc.co.uk/mediaselector/6/select/version/2.0/mediaset/pc/vpid/" + id + "/format/json/cors/1";
@@ -405,7 +398,7 @@ const req_aljazeera = async (id, frame, fmt) =>
 const req_bloomberg = async (id, frame, fmt) =>
 {
   var tag = "bloom"; id = getid (frame, id, 36, 22);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
+  if (!id || is_busy (frame, tag + " (ID)", 0)) return;
   var url = "https://www.bloomberg.com/multimedia/api/embed?id=" + id;
   var f = [0,0,0,0], u = [], n;
 
@@ -428,14 +421,13 @@ try
 }
 ////////////////////
 
-const dig_fox = async (doc, frame, fmt) =>
+const dig_fox = async (url, frame, fmt) =>
 {
-  var tag = "fox", url = cors_bypass + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "fox"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 { 
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
   var s = 'data-video-id="', n = textData.indexOf (s);
@@ -470,14 +462,13 @@ try
 }
 ////////////////////
 
-const dig_abc = async (doc, frame, fmt) =>
+const dig_abc = async (url, frame, fmt) =>
 {
-  var tag = "abc", url = cors_bypass + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "abc"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 { 
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
   url = pullstring (textData, 'data-video="', '"');
@@ -491,23 +482,22 @@ try
 }
 ////////////////////
 
-const dig_cbs = async (doc, frame, fmt) =>
+const dig_cbs = async (url, frame, fmt) =>
 {
-  var tag = "cbs", url = cors_bypass + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var n, s, tag = "cbs"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 //https://cbsi.live.ott.irdeto.com/widevine/getlicense
 
 try
 { 
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
-  if (url = pullstring (textData, '"embedUrl":"', '"'))
-    if ((url = url.replace (/\\/g, "")) != doc)
+  if (s = pullstring (textData, '"embedUrl":"', '"'))
+    if ((s = url.replace (/\\/g, "")) != url)
     {
-      if (url.includes ("/live/")) throw ("!!!");
-      response = await kitty (cors_bypass + url);
+      if (s.includes ("/live/")) throw ("!!!");
+      response = await kitty (cors_bypass + s);
       textData = await response.text();
     }
 
@@ -534,14 +524,13 @@ try
 }
 ////////////////////
 
-const dig_cnbc = async (doc, frame, fmt) =>
+const dig_cnbc = async (url, frame, fmt) =>
 {
-  var tag = "cnbc", url = cors_bypass + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "cnbc"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 { 
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
   url = pullstring (textData, "'content_id' : '", "'");
@@ -553,14 +542,13 @@ try
 }
 ////////////////////
 
-const dig_cspan = async (doc, frame, fmt) =>
+const dig_cspan = async (url, frame, fmt) =>
 {
-  var tag = "cspan", url = cors_bypass + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "cspan"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 {
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
   if (url = pullstring (textData, 'data-altbcid="', '"'))
@@ -589,15 +577,13 @@ try
 }
 ////////////////////
 
-const dig_msnbc = async (doc, frame, fmt) =>
+const dig_msnbc = async (url, frame, fmt) =>
 {
-  var n, s, tag = "msnbc"; if (is_busy (frame)) return;
-  document.getElementById ("id" + frame).value = tag + " (DIG)";
-  var url = cors_bypass + doc;
+  var n, s, tag = "msnbc"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 { 
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
   if (!(url = pullstring (textData, 'video":{"id":"mmvo', '"')))
@@ -639,14 +625,13 @@ try
 }
 ////////////////////
 
-const dig_pbs = async (doc, frame, fmt) =>
+const dig_pbs = async (url, frame, fmt) =>
 {
-  var tag = "pbs", url = cors_bypass + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "pbs"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 { 
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
   if (url = pullstring (textData, '<iframe src="https://player', '"'))
@@ -670,127 +655,38 @@ try
 }
 ////////////////////
 
-const dig_cbc = async (doc, frame, fmt) =>
+const dig_cbc = async (url, frame, fmt) =>
 {
-  var n, s, t, u, tag = "cbc", url = cors_bypass + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "cbc"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 {
-/*
-  if (doc == "stations")
-  {
-    response = await kitty (localhost + "cbc.json");
-    jsonData = await response.json();
-
-    s = ""; t = jsonData.props.pageProps.data.freeTv.items;
-
-    for (n = 0; n < t.length; n++) s += t[n].idMedia + " " + t[n].title + "\n";
-
-    console.log (s); throw ("???");
-  }
-*/
-
-  if (doc.includes ("/gem.cbc.ca/"))
-  {
-    n = doc.indexOf ("?"); if (n > 0) doc = doc.substr (0, n);
-    doc = doc.split ("/"); if (doc [3] == "media") doc.splice (3,1);
-    if (!(u = doc [3]) || !doc [4]) throw ("!!!");
-    t = '"key":"' + doc [4] + '","idMedia":'
-  }
-
-  if (u && u != "live" && u != "live-event")
-  {
-    if (!doc [4].match (/\bs\d{2}e\d+\b/)) throw("!!!");
-    url = "https://services.radio-canada.ca/ott/catalog/v2/gem/show/" + doc [3] + "?device=web"
-
-    response = await kitty (localhost + url);
-    jsonData = await response.json();
-
-    if (!(s = jsonData.content[0].lineups)) throw ("!!!");
-
-    u = doc [3] + "/" + doc [4].substr (0, 3);
-    for (t = "", n = 0; n < s.length; n++) if (u == s [n].url) t = s [n].items;
-    u = doc [3] + "/" + doc [4]; if (!t || !t.length) throw ("!!!");
-
-    for (s = "", n = 0; n < t.length; n++) if (u == t [n].url) s = t [n].idMedia;
-    if (!s) throw ("!!!");
-
-    url = "https://services.radio-canada.ca/media/validation/v2/?idMedia=" + s +
-      "&appCode=gem&output=json&tech=hls&manifestType=desktop";
-
-    response = await kitty (localhost + url);
-    jsonData = await response.json();
-
-    if (!(url = jsonData.url)) throw ("!!!"); else if (stream_all (frame, 1)) fmt = 0; else
-    {
-      response = await kitty (url); textData = await response.text();
-      [url,fmt] = crack_m3u8 (url, textData, frame, fmt);
-    }
-
-    no_fail (frame); loadwindow (url, frame, tag, "?"); return;
-  }
-
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
-  if (u) url = pullstring (textData, t, ','); else
-  {
-/*
-    s = pullstring (textData, "'clipId': '", "'");
-    if (!s) s = pullstring (textData, '"clipID":"', '"');
-    if (!s && (s = pullstring (textData, '"mediaId":"', '"'))) url = s;
-
-    if (!s && (s = pullstring (url, "/clip/", "-")))
-      if (s = pullstring (textData, '"clipID":' + s + ',', '"clipType"'))
-        if (!(s = pullstring (s, '"src":"', '"')).includes (".mp3")) s = ""; else
-         { no_fail (frame); loadwindow (s, frame, tag, "?"); return; }
-
-    if (!s)
-    {
-      url = pullstring (textData, '"guid":"', '"');
-      if (!url) url = pullstring (textData, "'mediaId': '", "'");
-      if (!url) throw ("!!!");
-    
-      url = "https://www.cbc.ca/bistro/order?clipId=" + url;
-      response = await kitty (cors_bypass + url);
-      jsonData = await response.json();
-      url = jsonData.items[0].id;
-    }
-*/
-    if (url = pullstring (textData, '"assets":[{"key":"', '"'))
-    {
-      url = url.replace (/\\u002F/g, "/");
-      response = await kitty (cors_bypass + url);
-      jsonData = await response.json();
-
-      url = jsonData.url; if (!url || !url.includes (".m3u8")) throw ("!!!");
-
-      if (stream_all (frame, 1)) fmt = 0; else
-      {
-        response = await kitty (url); textData = await response.text();
-        [url,fmt] = crack_m3u8 (url, textData, frame, fmt);
-      }
-      no_fail (frame); loadwindow (url, frame, tag, "?", fmt); return;
-    }
-  }
-
+  url = pullstring (textData, "'clipId': '", "'");
+  if (!url) url = pullstring (textData, '"clipID":"', '"');
+  if (!url) url = pullstring (textData, '"identifier":"', '"');
   if (!url) throw ("!!!");
 
 } catch (err) { console.log (err); busy = 0; }
+
+  if (busy < 0)
+  {
+    no_fail (frame); loadwindow (url, frame, tag, "?", fmt); return;
+  }
 
   busy = -busy; if (no_fail (frame)) req_cbc (url, frame, fmt);
 }
 ////////////////////
 
-const dig_ctv = async (doc, frame, fmt) =>
+const dig_ctv = async (url, frame, fmt) =>
 {
-  var tag = "ctv", url = cors_bypass + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "ctv"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 { 
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
   url = pullstring (textData, '&contentId=', '"');
@@ -798,7 +694,6 @@ try
   if (!url) throw ("!!!");
 
 /*
-  // these appear to be obsolete
   if (!url) url = pullstring (textData, "); initPlayer(", ")");
   if (!url) url = pullstring (textData, 'data-video-id="', '"');
   if (!url) url = pullstring (textData, "contentId: ", ",");
@@ -815,7 +710,7 @@ try
 
     url = "https://capi.9c9media.com/destinations/" + s + "/platforms/desktop/contents/" + t;
 
-    response = await kitty (localhost + url + "?%24include=%5BContentPackages%5D");
+    response = await kitty (cors_local + url + "?%24include=%5BContentPackages%5D");
     jsonData = await response.json();
 
     url += "/contentpackages/" + jsonData.ContentPackages[0].Id + "/manifest.mpd";
@@ -831,10 +726,9 @@ try
 }
 ////////////////////
 
-const dig_global = async (doc, frame, fmt) =>
+const dig_global = async (url, frame, fmt) =>
 {
-  var n, s, t, u, tag = "global", url = cors_bypass + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "global"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 {
@@ -877,10 +771,11 @@ try
     stream_all (frame, 2); no_fail (frame); loadwindow (url, frame, tag, "?"); return;
   }
 */
-  response = await kitty (url);
+
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
-  s = pullstring (textData, 'data-displayinline="', '"');
+  var s = pullstring (textData, 'data-displayinline="', '"');
   if (!s) s = pullstring (textData, 'data-miniplayer-video="', '"');
   if (!s) s = pullstring (textData, '<iframe src="', '"');
   if (!s) throw ("!!!");
@@ -894,18 +789,19 @@ try
 }
 ////////////////////
 
-const dig_tvo = async (doc, frame, fmt) =>
+const dig_tvo = async (url, frame, fmt) =>
 {
-  var tag = "tvo"; if (is_busy (frame, tag + " (DIG)")) return;
-  var url = "https://hmy0rc1bo2.execute-api.ca-central-1.amazonaws.com/graphql";
-  doc = "/" + doc.split ("/").slice (3).join ("/");
+  var tag = "tvo"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 {
-  var s = '{"operationName":"getVideo","variables":{"slug":"' + doc + '"},"query":"query getVideo($slug:String)' +
-          '{getTVOOrgVideo(slug:$slug) { assetUrl videoSource { brightcoveRefId }}}"}';
+  var s = "/" + url.split ("/").slice (3).join ("/");
+  url = "https://hmy0rc1bo2.execute-api.ca-central-1.amazonaws.com/graphql";
 
-  response = await kitty (localhost + url, { method: 'POST', body: s, });
+  s = '{"operationName":"getVideo","variables":{"slug":"' + s + '"},"query":"query getVideo($slug:String)' +
+      '{getTVOOrgVideo(slug:$slug) { assetUrl videoSource { brightcoveRefId }}}"}';
+
+  response = await kitty (cors_local + url, { method: 'POST', body: s, });
   textData = await response.text();
 
   url = pullstring (textData, 'brightcoveRefId":"', '"'); if (!url) throw ("!!!");
@@ -916,15 +812,13 @@ try
 }
 ////////////////////
 
-const dig_bbc = async (doc, frame, fmt) =>
+const dig_bbc = async (url, frame, fmt) =>
 {
-  var tag = "bbc"; if (is_busy (frame)) return;
-  document.getElementById ("id" + frame).value = tag + " (DIG)";
-  var url = cors_bypass + doc;
+  var tag = "bbc"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 { 
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
   url = pullstring (textData, 'embed\\/', '\\');
@@ -950,14 +844,13 @@ try
 }
 ////////////////////
 
-const dig_deutsche = async (doc, frame, fmt) =>
+const dig_deutsche = async (url, frame, fmt) =>
 {
-  var tag = "deutsche", url = cors_pypass + doc;
-  if (is_busy (frame, tag + " (ID)")) return;
+  var tag = "deutsche"; if (is_busy (frame, tag + " (ID)", 0)) return;
 
 try
 {
-  response = await kitty ( url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
   url = pullstring (textData, '<source src="', '"'); if (!url) throw ("!!!");
@@ -974,31 +867,16 @@ try
 }
 ////////////////////
 
-const dig_presstv = async (doc, frame, fmt) =>
+const dig_presstv = async (url, frame, fmt) =>
 {
-  var tag = "presstv", url = cors_bypass + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "presstv"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 { 
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
-  url = pullstring (textData, '<source src="', '"');
-  if (!url) url = pullstring (textData, '<source src=', ' ');
-
-  if (url)
-  {
-    if (url[0] == "/") url = "https:" + url;
-  }
-  else
-  {
-    var n = textData.indexOf ("og:video:url'"); if (n < 0) throw ("!!!");
-    url = textData.substr (n, 200); url = url.substr (url.indexOf ("http"));
-    url = url.substr (0, url.indexOf ("'")); if (url == "") throw ("!!!");
-  }
-
-  url = url.replace ("\.presstv\.com", ".presstv.ir");
+  if (!(url = pullstring (textData, 'file: "', '"'))) throw ("!!!");
 
   if (!url.includes (".m3u8") || stream_all (frame, 1)) fmt = 0; else
   {
@@ -1012,14 +890,13 @@ try
 }
 ////////////////////
 
-const dig_aljazeera = async (doc, frame, fmt) =>
+const dig_aljazeera = async (url, frame, fmt) =>
 {
-  var tag = "aljazeera", url = cors_bypass + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "aljazeera"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 { 
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
   url = pullstring (textData, "RenderPagesVideo('", "'");
@@ -1040,31 +917,22 @@ try
 }
 ////////////////////
 
-const dig_bloomberg = async (doc, frame, fmt) =>
+const dig_bloomberg = async (url, frame, fmt) =>
 {
-  var tag = "bloom", url = cors_bypass + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "bloom"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 { 
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
-  var s = 'data-url="'; var n = textData.indexOf (s);
-
-  if (n > 0)
+  if (url = pullstring (textData, 'data-url="', '"'))
   {
-    url = textData.substr (n + s.length, 500);
-    url = url.substr (0, url.indexOf ('"'));
-    
     response = await kitty (cors_bypass + url);
     textData = await response.text();
   }
 
-  s = '"resourceId":"'; n = textData.indexOf (s); if (n < 0) throw ("!!!");
-
-  url = textData.substr (n + s.length, 50);
-  url = url.substr (0, url.indexOf ('"'));
+  url = pullstring (textData, '"resourceId":"', '"'); if (!url) throw ("!!!");
 
 } catch (err) { console.log (err); busy = 0; }
 
@@ -1072,18 +940,16 @@ try
 }
 ////////////////////
 
-const dig_epochtimes = async (doc, frame, fmt) =>
+const dig_epochtimes = async (url, frame, fmt) =>
 {
-  var tag = "epochtimes", url = cors_bypass + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "epochtimes"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 { 
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
-  url = pullstring (textData, 'data-id="', '"'); if (!url) throw ("!!!");
-  url = "https://vs1.youmaker.com/assets/" + url + "/playlist.m3u8";
+  url = pullstring (textData, '"contentUrl":"', '"'); if (!url) throw ("!!!");
 
   if (stream_all (frame, 1)) fmt = 0; else
   {

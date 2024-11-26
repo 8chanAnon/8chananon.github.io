@@ -164,16 +164,16 @@ Sites accessible with a Brightcove DIG:<br>
 
 <table class="list" style="padding:2px 0">
 
-<tr><td>YouTube		</td><td>mp4/webm	</td><td>&nbsp;#</td><td>KRKR</td><td>$</td>
+<tr><td>YouTube		</td><td>mp4/webm	</td><td>&nbsp;#</td><td>CORS</td><td>$</td>
 <td><a target=_blank href="https://www.youtube.com">www.youtube.com</a></td></tr>
 
 <tr><td>BitChute	</td><td>mp4		</td><td>&nbsp;#</td><td>Proxy</td><td>$</td>
 <td><a target=_blank href="https://www.bitchute.com">www.bitchute.com</a></td></tr>
 
-<tr><td>Rumble		</td><td>mp4/webm	</td><td>&nbsp;+</td><td>Proxy (DIG)</td><td></td>
+<tr><td>Rumble		</td><td>mp4		</td><td>&nbsp;+</td><td>Proxy (DIG)</td><td></td>
 <td><a target=_blank href="https://rumble.com">rumble.com</a></td></tr>
 
-<tr><td>Vimeo		</td><td>mp4/m3u8	</td><td>&nbsp;#</td><td>KRAK</td><td>$</td>
+<tr><td>Vimeo		</td><td>mp4/m3u8	</td><td>&nbsp;#</td><td>KRKR</td><td>$</td>
 <td><a target=_blank href="https://vimeo.com">vimeo.com</a></td></tr>
 
 <tr><td>InfoWars	</td><td>m3u8/mp4	</td><td>&nbsp;+</td><td>No Proxy</td><td></td>
@@ -184,16 +184,16 @@ Sites accessible with a Brightcove DIG:<br>
 <td><a target=_blank href="https://www.brighteon.com">www.brighteon.com</a></td>
 <td><a target=_blank href="https://www.naturalnews.com">www.naturalnews.com</a></td></tr>
 
-<tr><td>DailyMotion	</td><td>m3u8		</td><td>&nbsp;#</td><td>CORS</td><td>$</td>
+<tr><td>DailyMotion	</td><td>m3u8		</td><td>&nbsp;#</td><td>KRAK</td><td>$</td>
 <td><a target=_blank href="https://www.dailymotion.com">www.dailymotion.com</a></td></tr>
 
 <tr><td>153News		</td><td>mp4		</td><td>&nbsp;#</td><td>Proxy</td><td></td>
 <td><a target=_blank href="https://153news.net">153news.net</a></td></tr>
 
-<tr><td>Odysee		</td><td>mp4/m3u8	</td><td>&nbsp;?</td><td>KRAK</td><td></td>
+<tr><td>Odysee		</td><td>mp4/m3u8	</td><td>&nbsp;?</td><td>KRKR</td><td></td>
 <td><a target=_blank href="https://odysee.com">odysee.com</a></td></tr>
 
-<tr><td>Twitter		</td><td>mp4/m3u8	</td><td>&nbsp;+</td><td>KRKR</td><td></td>
+<tr><td>Twitter		</td><td>m3u8/mp4	</td><td>&nbsp;+</td><td>KRKR</td><td></td>
 <td><a target=_blank href="https://twitter.com">twitter.com</a></td>
 <td><a target=_blank href="https://threadreaderapp.com">threadreaderapp.com</a></td></tr>
 
@@ -219,8 +219,9 @@ Sites accessible with a Brightcove DIG:<br>
 <tr><td>Nat. Film Board	</td><td>m3u8		</td><td>&nbsp;?</td><td>Proxy</td><td></td>
 <td><a target=_blank href="https://www.nfb.ca">www.nfb.ca</a></td></tr>
 
-<tr><td>iHeartRadio	</td><td>mp3		</td><td>&nbsp;#</td><td>No Proxy</td><td></td>
-<td><a target=_blank href="https://www.iheart.com/podcast">www.iheart.com/podcast</a></td></tr>
+<tr><td>iHeartRadio	</td><td>mp3		</td><td>&nbsp;#</td><td>No Proxy</td><td>$</td>
+<td><a target=_blank href="https://www.iheart.com/podcast/">www.iheart.com/podcast</a></td>
+<td><a target=_blank href="https://www.iheart.com/live/">www.iheart.com/live</a> (radio)</td></tr>
 
 <tr><td colspan="7"><hr class="skinny"></td></tr>
 
@@ -248,13 +249,12 @@ Sites accessible with a Brightcove DIG:<br>
 <td><a target=_blank href="https://www.pbs.org">www.pbs.org</a></td></tr>
 
 <tr><td>CBC		</td><td>m3u8		</td><td>&nbsp;?</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://www.cbc.ca">www.cbc.ca</a></td>
-<td><a target=_blank href="https://gem.cbc.ca">gem.cbc.ca</a></td></tr>
+<td><a target=_blank href="https://www.cbc.ca">www.cbc.ca</a></td></tr>
 
 <tr><td>CPAC		</td><td>m3u8		</td><td>&nbsp;#</td><td>No Proxy</td><td></td>
 <td><a target=_blank href="https://www.cpac.ca">www.cpac.ca</a></td></tr>
 
-<tr><td>CTV		</td><td>m3u8		</td><td>&nbsp;+</td><td>Proxy (DIG)</td><td></td>
+<tr><td>CTV		</td><td>DASH		</td><td>&nbsp;+</td><td>Proxy (DIG)</td><td></td>
 <td><a target=_blank href="https://www.ctvnews.ca">www.ctvnews.ca</a></td>
 <td><a target=_blank href="https://www.ctv.ca">www.ctv.ca</a></td></tr>
 
@@ -269,8 +269,7 @@ Sites accessible with a Brightcove DIG:<br>
 <td><a target=_blank href="https://www.bbc.co.uk/sounds">www.bbc.co.uk/sounds</a></td></tr>
 
 <tr><td>Press TV	</td><td>m3u8		</td><td>&nbsp;?</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://www.presstv.ir">www.presstv.ir</a></td>
-<td><a target=_blank href="https://www.presstv.ir/doc">www.presstv.ir/doc</a> (mp4)</td></tr>
+<td><a target=_blank href="https://www.presstv.ir">www.presstv.ir</a></td></tr>
 
 <tr><td>Al Jazeera	</td><td>mp4		</td><td>&nbsp;+</td><td>Proxy (DIG)</td><td></td>
 <td><a target=_blank href="https://www.aljazeera.com">www.aljazeera.com</a></td></tr>
@@ -313,8 +312,7 @@ KRKR = accessible with the Kraker Remote Proxy (may have limitations)
 <td><a target=_blank href="https://www.darkmattertv.com">www.darkmattertv.com</a></td></tr>
 
 <tr><td>PlayTaku	</td><td>m3u8/mp4	</td><td>&nbsp;+</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://playtaku.net">playtaku.net</a> !</td>
-<td><a target=_blank href="https://goone.pro">goone.pro</a> !</td><tr>
+<td><a target=_blank href="https://playtaku.net">playtaku.net</a> !</td><tr>
 
 <tr><td>EMovies		</td><td>m3u8		</td><td>&nbsp;+</td><td>KRAK</td><td></td>
 <td><a target=_blank href="https://emovies.si">emovies.si</a> !</td><tr>
@@ -372,8 +370,6 @@ KRKR = accessible with the Kraker Remote Proxy (may have limitations)
 </table>
 <p>
 ! on a site url = use caution on the site due to popup ads<br>
-<p>
-Note that quality level (example: [720]) may not be the same as resolution.
 <p><hr><p>
 Some search sites to get video links from:
 <p>
@@ -429,7 +425,7 @@ var getid = function (frame, url)
     }
   }
 
-  if (!busy && frame) no_fail (frame, "", "Invalid ID"); return ("");
+  if (!busy && frame) no_fail (frame, "", "Invalid ID: " + url); return ("");
 }
 ////////////////////
 
@@ -481,14 +477,14 @@ var crack_smil = function (data, frame, fmt)
 }
 ////////////////////
 
-var find_brightcove = async (doc, xtag, frame, fmt) =>
+var find_brightcove = async (url, xtag, frame, fmt) =>
 {
-  var tag = xtag, url = cors_bypass + doc, pub, id;
-  if (!tag) tag = "brightcove"; if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = xtag, pub, id; if (!tag) tag = "brightcove";
+  if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 {
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
   if (url = pullstring (textData, 'vms-embedcode="', '"'))  // for www.news.com.au
@@ -519,7 +515,7 @@ var load_brightcove = async (pub, id, xtag, frame, xfmt) =>
 {
   var i, j, k, fmt, tag, krak = "", key = "", f = [0,0,0,0], r = [0,0,0,0];
   if ((fmt = xfmt) < 0) fmt = -fmt; if (!(tag = xtag)) tag = "brightcove";
-  if (is_busy (frame, tag + " (ID)")) return;
+  if (is_busy (frame, tag + " (ID)", 0)) return;
 
   if ((i = id.indexOf ("?")) >= 0)
   {

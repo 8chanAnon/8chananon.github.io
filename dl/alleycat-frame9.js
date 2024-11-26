@@ -37,85 +37,33 @@ document.getElementById ("src7").innerHTML += `
   <option value= 19>? mp4 - GoodPorn
 `;
 
-var frame_dig_7 = function (src, doc, frame, fmt)
+var frame_dig_7 = function (src, url, frame, fmt, func)
 {
-  if (src == 1 ) dig_tubitv (doc, frame, fmt); else
-  if (src == 4 ) dig_thearchive (doc, frame, fmt); else
-  if (src == 3 ) dig_darkmatter (doc, frame, fmt); else
-  if (src == 7 ) dig_plextv (doc, frame, fmt); else
-  if (src == 5 ) dig_playtaku (doc, frame, fmt); else
-  if (src == 10) dig_emovies (doc, frame, fmt); else
-  if (src == 11) dig_goku (doc, frame, fmt); else
-  if (src == 14) dig_noxx (doc, frame, fmt); else
-  if (src == 15) dig_pressplay (doc, frame, fmt); else
-  if (src == 2 ) dig_vidcloud (doc, frame, fmt); else
-  if (src == 9 ) dig_xvideos (doc, frame, fmt); else
-  if (src == 40) dig_internetradio (doc, frame, fmt); else
-  if (src == 16) dig_9vids (doc, frame, fmt); else
-  if (src == 19) dig_goodporn (doc, frame, fmt); else
+  if (src == 1 ) func = dig_tubitv;
+  if (src == 4 ) func = dig_thearchive;
+  if (src == 3 ) func = dig_darkmatter;
+  if (src == 7 ) func = dig_plextv;
+  if (src == 5 ) func = dig_playtaku;
+  if (src == 10) func = dig_emovies;
+  if (src == 11) func = dig_goku;
+  if (src == 14) func = dig_noxx;
+  if (src == 15) func = dig_pressplay;
+  if (src == 2 ) func = dig_vidcloud;
+  if (src == 9 ) func = dig_xvideos;
+  if (src == 40) func = dig_internetradio;
+  if (src == 16) func = dig_9vids;
+  if (src == 19) func = dig_goodporn;
 
-  no_fail (frame, "", "Not supported");
+  if (func) func (url, frame, fmt); else no_fail (frame, "", "Not supported");
 }
-////////////////////
 
-var frame_req_5 = function (src, url, frame, fmt)
+const dig_9vids = async (url, frame, fmt) =>
 {
-  if (src == 0 ) request (url, frame, fmt); else
-  if (src == 1 ) req_bitchute (url, frame, fmt); else
-  if (src == 14) req_rumble (url, frame, fmt); else
-  if (src == 2 ) req_vimeo2 (url, frame, fmt); else
-  if (src == 3 ) req_infowars (url, frame, fmt); else
-  if (src == 4 ) req_brighteon (url, frame, fmt); else
-  if (src == 5 ) req_dailymotion (url, frame, fmt); else
-  if (src == 11) req_153news (url, frame, fmt); else
-  if (src == 21) req_twitter (url, frame, fmt); else
-  if (src == 27) req_twitchtv (url, frame, fmt); else
-  if (src == 25) req_iheartradio (url, frame, fmt); else
-
-  no_fail (frame, "", "Not supported");
-}
-////////////////////
-
-const req_vimeo2 = async (id, frame, fmt) =>
-{
-  var tag = "vimeo"; id = getid (frame, id, -9);
-  if (!id || is_busy (frame, tag + " (ID)")) return;
-  var f, n, s, t, u, v = [], url = "https://player.vimeo.com/video/" + id;
-
-if (stream_all (frame, 0)) fmt = ""; else try
-{
-  if (!localhost || localhost != cors_kraker) throw ("???");
-
-  response = await kitty (cors_kraker + "https://vimeo.com/_next/viewer");
-  jsonData = await response.json();
-
-  if (!(s = jsonData.jwt)) throw ("!!!");
-
-  url = "https://api.vimeo.com/videos/" + id + "?fields=config_url,download";
-
-  response = await kitty (cors_kraker + url, { headers: { authorization: "jwt " + s }});
-  jsonData = await response.json();
-
-  if (!(t = jsonData.download)) throw ("!!!");
-
-  for (u of t) v.push ({ width: u.width, height: u.height, url: u.link });
-  f = formats_m3u8 (v); n = gotformat (f, fmt); if (n < 0) throw ("!!!");
-  n = f[n] - 1; url = v[n].url; fmt = v[n].height; fixformat (f, frame);
-
-} catch (err) { console.log (err); busy = 0; }
-
-  if (no_fail (frame, id)) loadwindow (url, frame, tag, id, fmt);
-}
-////////////////////
-
-const dig_9vids = async (doc, frame, fmt) =>
-{
-  var tag = "9vids", url = cors_bypass + doc;
-  if (is_busy (frame, tag + " (DIG)")) return;
+  var tag = "9vids"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
 try
 {
-  response = await kitty (url);
+  response = await kitty (cors_bypass + url);
   textData = await response.text();
 
   url = pullstring (textData, "<iframe src=", ">"); url = pullstring (url, '=', '"');
@@ -128,10 +76,10 @@ try
 }
 ////////////////////
 
-const dig_goodporn = async (doc, frame, fmt) =>
+const dig_goodporn = async (url, frame, fmt) =>
 {
-  var tag = "goodporn"; if (is_busy (frame, tag + " (DIG)")) return;
-  var n, a, b, r, s, t, sub, f = [0,0,0,0], u = [0,0,0,0], url = doc;
+  var tag = "goodporn"; if (is_busy (frame, tag + " (DIG)", 1)) return;
+  var n, a, b, r, s, t, sub, f = [0,0,0,0], u = [0,0,0,0];
 
 try
 { 
@@ -152,14 +100,14 @@ try
 
   var decode = function (p, q)
   {
-    p = p.split ("/"); var h = p[7].split (""), i, j, k;console.log(p[7]);
+    p = p.split ("/"); var h = p[7].split (""), i, j, k;
 
     for (i = j = 32; i;)
     {
       j = (parseInt (q [--i]) + j - 1) & 31;
       k = h [j]; h [j] = h [i]; h [i] = k;
     }
-    p[7] = h.join ("");console.log(p[7]); return (p.slice (2).join ("/"));
+    p[7] = h.join (""); return (p.slice (2).join ("/"));
   }
 
   response = await kitty (cors_kraker + "**!mock:1A|*" + url);

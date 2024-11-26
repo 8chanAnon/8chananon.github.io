@@ -799,7 +799,7 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 <script>
 
-var localhost, cors_bypass, cors_kraker, us_geo_bypass;
+var localhost, cors_local, cors_bypass, cors_kraker, us_geo_bypass;
 var worker, client, last_client, vidwin, blank_page, download;
 
 var last_h = last_w = last_raw = last_time = the_time = busy = 0;
@@ -891,7 +891,7 @@ var msg_worker = function (id, msg)
     client = ""; if (id) loadwindow (id, frm, "@ raw stream"); return;
   }
 
-  if (request_jump (id, frm, fmt, src)) return; say_worker (client, "error"); client = "";
+  if (request_jump (src, id, frm, fmt)) return; say_worker (client, "error"); client = "";
 }
 ////////////////////
 
@@ -1154,13 +1154,12 @@ var clear_video = function (frame)
 var setup_cors = function (frame)
 {
   cors_kraker = ""; cors_bypass = document.getElementById ("proxy").value;
-  if (!document.getElementById ("mov" + frame + "p").checked) cors_bypass = "";
-
   if (cors_bypass [0] == "!") cors_bypass = cors_kraker = cors_bypass.substr (1);
   if (cors_bypass == "LOCAL") cors_bypass = cors_kraker = localhost || "http://localhost:8080/";
+  if (!document.getElementById ("mov" + frame + "p").checked) cors_bypass = cors_kraker = "";
 
-  us_geo_bypass = "https://kraker-remote.vercel.app/?url=";
-  if (cors_kraker == localhost) us_geo_bypass = cors_kraker + us_geo_bypass;
+  cors_local = localhost == cors_kraker ? localhost : "";
+  us_geo_bypass = cors_local + "https://kraker-remote.vercel.app/?url=";
 }
 ////////////////////
 
@@ -1196,11 +1195,15 @@ var poke_site = function (frame, value)
 }
 ////////////////////
 
-var is_busy = function (frame, msg)
+var is_busy = function (frame, msg, cors)
 {
-  if (busy) return true; fixformat ("", frame); busy = 1;
-  document.getElementById ("vid" + frame).innerHTML = "Busy";
+  if (busy) return true; busy = 1;
+  cors = (cors == 1 && !cors_kraker) || (cors == 2 && !cors_local);
+  if (!cors) cors = "Busy"; else { msg = busy = 0; cors = "KRAK"; }
+
   if (msg) document.getElementById ("id" + frame).value = msg;
+  document.getElementById ("vid" + frame).innerHTML = cors;
+  fixformat ("", frame); return (!busy);
 }
 ////////////////////
 
@@ -1334,9 +1337,9 @@ var frame_dig = function (frame)
 
   var fmt = document.getElementById ("fmt" + frame).value;
   var src = document.getElementById ("src" + frame).value;
-  var doc = document.getElementById ("line" + frame).value.trim();
+  var url = document.getElementById ("line" + frame).value.trim();
 
-  nostack (frame); if (doc) window ["frame_dig_" + frame] (src, doc, frame, fmt);
+  nostack (frame); if (doc) window ["frame_dig_" + frame] (src, url, frame, fmt);
 }
 ////////////////////
 
@@ -1369,7 +1372,7 @@ var open_stream = function (url, frame, fmt)
   if (src == "0") { request (url, frame, -fmt); return; }
   if (src == "1") { request ("@" + url, frame, -fmt); return; }
 
-  request_iptv (url, frame, fmt, src, f);
+  request_iptv (src, url, frame, fmt, f);
 }
 ////////////////////
 
