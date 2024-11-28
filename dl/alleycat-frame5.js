@@ -1,72 +1,40 @@
 // Info / Entertainment
 
 document.getElementById ("src5").innerHTML = `
-  <option value= 0 class="w">YouTube / Invidious
-  <option value= 1 ># mp4 - BitChute
-  <option value= 14>+ mp4 - Rumble
-  <option value= 2 ># mp4 - Vimeo
-  <option value= 3 >+ m3u - InfoWars
-  <option value= 4 >+ m3u - Brighteon
-  <option value= 5 ># m3u - DailyMotion
-  <option value= 11># mp4 - 153News
-  <option value= 12>? m3u - Odysee
-  <option value= 13>+ mp4 - Twitter
-  <option value= 14>? mp4 - Facebook
-  <option value= 15>? mp4 - Telegram
-  <option value= 16>? mp4 - TikTok
-  <option value= 17># m3u - Twitch TV
-  <option value= 8 >? m3u - PragerU
-  <option value= 6 >? m3u - TEDTalks
-  <option value= 7 >? m3u - NatFilmBrd
-  <option value= 30 class="b"># aud - iHeartRadio
-  <option value= 31 class="b">? aud - Podcasts
+  <option value= "youtube"     class="w">YouTube / Invidious
+  <option value= "bitchute"    ># mp4 - BitChute
+  <option value= "rumble"      >+ mp4 - Rumble
+  <option value= "vimeo"       ># mp4 - Vimeo
+  <option value= "infowars"    >+ m3u - InfoWars
+  <option value= "brighteon"   >+ m3u - Brighteon
+  <option value= "dailymotion" ># m3u - DailyMotion
+  <option value= "153news"     ># mp4 - 153News
+  <option value= "odysee"      >? m3u - Odysee
+  <option value= "twitter"     >+ mp4 - Twitter
+  <option value= "facebook"    >? mp4 - Facebook
+  <option value= "telegram"    >? mp4 - Telegram
+  <option value= "tiktok"      >? mp4 - TikTok
+  <option value= "twitchtv"    ># m3u - Twitch TV
+  <option value= "prageru"     >? m3u - PragerU
+  <option value= "tedtalks"    >? m3u - TEDTalks
+  <option value= "natfilmbrd"  >? m3u - NatFilmBrd
+  <option value= "iheartradio" class="b"># aud - iHeartRadio
+  <option value= "podcasts"    class="b">? aud - Podcasts
 `;
 
 document.getElementById ("butt5").innerHTML = `
-  <button onclick="javascript:copylist(this,5,1)">YouTube</button>
-  &nbsp;
-  <button onclick="javascript:copylist(this,5,2)">BitChute</button>
-  <button onclick="javascript:copylist(this,5,3)">Vimeo</button>
-  <button onclick="javascript:copylist(this,5,4)">InfoWars</button>
-  <button onclick="javascript:copylist(this,5,5)">iHeart</button>
+  <button onclick="javascript:copylist(this,5,0)">YouTube</button>
+  <button onclick="javascript:copylist(this,5,1)">BitChute</button>
+  <button onclick="javascript:copylist(this,5,2)">Vimeo</button>
+  <button onclick="javascript:copylist(this,5,3)">InfoWars</button>
+  <button onclick="javascript:copylist(this,5,4)">iHeart</button>
 `;
 
-var frame_req_5 = function (src, id, frame, fmt, func)
-{
-  if (src == 0 ) func = request;
-  if (src == 1 ) func = req_bitchute;
-  if (src == 14) func = req_rumble;
-  if (src == 2 ) func = req_vimeo;
-  if (src == 3 ) func = req_infowars;
-  if (src == 4 ) func = req_brighteon;
-  if (src == 5 ) func = req_dailymotion;
-  if (src == 11) func = req_153news;
-  if (src == 13) func = req_twitter;
-  if (src == 17) func = req_twitchtv;
-  if (src == 30) func = req_iheartradio;
+var frame_5 = {
+  0: 'youtube', 1: 'bitchute', 2: 'vimeo', 3: 'infowars', 4: 'iheartradio', req_youtube: request
+};
 
-  if (func) func (id, frame, fmt); else no_fail (frame, "", "Not supported");
-}
-
-var frame_dig_5 = function (src, url, frame, fmt, func)
-{
-  if (src == 14) func = dig_rumble;
-  if (src == 3 ) func = dig_infowars;
-  if (src == 4 ) func = dig_brighteon;
-  if (src == 17) func = dig_odysee;
-  if (src == 13) func = dig_twitter;
-  if (src == 14) func = dig_facebook;
-  if (src == 15) func = dig_telegram;
-  if (src == 16) func = dig_tiktok;
-  if (src == 8 ) func = dig_prageru;
-  if (src == 6 ) func = dig_tedtalks;
-  if (src == 7 ) func = dig_natfilmbrd;
-  if (src == 31) func = dig_podcast;
-
-  if (func) func (url, frame, fmt); else no_fail (frame, "", "Not supported");
-}
-
-var stack_5_1 = [""
+var stack_5_0 = [""
   , "0:NOZKLtIIUZE" , "Hitler Rant"
   , "0:m_MaJDK3VNE" , "Herding Cats"
   , "0:fXjtDs2wO4Q" , "The Martians"
@@ -93,320 +61,52 @@ var stack_5_1 = [""
   , "0:w8KQmps-Sog" , "Muse: Uprising"
   , "0:D_XdjviX6gQ" , "Cat Scratch Fever"
   , "0:kx-inoYmN2Q" , "Alley Cat"
-]
+];
 
-var stack_5_2 = [""
+var stack_5_1 = [""
   , "1:ZPlfDFBkS6w7" , "Rod Stewart: Young Turks"
   , "1:sSKnCoWAbDos" , "Brother Nathaniel"
   , "1:A7jZJfaEJK2p" , "Malice in the Palace"
   , "1:Ol2plIF2otcI" , "QAnon Proofs"
 ];
 
-var stack_5_3 = [""
+var stack_5_2 = [""
   , "2:129463420" , "Miniatur Wunderland"
   , "2:166403522" , "Some Kind of Quest"
   , "2:31883614"  , "Star Trek: Aurora"
   , "2:175806163" , "Martian American"
 ];
 
-var stack_5_4 = [""
+var stack_5_3 = [""
   , "3:5d4c9fd22ec69a001858eb60" , "Alex Jones"
   , "3:5d4a339571d8e00017f8afaf" , "Owen Shroyer"
   , "3:5d4c54aae936660017aee3c0" , "Kaitlin Bennett"
 ];
 
-var stack_5_5 = [""
-  , "30:" , "majic-100-7483"
-  , "30:" , "chum-1045-6270"
-  , "30:" , "iheartradio-top-20-7556"
-  , "30:" , "z1035-7757"
-  , "30:" , "971-the-eagle-2241"
-  , "30:" , "heavy-rock-7554"
-  , "30:" , "z100-1469"
-  , "30:" , "1027-kiis-fm-los-angeles-185"
-  , "30:" , "y100-561"
-  , "30:" , "1017-the-bull-6586"
-  , "30:" , "1035-kiss-fm-849"
-  , "30:" , "alt-987-los-angeles-201"
-  , "30:" , "1035-ktu-1473"
-  , "30:" , "1067-lite-fm-1477"
-  , "30:" , "smooth-jazz-4242"
-  , "30:" , "the-vinyl-experience-6878"
-  , "30:" , "iheart80s-radio-5060"
-  , "30:" , "lone-star-925-3379"
-  , "30:" , "q1043-1465"
-  , "30:" , "500-cfra-7500"
-]
+var stack_5_4 = [""
+  , "4:" , "majic-100-7483"
+  , "4:" , "chum-1045-6270"
+  , "4:" , "iheartradio-top-20-7556"
+  , "4:" , "z1035-7757"
+  , "4:" , "971-the-eagle-2241"
+  , "4:" , "heavy-rock-7554"
+  , "4:" , "z100-1469"
+  , "4:" , "1027-kiis-fm-los-angeles-185"
+  , "4:" , "y100-561"
+  , "4:" , "1017-the-bull-6586"
+  , "4:" , "1035-kiss-fm-849"
+  , "4:" , "alt-987-los-angeles-201"
+  , "4:" , "1035-ktu-1473"
+  , "4:" , "1067-lite-fm-1477"
+  , "4:" , "smooth-jazz-4242"
+  , "4:" , "the-vinyl-experience-6878"
+  , "4:" , "iheart80s-radio-5060"
+  , "4:" , "lone-star-925-3379"
+  , "4:" , "q1043-1465"
+  , "4:" , "500-cfra-7500"
+];
 
-var request = async (id, frame, fmt) =>
-{
-  if (id [0] == "@") try
-  {
-    if (is_busy (frame, "youtube")) return;
-    id = "https://www.youtube.com/embed/live_stream?channel=" + id.substr (1);
-    response = await kitty (cors_bypass + id); textData = await response.text();
-    busy = 0; id = pullstring (textData, '<link rel="canonical" href="', '"');
-  }
-  catch (err) { console.log (err); busy = 0; no_fail (frame); return; }
-
-  id = getid (frame, id, 11); if (!id) return;
-
-  if (stream_all (frame, 0))
-  {
-    var url = "https://www.youtube.com/embed/" + id;
-    loadwindow (url, frame, "youtube", id); return;
-  }
-
-  var src = document.getElementById ("ytx" + frame).value;
-
-  if (src == 1) if (fmt < 0) src = 0; else { request_youtube (id, frame, fmt); return; }
-  if (src == 9) if (fmt < 0) src = 0; else { request_youtube (id, frame, -fmt); return; }
-
-  if (!src && cors_kraker) { request_youtube (id, frame, fmt); return; }
-
-  invidious_link = invidious_site [src]; request_invidious (id, frame, (fmt < 0 ? -fmt : fmt));
-}
-////////////////////
-
-const request_invidious = async (id, frame, fmt) =>
-{
-  var i, j, n, f = [0,0,0,0,0,0,0,0];
-
-  var tag = "invidious"; if (is_busy (frame, tag + " (ID)")) return;
-  var url = invidious_link + "/api/v1/videos/" + id + "?fields=formatStreams,hlsUrl";
-
-try
-{
-  response = await kitty (cors_local + url);
-  jsonData = await response.json();
-
-  var sub = jsonData.formatStreams; if (!sub) throw ("!!!"); n = sub.length;
-
-  for (i = 0; i < n; i++)
-  {
-    if ((j = argformat (sub[i].itag)) >= 0) f[j] = i + 1;
-  }
-    
-  if ((n = getformat (f, fmt)))
-  {
-    fmt = n; fixformat (f, frame); n = f[argformat(n)] - 1;
-    url = (sub[n].url.indexOf ("&gcr=") > 0) ? "local=true&" : "";  // geo-restricted?
-    url = invidious_link + "/latest_version?" + url + "itag=" + fmt + "&id=" + id;
-  }
-  else   // live stream
-  {
-    url = jsonData.hlsUrl; if (!url) throw ("!!!");
-    if (url.substr (0,1) == "/") url = invidious_link + url;
-    sub = url = url + "?local=true";
-
-    if (stream_all (frame, 1)) fmt = ""; else
-    {
-      response = await kitty (url); textData = await response.text();
-      [url,fmt] = crack_m3u8 (url, textData, frame, fmt);
-    }
-  }
-
-} catch (err) { console.log (err); busy = 0; }
-
-  fmt = argformat (fmt); fmt = pixformat (fmt);
-  if (no_fail (frame, id)) loadwindow (url, frame, tag, id, fmt);
-}
-////////////////////
-
-/*
-Youtube DRM formats:
-142 143 144 145 146 148 149 150 161
-222 223 224 225 226 227 273 274 275 279 280
-317 318 350 351 352 357 358 359 360 
-
-https://www.youtube.com/iframe_api
-
-t.context = { client: { gl: 'US', hl: 'en', clientName: 'WEB', clientVersion: '2.20230426.02.00' }};
-t.context = { client: { gl: 'US', hl: 'en', clientName: 'ANDROID_EMBEDDED_PLAYER', clientVersion: '16.02' }};
-t.context = { client: { gl: 'US', hl: 'en', clientName: 'WEB_EMBEDDED_PLAYER', clientVersion: '1.20240708.01.00' }};
-t.context = { client: { gl: 'US', hl: 'en', clientName: 'TVHTML5_SIMPLY_EMBEDDED_PLAYER', clientVersion: '2.0' }};
-t.playbackContext = { contentPlaybackContext: { signatureTimestamp: "sts", html5Preference: "HTML5_PREF_WANTS" }};
-t.context.thirdParty = { embedUrl: 'https://www.youtube.com' };
-*/
-
-// https://www.youtube.com/watch?v=VaSV4NtZCXU - mp4 video with webm audio
-
-const request_youtube = async (id, frame, fmt) =>
-{
-  var tag = "youtube"; if (is_busy (frame, tag + " (ID)")) return;
-  var i, j, n, s, t, url, sub, vid, aud, key, sig, nkey, webm, dash, f = [0,0,0,0,0,0,0,0,0,0];
-
-  if (!cors_local) if (fmt < 0) fmt = -fmt;
-
-  var ua1 = cors_bypass + (cors_kraker ? "user-agent=|*" : "");
-  var ua2 = ua1.replace ("|*", "!Mozilla/5.0 (Android 14)|*");
-
-try
-{
-  response = await kitty (ua1 + "https://www.youtube.com/embed/" + id);
-  textData = await response.text();
-
-  if (!(s = pullstring (textData, '"jsUrl":"', '"'))) throw ("!!!");
-  key = cookies [s]; nkey = cookies ["!" + s]; n = cookies ["?" + s];
-
-  if (!key || !nkey || !n)
-  {
-    response = await kitty (ua1 + "https://www.youtube.com" + s);
-    textData = await response.text();
-
-    if ((n = textData.indexOf ('var b=a.split(a.slice(0,0))')) < 0) nkey = ""; else
-    {
-      t = textData.substr (n, textData.indexOf ('b.join("")', n) - n);
-      t = 'function(a){var b=a.split(""' + t.substr (t.indexOf ('),')) + 'b.join("")};';
-      nkey = "var nsig=" + t + " sig=nsig(sig);";
-    }
-
-    cookies [s] = key = yt_algo (textData);
-    cookies ["!" + s] = nkey; t = pullstring (textData, "signatureTimestamp:", "}");
-    cookies ["?" + s] = n = t ? t * 1 : Math.trunc (Date.now() / 86400000) - 1;
-  }
-
-  t = JSON.stringify ({
-    videoId: id, playbackContext: { contentPlaybackContext: { signatureTimestamp: n }},
-    context: { client: { gl: 'US', hl: 'en', clientName: 'WEB_EMBEDDED_PLAYER', clientVersion: '1.20241009.01.00' }}
-  });
-
-  try
-  {
-    url = cors_kraker + ua1 + "https://www.youtube.com/youtubei/v1/player";
-    response = await kitty (url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: t });
-    jsonData = await response.json();
-  }
-  catch { jsonData = {}; }
-
-  if (!(sub = jsonData.streamingData))
-  {
-    response = await kitty (ua2 + "https://m.youtube.com/watch?v=" + id);
-    textData = await response.text();
-
-    s = pullstring (textData, '"formats":[', ']');
-    t = pullstring (textData, '"adaptiveFormats":[', ']');
-
-    sub = JSON.parse ('{"formats":[' + s + '],"adaptiveFormats":[' + t + ']}');
-  }
-
-  if (fmt < 0 && (fmt = -fmt) && (t = sub.adaptiveFormats))
-  {
-    for (i = 0; i < t.length; i++)
-      if ((s = t[i].itag) && (j = isdashfmt (s)) >= 0)
-        if (t[i].approxDurationMs || t[i].targetDurationSec) f[j] = i + 1;
-
-    if (!f[8]) f[0] = f[1] = f[2] = 0;
-    if (!f[9]) f[4] = f[5] = f[6] = 0;
-    if (getformat (f, fmt)) dash = true;
-  }
-
-  if (!dash && (t = sub.formats)) for (i = 0; i < t.length; i++)
-    if ((s = t[i].itag) && (j = argformat (s)) >= 0) f[j] = i + 1;
-
-  fmt = getformat (f, fmt); fixformat (f, frame); i = argformat (fmt);
-  if (i < 0 || (j = f[i] - 1) < 0) throw ("!!!"); fmt = pixformat (i);
-
-  webm = i > 3; if (dash) aud = yt_split (t [f [webm + 8] - 1]);
-  vid = yt_split (t [j]); url = vid [0]; sig = vid [1]; if (!url) throw ("!!!");
-
-  url = yt_nsig (url, nkey); if (sig && key) { eval (key); url += "&sig=" + sig; }
-
-  if (dash) if (!(sub = yt_nsig (aud [0], nkey))) throw ("!!!"); else
-  {
-    var v = aud [3] + "," + vid [3], w = "wanna_boot_dash";
-
-    if (key && (sig = aud [1])) { eval (key); sub += "&sig=" + sig; }
-
-    download = "YouTube DASH download links (" + id + ") -- " +
-      "<a href='" + sub + "'>Audio</a> &nbsp;" +
-      "<a href='" + url + "'>Video</a>";
-
-    if (!(s = vid [2]))  // livestream
-    {
-      v = "x-head-seqnum"; w = "x-head-time-sec";
-      s = "~range=bytes=0-499|" + v + "|" + w + "|*";
-
-      response = await kitty (cors_kraker + s + url);
-      v = response.headers.get (v); if (!v) throw ("!!!");
-      w = response.headers.get (w); if (!w) throw ("!!!");
-
-      var seg_num = v * 1; var seg_ofs = w * 1;
-      var seg_dur = Math.round (10 * seg_ofs / seg_num) / 10;
-      n = Math.ceil (90 / seg_dur); // initial 90-second progress bar; can be up to 3 hours
-
-      seg_num -= n; seg_ofs -= Math.round (n * 10 * seg_dur) / 10;
-      if (seg_num < 1 || seg_ofs < 1) seg_num = seg_ofs = 0;
-
-      v = seg_num + "," + seg_ofs + "," + seg_dur + ",";
-      w = "wanna_boot_dash_live"; s = "";
-    }
-
-    aud = aud [4] || (webm ? "opus" : "mp4a.40.2");
-    vid = vid [4] || (webm ? "vp9" : "avc1.4d401e");
-
-    t = (webm ? "w" : "m") + fmt + "(" + id + ").mpd";
-    s += "|" + (webm ? "audio/webm" : "audio/mp4") + "|" + aud;
-    s += "|" + (webm ? "video/webm" : "video/mp4") + "|" + vid;
-    s += "|" + v + "|" + t + "|" + sub + "|" + url + "|";
-
-    await kitty (cors_kraker + w, { method: 'POST', body: s } );
-    url = cors_kraker + "_" + w + "_" + t; tag = "yt-dash"; stream_all (frame, 2);
-  }
-
-} catch (err) { console.log (err); busy = 0; }
-
-  if (no_fail (frame, id)) loadwindow (url, frame, tag, id, fmt);
-}
-////////////////////
-
-const yt_split = function (data)
-{
-  var d, i, j, m, s = "", u = data.url;
-
-  if (!u) if (!(u = data.signatureCipher)) u = ""; else
-  {
-    u = u.replace (/%25/g, "%"); u = decodeURIComponent (u);
-    s = pullstring (u, "s=", "&"); u = pullstring (u, "url=", "");
-  }
-
-  i = (d = data.initRange)  ? d.start + "-" + d.end : "";
-  j = (d = data.indexRange) ? d.start + "-" + d.end : "";
-  d = data.approxDurationMs || 0; m = data.mimeType || "";
-
-  return ([u, s, d / 1000, i + "," + j, pullstring (m, '"', '"')]);
-}
-////////////////////
-
-const yt_algo = function (data)
-{
-  var i, j, n, s, v;
-
-  for (i = 0; i < 3; i++)
-  {
-    j = data.indexOf ('a=a.split("")'); if (j < 0) return "";
-    s = data.substr (j + 14, 300); if ((n = s.indexOf ("a.join")) > 0) break;
-    if (i > 1) return ""; data = data.substr (j + 1);
-  }
-
-  s = s.substr (0, n - 7);
-  v = "var " + s.substr (0, s.indexOf (".")) + "={";  // August 28, 2023
-  if ((n = data.indexOf (v)) < 0) return "";
-
-  v = data.substr (n, 300); v = v.substr (0, v.indexOf ("};") + 2);
-  return (v + "var a=sig.split('');" + s + "sig=a.join('');");
-}
-////////////////////
-
-const yt_nsig = function (url, nkey)
-{
-  var sig = pullstring (url, "&n=", "&"); if (!nkey || !sig) return url;
-  var s = "&n=" + sig + "&"; eval (nkey); sig = "&n=" + sig + "&";
-  return (url.replace (s, sig));
-}
-////////////////////
-
-const req_bitchute = async (id, frame, fmt) =>
+frame_5.req_bitchute = async (id, frame, fmt) =>
 {
   var tag = "bitchute"; id = getid (frame, id, -12);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
@@ -426,7 +126,7 @@ if (stream_all (frame, 0)) fmt = ""; else try
 }
 ////////////////////
 
-const req_rumble = async (id, frame, fmt) =>
+frame_5.req_rumble = async (id, frame, fmt) =>
 {
   var m, n = id [0] == "@"; if (n) id = id.substr (1);
 
@@ -444,7 +144,7 @@ if (stream_all (frame, 0)) fmt = ""; else try
 
   if (!(m = jsonData.ua)) if (n) throw ("!!!"); else
   {
-    busy = 0; dig_rumble ("https://rumble.com/" + id, frame, fmt); return;
+    busy = 0; frame_5.dig_rumble ("https://rumble.com/" + id, frame, fmt); return;
   }
 
   if (!m.hls || !m.hls.auto || !(url = m.hls.auto.url))
@@ -467,7 +167,7 @@ if (stream_all (frame, 0)) fmt = ""; else try
 }
 ////////////////////
 
-const req_vimeo = async (id, frame, fmt) =>
+frame_5.req_vimeo = async (id, frame, fmt) =>
 {
   var tag = "vimeo"; id = getid (frame, id, -9);
   if (!id || is_busy (frame, tag + " (ID)", 1)) return;
@@ -498,7 +198,7 @@ if (stream_all (frame, 0)) fmt = ""; else try
 }
 ////////////////////
 
-const req_infowars = async (id, frame, fmt) =>
+frame_5.req_infowars = async (id, frame, fmt) =>
 {
   var tag = "infowars"; id = getid (frame, id, 24);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
@@ -536,7 +236,7 @@ try
 }
 ////////////////////
 
-const req_brighteon = async (id, frame, fmt) =>
+frame_5.req_brighteon = async (id, frame, fmt) =>
 {
   var tag = "brighteon"; id = getid (frame, id, 36, 13);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
@@ -564,7 +264,7 @@ if (stream_all (frame, 0)) fmt = ""; else try
 }
 ////////////////////
 
-const req_dailymotion = async (id, frame, fmt) =>
+frame_5.req_dailymotion = async (id, frame, fmt) =>
 {
   var tag = "dailymotion"; id = getid (frame, id, -7);
   if (!id || is_busy (frame, tag + " (ID)", 2)) return;
@@ -594,7 +294,7 @@ if (stream_all (frame, 0)) fmt = ""; else try
 }
 ////////////////////
 
-const req_153news = async (id, frame, fmt) =>
+frame_5.req_153news = async (id, frame, fmt) =>
 {
   var tag = "153news"; id = getid (frame, id, 12);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
@@ -616,7 +316,7 @@ try
 }
 ////////////////////
 
-const req_twitter = async (id, frame, fmt) =>
+frame_5.req_twitter = async (id, frame, fmt) =>
 {
   var s, t, url, tag = "twit-x"; id = getid (frame, id, -19, 13);
   if (!id || is_busy (frame, tag + " (ID)", 1)) return;
@@ -745,7 +445,7 @@ try
 }
 ////////////////////
 
-const req_twitchtv = async (id, frame, fmt) =>
+frame_5.req_twitchtv = async (id, frame, fmt) =>
 {
   var tag = "twitch"; if (is_busy (frame, tag + " (ID)", 0)) return;
   id = id.split ("/").pop(); var url = "https://www.twitch.tv/" + id;
@@ -786,7 +486,7 @@ try
 }
 ////////////////////
 
-const req_iheartradio = async (id, frame, fmt) =>
+frame_5.req_iheartradio = async (id, frame, fmt) =>
 {
   var tag = "iheartradio"; id = getid (frame, id, 0);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
@@ -835,7 +535,7 @@ if (id.length < 6 && stream_all (frame, 0)) fmt = ""; else try
 }
 ////////////////////
 
-const dig_rumble = async (url, frame, fmt) =>
+frame_5.dig_rumble = async (url, frame, fmt) =>
 {
   var m, p, q, tag = "rumble"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -848,11 +548,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_rumble ("@" + url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_5.req_rumble ("@" + url, frame, fmt);
 }
 ////////////////////
 
-const dig_infowars = async (url, frame, fmt) =>
+frame_5.dig_infowars = async (url, frame, fmt) =>
 {
   var tag = "infowars"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -869,11 +569,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_infowars (url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_5.req_infowars (url, frame, fmt);
 }
 ////////////////////
 
-const dig_brighteon = async (url, frame, fmt) =>
+frame_5.dig_brighteon = async (url, frame, fmt) =>
 {
   var tag = "brighteon"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -888,11 +588,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_brighteon (url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_5.req_brighteon (url, frame, fmt);
 }
 ////////////////////
 
-const dig_odysee = async (url, frame, fmt) =>
+frame_5.dig_odysee = async (url, frame, fmt) =>
 {
   var n, s, t, u, tag = "odysee"; if (is_busy (frame, tag + " (DIG)", 0)) return;
   var src = cors_kraker ? cors_kraker + "*https://odysee.com*" : "";
@@ -957,7 +657,7 @@ try
 }
 ////////////////////
 
-const dig_twitter = async (url, frame, fmt) =>
+frame_5.dig_twitter = async (url, frame, fmt) =>
 {
   var tag = "twit-x"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -972,11 +672,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_twitter (url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_5.req_twitter (url, frame, fmt);
 }
 ////////////////////
 
-const dig_facebook = async (url, frame, fmt) =>
+frame_5.dig_facebook = async (url, frame, fmt) =>
 {
   var tag = "facebook"; if (is_busy (frame, tag + " (DIG)", 1)) return;
 
@@ -1021,7 +721,7 @@ try
 }
 ////////////////////
 
-const dig_telegram = async (url, frame, fmt) =>
+frame_5.dig_telegram = async (url, frame, fmt) =>
 {
   var tag = "telegram"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -1041,7 +741,7 @@ try
 }
 ////////////////////
 
-const dig_tiktok = async (url, frame, fmt) =>
+frame_5.dig_tiktok = async (url, frame, fmt) =>
 {
   var tag = "tiktok"; if (is_busy (frame, tag + " (DIG)", 2)) return;
 
@@ -1070,7 +770,7 @@ try
 }
 ////////////////////
 
-const dig_prageru = async (url, frame, fmt) =>
+frame_5.dig_prageru = async (url, frame, fmt) =>
 {
   var tag = "prageru"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -1094,7 +794,7 @@ try
 }
 ////////////////////
 
-const dig_tedtalks = async (url, frame, fmt) =>
+frame_5.dig_tedtalks = async (url, frame, fmt) =>
 {
   var tag = "tedtalks"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -1118,7 +818,7 @@ try
 }
 ////////////////////
 
-const dig_natfilmbrd = async (url, frame, fmt) =>
+frame_5.dig_natfilmbrd = async (url, frame, fmt) =>
 {
   var tag = "natfilmbrd"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -1142,7 +842,7 @@ try
 }
 ////////////////////
 
-const dig_podcast = async (url, frame, fmt) =>
+frame_5.dig_podcast = async (url, frame, fmt) =>
 {
   var tag = "podcast"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -1206,7 +906,7 @@ try
     jsonData = await response.json();
 
   }
-*/
+
 
 /*
 const req_vimeo = async (id, frame, fmt) =>

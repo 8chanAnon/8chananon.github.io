@@ -1,19 +1,3 @@
-// Worker access
-
-var request_jump = function (src, id, frm, fmt, func)
-{
-  if (src == "youtube")      func = request;
-  if (src == "bitchute")     func = req_bitchute;
-  if (src == "rumble")       func = req_rumble;
-  if (src == "vimeo")        func = req_vimeo;
-  if (src == "infowars")     func = req_infowars;
-  if (src == "brighteon")    func = req_brighteon;
-  if (src == "dailymotion")  func = req_dailymotion;
-  if (src == "twitter")      func = req_twitter;
-
-  if (func) func (id, frm, fmt); else src = ""; return (src);
-}
-
 // Internet Radio
 
 document.getElementById ("ir").innerHTML = `
@@ -254,8 +238,6 @@ document.getElementById ("ir").innerHTML = `
 
 var request_iptv = function (src, url, frame, fmt, f)
 {
-  document.getElementById ("id" + frame).value = "Tuning...";
-
   if (src == "7") open_tv0 (frame, 0, f, fmt, url);
   if (src == "8") open_tv0 (frame, 1, f, fmt, url);
 
@@ -263,7 +245,7 @@ var request_iptv = function (src, url, frame, fmt, f)
   if (src == "1b") open_tv1 (frame, 3, f, fmt, url, src);  // tv247.us
   if (src == "1c") open_tv1 (frame, 0, f, fmt, url, src);  // tv247.us
   if (src == "1e") open_tv1 (frame, 1, f, fmt, url, src);  // content.uplynk.com
-  if (src == "1f") open_tv1 (frame, 1, f, fmt, url, src);  // https://frankspeech.com
+  if (src == "1f") open_tv1 (frame, 1, f, fmt, url, src);  // frankspeech.com
   if (src == "1p") open_tv1 (frame, 1, f, fmt, url, src);  // Pluto TV
   if (src == "1x") open_tv1 (frame, 1, f, fmt, url, src);  // Olympics
 
@@ -279,7 +261,12 @@ var request_iptv = function (src, url, frame, fmt, f)
 
 const open_tv0 = async (frame, mode, f, fmt, url) =>
 {
-  if (is_busy (frame)) return; if (url [0] == "*") url = cors_local + "~" + url;
+  if (is_busy (frame)) return;
+
+  if (url [0] == "*") if (cors_local) url = cors_local + "~" + url; else
+  {
+    n = url.indexOf ("*", 1); url = url.substr (n < 0 ? 1 : n + 1);
+  }
 
   if (stream_all (frame, 1)) fmt = mode = 0; else
   {
@@ -638,7 +625,7 @@ if (s = stream_cache (sub)) url = s; else try
 // https://watch.plex.tv/live-tv  format: channel/?????
 const open_tv7 = async (frame, mode, f, fmt, url, src) =>
 {
-  var h, s, t, sub = "7," + url; if (is_busy (frame, "", 1)) return;
+  var h, s, t, sub = "7," + url; if (is_busy (frame, "", 2)) return;
 
 if (s = stream_cache (sub)) url = s; else try
 {

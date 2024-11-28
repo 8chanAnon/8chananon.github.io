@@ -34,8 +34,8 @@ iframe {
 
 .msgbox {
   display: block; position: absolute; top: 38%; left: 40%; right: 40%;
-  text-align: center; border-radius: 10px; font-style: italic; cursor: pointer;
-  color: paleturquoise; background-color: slateblue;
+  text-align: center; border-radius: 14px; font-style: italic; padding-left: 4px;
+  cursor: pointer; color: paleturquoise; background-color: slateblue;
 }
 
 .popbox {
@@ -214,13 +214,13 @@ td {
 }
 
 td.textbox {
-  width: 30vw; min-width: 220px;
+  width: 30vw; min-width: 230px;
   padding: 0; font-size: 14px; line-height: 17px;
   text-align: center; white-space: nowrap;
 }
 
 td.vidbox {
-  font-size: 15px; line-height: normal; padding: 0 0 0 2px;
+  font-size: 15px; line-height: normal; padding: 0;
   vertical-align: middle; border-left: 1px solid firebrick;
 }
 
@@ -838,19 +838,22 @@ var getmessage = function (msg)
 
 var get_time = function ()
 {
-  var x = last_time + 2; return ((the_time = last_time = Date.now() / 500) < x ? 0 : the_time);
+  var x = last_time; the_time = Date.now() / 500;
+  return ((last_time = the_time) < x + 2 ? 0 : the_time);
 }
 ////////////////////
 
 var got_crypto = function ()
 {
-  if (window.CryptoJS) return true; alert ("CryptoJS module is missing!"); return false;
+  if (window.CryptoJS) return true;
+  alert ("CryptoJS module is missing!"); return false;
 }
 ////////////////////
 
 var say_worker = function (id, msg)
 {
-  worker.postMessage ({ id: id ? id : "", app: "@alleycat", msg: msg ? msg : "goodbye" });
+  if (!id) id = ""; if (!msg) msg = "goodbye";
+  worker.postMessage ({ id: id, app: "@alleycat", msg: msg });
 }
 ////////////////////
 
@@ -871,9 +874,9 @@ var msg_worker = function (id, msg)
 
   if (busy || !get_time()) { say_worker (id, "retry"); return; }
 
-  client = id; id = msg.split (" "); var frm = id [0] * 1;
+  client = id; msg = msg.split (" "); var frm = msg [0] * 1;
   if (isNaN (frm) || frm < 1 || frm > 3) frm = 1;
-  var src = id [1]; id = id [2];
+  var src = msg [1]; id = msg [2];
 
   if (!id || !src) { say_worker (client, "error"); client = ""; return; }
 
@@ -891,17 +894,17 @@ var msg_worker = function (id, msg)
     client = ""; if (id) loadwindow (id, frm, "@ raw stream"); return;
   }
 
-  if (request_jump (src, id, frm, fmt)) return; say_worker (client, "error"); client = "";
+  msg = ((id.includes ("http:/") || id.includes ("https:/")) ? "dig_" : "req_") + src;
+  msg = window ["frame_5"][msg] || window ["frame_6"][msg] || window ["frame_7"][msg];
+
+  if (msg) msg (id, frm, fmt); else { say_worker (client, "error"); client = ""; }
 }
 ////////////////////
 
 var load_all = function ()
 {
   localhost = location.hostname == "localhost" ? location.origin + "/" : "";
-  var crypto = document.getElementById ("cryptojs"); document.body.style = "display:block";
-
-  if (!localhost) document.getElementById ("proxy").children [1].setAttribute ("checked", "");
-  selectmake ("proxy"); load_boxes (5); load_boxes (6); load_boxes (7); resize_all ();
+  init_frames (localhost ? 0 : 1); var crypto = document.getElementById ("cryptojs");
 
   worker = new SharedWorker (localhost + "worker.js").port;
   worker.onmessage = function (e) { msg_worker (e.data.id, e.data.msg); }
@@ -924,67 +927,69 @@ var load_all = function ()
 
 var dump_all = function ()
 {
-  // shut down streams
-  say_worker(); clear_video (5); clear_video (6); clear_video (7); ir_action (0);
-  // destroy iframes so browser won't try to reload them on page refresh
-  clear_frame (5); clear_frame (6); clear_frame (7);
-}
-////////////////////
-
-var clear_frame = function (frame)
-{
-  var win = document.getElementById ("mov" + frame); win.parentNode.removeChild (win);
-}
-////////////////////
-
-var resize_all = function ()
-{
-  resize_frame (5); resize_frame (6); resize_frame (7);
-}
-////////////////////
-
-var resize_frame = function (frame)
-{
-  var hood = document.getElementById ("hood" + frame);
-  var butt = document.getElementById ("butt" + frame).children;
-
-  var a = hood.previousSibling.previousSibling.clientWidth, b = hood.clientWidth;
-
-  hood.style.width = (a < 300 && b < 40) ? "0" : "35vw";
-  a += b; b = hood.children.length; hood.style.minWidth = "100px";
-
-  if (a < 400)
+  for (var m, n = 5; n <= 7; n++)
   {
-    hood.style.minWidth = 0; hood.innerHTML = "";
-    if (b) for (b of butt) if (b.nodeName == "BUTTON") b.style.visibility = "visible";
+    // remove iframes to prevent reloading on restart
+    m = document.getElementById ("mov" + n); m.parentNode.removeChild (m);
   }
-  else if (!b) for (b of butt) if (b.nodeName == "BUTTON")
+  say_worker(); ir_action (0);
+}
+////////////////////
+
+var resize_all = function (x)
+{
+  for (var n = 5; n <= 7; n++)
   {
-    hood.appendChild (b.cloneNode (true)); b.style.visibility = "hidden";
-    hood.appendChild (document.createElement ("P"));
+    var hood = document.getElementById ("hood" + n);
+    var butt = document.getElementById ("butt" + n);
+
+    var a = hood.previousSibling.previousSibling.clientWidth;
+    var b = hood.clientWidth; hood.style.minWidth = "90px";
+
+    hood.style.width = (a < 280 && b < 40) ? "0" : "35vw";
+
+    if (a + b < 330)
+    {
+      butt.style.visibility = "visible";
+      hood.style.minWidth = hood.innerHTML = "";
+    }
+    else if (x && !hood.children.length)
+    {
+      for (b of butt.children) if (b.nodeName == "BUTTON")
+      {
+        hood.appendChild (b.cloneNode (true));
+        hood.appendChild (document.createElement ("P"));
+      }
+      butt.style.visibility = "hidden";
+    }
   }
+  if (!x) resize_all (true);
 }
 ////////////////////
 
-var load_boxes = function (frame)
+var init_frames = function (x)
 {
-  selectmake ("ytx" + frame); selectmake ("fmt" + frame);
-  selectmake ("stk" + frame); selectmake ("src" + frame); selectmake ("win" + frame);
+  for (var n = 5; n <= 7; n++)
+  {
+    selectmake ("ytx" + n); selectmake ("fmt" + n);
+    selectmake ("stk" + n); selectmake ("src" + n); selectmake ("win" + n);
+  }
+  selectmake ("proxy", x); document.body.style = "display:block"; resize_all();
 }
 ////////////////////
 
-var selectmake = function (name)
+var selectmake = function (a, b)
 {
-  var v = document.getElementById (name);
-  var w = v.children; if (!w.length) return;
+  var v = document.getElementById (a);
+  var w = v.children, m = w [b || 0]; if (!m) return;
 
-  var n, m = w[0]; for (n of w) if (n.hasAttribute ("checked")) m = n;
+  for (a of w) if (a.hasAttribute ("checked")) m = a;
   m.setAttribute ("checked", ""); v.value = m.getAttribute ("value");
-  w = v.parentNode.firstElementChild; n = w.nodeName != "DIV";
+  w = v.parentNode.firstElementChild; b = w.nodeName != "DIV";
 
-  if (n) w.value = m.innerText.trim();
-  if (n) w.nextSibling.onclick = function() { selectdrop (this, w); }
-  v.onclick = function (event) { selectpick (event.target, n ? w : 0); }
+  if (b) w.value = m.innerText.trim();
+  if (b) w.nextSibling.onclick = function() { selectdrop (this, w); }
+  v.onclick = function (event) { selectpick (event.target, b ? w : 0); }
 }
 ////////////////////
 
@@ -1047,22 +1052,23 @@ var urlcopy = function (frame, copy)
 
 var copylist = function (btn, frame, num)
 {
-  var iptv = num < 0; if (iptv) num = -num; if (!num) return;
+  var iptv = num < 0; if (iptv) num = -num;
   var list = window ["stack_" + frame + "_" + num]; if (!list) return;
 
   var box = document.getElementById ("stk" + frame), item = box.children;
   for (i = item.length - 1; i > 0; i--) box.removeChild (item [i]);
 
-  for (var val, txt, i = 1, j = 1; i < list.length - 1; i += 2, j++)
+  for (var val, txt, i = 2, j = 101, k; i < list.length; i += 2, j++)
   {
-    txt = list [i + 1]; val = list [i] || txt;
-    if (val.substr (-1) == ":") val += txt; if (iptv && val [0] != "?") val = "?" + val;
-    box.appendChild (new Option ("[" + (j < 10 ? "0" : "") + j + "] " + txt, val));
+    txt = list [iptv ? i-1 : i]; val = list [iptv ? i : i-1];
+    if (txt [0] == "?") { k = txt.substr (1); txt = val; val = k; }
+    if (val.substr (-1) == ":") val += txt; if (iptv) val = "?" + val;
+    box.appendChild (new Option ("[" + (j + "] ").substr (1) + txt, val));
   }
 
   list = "Select a channel (" + btn.innerText + ")";
   item [0].innerText = box.parentNode.firstElementChild.value = list;
-  box.value = 0; popper (frame, 0);
+  box.value = ""; popper (frame, 0);
 }
 ////////////////////
 
@@ -1233,17 +1239,15 @@ var stream_all = function (frame, type)
 
 var stream_cache = function (name, url, timeout)
 {
-  var path, time; if (!timeout) timeout = 0;
-
-  if (url) { streams [name] = the_time + " " + timeout + " " + url; return; }
-
-  if (!(path = streams [name])) path = ""; else
+  if (!url) if (!(url = streams [name])) return (""); else
+  {
+    url = url.split (" "); return (url [0] * 1 > the_time ? url [1] : "");
+  }
+  else
   {
     // default timeout = 14280 = 119 minutes x 120 half-seconds
-    path = path.split (" "); time = path [0] * 1; timeout = path [1] * 120;
-    if (!timeout) timeout = 14280; path = (time > the_time - timeout) ? path [2] : "";
+    return (streams [name] = (the_time + (timeout || 14280)) + " " + url);
   }
-  return (path);
 }
 ////////////////////
 
@@ -1320,14 +1324,17 @@ var frame_req = function (frame, mode, url)
 
   if (!url) return; if (mode == 1) { loadwindow (url, frame, ""); return; }
 
-  url = url.split (": ").pop(); src = document.getElementById ("src" + frame).value;
+  url = url.split (" ").pop();
+  src = document.getElementById ("src" + frame).value;
 
   if ((sub = url.split (":")).length > 1 && sub [0].length < 4)
   {
-    src = sub [0] * 1; url = sub [1]; poke_site (frame, src);
+    src = window ["frame_" + frame][sub [0]];
+    if (src && (url = sub [1])) poke_site (frame, src); else return;
   }
 
-  if (url) window ["frame_req_" + frame] (src, url, frame, fmt);
+  if (src = window ["frame_" + frame]["req_" + src])
+    src (url, frame, fmt); else no_fail (frame, "", "Not supported");
 }
 ////////////////////
 
@@ -1339,7 +1346,10 @@ var frame_dig = function (frame)
   var src = document.getElementById ("src" + frame).value;
   var url = document.getElementById ("line" + frame).value.trim();
 
-  nostack (frame); if (doc) window ["frame_dig_" + frame] (src, url, frame, fmt);
+  nostack (frame); if (!url) return;
+
+  if (src = window ["frame_" + frame]["dig_" + src])
+    src (url, frame, fmt); else no_fail (frame, "", "Not supported");
 }
 ////////////////////
 
@@ -1372,6 +1382,7 @@ var open_stream = function (url, frame, fmt)
   if (src == "0") { request (url, frame, -fmt); return; }
   if (src == "1") { request ("@" + url, frame, -fmt); return; }
 
+  document.getElementById ("id" + frame).value = "Tuning...";
   request_iptv (src, url, frame, fmt, f);
 }
 ////////////////////
@@ -1476,7 +1487,7 @@ var ir_update = function (event)
 
   var e = event.timeStamp / 1000, c = vid.curtime || e, d = vid.durtime;
   var t = vid.currentTime; vid.curtime = e; d += e - c; if (t > d) d = t;
-  vid.durtime = d = isFinite (c = vid.duration) ? c : d;
+  vid.durtime = d = (c = vid.duration) < 72000 ? c : d;
 
   var ts = Math.round (t), ds = Math.round (d);
   var th = Math.trunc (ts / 3600), dh = Math.trunc (ds / 3600); ts -= th * 3600; ds -= dh * 3600;
@@ -1629,14 +1640,10 @@ var loadwindow = function (url, frame, site, id, fmt)
   {
     if (id == "?") id = "id-none"; id = id ? ": " + id : "";
     fmt = site + (fmt != undefined ? " [" + (fmt || 0) + "]" : "");
-
     document.getElementById ("id" + frame).value = fmt + id;
-    if (url [0] == "~") url = localhost ? localhost + url : url.substr (1);
 
-    if (url.substr (0,4) != "http" && url.substr (0,4) != "file")
-    {
-      msg.innerHTML = "Bad URL"; return;
-    }
+    if (url.substr (0,4) != "http") { msg.innerHTML = "Bad URL"; return; }
+
     document.getElementById ("line" + frame).value = url; urlcopy (frame, false);
 
     if (nplay) if (client && (btn_a || btn_b)) client = ""; else
@@ -2300,13 +2307,6 @@ var fixformat = function (f, frame)
 
 </script>
 
-<script src="alleycat-frame4.js"></script>
-<script src="alleycat-frame5.js"></script>
-<script src="alleycat-frame6.js"></script>
-<script src="alleycat-frame7.js"></script>
-<script src="alleycat-frame8.js"></script>
-<script src="alleycat-frame9.js"></script>
-
 <!--
 /////
 ///// CUSTOM VIDEO CONTROL /////
@@ -2664,7 +2664,7 @@ var vid_event = function (event, type)
   {
     var e = event.timeStamp / 1000, c = vid.curtime || e, d = vid.durtime;
     var t = vid.currentTime; vid.curtime = e; d += e - c; if (t > d) d = t;
-    vid.durtime = isFinite (c = vid.duration) ? c : d; vid_cntrl (item, 8);
+    vid.durtime = d = (c = vid.duration) < 72000 ? c : d; vid_cntrl (vid, 8);
   }
 
   if (type == 1)
@@ -2834,5 +2834,14 @@ var vid_poster = function (vid, name)
 }
 ////////////////////
 
-</script></body></html> 
+</script>
+
+<script src="alleycat-frame4.js"></script>
+<script src="alleycat-frame5.js"></script>
+<script src="alleycat-frame6.js"></script>
+<script src="alleycat-frame7.js"></script>
+<script src="alleycat-frame8.js"></script>
+<script src="alleycat-frame9.js"></script>
+
+</body></html> 
 

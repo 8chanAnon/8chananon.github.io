@@ -477,7 +477,7 @@ var crack_smil = function (data, frame, fmt)
 }
 ////////////////////
 
-var find_brightcove = async (url, xtag, frame, fmt) =>
+var find_brightcove = async (url, frame, fmt, xtag) =>
 {
   var tag = xtag, pub, id; if (!tag) tag = "brightcove";
   if (is_busy (frame, tag + " (DIG)", 0)) return;
@@ -507,11 +507,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) load_brightcove (pub, id, xtag, frame, fmt);
+  busy = -busy; if (no_fail (frame)) load_brightcove (id, frame, fmt, pub, xtag);
 }
 ////////////////////
 
-var load_brightcove = async (pub, id, xtag, frame, xfmt) =>
+var load_brightcove = async (id, frame, xfmt, pub, xtag) =>
 {
   var i, j, k, fmt, tag, krak = "", key = "", f = [0,0,0,0], r = [0,0,0,0];
   if ((fmt = xfmt) < 0) fmt = -fmt; if (!(tag = xtag)) tag = "brightcove";
@@ -527,7 +527,7 @@ var load_brightcove = async (pub, id, xtag, frame, xfmt) =>
     krak = id.substr (i); id = id.substr (0, i);
   }
 
-  if (pub == "")
+  if (!pub)
   {
     i = id.indexOf ("-"); pub = id.substr (0, i); id = id.substr (i + 1);
   }
@@ -582,6 +582,274 @@ try
 
   if (!xtag) id = pub + "-" + id; if (xfmt < 0) id = "id-none";
   if (no_fail (frame, id)) loadwindow (url, frame, tag, id, fmt);
+}
+////////////////////
+
+var request = async (id, frame, fmt) =>
+{
+  if (id [0] == "@") try
+  {
+    if (is_busy (frame, "youtube")) return;
+    id = "https://www.youtube.com/embed/live_stream?channel=" + id.substr (1);
+    response = await kitty (cors_bypass + id); textData = await response.text();
+    busy = 0; id = pullstring (textData, '<link rel="canonical" href="', '"');
+  }
+  catch (err) { console.log (err); busy = 0; no_fail (frame); return; }
+
+  id = getid (frame, id, 11); if (!id) return;
+
+  if (stream_all (frame, 0))
+  {
+    var url = "https://www.youtube.com/embed/" + id;
+    loadwindow (url, frame, "youtube", id); return;
+  }
+
+  var src = document.getElementById ("ytx" + frame).value;
+
+  if (src == 1) if (fmt < 0) src = 0; else { request_youtube (id, frame, fmt); return; }
+  if (src == 9) if (fmt < 0) src = 0; else { request_youtube (id, frame, -fmt); return; }
+
+  if (!src && cors_kraker) { request_youtube (id, frame, fmt); return; }
+
+  invidious_link = invidious_site [src]; request_invidious (id, frame, (fmt < 0 ? -fmt : fmt));
+}
+////////////////////
+
+const request_invidious = async (id, frame, fmt) =>
+{
+  var i, j, n, f = [0,0,0,0,0,0,0,0];
+
+  var tag = "invidious"; if (is_busy (frame, tag + " (ID)")) return;
+  var url = invidious_link + "/api/v1/videos/" + id + "?fields=formatStreams,hlsUrl";
+
+try
+{
+  response = await kitty (cors_local + url);
+  jsonData = await response.json();
+
+  var sub = jsonData.formatStreams; if (!sub) throw ("!!!"); n = sub.length;
+
+  for (i = 0; i < n; i++)
+  {
+    if ((j = argformat (sub[i].itag)) >= 0) f[j] = i + 1;
+  }
+    
+  if ((n = getformat (f, fmt)))
+  {
+    fmt = n; fixformat (f, frame); n = f[argformat(n)] - 1;
+    url = (sub[n].url.indexOf ("&gcr=") > 0) ? "local=true&" : "";  // geo-restricted?
+    url = invidious_link + "/latest_version?" + url + "itag=" + fmt + "&id=" + id;
+  }
+  else   // live stream
+  {
+    url = jsonData.hlsUrl; if (!url) throw ("!!!");
+    if (url.substr (0,1) == "/") url = invidious_link + url;
+    sub = url = url + "?local=true";
+
+    if (stream_all (frame, 1)) fmt = ""; else
+    {
+      response = await kitty (url); textData = await response.text();
+      [url,fmt] = crack_m3u8 (url, textData, frame, fmt);
+    }
+  }
+
+} catch (err) { console.log (err); busy = 0; }
+
+  fmt = argformat (fmt); fmt = pixformat (fmt);
+  if (no_fail (frame, id)) loadwindow (url, frame, tag, id, fmt);
+}
+////////////////////
+
+/*
+Youtube DRM formats:
+142 143 144 145 146 148 149 150 161
+222 223 224 225 226 227 273 274 275 279 280
+317 318 350 351 352 357 358 359 360 
+
+https://www.youtube.com/iframe_api
+
+t.context = { client: { gl: 'US', hl: 'en', clientName: 'WEB', clientVersion: '2.20230426.02.00' }};
+t.context = { client: { gl: 'US', hl: 'en', clientName: 'ANDROID_EMBEDDED_PLAYER', clientVersion: '16.02' }};
+t.context = { client: { gl: 'US', hl: 'en', clientName: 'WEB_EMBEDDED_PLAYER', clientVersion: '1.20240708.01.00' }};
+t.context = { client: { gl: 'US', hl: 'en', clientName: 'TVHTML5_SIMPLY_EMBEDDED_PLAYER', clientVersion: '2.0' }};
+t.playbackContext = { contentPlaybackContext: { signatureTimestamp: "sts", html5Preference: "HTML5_PREF_WANTS" }};
+t.context.thirdParty = { embedUrl: 'https://www.youtube.com' };
+*/
+
+// https://www.youtube.com/watch?v=VaSV4NtZCXU - mp4 video with webm audio
+
+const request_youtube = async (id, frame, fmt) =>
+{
+  var tag = "youtube"; if (is_busy (frame, tag + " (ID)")) return;
+  var i, j, n, s, t, url, sub, vid, aud, key, sig, nkey, webm, dash, f = [0,0,0,0,0,0,0,0,0,0];
+
+  if (!cors_local) if (fmt < 0) fmt = -fmt;
+
+  var ua1 = cors_bypass + (cors_kraker ? "user-agent=|*" : "");
+  var ua2 = ua1.replace ("|*", "!Mozilla/5.0 (Android 14)|*");
+
+try
+{
+  response = await kitty (ua1 + "https://www.youtube.com/embed/" + id);
+  textData = await response.text();
+
+  if (!(s = pullstring (textData, '"jsUrl":"', '"'))) throw ("!!!");
+  key = cookies [s]; nkey = cookies ["!" + s]; n = cookies ["?" + s];
+
+  if (!key || !nkey || !n)
+  {
+    response = await kitty (ua1 + "https://www.youtube.com" + s);
+    textData = await response.text();
+
+    if ((n = textData.indexOf ('var b=a.split(a.slice(0,0))')) < 0) nkey = ""; else
+    {
+      t = textData.substr (n, textData.indexOf ('b.join("")', n) - n);
+      t = 'function(a){var b=a.split(""' + t.substr (t.indexOf ('),')) + 'b.join("")};';
+      nkey = "var nsig=" + t + " sig=nsig(sig);";
+    }
+
+    cookies [s] = key = yt_algo (textData);
+    cookies ["!" + s] = nkey; t = pullstring (textData, "signatureTimestamp:", "}");
+    cookies ["?" + s] = n = t ? t * 1 : Math.trunc (Date.now() / 86400000) - 1;
+  }
+
+  t = JSON.stringify ({
+    videoId: id, playbackContext: { contentPlaybackContext: { signatureTimestamp: n }},
+    context: { client: { gl: 'US', hl: 'en', clientName: 'WEB_EMBEDDED_PLAYER', clientVersion: '1.20241009.01.00' }}
+  });
+
+  try
+  {
+    url = cors_kraker + ua1 + "https://www.youtube.com/youtubei/v1/player";
+    response = await kitty (url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: t });
+    jsonData = await response.json();
+  }
+  catch { jsonData = {}; }
+
+  if (!(sub = jsonData.streamingData))
+  {
+    response = await kitty (ua2 + "https://m.youtube.com/watch?v=" + id);
+    textData = await response.text();
+
+    s = pullstring (textData, '"formats":[', ']');
+    t = pullstring (textData, '"adaptiveFormats":[', ']');
+
+    sub = JSON.parse ('{"formats":[' + s + '],"adaptiveFormats":[' + t + ']}');
+  }
+
+  if (fmt < 0 && (fmt = -fmt) && (t = sub.adaptiveFormats))
+  {
+    for (i = 0; i < t.length; i++)
+      if ((s = t[i].itag) && (j = isdashfmt (s)) >= 0)
+        if (t[i].approxDurationMs || t[i].targetDurationSec) f[j] = i + 1;
+
+    if (!f[8]) f[0] = f[1] = f[2] = 0;
+    if (!f[9]) f[4] = f[5] = f[6] = 0;
+    if (getformat (f, fmt)) dash = true;
+  }
+
+  if (!dash && (t = sub.formats)) for (i = 0; i < t.length; i++)
+    if ((s = t[i].itag) && (j = argformat (s)) >= 0) f[j] = i + 1;
+
+  fmt = getformat (f, fmt); fixformat (f, frame); i = argformat (fmt);
+  if (i < 0 || (j = f[i] - 1) < 0) throw ("!!!"); fmt = pixformat (i);
+
+  webm = i > 3; if (dash) aud = yt_split (t [f [webm + 8] - 1]);
+  vid = yt_split (t [j]); url = vid [0]; sig = vid [1]; if (!url) throw ("!!!");
+
+  url = yt_nsig (url, nkey); if (sig && key) { eval (key); url += "&sig=" + sig; }
+
+  if (dash) if (!(sub = yt_nsig (aud [0], nkey))) throw ("!!!"); else
+  {
+    var v = aud [3] + "," + vid [3], w = "wanna_boot_dash";
+
+    if (key && (sig = aud [1])) { eval (key); sub += "&sig=" + sig; }
+
+    download = "YouTube DASH download links (" + id + ") -- " +
+      "<a href='" + sub + "'>Audio</a> &nbsp;" +
+      "<a href='" + url + "'>Video</a>";
+
+    if (!(s = vid [2]))  // livestream
+    {
+      v = "x-head-seqnum"; w = "x-head-time-sec";
+      s = "~range=bytes=0-499|" + v + "|" + w + "|*";
+
+      response = await kitty (cors_kraker + s + url);
+      v = response.headers.get (v); if (!v) throw ("!!!");
+      w = response.headers.get (w); if (!w) throw ("!!!");
+
+      var seg_num = v * 1; var seg_ofs = w * 1;
+      var seg_dur = Math.round (10 * seg_ofs / seg_num) / 10;
+      n = Math.ceil (90 / seg_dur); // initial 90-second progress bar; can be up to 3 hours
+
+      seg_num -= n; seg_ofs -= Math.round (n * 10 * seg_dur) / 10;
+      if (seg_num < 1 || seg_ofs < 1) seg_num = seg_ofs = 0;
+
+      v = seg_num + "," + seg_ofs + "," + seg_dur + ",";
+      w = "wanna_boot_dash_live"; s = "";
+    }
+
+    aud = aud [4] || (webm ? "opus" : "mp4a.40.2");
+    vid = vid [4] || (webm ? "vp9" : "avc1.4d401e");
+
+    t = (webm ? "w" : "m") + fmt + "(" + id + ").mpd";
+    s += "|" + (webm ? "audio/webm" : "audio/mp4") + "|" + aud;
+    s += "|" + (webm ? "video/webm" : "video/mp4") + "|" + vid;
+    s += "|" + v + "|" + t + "|" + sub + "|" + url + "|";
+
+    await kitty (cors_kraker + w, { method: 'POST', body: s } );
+    url = cors_kraker + "_" + w + "_" + t; tag = "yt-dash"; stream_all (frame, 2);
+  }
+
+} catch (err) { console.log (err); busy = 0; }
+
+  if (no_fail (frame, id)) loadwindow (url, frame, tag, id, fmt);
+}
+////////////////////
+
+const yt_split = function (data)
+{
+  var d, i, j, m, s = "", u = data.url;
+
+  if (!u) if (!(u = data.signatureCipher)) u = ""; else
+  {
+    u = u.replace (/%25/g, "%"); u = decodeURIComponent (u);
+    s = pullstring (u, "s=", "&"); u = pullstring (u, "url=", "");
+  }
+
+  i = (d = data.initRange)  ? d.start + "-" + d.end : "";
+  j = (d = data.indexRange) ? d.start + "-" + d.end : "";
+  d = data.approxDurationMs || 0; m = data.mimeType || "";
+
+  return ([u, s, d / 1000, i + "," + j, pullstring (m, '"', '"')]);
+}
+////////////////////
+
+const yt_algo = function (data)
+{
+  var i, j, n, s, v;
+
+  for (i = 0; i < 3; i++)
+  {
+    j = data.indexOf ('a=a.split("")'); if (j < 0) return "";
+    s = data.substr (j + 14, 300); if ((n = s.indexOf ("a.join")) > 0) break;
+    if (i > 1) return ""; data = data.substr (j + 1);
+  }
+
+  s = s.substr (0, n - 7);
+  v = "var " + s.substr (0, s.indexOf (".")) + "={";  // August 28, 2023
+  if ((n = data.indexOf (v)) < 0) return "";
+
+  v = data.substr (n, 300); v = v.substr (0, v.indexOf ("};") + 2);
+  return (v + "var a=sig.split('');" + s + "sig=a.join('');");
+}
+////////////////////
+
+const yt_nsig = function (url, nkey)
+{
+  var sig = pullstring (url, "&n=", "&"); if (!nkey || !sig) return url;
+  var s = "&n=" + sig + "&"; eval (nkey); sig = "&n=" + sig + "&";
+  return (url.replace (s, sig));
 }
 ////////////////////
 

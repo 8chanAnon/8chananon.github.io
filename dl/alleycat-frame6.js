@@ -1,26 +1,26 @@
 // News & Propaganda
 
 document.getElementById ("src6").innerHTML = `
-  <option value=0  class="w">YouTube / Invidious
-  <option value= 1  >+ m3u - Fox
-  <option value= 2  >+ mp4 - ABC
-  <option value= 3  >? m3u - CBS
-  <option value= 4  >+ m3u - CNBC
-  <option value= 6  >? m3u - C-SPAN
-  <option value= 7  >+ m3u - MS/NBC
-  <option value= 8  >+ m3u - PBS
-  <option value= 11 class="w">+ m3u - CBC
-  <option value= 15 class="w"># m3u - CPAC
-  <option value= 12 class="w">+ mpd - CTV
-  <option value= 13 class="w">+ mp4 - Global
-  <option value= 14 class="w">+ mp4 - TVO
-  <option value= 21 class="b">+ m3u - BBC
-  <option value= 24 class="b">? m3u - Press TV
-  <option value= 22 class="b">+ mp4 - Al Jazeera
-  <option value= 25 class="b">+ m3u - Bloomberg
-  <option value= 26 class="b">? m3u - Deutsche Welle
-  <option value= 27 class="b">? m3u - Epoch Times
-  <option value= 30 class="r">+ mp4 - BrightCove
+  <option value= "youtube"    class="w">YouTube / Invidious
+  <option value= "fox"        >+ m3u - Fox
+  <option value= "abc"        >+ mp4 - ABC
+  <option value= "cbs"        >? m3u - CBS
+  <option value= "cnbc"       >+ m3u - CNBC
+  <option value= "cspan"      >? m3u - C-SPAN
+  <option value= "msnbc"      >+ m3u - MS/NBC
+  <option value= "pbs"        >+ m3u - PBS
+  <option value= "cbc"        class="w">+ m3u - CBC
+  <option value= "cpac"       class="w"># m3u - CPAC
+  <option value= "ctv"        class="w">+ mpd - CTV
+  <option value= "global"     class="w">+ mp4 - Global
+  <option value= "tvo"        class="w">+ mp4 - TVO
+  <option value= "bbc"        class="b">+ m3u - BBC
+  <option value= "presstv"    class="b">? m3u - Press TV
+  <option value= "aljazeera"  class="b">+ mp4 - Al Jazeera
+  <option value= "bloomberg"  class="b">+ m3u - Bloomberg
+  <option value= "deutsche"   class="b">? m3u - Deutsche Welle
+  <option value= "epochtimes" class="b">? m3u - Epoch Times
+  <option value= "brightcove" class="r">+ mp4 - BrightCove
 `;
 
 document.getElementById ("butt6").innerHTML = `
@@ -29,52 +29,10 @@ document.getElementById ("butt6").innerHTML = `
   <button onclick="javascript:copylist(this,6,3)">BBC</button>
 `;
 
-var frame_req_6 = function (src, id, frame, fmt, func)
-{
-  if (src == 0 ) func = request;
-  if (src == 1 ) func = req_fox;
-  if (src == 2 ) func = req_abc;
-  if (src == 4 ) func = req_cnbc;
-  if (src == 7 ) func = req_msnbc;
-  if (src == 8 ) func = req_pbs;
-  if (src == 11) func = req_cbc;
-  if (src == 15) func = req_cpac;
-  if (src == 12) func = req_ctv;
-  if (src == 13) func = req_global;
-  if (src == 14) func = req_tvo;
-  if (src == 21) func = req_bbc;
-  if (src == 22) func = req_aljazeera;
-  if (src == 25) func = req_bloomberg;
-
-  if (src == 30) { load_brightcove ("", id, "", frame, fmt); return; }
-
-  if (func) func (id, frame, fmt); else no_fail (frame, "", "Not supported");
-}
-
-var frame_dig_6 = function (src, url, frame, fmt, func)
-{
-  if (src == 1 ) func = dig_fox;
-  if (src == 2 ) func = dig_abc;
-  if (src == 3 ) func = dig_cbs;
-  if (src == 4 ) func = dig_cnbc;
-  if (src == 6 ) func = dig_cspan;
-  if (src == 7 ) func = dig_msnbc;
-  if (src == 8 ) func = dig_pbs;
-  if (src == 11) func = dig_cbc;
-  if (src == 12) func = dig_ctv;
-  if (src == 13) func = dig_global;
-  if (src == 14) func = dig_tvo;
-  if (src == 21) func = dig_bbc;
-  if (src == 24) func = dig_presstv;
-  if (src == 22) func = dig_aljazeera;
-  if (src == 25) func = dig_bloomberg;
-  if (src == 26) func = dig_deutsche;
-  if (src == 27) func = dig_epochtimes;
-
-  if (src == 30) { find_brightcove (url, "", frame, fmt); return; }
-
-  if (func) func (url, frame, fmt); else no_fail (frame, "", "Not supported");
-}
+var frame_6 = {
+  1: 'fox', 2: 'pbs', 3: 'bbc', req_youtube: request,
+  req_brightcove: load_brightcove, dig_brightcove: find_brightcove
+};
 
 var stack_6_1 = [""
   , "1:6041387345001" , "Steve Hilton"
@@ -82,17 +40,17 @@ var stack_6_1 = [""
 ];
 
 var stack_6_2 = [""
-  , "8:2365338020" , "Austin City Limits: 40 Years (2014)"
-  , "8:1946795242" , "Frontline: WikiSecrets (2011)"
+  , "2:2365338020" , "Austin City Limits: 40 Years (2014)"
+  , "2:1946795242" , "Frontline: WikiSecrets (2011)"
 ];
 
 var stack_6_3 = [""
-  , "21:p035dt58" , "Dragonfly"
-  , "21:p076m7sh" , "Desert Art"
-  , "21:p07bj7pv" , "Follow the Food"
+  , "3:p035dt58" , "Dragonfly"
+  , "3:p076m7sh" , "Desert Art"
+  , "3:p07bj7pv" , "Follow the Food"
 ];
 
-const req_fox = async (id, frame, fmt) =>
+frame_6.req_fox = async (id, frame, fmt) =>
 {
   var tag = "fox"; id = getid (frame, id, 13);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
@@ -128,7 +86,7 @@ try
 }
 ////////////////////
 
-const req_abc = async (id, frame, fmt) =>
+frame_6.req_abc = async (id, frame, fmt) =>
 {
   var tag = "abc"; id = getid (frame, id, -10);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
@@ -154,7 +112,7 @@ try
 }
 ////////////////////
 
-const req_cnbc = async (id, frame, fmt) =>
+frame_6.req_cnbc = async (id, frame, fmt) =>
 {
   var tag = "cnbc"; id = getid (frame, id, 10);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
@@ -180,7 +138,7 @@ try
 }
 ////////////////////
 
-const req_msnbc = async (id, frame, fmt) =>
+frame_6.req_msnbc = async (id, frame, fmt) =>
 {
   var tag = "msnbc"; id = getid (frame, id, -13);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
@@ -211,7 +169,7 @@ try
 }
 ////////////////////
 
-const req_pbs = async (id, frame, fmt) =>
+frame_6.req_pbs = async (id, frame, fmt) =>
 {
   var tag = "pbs"; id = getid (frame, id, 10);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
@@ -241,7 +199,7 @@ try
 }
 ////////////////////
 
-const req_cbc = async (id, frame, fmt) =>
+frame_6.req_cbc = async (id, frame, fmt) =>
 {
   var tag = "cbc"; id = getid (frame, id, -10);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
@@ -275,7 +233,7 @@ try
 }
 ////////////////////
 
-const req_cpac = async (id, frame, fmt) =>
+frame_6.req_cpac = async (id, frame, fmt) =>
 {
   var tag = "cpac"; id = getid (frame, id, 36);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
@@ -300,7 +258,7 @@ try
 }
 ////////////////////
 
-const req_ctv = async (id, frame, fmt) =>
+frame_6.req_ctv = async (id, frame, fmt) =>
 {
   var tag = "ctv"; id = getid (frame, id, 7);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
@@ -328,7 +286,7 @@ try
 }
 ////////////////////
 
-const req_global = async (id, frame, fmt) =>
+frame_6.req_global = async (id, frame, fmt) =>
 {
   var tag = "global"; id = getid (frame, id, -8);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
@@ -348,13 +306,13 @@ try
 }
 ////////////////////
 
-const req_tvo = async (id, frame, fmt) =>
+frame_6.req_tvo = async (id, frame, fmt) =>
 {
-  load_brightcove ("18140038001", id, "tvo", frame, fmt);
+  load_brightcove (id, frame, fmt, "18140038001", "tvo");
 }
 ////////////////////
 
-const req_bbc = async (id, frame, fmt) =>
+frame_6.req_bbc = async (id, frame, fmt) =>
 {
   var tag = "bbc"; id = getid (frame, id, 8);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
@@ -387,15 +345,15 @@ try
 }
 ////////////////////
 
-const req_aljazeera = async (id, frame, fmt) =>
+frame_6.req_aljazeera = async (id, frame, fmt) =>
 {
   var tag = "aljazeera", pub = "665003303001", x = id.split ("-");
   if (x.length > 1) { id = x [1]; if (pub != x [0]) { pub = x [0]; tag = ""; }}
-  load_brightcove (pub, id, tag, frame, fmt);
+  load_brightcove (id, frame, fmt, pub, tag);
 }
 ////////////////////
 
-const req_bloomberg = async (id, frame, fmt) =>
+frame_6.req_bloomberg = async (id, frame, fmt) =>
 {
   var tag = "bloom"; id = getid (frame, id, 36, 22);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
@@ -421,7 +379,7 @@ try
 }
 ////////////////////
 
-const dig_fox = async (url, frame, fmt) =>
+frame_6.dig_fox = async (url, frame, fmt) =>
 {
   var tag = "fox"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -458,11 +416,11 @@ try
   {
     no_fail (frame); loadwindow (url, frame, tag, "?");
   }
-  else if (no_fail (frame)) req_fox (url, frame, fmt);
+  else if (no_fail (frame)) frame_6.req_fox (url, frame, fmt);
 }
 ////////////////////
 
-const dig_abc = async (url, frame, fmt) =>
+frame_6.dig_abc = async (url, frame, fmt) =>
 {
   var tag = "abc"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -478,11 +436,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_abc (url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_6.req_abc (url, frame, fmt);
 }
 ////////////////////
 
-const dig_cbs = async (url, frame, fmt) =>
+frame_6.dig_cbs = async (url, frame, fmt) =>
 {
   var n, s, tag = "cbs"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -524,7 +482,7 @@ try
 }
 ////////////////////
 
-const dig_cnbc = async (url, frame, fmt) =>
+frame_6.dig_cnbc = async (url, frame, fmt) =>
 {
   var tag = "cnbc"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -538,11 +496,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_cnbc (url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_6.req_cnbc (url, frame, fmt);
 }
 ////////////////////
 
-const dig_cspan = async (url, frame, fmt) =>
+frame_6.dig_cspan = async (url, frame, fmt) =>
 {
   var tag = "cspan"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -570,14 +528,14 @@ try
 
   if (busy < 0)
   {
-    no_fail (frame); load_brightcove ("3617315736001", url, "cspan", frame, -fmt); return;
+    no_fail (frame); load_brightcove (url, frame, -fmt, "3617315736001", "cspan"); return;
   }
 
   if (no_fail (frame)) loadwindow (url, frame, tag, "?");
 }
 ////////////////////
 
-const dig_msnbc = async (url, frame, fmt) =>
+frame_6.dig_msnbc = async (url, frame, fmt) =>
 {
   var n, s, tag = "msnbc"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -596,7 +554,7 @@ try
   if (url)
   {
     if (url.length < 11 || url.length > 13) throw ("!!!");
-    busy = 0; req_msnbc (url, frame, fmt); return;
+    busy = 0; frame_6.req_msnbc (url, frame, fmt); return;
   }
 
   s = pullstring (s, "/config/", '?'); if (!s) throw ("!!!");
@@ -625,7 +583,7 @@ try
 }
 ////////////////////
 
-const dig_pbs = async (url, frame, fmt) =>
+frame_6.dig_pbs = async (url, frame, fmt) =>
 {
   var tag = "pbs"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -651,11 +609,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_pbs (url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_6.req_pbs (url, frame, fmt);
 }
 ////////////////////
 
-const dig_cbc = async (url, frame, fmt) =>
+frame_6.dig_cbc = async (url, frame, fmt) =>
 {
   var tag = "cbc"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -676,11 +634,11 @@ try
     no_fail (frame); loadwindow (url, frame, tag, "?", fmt); return;
   }
 
-  busy = -busy; if (no_fail (frame)) req_cbc (url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_6.req_cbc (url, frame, fmt);
 }
 ////////////////////
 
-const dig_ctv = async (url, frame, fmt) =>
+frame_6.dig_ctv = async (url, frame, fmt) =>
 {
   var tag = "ctv"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -722,11 +680,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_ctv (url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_6.req_ctv (url, frame, fmt);
 }
 ////////////////////
 
-const dig_global = async (url, frame, fmt) =>
+frame_6.dig_global = async (url, frame, fmt) =>
 {
   var tag = "global"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -785,11 +743,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_global (url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_6.req_global (url, frame, fmt);
 }
 ////////////////////
 
-const dig_tvo = async (url, frame, fmt) =>
+frame_6.dig_tvo = async (url, frame, fmt) =>
 {
   var tag = "tvo"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -808,11 +766,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_tvo (url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_6.req_tvo (url, frame, fmt);
 }
 ////////////////////
 
-const dig_bbc = async (url, frame, fmt) =>
+frame_6.dig_bbc = async (url, frame, fmt) =>
 {
   var tag = "bbc"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -840,11 +798,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_bbc (url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_6.req_bbc (url, frame, fmt);
 }
 ////////////////////
 
-const dig_deutsche = async (url, frame, fmt) =>
+frame_6.dig_deutsche = async (url, frame, fmt) =>
 {
   var tag = "deutsche"; if (is_busy (frame, tag + " (ID)", 0)) return;
 
@@ -867,7 +825,7 @@ try
 }
 ////////////////////
 
-const dig_presstv = async (url, frame, fmt) =>
+frame_6.dig_presstv = async (url, frame, fmt) =>
 {
   var tag = "presstv"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -890,7 +848,7 @@ try
 }
 ////////////////////
 
-const dig_aljazeera = async (url, frame, fmt) =>
+frame_6.dig_aljazeera = async (url, frame, fmt) =>
 {
   var tag = "aljazeera"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -913,11 +871,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_aljazeera (url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_6.req_aljazeera (url, frame, fmt);
 }
 ////////////////////
 
-const dig_bloomberg = async (url, frame, fmt) =>
+frame_6.dig_bloomberg = async (url, frame, fmt) =>
 {
   var tag = "bloom"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -936,11 +894,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_bloomberg (url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_6.req_bloomberg (url, frame, fmt);
 }
 ////////////////////
 
-const dig_epochtimes = async (url, frame, fmt) =>
+frame_6.dig_epochtimes = async (url, frame, fmt) =>
 {
   var tag = "epochtimes"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -962,4 +920,5 @@ try
   if (no_fail (frame)) loadwindow (url, frame, tag, "?", fmt);
 }
 ////////////////////
+
 

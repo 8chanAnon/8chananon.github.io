@@ -1,30 +1,30 @@
 // Free Movies & TV
 
 document.getElementById ("src7").innerHTML = `
-  <option value= 0 class="w">YouTube / Invidious
-  <option value= 1 >+ m3u - Tubi
-  <option value= 4 >+ mp4 - The Archive
-  <option value= 3 >? m3u - Dark Matter
-  <option value= 7 >? m3u - Plex
-  <option value= 6 >? mpd - Bilibili
-  <option value= 10>+ m3u - EMovies
-  <option value= 11>+ m3u - GOKU
-  <option value= 12># mp4 - Goojara
-  <option value= 14>? mp4 - Noxx
-  <option value= 5 >+ m3u - PlayTaku
-  <option value= 15>? m3u - PressPlay
-  <option value= 8 ># mp4 - XHamster
-  <option value= 9 >? m3u - XVideos
-  <option value= 21 class="r"># mp4 - DoodStream
-  <option value= 22 class="r"># m3u - DropLoad
-  <option value= 26 class="r"># mp4 - EplayVid
-  <option value= 29 class="r"># mp4 - MixDrop
-  <option value= 31 class="r"># mp4 - PkSpeed
-  <option value= 20 class="r"># mp4 - StreamTape
-  <option value= 27 class="r"># m3u - UpStream
-  <option value= 24 class="r"># mp4 - VTube
-  <option value= 30 class="r"># mp4 - Wootly
-  <option value= 40 class="b">? mp3 - InternetRadio
+  <option value= "youtube"    class="w">YouTube / Invidious
+  <option value= "tubitv"     >+ m3u - Tubi
+  <option value= "thearchive" >+ mp4 - The Archive
+  <option value= "darkmatter" >? m3u - Dark Matter
+  <option value= "plextv"     >? m3u - Plex
+  <option value= "bilibili"   >? mpd - Bilibili
+  <option value= "emovies"    >+ m3u - EMovies
+  <option value= "goku"       >+ m3u - GOKU
+  <option value= "goojara"    ># mp4 - Goojara
+  <option value= "noxx"       >? mp4 - Noxx
+  <option value= "playtaku"   >+ m3u - PlayTaku
+  <option value= "pressplay"  >? m3u - PressPlay
+  <option value= "xhamster"   ># mp4 - XHamster
+  <option value= "xvideos"    >? m3u - XVideos
+  <option value= "doodstream" class="r"># mp4 - DoodStream
+  <option value= "dropload"   class="r"># m3u - DropLoad
+  <option value= "eplayvid"   class="r"># mp4 - EplayVid
+  <option value= "mixdrop"    class="r"># mp4 - MixDrop
+  <option value= "pkspeed"    class="r"># mp4 - PkSpeed
+  <option value= "streamtape" class="r"># mp4 - StreamTape
+  <option value= "upstream"   class="r"># m3u - UpStream
+  <option value= "vtube"      class="r"># mp4 - VTube
+  <option value= "wootly"     class="r"># mp4 - Wootly
+  <option value= "inetradio"  class="b">? mp3 - InternetRadio
 `;
 
 document.getElementById ("butt7").innerHTML = `
@@ -40,263 +40,214 @@ document.getElementById ("butt7").innerHTML = `
   <button onclick="javascript:copylist(this,7,-8)">Int'l</button>
 `;
 
-var frame_req_7 = function (src, id, frame, fmt, func)
-{
-  if (src == 0 ) func = request;
-  if (src == 1 ) func = req_tubitv;
-  if (src == 4 ) func = req_thearchive;
-  if (src == 6 ) func = req_bilibili;
-  if (src == 10) func = req_emovies;
-  if (src == 11) func = req_goku;
-  if (src == 12) func = req_goojara;
-  if (src == 5 ) func = req_playtaku;
-  if (src == 8 ) func = req_xhamster;
-  if (src == 26) func = req_eplayvid;
-  if (src == 21) func = req_doodstream;
-  if (src == 22) func = req_dropload;
-  if (src == 29) func = req_mixdrop;
-  if (src == 31) func = req_pkspeed;
-  if (src == 20) func = req_streamtape;
-  if (src == 27) func = req_upstream;
-  if (src == 24) func = req_vtube;
-  if (src == 30) func = req_wootly;
-
-  if (func) func (id, frame, fmt); else no_fail (frame, "", "Not supported");
-}
-
-var frame_dig_7 = function (src, url, frame, fmt, func)
-{
-  if (src == 1 ) func = dig_tubitv;
-  if (src == 4 ) func = dig_thearchive;
-  if (src == 3 ) func = dig_darkmatter;
-  if (src == 7 ) func = dig_plextv;
-  if (src == 5 ) func = dig_playtaku;
-  if (src == 10) func = dig_emovies;
-  if (src == 11) func = dig_goku;
-  if (src == 14) func = dig_noxx;
-  if (src == 15) func = dig_pressplay;
-  if (src == 2 ) func = dig_vidcloud;
-  if (src == 9 ) func = dig_xvideos;
-  if (src == 40) func = dig_internetradio;
-
-  if (func) func (url, frame, fmt); else no_fail (frame, "", "Not supported");
+var frame_7 = {
+  req_youtube: request
 }
 
 var stack_7_1 = [""
 ];
 
 var stack_7_2 = [""
-  , "8:https://company.fluid.stream/CompanyTV/smil:Company_ALL.smil/playlist.m3u8", "Company TV (Italy)"
-  , "8:http://4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S85984808/sMO0tz9Sr2Rk/playlist.m3u8" , "Deejay TV (Italy)"
-  , "8:https://0ba805a2403b4660bbb05c0a210ebbdc.mediatailor.us-east-1.amazonaws.com/v1/master/04fd913bb278d8775298c26fdca9d9841f37601f/ONO_DittyTV/playlist.m3u8"
-    , "Ditty TV (US)"
-  , "9a:live/kaloopy"								, "Kaloopy (US) *"
-  , "8:http://bitcdn-kronehit.bitmovin.com/v2/hls/index.m3u8"			, "KroneHit TV (Austria)"
-  , "8:http://ocko-live.ssl.cdn.cra.cz/channels/ocko_expres/playlist.m3u8"	, "Ocko Expres (Czech Republic)"
-  , "8:http://livetv.powerapp.com.tr/powerTV/powerhd.smil/playlists.m3u8"	, "Power HD (Turkey)"
-  , "8:http://4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S35394734/Z6U2wGoDYANk/playlist.m3u8" , "Radio Capital (Italy)"
-  , "8:http://chanson-video.hostingradio.ru:8080/hls/chansonabr/live.m3u8"	, "Radio Chanson (Russia)"
-  , "8:http://4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S62628868/uhdWBlkC1AoO/playlist.m3u8" , "Radio m2o (Italy)"
-  , "8:http://web.onair-radio.eu:1935/video/video/index.m3u8"			, "Reload TV (Greece)"
-  , "8:http://stream.mediawork.cz/retrotv/retrotvHQ1/playlist.m3u8"		, "Retro Music (Czech Republic)"
-  , "0:qWf-FPFmVw0"								, "Shuffle Dance Music (YouTube)"
-  , "8:http://web.onair-radio.eu:1935/Alpha-Host/Alpha-Host/playlist.m3u8"	, "Siganos Music (Greece)"
-  , "9a:live/stingray-classica"							, "Stingray Classica (Canada) *"
-  , "9a:live/stingray-qello"							, "Stingray Qello (Canada) *"
-  , "8:http://live.stranafm.cdnvideo.ru/stranafm/smil:stranafm.smil/playlist.m3u8" , "Strana FM (Russia)"
-  , "8:http://stream.v2beat.live/playlist.m3u8"					, "V2Beat (Germany)"
-  , "1p:5d93b635b43dd1a399b39eee"						, "Vevo Pop (US) *"
-  , "8:http://wms.shared.streamshow.it/visualradio/mp4:visualradio/playlist.m3u8" , "Visual Radio (Turkey)"
+  , "Company TV (Italy)"		, "8:https://company.fluid.stream/CompanyTV/smil:Company_ALL.smil/playlist.m3u8"
+  , "Deejay TV (Italy)"			, "8:http://4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S85984808/sMO0tz9Sr2Rk/playlist.m3u8"
+  , "Ditty TV (US)"			, "8:https://0ba805a2403b4660bbb05c0a210ebbdc.mediatailor.us-east-1.amazonaws.com/v1/master/04fd913bb278d8775298c26fdca9d9841f37601f/ONO_DittyTV/playlist.m3u8"
+  , "Kaloopy (US) *"			, "9a:live/kaloopy"
+  , "KroneHit TV (Austria)"		, "8:http://bitcdn-kronehit.bitmovin.com/v2/hls/index.m3u8"
+  , "Ocko Expres (Czech Republic)"	, "8:http://ocko-live.ssl.cdn.cra.cz/channels/ocko_expres/playlist.m3u8"
+  , "Power HD (Turkey)"			, "8:http://livetv.powerapp.com.tr/powerTV/powerhd.smil/playlists.m3u8"
+  , "Radio Capital (Italy)"		, "8:http://4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S35394734/Z6U2wGoDYANk/playlist.m3u8"
+  , "Radio Chanson (Russia)"		, "8:http://chanson-video.hostingradio.ru:8080/hls/chansonabr/live.m3u8"
+  , "Radio m2o (Italy)"			, "8:http://4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S62628868/uhdWBlkC1AoO/playlist.m3u8"
+  , "Reload TV (Greece)"		, "8:http://web.onair-radio.eu:1935/video/video/index.m3u8"
+  , "Retro Music (Czech Republic)"	, "8:http://stream.mediawork.cz/retrotv/retrotvHQ1/playlist.m3u8"
+  , "Shuffle Dance Music (YouTube)"	, "0:qWf-FPFmVw0"
+  , "Siganos Music (Greece)"		, "8:http://web.onair-radio.eu:1935/Alpha-Host/Alpha-Host/playlist.m3u8"
+  , "Stingray Classica (Canada) *"	, "9a:live/stingray-classica"
+  , "Stingray Qello (Canada) *"		, "9a:live/stingray-qello"
+  , "Strana FM (Russia)"		, "8:http://live.stranafm.cdnvideo.ru/stranafm/smil:stranafm.smil/playlist.m3u8"
+  , "V2Beat (Germany)"			, "8:http://stream.v2beat.live/playlist.m3u8"
+  , "Vevo Pop (US) **"			, "1p:5d93b635b43dd1a399b39eee"
+  , "Visual Radio (Turkey)"		, "8:http://wms.shared.streamshow.it/visualradio/mp4:visualradio/playlist.m3u8"
 ];
 
 var stack_7_3 = [""
-  , "5a:wabc-new-york-abc-east-live-stream"						, "ABC *"
-  , "1e:3324f2467c414329b3b0cc5cd987b6be"						, "ABC News"
-  , "5a:amc-live-stream"								, "AMC *"
-  , "5a:bbc-america-live-stream"							, "BBC America *"
-  , "8:https://www.bloomberg.com/media-manifest/streams/phoenix-us.m3u8"		, "Bloomberg"
-  , "5a:wcbs-new-york-cbs-east-live-stream"						, "CBS *"
-  , "8:http://cbsn-us.cbsnstream.cbsnews.com/out/v1/55a8648e8f134e82a470f83d562deeca/master.m3u8" , "CBS News"
-  , "5a:cnbc-live-stream"								, "CNBC *"
-  , "5a:cnn-live-stream"								, "CNN *"
-  , "5a:cspan-live-stream"								, "C-SPAN *"
-  , "5a:cspan-2-live-stream"								, "C-SPAN 2 *"
-  , "8:https://dai.google.com/linear/hls/event/xrVrJYTmTfitfXBQfeZByQ/master.m3u8"	, "ET Live"
-  , "5a:wnyw-new-york-fox-east-live-stream"						, "Fox *"
-  , "5a:fox-business-network-live-stream"						, "Fox Business *"
-  , "5a:fox-news-channel-live-stream"							, "Fox News *"
-  , "8:https://fox-foxnewsnow-samsungus.amagi.tv/playlist.m3u8"				, "Fox News Now"
-  , "5a:msnbc-live-stream"								, "MSNBC *"
-  , "5a:wnbc-new-york-nbc-east-live-stream"						, "NBC *"
-  , "8:https://dai2.xumo.com/amagi_hls_data_xumo1212A-xumo-nbcnewsnow/CDN/master.m3u8"	, "NBC News"
-  , "1p:5e7cf6c7b156d500078c5f44"							, "OAN"
-  , "9a:live/oan-encore"								, "OAN Encore *"
-  , "5a:pbs-13-wnet-new-york-live-stream"						, "PBS *"
-  , "8:https://linear-10.frequency.stream/dist/zype/10/hls/master/playlist.m3u8"	, "PopStar!"
-  , "5a:sundancetv-hd-live-stream"							, "Sundance *"
-  , "5a:syfy-live-stream"								, "Syfy *"
-  , "/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023172/tbseast/slate/VIDEO_2_1964000.m3u8" , "TBS (East)"
-  , "/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023174/tbswest/slate/VIDEO_2_1964000.m3u8" , "TBS (West)"
-  , "5a:the-cw-live-stream"								, "The CW *"
-  , "8:https://d2dimalv43j51f.cloudfront.net/out/v1/52d3048e53eb42a7959dc347d2f810e2/index.m3u8" , "TMZ"
-  , "/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023168/tnteast/slate/VIDEO_2_1964000.m3u8" , "TNT (East)"
-  , "/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023170/tntwest/slate/VIDEO_2_1964000.m3u8" , "TNT (West)"
-  , "/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023176/trueast/slate/VIDEO_2_1964000.m3u8" , "Tru TV (East)"
-  , "/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023178/truwest/slate/VIDEO_2_1964000.m3u8" , "Tru TV (West)"
-  , "5a:usa-network-live-stream"							, "USA Network *"
-  , "5a:we-tv-live-stream"								, "WE TV *"
+  , "ABC *"				, "5a:wabc-new-york-abc-east-live-stream"
+  , "ABC News"				, "1e:3324f2467c414329b3b0cc5cd987b6be"
+  , "AMC *"				, "5a:amc-live-stream"
+  , "BBC America *"			, "5a:bbc-america-live-stream"
+  , "Bloomberg"				, "8:https://www.bloomberg.com/media-manifest/streams/phoenix-us.m3u8"
+  , "CBS *"				, "5a:wcbs-new-york-cbs-east-live-stream"
+  , "CBS News"				, "8:http://cbsn-us.cbsnstream.cbsnews.com/out/v1/55a8648e8f134e82a470f83d562deeca/master.m3u8"
+  , "CNBC *"				, "5a:cnbc-live-stream"
+  , "CNN *"				, "5a:cnn-live-stream"
+  , "C-SPAN *"				, "5a:cspan-live-stream"
+  , "C-SPAN 2 *"			, "5a:cspan-2-live-stream"
+  , "ET Live"				, "8:https://dai.google.com/linear/hls/event/xrVrJYTmTfitfXBQfeZByQ/master.m3u8"
+  , "Fox *"				, "5a:wnyw-new-york-fox-east-live-stream"
+  , "Fox Business *"			, "5a:fox-business-network-live-stream"
+  , "Fox News *"			, "5a:fox-news-channel-live-stream"
+  , "Fox News Now"			, "8:https://fox-foxnewsnow-samsungus.amagi.tv/playlist.m3u8"
+  , "MSNBC *"				, "5a:msnbc-live-stream"
+  , "NBC *"				, "5a:wnbc-new-york-nbc-east-live-stream"
+  , "NBC News"				, "8:https://dai2.xumo.com/amagi_hls_data_xumo1212A-xumo-nbcnewsnow/CDN/master.m3u8"
+  , "OAN **"				, "1p:5e7cf6c7b156d500078c5f44"
+  , "OAN Encore *"			, "9a:live/oan-encore"
+  , "PBS *"				, "5a:pbs-13-wnet-new-york-live-stream"
+  , "PopStar!"				, "8:https://linear-10.frequency.stream/dist/zype/10/hls/master/playlist.m3u8"
+  , "Sundance *"			, "5a:sundancetv-hd-live-stream"
+  , "Syfy *"				, "5a:syfy-live-stream"
+  , "TBS (East)"			, "/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023172/tbseast/slate/VIDEO_2_1964000.m3u8"
+  , "TBS (West)"			, "/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023174/tbswest/slate/VIDEO_2_1964000.m3u8"
+  , "The CW *"				, "5a:the-cw-live-stream"
+  , "TMZ"				, "8:https://d2dimalv43j51f.cloudfront.net/out/v1/52d3048e53eb42a7959dc347d2f810e2/index.m3u8"
+  , "TNT (East)"			, "/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023168/tnteast/slate/VIDEO_2_1964000.m3u8"
+  , "TNT (West)"			, "/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023170/tntwest/slate/VIDEO_2_1964000.m3u8"
+  , "Tru TV (East)"			, "/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023176/trueast/slate/VIDEO_2_1964000.m3u8"
+  , "Tru TV (West)"			, "/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023178/truwest/slate/VIDEO_2_1964000.m3u8"
+  , "USA Network *"			, "5a:usa-network-live-stream"
+  , "WE TV *"				, "5a:we-tv-live-stream"
 ];
 
 var stack_7_4 = [""
-  , "9a:live/adventure-sports-tv"							, "Adventure Sports *"
-  , "1p:5e84f54a82f05300080e6746"							, "America's Test Kitchen *"
-  , "9a:live/billiard-tv"								, "Billiard TV *"
-  , "9a:live/boxing-tv"									, "Boxing TV *"
-  , "9a:live/dot-esports"								, "Dot Esports *"
-  , "7a:channel/dungeon-tv-2"								, "Dungeon TV **"
-  , "9a:live/entrepreneur-1"								, "Entrepreneur *"
-  , "9a:live/gusto-tv"									, "Gusto TV *"
-  , "5a:hgtv-live-stream"								, "HGTV *"
-  , "8:http://1111296894.rsc.cdn77.org/LS-ATL-56868-1/index.m3u8"			, "Hunt Channel"
-  , "9a:live/mma-junkie"								, "MMA Junkie *"
-  , "8:https://3fa797d5.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/T05PX01vdG9yVHJlbmRGYXN0VFZfSExT/playlist.m3u8"
-     , "MotorTrend FAST TV"
-  , "1p:5de94dacb394a300099fa22a"							, "PGA Tour *"
-  , "8:http://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8"		, "Red Bull TV"
-  , "9a:live/right-now-tv"								, "Right Now TV *"
-  , "7a:channel/speedvision"								, "SpeedVision **"
-  , "8:https://sportsgrid-klowdtv.amagi.tv/hls/amagi_hls_data_klowdtvAA-sportsgrid-klowdtv/CDN/playlist.m3u8" , "Sports Grid"
-  , "8:https://tastemade-xumo.amagi.tv/hls/amagi_hls_data_tastemade-tastemadefreetv16xumo/CDN/master.m3u8" , "Tastemade"
-  , "1e:1831163f97674328ad9f4b4814ed39c5"						, "TBD (Sinclair)"
-  , "1p:5d51e791b7dba3b2ae990ab2"							, "This Old House *"
-  , "8:https://live-manifest.production-public.tubi.io/live/0831606b-a9dc-4ee9-a381-52b0c9b59b2f/playlist.m3u8"
-     , "Waypoint TV"
-  , "9a:live/world-poker-tour"								, "World Poker Tour *"
-  , "5a:espn-live-stream"								, "ESPN *"
-  , "5a:espn2-live-stream"								, "ESPN 2 *"
-  , "5a:fox-sports-1-live-stream"							, "Fox Sports 1 *"
-  , "5a:fox-sports-2-live-stream"							, "Fox Sports 2 *"
-  , "5a:golf-channel-live-stream"							, "Golf Channel *"
-  , "5a:nba-tv-live-stream/"								, "NBA TV *"
-  , "5a:golf-channel-live-stream"							, "NBC Golf *"
-  , "5a:nfl-network-live-stream"							, "NFL Network *"
-  , "5a:nhl-network-live-stream"							, "NHL Network *"
-  , "1x:olympic"									, "Olympic Channel *"
-  , "8:https://tennischannel-intl-samsung-uk.amagi.tv/playlist.m3u8"			, "Tennis Channel"
+  , "Adventure Sports *"		, "9a:live/adventure-sports-tv"
+  , "America's Test Kitchen **"		, "1p:5e84f54a82f05300080e6746"
+  , "Billiard TV *"			, "9a:live/billiard-tv"
+  , "Boxing TV *"			, "9a:live/boxing-tv"
+  , "Dot Esports *"			, "9a:live/dot-esports"
+  , "Dungeon TV *^"			, "7a:channel/dungeon-tv-2"
+  , "Entrepreneur *"			, "9a:live/entrepreneur-1"
+  , "Gusto TV *"			, "9a:live/gusto-tv"
+  , "HGTV *"				, "5a:hgtv-live-stream"
+  , "Hunt Channel"			, "8:http://1111296894.rsc.cdn77.org/LS-ATL-56868-1/index.m3u8"
+  , "MMA Junkie *"			, "9a:live/mma-junkie"
+  , "MotorTrend FAST TV"		, "8:https://3fa797d5.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/T05PX01vdG9yVHJlbmRGYXN0VFZfSExT/playlist.m3u8"
+  , "PGA Tour **"			, "1p:5de94dacb394a300099fa22a"
+  , "Red Bull TV"			, "8:http://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8"
+  , "Right Now TV *"			, "9a:live/right-now-tv"
+  , "SpeedVision *^"			, "7a:channel/speedvision"
+  , "Sports Grid"			, "8:https://sportsgrid-klowdtv.amagi.tv/hls/amagi_hls_data_klowdtvAA-sportsgrid-klowdtv/CDN/playlist.m3u8"
+  , "Tastemade"				, "8:https://tastemade-xumo.amagi.tv/hls/amagi_hls_data_tastemade-tastemadefreetv16xumo/CDN/master.m3u8"
+  , "TBD (Sinclair)"			, "1e:1831163f97674328ad9f4b4814ed39c5"
+  , "This Old House **"			, "1p:5d51e791b7dba3b2ae990ab2"
+  , "Waypoint TV"			, "8:https://live-manifest.production-public.tubi.io/live/0831606b-a9dc-4ee9-a381-52b0c9b59b2f/playlist.m3u8"
+  , "World Poker Tour *"		, "9a:live/world-poker-tour"
+  , "ESPN *"				, "5a:espn-live-stream"
+  , "ESPN 2 *"				, "5a:espn2-live-stream"
+  , "Fox Sports 1 *"			, "5a:fox-sports-1-live-stream"
+  , "Fox Sports 2 *"			, "5a:fox-sports-2-live-stream"
+  , "Golf Channel *"			, "5a:golf-channel-live-stream"
+  , "NBA TV *"				, "5a:nba-tv-live-stream/"
+  , "NBC Golf *"			, "5a:golf-channel-live-stream"
+  , "NFL Network *"			, "5a:nfl-network-live-stream"
+  , "NHL Network *"			, "5a:nhl-network-live-stream"
+  , "Olympic Channel *"			, "1x:olympic"
+  , "Tennis Channel"			, "8:https://tennischannel-intl-samsung-uk.amagi.tv/playlist.m3u8"
 ];
 
 var stack_7_5 = [""
-  , "5a:american-heroes-channel-live-stream"						, "American Heroes *"
-  , "8:https://install.akctvcontrol.com/speed/broadcast/138/desktop-playlist.m3u8"	, "American Kennel Club"
-  , "8:http://circle-xumo.amagi.tv/playlist.m3u8"					, "Circle TV"
-  , "8:https://classicarts.akamaized.net/hls/live/1024257/CAS/master.m3u8"		, "Classic Arts Showcase"
-  , "9a:live/comedy-dynamics"								, "Comedy Dynamics *"
-  , "1e:3e45c6b5354a40f787e0b2aadb0f5d6a"						, "Comet"
-  , "9a:live/dark-matter-tv"								, "Dark Matter TV *"
-  , "8:https://stream.ads.ottera.tv/playlist.m3u8?network_id=3444"			, "DocuBay"
-  , "9a:live/dove-channel"								, "Dove Channel *"
-  , "8:https://fash1043.cloudycdn.services/slive/_definst_/ftv_midnite_secrets_adaptive.smil/playlist.m3u8"
-    , "FTV Midnight Secrets"
-  , "5a:fx-live-stream"									, "FX *"
-  , "5a:fx-movie-live-stream"								, "FX Movie *"
-  , "5a:fxx-live-stream"								, "FXX *"
-  , "7a:channel/galxy-tv-2"								, "Galxy TV **"
-  , "5a:hbo-east-live-stream"								, "HBO East*"
-  , "5a:hbo-signature-live-stream"							, "HBO Signature *"
-  , "9a:live/horror-machine"								, "Horror Machine *"
-  , "8:http://dai2.xumo.com/amagi_hls_data_xumo1234A-lawcrime/CDN/master.m3u8"		, "Law & Crime"
-  , "9a:live/lone-star"									, "Lone Star *"
-  , "1p:5cb0cae7a461406ffe3f5213"							, "Paramount Movie Channel *"
-  , "1p:5812bcc8237a6ff45d16c407"							, "Paramount Network *"
-  , "7a:channel/scream-factory-tv"							, "Scream Factory **"
-  , "8:https://stream-us-east-1.getpublica.com/playlist.m3u8?network_id=74"		, "The Archive"
-  , "8:https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01201-cinedigmenterta-filmdetective-cineverse/playlist.m3u8"
-     , "The Film Detective"
-  , "7a:channel/the-pet-collective-2"							, "The Pet Collective **"
-  , "7a:channel/unexplained"								, "Unexplained **"
+  , "American Heroes *"			, "5a:american-heroes-channel-live-stream"
+  , "American Kennel Club"		, "8:https://install.akctvcontrol.com/speed/broadcast/138/desktop-playlist.m3u8"
+  , "Circle TV"				, "8:http://circle-xumo.amagi.tv/playlist.m3u8"
+  , "Classic Arts Showcase"		, "8:https://classicarts.akamaized.net/hls/live/1024257/CAS/master.m3u8"
+  , "Comedy Dynamics *"			, "9a:live/comedy-dynamics"
+  , "Comet"				, "1e:3e45c6b5354a40f787e0b2aadb0f5d6a"
+  , "Dark Matter TV *"			, "9a:live/dark-matter-tv"
+  , "DocuBay"				, "8:https://stream.ads.ottera.tv/playlist.m3u8?network_id=3444"
+  , "Dove Channel *"			, "9a:live/dove-channel"
+  , "FTV Midnight Secrets"		, "8:https://fash1043.cloudycdn.services/slive/_definst_/ftv_midnite_secrets_adaptive.smil/playlist.m3u8"
+  , "FX *"				, "5a:fx-live-stream"
+  , "FX Movie *"			, "5a:fx-movie-live-stream"
+  , "FXX *"				, "5a:fxx-live-stream"
+  , "Galxy TV *^"			, "7a:channel/galxy-tv-2"
+  , "HBO East*"				, "5a:hbo-east-live-stream"
+  , "HBO Signature *"			, "5a:hbo-signature-live-stream"
+  , "Horror Machine *"			, "9a:live/horror-machine"
+  , "Law & Crime"			, "8:http://dai2.xumo.com/amagi_hls_data_xumo1234A-lawcrime/CDN/master.m3u8"
+  , "Lone Star *"			, "9a:live/lone-star"
+  , "Paramount Movie Channel **"	, "1p:5cb0cae7a461406ffe3f5213"
+  , "Paramount Network **"		, "1p:5812bcc8237a6ff45d16c407"
+  , "Scream Factory *^"			, "7a:channel/scream-factory-tv"
+  , "The Archive"			, "8:https://stream-us-east-1.getpublica.com/playlist.m3u8?network_id=74"
+  , "The Film Detective"		, "8:https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01201-cinedigmenterta-filmdetective-cineverse/playlist.m3u8"
+  , "The Pet Collective *^"		, "7a:channel/the-pet-collective-2"
+  , "Unexplained *^"			, "7a:channel/unexplained"
 ];
 
-//https://abc-news-dmd-streams-1.akamaized.net/out/v1/abc83881886746b0802dc3e7ca2bc792/index.m3u8
-
 var stack_7_6 = [""
-  , "/0/0/1 8a:stream=bbc-london"							, "BBC 1 **"
-  , "/396.1/0/0 8a:stream=bbc-two"							, "BBC 2 **"
-  , "3a:bbcnews_live"									, "BBC News *"
-  , "/396.1/0/0 8a:stream=cbbc"								, "CBBC **"
-  , "/396.1/0/0 8a:stream=cbeebies"							, "CBeebies **"
-  , "1p:55b285cd2665de274553d66f"							, "Sky News Int'l"
-  , "8:^https://slh/moc.aibaraswenyks.maerts/sna.m3u8"					, "Sky News Arabia"
-  , "0:Ap-UM1O9RBU"									, "France 24 - English (YT)"
-  , "0:l8PMl7tUDIE"									, "France 24 - French (YT)"
-  , "0:VuYzy8IuT0Y"									, "France 24 - Arabic (YT)"
-  , "8:https://abc-news-dmd-streams-1.akamaized.net/out/v1/701126012d044971b3fa89406a440133/index.m3u8"
-    , "ABC News (Australia)"
-  , "8:https://apollo.production-public.tubi.io/live/ac-cbc2.m3u8"			, "CBC News (Canada)"
-  , "8:^https://lmsi.evil/7f0d3f550165-66d8-f034-3201-f7e19a94/evil/dpuorg/moc.vedlatigidsuroc.evil/.m3u8" , "Global News"
-  , "8:https://2-fss-1.streamhoster.com/pl_122/201748-1431018-1/playlist.m3u8"		, "Newfoundland TV"
-  , "8:https://d1wal6k3d7ssin.cloudfront.net/out/v1/ea91db0906c847a4931b46a9ec36e77b/index.m3u8" , "Knowledge Network (BC)"
-  , "8:https://rcavlive.akamaized.net/hls/live/704025/xcanrdi/master.m3u8"		, "Ici RDI (CBC)"
-  , "8:https://d7z3qjdsxbwoq.cloudfront.net/groupa/live/f9809cea-1e07-47cd-a94d-2ddd3e1351db/live.isml/.m3u8" , "CPAC"
+  , "BBC 1 **"				, "/0/0/1 8a:stream=bbc-london"
+  , "BBC 2 **"				, "/396.1/0/0 8a:stream=bbc-two"
+  , "BBC News *"			, "3a:bbcnews_live"
+  , "CBBC **"				, "/396.1/0/0 8a:stream=cbbc"
+  , "CBeebies **"			, "/396.1/0/0 8a:stream=cbeebies"
+  , "Sky News Int'l **"			, "1p:55b285cd2665de274553d66f"
+  , "Sky News Arabia"			, "8:^https://slh/moc.aibaraswenyks.maerts/sna.m3u8"
+  , "France 24 - English (YT)"		, "0:Ap-UM1O9RBU"
+  , "France 24 - French (YT)"		, "0:l8PMl7tUDIE"
+  , "France 24 - Arabic (YT)"		, "0:VuYzy8IuT0Y"
+  , "ABC News (Australia)"		, "8:https://abc-news-dmd-streams-1.akamaized.net/out/v1/701126012d044971b3fa89406a440133/index.m3u8"
+  , "CBC News (Canada)"			, "8:https://apollo.production-public.tubi.io/live/ac-cbc2.m3u8"
+  , "Global News"			, "8:^https://lmsi.evil/7f0d3f550165-66d8-f034-3201-f7e19a94/evil/dpuorg/moc.vedlatigidsuroc.evil/.m3u8"
+  , "Newfoundland TV"			, "8:https://2-fss-1.streamhoster.com/pl_122/201748-1431018-1/playlist.m3u8"
+  , "Knowledge Network (BC)"		, "8:https://d1wal6k3d7ssin.cloudfront.net/out/v1/ea91db0906c847a4931b46a9ec36e77b/index.m3u8"
+  , "Ici RDI (CBC)"			, "8:https://rcavlive.akamaized.net/hls/live/704025/xcanrdi/master.m3u8"
+  , "CPAC"				, "8:https://d7z3qjdsxbwoq.cloudfront.net/groupa/live/f9809cea-1e07-47cd-a94d-2ddd3e1351db/live.isml/.m3u8"
 ];
 
 var stack_7_7 = [""
-  , "0:NQjabLGdP5g"								, "AfricaNews (YT)"
-  , "8:https://live-hls-web-aje.getaj.net/AJE/index.m3u8"			, "Al Jazeera"
-  , "8:http://amdlive.ctnd.com.edgesuite.net/arirang_1ch/smil:arirang_1ch.smil/chunklist.m3u8" , "Arirang (South Korea)"
-  , "/0/0/1 7:https://english-livetx.cgtn.com/hls/yypdyyctzb_hd.m3u8"		, "CGTN News"
-  , "8:https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8" , "Deutsche Welle"
-  , "9a:live/euronews"								, "EuroNews *"
-  , "0:8WX6YL9JnLw"								, "GB News (UK, YT)"
-  , "8:http://nhkwlive-ojp.akamaized.net/hls/live/2003459/nhkwlive-ojp-en/index.m3u8" , "NHK World Japan"
-  , "8:https://ntd02.akamaized.net/NTDA/index.m3u8"				, "NTD (New Tang Dynasty)"
-  , "8:https://ndtv24x7elemarchana.akamaized.net/hls/live/2003678/ndtv24x7/ndtv24x7master.m3u8" , "NDTV (India)"
-  , "8:https://cdnlive.presstv.ir/cdnlive/smil:cdnlive.smil/playlist.m3u8"	, "Press TV"
-  , "8:https://rt-glb.rttv.com/live/rtnews/playlist.m3u8"			, "RT News"
-  , "8:https://rt-rtd.rttv.com/live/rtdoc/playlist.m3u8"			, "RT Documentary"
-  , "8:https://cdnenmain.telesur.ultrabase.net/mblivev3/480p/playlist.m3u8"	, "TeleSUR"
-  , "8:http://tv-trtworld.medya.trt.com.tr/master.m3u8"				, "TRT World"
-  , "9a:live/wion-world-is-one-news"						, "World Is One News (India) *"
-  , "1p:5e46fba0c43b0d00096e5ac1"						, "Blaze TV *"
-  , "8:https://livestream.chdrstatic.com/b93e5b0d43ea306310a379971e384964acbe4990ce193c0bd50078275a9a657d/cheddar-42620/cheddarweblive/cheddar/index.m3u8"
-     , "Cheddar News"
-  , "8:https://edge.fstv-live-linear-channel.top.comcast.net/Content/HLS_HLSv3/Live/channel(b168a609-19c1-2203-ae1d-6b9726f05e67)/index.m3u8"
-    , "Free Speech TV"
-  , "8:https://nmxlive.akamaized.net/hls/live/529965/Live_1/index.m3u8"		, "NewsMax 2"
-  , "8:https://dai.google.com/linear/hls/event/c-oMNcDLTeuszRKPugMj9Q/master.m3u8" , "Real America's Voice"
-  , "8:https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg00732-salemmediagroup-snc-ono/playlist.m3u8" , "Salem Network"
-  , "8:https://thefirst-oando.amagi.tv/hls/amagi_hls_data_thefirstd-thefirst-oando/CDN/playlist.m3u8" , "The First TV"
-  , "8:https://tyt-xumo-us.amagi.tv/hls/amagi_hls_data_tytnetwor-tyt-xumo/CDN/master.m3u8" , "TYT - The Young Turks"
-  , "8:https://freespeech.akamaized.net/hls/live/2016712/live1/playlist.m3u8"	, "InfoWars - Main Feed"
-  , "8:https://freespeech.akamaized.net/hls/live/2024573/live2/playlist.m3u8"	, "InfoWars - Alex Jones"
-  , "8:https://freespeech.akamaized.net/hls/live/2016873/live3/playlist.m3u8"	, "InfoWars - Harrison Smith"
-  , "8:https://freespeech.akamaized.net/hls/live/2024574/live4/playlist.m3u8"	, "InfoWars - Owen Shroyer"
-  , "1f:tv1"									, "FrankSpeech TV 1 *"
-  , "1f:tv2"									, "FrankSpeech TV 2 *"
-  , "1f:tv3"									, "FrankSpeech TV 3 *"
+  , "AfricaNews (YT)"			, "0:NQjabLGdP5g"
+  , "Al Jazeera"			, "8:https://live-hls-web-aje.getaj.net/AJE/index.m3u8"
+  , "Arirang (South Korea)"		, "8:http://amdlive.ctnd.com.edgesuite.net/arirang_1ch/smil:arirang_1ch.smil/chunklist.m3u8"
+  , "CGTN News"				, "/0/0/1 7:https://english-livetx.cgtn.com/hls/yypdyyctzb_hd.m3u8"
+  , "Deutsche Welle"			, "8:https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8"
+  , "EuroNews *"			, "9a:live/euronews"
+  , "GB News (UK, YT)"			, "0:8WX6YL9JnLw"
+  , "NHK World Japan"			, "8:http://nhkwlive-ojp.akamaized.net/hls/live/2003459/nhkwlive-ojp-en/index.m3u8"
+  , "NTD (New Tang Dynasty)"		, "8:https://ntd02.akamaized.net/NTDA/index.m3u8"
+  , "NDTV (India)"			, "8:https://ndtv24x7elemarchana.akamaized.net/hls/live/2003678/ndtv24x7/ndtv24x7master.m3u8"
+  , "Press TV"				, "8:https://cdnlive.presstv.ir/cdnlive/smil:cdnlive.smil/playlist.m3u8"
+  , "RT News"				, "8:https://rt-glb.rttv.com/live/rtnews/playlist.m3u8"
+  , "RT Documentary"			, "8:https://rt-rtd.rttv.com/live/rtdoc/playlist.m3u8"
+  , "TeleSUR"				, "8:https://cdnenmain.telesur.ultrabase.net/mblivev3/480p/playlist.m3u8"
+  , "TRT World"				, "8:http://tv-trtworld.medya.trt.com.tr/master.m3u8"
+  , "World Is One News (India) *"	, "9a:live/wion-world-is-one-news"
+  , "Blaze TV **"			, "1p:5e46fba0c43b0d00096e5ac1"
+  , "Cheddar News"			, "8:https://livestream.chdrstatic.com/b93e5b0d43ea306310a379971e384964acbe4990ce193c0bd50078275a9a657d/cheddar-42620/cheddarweblive/cheddar/index.m3u8"
+  , "Free Speech TV"			, "8:https://edge.fstv-live-linear-channel.top.comcast.net/Content/HLS_HLSv3/Live/channel(b168a609-19c1-2203-ae1d-6b9726f05e67)/index.m3u8"
+  , "NewsMax 2"				, "8:https://nmxlive.akamaized.net/hls/live/529965/Live_1/index.m3u8"
+  , "Real America's Voice"		, "8:https://dai.google.com/linear/hls/event/c-oMNcDLTeuszRKPugMj9Q/master.m3u8"
+  , "Salem Network"			, "8:https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg00732-salemmediagroup-snc-ono/playlist.m3u8"
+  , "The First TV"			, "8:https://thefirst-oando.amagi.tv/hls/amagi_hls_data_thefirstd-thefirst-oando/CDN/playlist.m3u8"
+  , "TYT - The Young Turks"		, "8:https://tyt-xumo-us.amagi.tv/hls/amagi_hls_data_tytnetwor-tyt-xumo/CDN/master.m3u8"
+  , "InfoWars - Main Feed"		, "8:https://freespeech.akamaized.net/hls/live/2016712/live1/playlist.m3u8"
+  , "InfoWars - Alex Jones"		, "8:https://freespeech.akamaized.net/hls/live/2024573/live2/playlist.m3u8"
+  , "InfoWars - Harrison Smith"		, "8:https://freespeech.akamaized.net/hls/live/2016873/live3/playlist.m3u8"
+  , "InfoWars - Owen Shroyer"		, "8:https://freespeech.akamaized.net/hls/live/2024574/live4/playlist.m3u8"
+  , "FrankSpeech TV 1 *"		, "1f:tv1"
+  , "FrankSpeech TV 2 *"		, "1f:tv2"
+  , "FrankSpeech TV 3 *"		, "1f:tv3"
 ];
 
 var stack_7_8 = [""
-  , "8:http://ebsonair.ebs.co.kr/groundwavefamilypc/familypc1m/master.m3u8"	, "EBS-1 (South Korea)"
-  , "8:http://ebsonair.ebs.co.kr/ebs2familypc/familypc1m/index.m3u8"		, "EBS-2 (South Korea)"
-  , "8:https://ebsonair.ebs.co.kr/ebsufamilypc/familypc1m/playlist.m3u8"	, "EBS Kids (South Korea)"
-  , "/0/1/1 8:**http://thaipbs-live.cdn.byteark.com/live/playlist.m3u8"		, "Thai PBS (Thailand) **"
-  , "0:DOOrIxw5xOw" 								, "Kompas TV (Indonesia, YT)"
-  , "0:twhG7_jvA8g" 								, "CCTV-4 (China, YT)"
-  , "8:https://amtvusdvr.tulix.tv/am2abr/index.m3u8"				, "Public TV Armenia"
-  , "/0/540.1/0 7:http://85.132.81.184:8080/arbkepez/live/index.m3u8"		, "Kepez TV (Azerbaijan)"
-  , "/406.1/0/0 7:**http://alpha.tv.online.tm/hls/ch007_720/index.m3u8"		, "Turkmenistan TV *"
-  , "8:http://tvchannelstream1.tvzvezda.ru/cdn/tvzvezda/playlist.m3u8"		, "Zvezda TV (Russia)"
-  , "/0/576.1/0 7:http://stream.tvkujawy.pl:8080/live/broadcast.m3u8"		, "TV Kujawy (Poland)"
-  , "/0/0/1 7:http://stream.fs1.tv:8080/hls/webstream.m3u8"			, "FS1 Salzburg (Austria)"
-  , "8:https://h057.video-stream-hosting.de/radiowesertv-live/_definst_/mp4:livestreamTV/playlist.m3u8"
-    , "Radio Weser TV (Germany)"
-  , "8:http://live.streams.ovh:1935/tvfilopoli/tvfilopoli/playlist.m3u8"	, "TV Filopoli (Greece)"
-  , "8:http://wms.shared.streamshow.it:1935/supertv/supertv/live.m3u8"		, "Super TV (Italy)"
-  , "8:https://hls-live-tv2000.akamaized.net/hls/live/2028510/tv2000/master.m3u8" , "TV 2000 (Italy)"
-  , "8:https://cdnesmain.telesur.ultrabase.net/mbliveMain/480p/playlist.m3u8"	, "TeleSUR (Venezuela)"
-  , "8:http://unlimited1-us.dps.live/atv/atv.smil/playlist.m3u8"		, "Antofagasta TV (Chile)"
-  , "8:http://cdn.elsalvadordigital.com:1935/wowtv/wowtv/playlist.m3u8"		, "Wow! TV (El Salvador)"
-  , "8:http://streamingcws20.com:1935/lobodurango/videolobodurango/playlist.m3u8" , "TV Lobo (Mexico)"
+  , "EBS-1 (South Korea)"		, "8:http://ebsonair.ebs.co.kr/groundwavefamilypc/familypc1m/master.m3u8"
+  , "EBS-2 (South Korea)"		, "8:http://ebsonair.ebs.co.kr/ebs2familypc/familypc1m/index.m3u8"
+  , "EBS Kids (South Korea)"		, "8:https://ebsonair.ebs.co.kr/ebsufamilypc/familypc1m/playlist.m3u8"
+  , "Thai PBS (Thailand) **^"		, "/0/1/1 8:**http://thaipbs-live.cdn.byteark.com/live/playlist.m3u8"
+  , "Kompas TV (Indonesia, YT)"		, "0:DOOrIxw5xOw"
+  , "CCTV-4 (China, YT)"		, "0:twhG7_jvA8g"
+  , "Public TV Armenia"			, "8:https://amtvusdvr.tulix.tv/am2abr/index.m3u8"
+  , "Kepez TV (Azerbaijan)"		, "/0/540.1/0 7:http://85.132.81.184:8080/arbkepez/live/index.m3u8"
+  , "Turkmenistan TV *"			, "/406.1/0/0 7:**http://alpha.tv.online.tm/hls/ch007_720/index.m3u8"
+  , "Zvezda TV (Russia)"		, "8:http://tvchannelstream1.tvzvezda.ru/cdn/tvzvezda/playlist.m3u8"
+  , "TV Kujawy (Poland)"		, "/0/576.1/0 7:http://stream.tvkujawy.pl:8080/live/broadcast.m3u8"
+  , "FS1 Salzburg (Austria)"		, "/0/0/1 7:http://stream.fs1.tv:8080/hls/webstream.m3u8"
+  , "Radio Weser TV (Germany)"		, "8:https://h057.video-stream-hosting.de/radiowesertv-live/_definst_/mp4:livestreamTV/playlist.m3u8"
+  , "TV Filopoli (Greece)"		, "8:http://live.streams.ovh:1935/tvfilopoli/tvfilopoli/playlist.m3u8"
+  , "Super TV (Italy)"			, "8:http://wms.shared.streamshow.it:1935/supertv/supertv/live.m3u8"
+  , "TV 2000 (Italy)"			, "8:https://hls-live-tv2000.akamaized.net/hls/live/2028510/tv2000/master.m3u8"
+  , "TeleSUR (Venezuela)"		, "8:https://cdnesmain.telesur.ultrabase.net/mbliveMain/480p/playlist.m3u8"
+  , "Antofagasta TV (Chile)"		, "8:http://unlimited1-us.dps.live/atv/atv.smil/playlist.m3u8"
+  , "Wow! TV (El Salvador)"		, "8:http://cdn.elsalvadordigital.com:1935/wowtv/wowtv/playlist.m3u8"
+  , "TV Lobo (Mexico)"			, "8:http://streamingcws20.com:1935/lobodurango/videolobodurango/playlist.m3u8"
 ];
 
 var stack_7_9 = [""
@@ -313,16 +264,17 @@ var stack_7_9 = [""
 ?7a:channel/retrocrush
 ?7a:channel/asiancrush
 
+  australia abc  https://abc-news-dmd-streams-1.akamaized.net/out/v1/abc83881886746b0802dc3e7ca2bc792/index.m3u8
+
   , "8:https://stream-us-east-1.getpublica.com/playlist.m3u8?&network_id=1879"		, "OAN Encore"
   , "8:https://snc-ono.amagi.tv/playlist.m3u8"						, "Salem Network"
-  , "9a:live/euronews"									, "EuroNews *"
   , "1:UCeY0bbntWzzVIaj2z3QigXg"							, "NBC News (YT)"
   , "/432.1/0/0 7:*https://usnewson.com*https://s0.usnlive.com/stream/foxnews.m3u8"	, "Fox News **"
   , "/0/540.1/0 7:*https://usnewson.com*https://s0.usnlive.com/stream/msnbc.m3u8"	, "MSNBC **"
 
 */
 
-const req_tubitv = async (id, frame, fmt) =>
+frame_7.req_tubitv = async (id, frame, fmt) =>
 {
   var tag = "tubitv"; id = getid (frame, id, 9, -7);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
@@ -364,7 +316,7 @@ try
 }
 ////////////////////
 
-const req_thearchive = async (id, frame, fmt) =>
+frame_7.req_thearchive = async (id, frame, fmt) =>
 {
   var tag = "thearchive"; id = getid (frame, id, -6);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
@@ -392,7 +344,7 @@ try
 }
 ////////////////////
 
-const req_emovies = async (id, frame, fmt) =>
+frame_7.req_emovies = async (id, frame, fmt) =>
 {
   var tag = "emovies"; id = getid (frame, id, -6);
   if (!id || is_busy (frame, tag + " (ID)", 2)) return;
@@ -424,7 +376,7 @@ try
 }
 ////////////////////
 
-const req_bilibili = async (id, frame, fmt) =>
+frame_7.req_bilibili = async (id, frame, fmt) =>
 {
   var tag = "bilibili"; id = getid (frame, id, 16);
   if (!id || is_busy (frame, tag + " (ID)", 2)) return;
@@ -476,7 +428,7 @@ try
 }
 ////////////////////
 
-const req_goku = async (id, frame, fmt) =>
+frame_7.req_goku = async (id, frame, fmt) =>
 {
   var tag = "goku"; id = getid (frame, id, -7);
   if (!id || is_busy (frame, tag + " (ID)", 2)) return;
@@ -527,7 +479,7 @@ try
 }
 ////////////////////
 
-const req_goojara = async (id, frame, fmt) =>
+frame_7.req_goojara = async (id, frame, fmt) =>
 {
   var tag = "goojara"; id = getid (frame, id, 6);
   if (!id || is_busy (frame, tag + " (ID)", 2)) return;
@@ -585,7 +537,7 @@ try
 }
 ////////////////////
 
-const req_playtaku = async (id, frame, fmt) =>
+frame_7.req_playtaku = async (id, frame, fmt) =>
 {
   var tag = "playtaku"; id = getid (frame, id, -8, -6);
   if (!id || is_busy (frame, tag + " (ID)", 2)) return;
@@ -709,7 +661,7 @@ try
 }
 ////////////////////
 
-const req_xhamster = async (id, frame, fmt) =>
+frame_7.req_xhamster = async (id, frame, fmt) =>
 {
   var tag = "xhamster"; id = getid (frame, id, -8);
   if (!id || is_busy (frame, tag + " (ID)", 2)) return;
@@ -748,7 +700,7 @@ if (stream_all (frame, 0)) fmt = ""; else try
 }
 ////////////////////
 
-const req_doodstream = async (id, frame, fmt) =>
+frame_7.req_doodstream = async (id, frame, fmt) =>
 {
   var tag = "doodstream"; id = getid (frame, id, 12);
   if (!id || is_busy (frame, tag + " (ID)", 2)) return;
@@ -775,7 +727,7 @@ try
 }
 ////////////////////
 
-const req_dropload = async (id, frame, fmt) =>
+frame_7.req_dropload = async (id, frame, fmt) =>
 {
   var tag = "dropload"; id = getid (frame, id, 12);
   if (!id || is_busy (frame, tag + " (ID)", 2)) return;
@@ -805,7 +757,7 @@ try
 }
 ////////////////////
 
-const req_eplayvid = async (id, frame, fmt) =>
+frame_7.req_eplayvid = async (id, frame, fmt) =>
 {
   var tag = "eplayvid"; id = getid (frame, id, 15);
   if (!id || is_busy (frame, tag + " (ID)", 2)) return;
@@ -826,7 +778,7 @@ if (stream_all (frame, 0)) fmt = ""; else try
 }
 ////////////////////
 
-const req_mixdrop = async (id, frame, fmt) =>
+frame_7.req_mixdrop = async (id, frame, fmt) =>
 {
   if (id [0] != "*") id = "*" + id; id = getid (frame, id);
 
@@ -854,7 +806,7 @@ if (stream_all (frame, 0)) fmt = ""; else try
 }
 ////////////////////
 
-const req_pkspeed = async (id, frame, fmt) =>
+frame_7.req_pkspeed = async (id, frame, fmt) =>
 {
   var tag = "pkspeed"; id = getid (frame, id, 12);
   if (!id || is_busy (frame, tag + " (ID)", 2)) return;
@@ -889,7 +841,7 @@ if (stream_all (frame, 0)) fmt = ""; else try
 }
 ////////////////////
 
-const req_streamtape = async (id, frame, fmt) =>
+frame_7.req_streamtape = async (id, frame, fmt) =>
 {
   var tag = "streamtape"; id = getid (frame, id, -15);
   if (!id || is_busy (frame, tag + " (ID)", 2)) return;
@@ -911,7 +863,7 @@ try
 }
 ////////////////////
 
-const req_upstream = async (id, frame, fmt) =>
+frame_7.req_upstream = async (id, frame, fmt) =>
 {
   var tag = "upstream"; id = getid (frame, id, 12);
   if (!id || is_busy (frame, tag + " (ID)", 1)) return;
@@ -948,7 +900,7 @@ if (stream_all (frame, 0)) fmt = ""; else try
 }
 ////////////////////
 
-const req_vtube = async (id, frame, fmt) =>
+frame_7.req_vtube = async (id, frame, fmt) =>
 {
   var tag = "vtube"; id = getid (frame, id, 12);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
@@ -976,7 +928,7 @@ if (stream_all (frame, 0)) fmt = ""; else try
 }
 ////////////////////
 
-const req_wootly = async (id, frame, fmt) =>
+frame_7.req_wootly = async (id, frame, fmt) =>
 {
   var tag = "wootly"; id = getid (frame, id, 8);
   if (!id || is_busy (frame, tag + " (ID)", 2)) return;
@@ -1011,7 +963,7 @@ try
 }
 ////////////////////
 
-const dig_tubitv = async (url, frame, fmt) =>
+frame_7.dig_tubitv = async (url, frame, fmt) =>
 {
   var tag = "tubitv"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -1026,11 +978,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_tubitv (url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_7.req_tubitv (url, frame, fmt);
 }
 ////////////////////
 
-const dig_thearchive = async (url, frame, fmt) =>
+frame_7.dig_thearchive = async (url, frame, fmt) =>
 {
   var tag = "thearchive"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -1043,11 +995,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_thearchive (url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_7.req_thearchive (url, frame, fmt);
 }
 ////////////////////
 
-const dig_darkmatter = async (url, frame, fmt) =>
+frame_7.dig_darkmatter = async (url, frame, fmt) =>
 {
   var tag = "darkmatter"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -1084,7 +1036,7 @@ try
 }
 ////////////////////
 
-const dig_plextv = async (url, frame, fmt) =>
+frame_7.dig_plextv = async (url, frame, fmt) =>
 {
   var s, tag = "plextv"; if (is_busy (frame, tag + " (DIG)", 0)) return;
   var src = "https://vod.provider.plex.tv/library/";
@@ -1119,7 +1071,7 @@ try
 }
 ////////////////////
 
-const dig_playtaku = async (url, frame, fmt) =>
+frame_7.dig_playtaku = async (url, frame, fmt) =>
 {
   var tag = "playtaku"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -1135,11 +1087,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_playtaku (url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_7.req_playtaku (url, frame, fmt);
 }
 ////////////////////
 
-const dig_emovies = async (url, frame, fmt) =>
+frame_7.dig_emovies = async (url, frame, fmt) =>
 {
   var tag = "emovies"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -1168,11 +1120,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_emovies (url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_7.req_emovies (url, frame, fmt);
 }
 ////////////////////
 
-const dig_goku = async (url, frame, fmt) =>
+frame_7.dig_goku = async (url, frame, fmt) =>
 {
   var s, tag = "goku"; if (is_busy (frame, tag + " (DIG)", 2)) return;
 
@@ -1191,11 +1143,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_goku (url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_7.req_goku (url, frame, fmt);
 }
 ////////////////////
 
-const dig_noxx = async (url, frame, fmt) =>
+frame_7.dig_noxx = async (url, frame, fmt) =>
 {
   var tag = "noxx"; if (is_busy (frame, tag + " (DIG)", 2)) return;
 
@@ -1231,7 +1183,7 @@ try
 }
 ////////////////////
 
-const dig_pressplay = async (url, frame, fmt) =>
+frame_7.dig_pressplay = async (url, frame, fmt) =>
 {
   var tag = "pressplay"; if (is_busy (frame, tag + " (DIG)", 2)) return;
 
@@ -1284,7 +1236,7 @@ try
 }
 ////////////////////
 
-const dig_vidcloud = async (url, frame, fmt) =>
+frame_7.dig_vidcloud = async (url, frame, fmt) =>
 {
   var tag = "vidcloud"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -1297,11 +1249,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) req_vidcloud (url, frame, fmt);
+  busy = -busy; if (no_fail (frame)) frame_7.req_vidcloud (url, frame, fmt);
 }
 ////////////////////
 
-const dig_xvideos = async (url, frame, fmt) =>
+frame_7.dig_xvideos = async (url, frame, fmt) =>
 {
   var tag = "xvideos"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -1323,7 +1275,7 @@ try
 }
 ////////////////////
 
-const dig_internetradio = async (url, frame, fmt) =>
+frame_7.dig_inetradio = async (url, frame, fmt) =>
 {
   var tag = "internetradio"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 

@@ -33,31 +33,11 @@ document.getElementById ("ytx7").innerHTML = `
 `;
 
 document.getElementById ("src7").innerHTML += `
-  <option value= 16>? mp4 - 9vids
-  <option value= 19>? mp4 - GoodPorn
+  <option value= "9vids"    >? mp4 - 9vids
+  <option value= "goodporn" >? mp4 - GoodPorn
 `;
 
-var frame_dig_7 = function (src, url, frame, fmt, func)
-{
-  if (src == 1 ) func = dig_tubitv;
-  if (src == 4 ) func = dig_thearchive;
-  if (src == 3 ) func = dig_darkmatter;
-  if (src == 7 ) func = dig_plextv;
-  if (src == 5 ) func = dig_playtaku;
-  if (src == 10) func = dig_emovies;
-  if (src == 11) func = dig_goku;
-  if (src == 14) func = dig_noxx;
-  if (src == 15) func = dig_pressplay;
-  if (src == 2 ) func = dig_vidcloud;
-  if (src == 9 ) func = dig_xvideos;
-  if (src == 40) func = dig_internetradio;
-  if (src == 16) func = dig_9vids;
-  if (src == 19) func = dig_goodporn;
-
-  if (func) func (url, frame, fmt); else no_fail (frame, "", "Not supported");
-}
-
-const dig_9vids = async (url, frame, fmt) =>
+frame_7.dig_9vids = async (url, frame, fmt) =>
 {
   var tag = "9vids"; if (is_busy (frame, tag + " (DIG)", 0)) return;
 
@@ -76,7 +56,7 @@ try
 }
 ////////////////////
 
-const dig_goodporn = async (url, frame, fmt) =>
+frame_7.dig_goodporn = async (url, frame, fmt) =>
 {
   var tag = "goodporn"; if (is_busy (frame, tag + " (DIG)", 1)) return;
   var n, a, b, r, s, t, sub, f = [0,0,0,0], u = [0,0,0,0];
