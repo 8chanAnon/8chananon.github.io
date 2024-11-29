@@ -5,9 +5,3 @@ Move the tabs bar to below the other toolbars (Firefox 133)
 #TabsToolbar {
   order: 1;
 }
-
-/* align the tabs toolbar with the bottom border */
-#TabsToolbar-customization-target {
-  margin-bottom: -8px !important;
-}
-

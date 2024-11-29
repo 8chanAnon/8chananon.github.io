@@ -10,6 +10,8 @@ Changed margin and width+height settings for sound and close icons.
 
 The root var "--tab-border-radius" was not defined in previous Firefox versions.
 Firefox 91 stole my var. I added the keyword "!important" to reclaim my ownership. Kek.
+
+Updated on November 29, 2024 to fix tabs height for Firefox 133.
 */
 
 :root {
@@ -134,7 +136,8 @@ Firefox 91 stole my var. I added the keyword "!important" to reclaim my ownershi
   border-bottom-width: 0 !important;
 }
 
-#tabbrowser-arrowscrollbox {
+/* Firefox 133: added #TabsToolbar-customization-target */
+#TabsToolbar-customization-target, #tabbrowser-arrowscrollbox {
   height: calc(var(--tab-min-height)) !important;
 }
 
