@@ -1,0 +1,25 @@
+/*
+Move the tabs bar to below the other toolbars (Firefox 89, Photon or Proton)
+
+Updated for Firefox 113 (May 14, 2023)
+Updated for Firefox 116 (August 7, 2023)
+
+Brief explanation:
+
+#navigator-toolbox contains #titlebar, #nav-bar (navigation bar) and #PersonalToolbox (bookmarks bar)
+#titlebar contains #toolbar-menubar (menu, window controls) and #TabsToolbar (our tabs)
+Ordinal groups: #titlebar (0), #nav-bar (1), #PersonalToolbox (2)
+
+We set #titlebar to ordinal group 3 and then force #toolbar-menubar to be drawn at the top of the screen.
+This splits the menu from the tabs while leaving the navigation bar and the bookmarks bar in the middle.
+*/
+
+#TabsToolbar {
+  order: 1;
+}
+
+/* update: align the tabs toolbar with the bottom border */
+#TabsToolbar-customization-target {
+  margin-bottom: -8px !important;
+}
+

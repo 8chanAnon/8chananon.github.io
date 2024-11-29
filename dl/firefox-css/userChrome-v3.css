@@ -1,0 +1,52 @@
+/*
+User Chrome CSS, version 3
+
+changes for Firefox 133 and up:
+
+- v2-tabs-to-below3.css instead of v2-tabs-to-below2.css
+- vertical alignment of the menu bar
+
+*/
+
+@import url("v2-tabs-to-below3.css");
+@import url("v2-tabs-bar2.css");
+@import url("v2-menus.css");
+
+/* The next three settings are for hiding the icons at the end of the URL bar */
+
+#pageActionButton {
+  visibility: collapse !important;
+}
+
+#reader-mode-button {
+  visibility: collapse !important;
+}
+
+#star-button-box {
+/* visibility: collapse !important; */
+}
+
+/* hide the pointless warning box when you go fullscreen */
+#fullscreen-warning {
+  display: none !important;
+}
+
+/* hide the Back, Forward, Reload and Bookmark buttons in the context menu */
+#context-navigation, #context-sep-navigation {
+  display: none !important;
+}
+
+/* move main menu bar down 3 pixels */
+/* Firefox 133: changed to 5 pixels */
+#main-menubar {
+  margin-top: 5px !important;
+}
+
+/* move the Minimize, Maximize and Close buttons up one pixel */
+/* Firefox 133: push the buttons down one pixel */
+.titlebar-button {
+  margin-top: 1px !important;
+}
+
+/**** End of File ****/
+
