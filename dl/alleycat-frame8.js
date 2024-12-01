@@ -1,238 +1,128 @@
 // Internet Radio
 
-document.getElementById ("ir").innerHTML = `
- <tr><th>Talk Radio
-</th><th>Cool Music
-</th><th>Funky Music
-</th><th>Just Garbage
-</th><th>More Garbage
-</th></tr><tr>
+radio = copylist (`Talk Radio | Cool Music | Funky Music | Just Garbage | More Garbage
 
-<td><input type=radio name="ir" onclick="javascript:radio
-  ('https://live.amperwave.net/manifest/foxnewsradio-foxnewsradioaac-imc')"><a target=_blank
-    href='https://radio.foxnews.com/'>Fox News Talk</a>
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://radio.talkradio.co.uk/stream')"><a target=_blank
-    href='https://ukradiolive.com/talkradio/schedule'>Talk Radio UK</a>
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://playerservices.streamtheworld.com/api/livestream-redirect/WABCAM.mp3')"><a target=_blank
-    href='https://wabcradio.com/show-schedule/'>WABC Talk Radio</a>
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('https://cast2.my-control-panel.com/proxy/rbn/stream')"><a target=_blank
-    href='http://republicbroadcasting.org/program-schedule/'>Republic Broadcasting</a>
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('https://mediaserver3.afa.net:8443/talk.mp3')"><a target=_blank
-    href='https://afr.net/podcasts/afr-program-lineup/'>American Family Radio</a>
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://19303.live.streamtheworld.com/BLZE_1AAC.aac')"><a target=_blank
-    href='https://www.theblaze.com/st/radio'>Blaze Radio</a>
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://s2.radio.co/s572ad25f7/listen')"><a target=_blank
-    href='https://redstatetalkradio.com/schedule/'>Red State Talk</a>
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('https://ais-edge101-live365-dal02.cdnstream.com/a05030')"><a target=_blank
-    href='https://fringe.fm/'>The Fringe FM</a>
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://ice8.securenetsystems.net/VARIETY')"><a target=_blank
-    href='https://www.voiceamerica.com/Schedule/schedule'>Voice America</a>
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://cast.bbstalkradio.com/proxy/bbsradio?mp=/stream')"><a target=_blank
-    href='https://bbsradio.com/station1and2schedule'>BBS Talk Radio 1</a>
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://cast.bbstalkradio.com/proxy/bbsradio2?mp=/stream')"><a target=_blank
-    href='https://bbsradio.com/station1and2schedule'>BBS Talk Radio 2</a>
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://s1.voscast.com:8054/;')"><a target=_blank
-    href='https://revolution.radio/Schedules-A&B.html'>Revolution Radio Studio A</a>
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://s2.voscast.com:8186/;')"><a target=_blank
-    href='https://revolution.radio/Schedules-A&B.html'>Revolution Radio Studio B</a>
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('https://s9.voscast.com:9311/live')"><a target=_blank
-    href='https://www.renseradio.com'>Rense Radio Live</a>
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://stream-mp3.infowars.com/')"><a target=_blank
-    href='https://www.infowars.com/radio-archive'>Alex Jones Live</a>
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://18063.live.streamtheworld.com:80/CFRAAMAAC_SC')">CFRA
-</td>
+Fox News Talk			https://live.amperwave.net/manifest/foxnewsradio-foxnewsradioaac-imc
+++				https://radio.foxnews.com/
+Talk Radio UK			http://radio.talkradio.co.uk/stream
+++				https://ukradiolive.com/talkradio/schedule
+WABC Talk Radio			http://playerservices.streamtheworld.com/api/livestream-redirect/WABCAM.mp3
+++				https://wabcradio.com/show-schedule/
+Republic Broadcasting		https://cast2.my-control-panel.com/proxy/rbn/stream
+++				http://republicbroadcasting.org/program-schedule/
+American Family Radio		https://mediaserver3.afa.net:8443/talk.mp3
+++				https://afr.net/podcasts/afr-program-lineup/
+Blaze Radio			http://19303.live.streamtheworld.com/BLZE_1AAC.aac
+++				https://www.theblaze.com/st/radio
+Red State Talk			http://s2.radio.co/s572ad25f7/listen
+++				https://redstatetalkradio.com/schedule/
+The Fringe FM			https://ais-edge101-live365-dal02.cdnstream.com/a05030
+++				https://fringe.fm/
+Voice America			http://ice8.securenetsystems.net/VARIETY
+++				https://www.voiceamerica.com/Schedule/schedule
+BBS Talk Radio 1		http://cast.bbstalkradio.com/proxy/bbsradio?mp=/stream
+++				https://bbsradio.com/station1and2schedule
+BBS Talk Radio 2		http://cast.bbstalkradio.com/proxy/bbsradio2?mp=/stream
+++				https://bbsradio.com/station1and2schedule
+Revolution Radio Studio A	http://s1.voscast.com:8054/;
+++				https://revolution.radio/Schedules-A&B.html
+Revolution Radio Studio B	http://s2.voscast.com:8186/;
+++				https://revolution.radio/Schedules-A&B.html
+Rense Radio Live		https://s9.voscast.com:9311/live
+++				https://www.renseradio.com
+Alex Jones Live			http://stream-mp3.infowars.com/
+++				https://www.infowars.com/radio-archive
+--
+--
+--
+--
+<b_>CFRA</b_>			http://18063.live.streamtheworld.com:80/CFRAAMAAC_SC
+				
+Star FM Rock Classics		http://stream.starfm.de/classic/mp3-192/radiode
+Rockin Doc Radio		http://radio.rockindocradio.net:8600/;
+Lynx Classic Rock		http://rock-lynxradio.radioca.st/;
+Antenna Web			http://mars.streamerr.co:8066/stream/1/
+Radio Caroline			http://sc2.radiocaroline.net:10568/;
+Bar Legend Radio		http://solid24.streamupsolutions.com:8010/stream/1/
+Dance Wave			http://stream.dancewave.online:8080/dance.mp3
+Salsa Mexico			http://colombiawebs.com.co:8106/;
+Disco Classics Radio		https://discoclassicradio.nl/stream
+Lounge Radio			http://nl1.lounge-radio.com:8010/;
+Absolute Trance Radio		http://strm112.1.fm/trance_mobile_mp3
+Starlite Radio			http://centova.radioservers.biz:8021/;
+--
+--
+--
+--
+--
+--
+--
+--
 
-<td><input type=radio name="ir" onclick="javascript:radio
-  ('http://stream.starfm.de/classic/mp3-192/radiode')">Star FM Rock Classics
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://radio.rockindocradio.net:8600/;')">Rockin Doc Radio
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://rock-lynxradio.radioca.st/;')">Lynx Classic Rock
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://mars.streamerr.co:8066/stream/1/')">Antenna Web
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://sc2.radiocaroline.net:10568/;')">Radio Caroline
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://solid24.streamupsolutions.com:8010/stream/1/')">Bar Legend Radio
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://stream.dancewave.online:8080/dance.mp3')">Dance Wave
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://colombiawebs.com.co:8106/;')">Salsa Mexico
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('https://discoclassicradio.nl/stream')">Disco Classics Radio
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://nl1.lounge-radio.com:8010/;')">Lounge Radio
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://strm112.1.fm/trance_mobile_mp3')">Absolute Trance Radio
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://centova.radioservers.biz:8021/;')">Starlite Radio
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-</td>
+Virtual DJ: ClubZone		http://virtualdjradio.com:8000/channel1.mp3
+Virtual DJ: TheGrind		http://virtualdjradio.com:8000/channel2.mp3
+Virtual DJ: Hypnotica		http://virtualdjradio.com:8000/channel3.mp3
+Virtual DJ: PowerBase		http://virtualdjradio.com:8000/channel4.mp3
+Radio Free Americana		http://thassos.cdnstream.com:5479/live
+Venice Classic Radio Italia	http://116.202.241.212:8010/;
+Radio Swiss Jazz		http://stream.srg-ssr.ch/m/rsj/mp3_128
+Tropicalisma FM			http://tropicalisima.org:9002/;
+Jamendo Lounge			http://streaming.radionomy.com/JamendoLounge
+Rockabilly Radio		http://lin3.ash.fastserv.com:6026/stream_96
+Dandelion Radio			http://streamz.anytek.co.uk/proxy/dandelio2?mp=/stream
+Splinterwood			http://31.3.245.162:8000/;
+--
+--
+--
+--
+--
+--
+--
+--
 
-<td><input type=radio name="ir" onclick="javascript:radio
-  ('http://virtualdjradio.com:8000/channel1.mp3')">Virtual DJ: ClubZone
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://virtualdjradio.com:8000/channel2.mp3')">Virtual DJ: TheGrind
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://virtualdjradio.com:8000/channel3.mp3')">Virtual DJ: Hypnotica
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://virtualdjradio.com:8000/channel4.mp3')">Virtual DJ: PowerBase
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://thassos.cdnstream.com:5479/live')">Radio Free Americana
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://116.202.241.212:8010/;')">Venice Classic Radio Italia
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://stream.srg-ssr.ch/m/rsj/mp3_128')">Radio Swiss Jazz
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://tropicalisima.org:9002/;')">Tropicalisma FM
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://streaming.radionomy.com/JamendoLounge')">Jamendo Lounge
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://lin3.ash.fastserv.com:6026/stream_96')">Rockabilly Radio
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://streamz.anytek.co.uk/proxy/dandelio2?mp=/stream')">Dandelion Radio
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://31.3.245.162:8000/;')">Splinterwood
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-</td>
+BBC World Service		https://stream.live.vc.bbcmedia.co.uk/bbc_world_service
+Classic FM			http://media-ice.musicradio.com/ClassicFMMP3
+Classic FM - Movies		http://media-ice.musicradio.com/ClassicFM-M-Movies
+Classic FM - Relax		http://media-the.musicradio.com/ClassicFM-M-Relax
+Classic Rock			http://media-the.musicradio.com/RadioXClassicRockMP3
+Big Top 40			http://media-the.musicradio.com/BigTop40MP3
+--
+Radio North Sea Int'l		http://radionorthsea.zapto.org:8008/stream
+Nashville FM			http://server-14.stream-server.nl:8300/;
+Country Power Station		http://shoutcast.countrypowerstation.net:8000/;
+BlackBeats FM			http://rautemusik-de-hz-fal-stream12.radiohost.de/blackbeats
+WZUP WRLD			http://usa17.fastcast4u.com/proxy/nczrhanc?mp=/1
+--
+--
+--
+--
+--
+<g_>Danheim: <i>Mannavegr</i></g_>	8tilKaOINmE
+<g_>Audiomachine: <i>Decimus</i></g_>	RM_J5cFy70M
+<g_>Classic Rock - Greatest Hits</g_>	G4tx9WDGp6c
 
-<td><input type=radio name="ir" onclick="javascript:radio
-  ('https://stream.live.vc.bbcmedia.co.uk/bbc_world_service')">BBC World Service
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://media-ice.musicradio.com/ClassicFMMP3')">Classic FM
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://media-ice.musicradio.com/ClassicFM-M-Movies')">Classic FM - Movies
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://media-the.musicradio.com/ClassicFM-M-Relax')">Classic FM - Relax
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://media-the.musicradio.com/RadioXClassicRockMP3')">Classic Rock
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://media-the.musicradio.com/BigTop40MP3')">Big Top 40
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://radionorthsea.zapto.org:8008/stream')">Radio North Sea Int'l
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://server-14.stream-server.nl:8300/;')">Nashville FM
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://shoutcast.countrypowerstation.net:8000/;')">Country Power Station
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://rautemusik-de-hz-fal-stream12.radiohost.de/blackbeats')">BlackBeats FM
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://usa17.fastcast4u.com/proxy/nczrhanc?mp=/1')">WZUP WRLD
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('8tilKaOINmE')"><g_>Danheim: <i>Mannavegr</i></g_>
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('RM_J5cFy70M')"><g_>Audiomachine: <i>Decimus</i></g_>
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('G4tx9WDGp6c')"><g_>Classic Rock - Greatest Hits</g_>
-</td>
+Radio El Dorado			http://el-dorado.stream.laut.fm/el-dorado
+Asia Dream Jazz			http://kathy.torontocast.com:3330/;
+Streaming Sound Tracks		http://hi5.streamingsoundtracks.com/;
+Tiki Bar Radio			http://live.rcast.net:8522/;
+Radio Mi Amigo Int'l		http://lion.radioca.st/;
+Nagaswara FM			http://jakarta.nagaswarafm.com:8088/stream
+Radio Paloma			http://stream.silvacast.com/RPLive/mp3-128/radio_de
+Ballermann Radio		http://stream.bmr-radio.de/ballermann-radio.mp3
+SRC FM				http://cc6.beheerstream.com/proxy/src1?mp=/stream;stream.mp3
+Company Radio			http://sphera.fluidstream.eu/company.aac
+Rahva Radio			http://streamer.tt.ee:8000/rahvaraadio
+Death FM			http://hi.death.fm/;
+--
+--
+--
+--
+--
+<g_>Nature Sounds</g_>			od23CVaq2SQ
+<g_><i>Star Trek</i> Music</g_>		gfXhmdjOqGI
+<g_>The Cars: Full Album</g_>		ZTkH1kP_kx4
 
-<td><input type=radio name="ir" onclick="javascript:radio
-  ('http://el-dorado.stream.laut.fm/el-dorado')">Radio El Dorado
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://kathy.torontocast.com:3330/;')">Asia Dream Jazz
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://hi5.streamingsoundtracks.com/;')">Streaming Sound Tracks
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://live.rcast.net:8522/;')">Tiki Bar Radio
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://lion.radioca.st/;')">Radio Mi Amigo Int'l
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://jakarta.nagaswarafm.com:8088/stream')">Nagaswara FM
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://stream.silvacast.com/RPLive/mp3-128/radio_de')">Radio Paloma
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://stream.bmr-radio.de/ballermann-radio.mp3')">Ballermann Radio
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://cc6.beheerstream.com/proxy/src1?mp=/stream;stream.mp3')">SRC FM
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://sphera.fluidstream.eu/company.aac')">Company Radio
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://streamer.tt.ee:8000/rahvaraadio')">Rahva Radio
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('http://hi.death.fm/;')">Death FM
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('')">
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('od23CVaq2SQ')"><g_>Nature Sounds</g_>
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('gfXhmdjOqGI')"><g_><i>Star Trek</i> Music</g_>
-<br><input type=radio name="ir" onclick="javascript:radio
-  ('ZTkH1kP_kx4')"><g_>The Cars: Full Album</g_>
-</td>
-`;
+`);
 
 // Internet TV
 

@@ -24,31 +24,29 @@ document.getElementById ("src6").innerHTML = `
 `;
 
 document.getElementById ("butt6").innerHTML = `
-  <button onclick="javascript:copylist(this,6,1)">Fox</button>
-  <button onclick="javascript:copylist(this,6,2)">PBS</button>
-  <button onclick="javascript:copylist(this,6,3)">BBC</button>
+  <button onclick="copylist(this,6,1)">Fox</button>
+  <button onclick="copylist(this,6,2)">PBS</button>
+  <button onclick="copylist(this,6,3)">BBC</button>
 `;
 
-var frame_6 = {
+frame_6 = {
   1: 'fox', 2: 'pbs', 3: 'bbc', req_youtube: request,
   req_brightcove: load_brightcove, dig_brightcove: find_brightcove
 };
 
-var stack_6_1 = [""
-  , "1:6041387345001" , "Steve Hilton"
-  , "1:6035600008001" , "Judge Jeanine Pirro"
-];
+stack_6_1 = copylist (`
+`);
 
-var stack_6_2 = [""
-  , "2:2365338020" , "Austin City Limits: 40 Years (2014)"
-  , "2:1946795242" , "Frontline: WikiSecrets (2011)"
-];
+stack_6_2 = copylist (`
+  Austin City Limits: 40 Years (2014)	2:2365338020
+  Frontline: WikiSecrets (2011)		2:1946795242
+`);
 
-var stack_6_3 = [""
-  , "3:p035dt58" , "Dragonfly"
-  , "3:p076m7sh" , "Desert Art"
-  , "3:p07bj7pv" , "Follow the Food"
-];
+stack_6_3 = copylist (`
+  Dragonfly				3:p035dt58
+  Desert Art				3:p076m7sh
+  Follow the Food			3:p07bj7pv
+`);
 
 frame_6.req_fox = async (id, frame, fmt) =>
 {

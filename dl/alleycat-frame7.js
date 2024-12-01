@@ -28,249 +28,244 @@ document.getElementById ("src7").innerHTML = `
 `;
 
 document.getElementById ("butt7").innerHTML = `
-  <button onclick="javascript:copylist(this,7,-2)">Dance</button>
+  <button onclick="copylist(this,7,-1)">Music</button>
   &nbsp;
-  <button onclick="javascript:copylist(this,7,-3)">TV US1</button>
-  <button onclick="javascript:copylist(this,7,-4)">TV US2</button>
-  <button onclick="javascript:copylist(this,7,-5)">TV US3</button>
+  <button onclick="copylist(this,7,-2)">TV US1</button>
+  <button onclick="copylist(this,7,-3)">TV US2</button>
+  <button onclick="copylist(this,7,-4)">TV US3</button>
   &nbsp;
-  <button onclick="javascript:copylist(this,7,-6)">TV UK+</button>
-  <button onclick="javascript:copylist(this,7,-7)">TV Alt</button>
+  <button onclick="copylist(this,7,-5)">TV UK+</button>
+  <button onclick="copylist(this,7,-6)">TV Alt</button>
   &nbsp;
-  <button onclick="javascript:copylist(this,7,-8)">Int'l</button>
+  <button onclick="copylist(this,7,-7)">TV Int'l</button>
 `;
 
-var frame_7 = {
+frame_7 = {
   req_youtube: request
 }
 
-var stack_7_1 = [""
-];
+stack_7_1 = copylist (`
+  Company TV (Italy)			8:https://company.fluid.stream/CompanyTV/smil:Company_ALL.smil/playlist.m3u8
+  Deejay TV (Italy)			8:http://4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S85984808/sMO0tz9Sr2Rk/playlist.m3u8
+  Ditty TV (US)				8:https://0ba805a2403b4660bbb05c0a210ebbdc.mediatailor.us-east-1.amazonaws.com/v1/master/04fd913bb278d8775298c26fdca9d9841f37601f/ONO_DittyTV/playlist.m3u8
+  Kaloopy (US) *			9a:live/kaloopy
+  KroneHit TV (Austria)			8:http://bitcdn-kronehit.bitmovin.com/v2/hls/index.m3u8
+  Ocko Expres (Czech Republic)		8:http://ocko-live.ssl.cdn.cra.cz/channels/ocko_expres/playlist.m3u8
+  Power HD (Turkey)			8:http://livetv.powerapp.com.tr/powerTV/powerhd.smil/playlists.m3u8
+  Radio Capital (Italy)			8:http://4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S35394734/Z6U2wGoDYANk/playlist.m3u8
+  Radio Chanson (Russia)		8:http://chanson-video.hostingradio.ru:8080/hls/chansonabr/live.m3u8
+  Radio m2o (Italy)			8:http://4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S62628868/uhdWBlkC1AoO/playlist.m3u8
+  Reload TV (Greece)			8:http://web.onair-radio.eu:1935/video/video/index.m3u8
+  Retro Music (Czech Republic)		8:http://stream.mediawork.cz/retrotv/retrotvHQ1/playlist.m3u8
+  Shuffle Dance Music (YouTube)		0:qWf-FPFmVw0
+  Siganos Music (Greece)		8:http://web.onair-radio.eu:1935/Alpha-Host/Alpha-Host/playlist.m3u8
+  Stingray Classica (Canada) *		9a:live/stingray-classica
+  Stingray Qello (Canada) *		9a:live/stingray-qello
+  Strana FM (Russia)			8:http://live.stranafm.cdnvideo.ru/stranafm/smil:stranafm.smil/playlist.m3u8
+  V2Beat (Germany)			8:http://stream.v2beat.live/playlist.m3u8
+  Vevo Pop (US) **			1p:5d93b635b43dd1a399b39eee
+  Visual Radio (Turkey)			8:http://wms.shared.streamshow.it/visualradio/mp4:visualradio/playlist.m3u8
+`);
 
-var stack_7_2 = [""
-  , "Company TV (Italy)"		, "8:https://company.fluid.stream/CompanyTV/smil:Company_ALL.smil/playlist.m3u8"
-  , "Deejay TV (Italy)"			, "8:http://4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S85984808/sMO0tz9Sr2Rk/playlist.m3u8"
-  , "Ditty TV (US)"			, "8:https://0ba805a2403b4660bbb05c0a210ebbdc.mediatailor.us-east-1.amazonaws.com/v1/master/04fd913bb278d8775298c26fdca9d9841f37601f/ONO_DittyTV/playlist.m3u8"
-  , "Kaloopy (US) *"			, "9a:live/kaloopy"
-  , "KroneHit TV (Austria)"		, "8:http://bitcdn-kronehit.bitmovin.com/v2/hls/index.m3u8"
-  , "Ocko Expres (Czech Republic)"	, "8:http://ocko-live.ssl.cdn.cra.cz/channels/ocko_expres/playlist.m3u8"
-  , "Power HD (Turkey)"			, "8:http://livetv.powerapp.com.tr/powerTV/powerhd.smil/playlists.m3u8"
-  , "Radio Capital (Italy)"		, "8:http://4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S35394734/Z6U2wGoDYANk/playlist.m3u8"
-  , "Radio Chanson (Russia)"		, "8:http://chanson-video.hostingradio.ru:8080/hls/chansonabr/live.m3u8"
-  , "Radio m2o (Italy)"			, "8:http://4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S62628868/uhdWBlkC1AoO/playlist.m3u8"
-  , "Reload TV (Greece)"		, "8:http://web.onair-radio.eu:1935/video/video/index.m3u8"
-  , "Retro Music (Czech Republic)"	, "8:http://stream.mediawork.cz/retrotv/retrotvHQ1/playlist.m3u8"
-  , "Shuffle Dance Music (YouTube)"	, "0:qWf-FPFmVw0"
-  , "Siganos Music (Greece)"		, "8:http://web.onair-radio.eu:1935/Alpha-Host/Alpha-Host/playlist.m3u8"
-  , "Stingray Classica (Canada) *"	, "9a:live/stingray-classica"
-  , "Stingray Qello (Canada) *"		, "9a:live/stingray-qello"
-  , "Strana FM (Russia)"		, "8:http://live.stranafm.cdnvideo.ru/stranafm/smil:stranafm.smil/playlist.m3u8"
-  , "V2Beat (Germany)"			, "8:http://stream.v2beat.live/playlist.m3u8"
-  , "Vevo Pop (US) **"			, "1p:5d93b635b43dd1a399b39eee"
-  , "Visual Radio (Turkey)"		, "8:http://wms.shared.streamshow.it/visualradio/mp4:visualradio/playlist.m3u8"
-];
+stack_7_2 = copylist (`
+  ABC *					5a:wabc-new-york-abc-east-live-stream
+  ABC News				1e:3324f2467c414329b3b0cc5cd987b6be
+  AMC *					5a:amc-live-stream
+  BBC America *				5a:bbc-america-live-stream
+  Bloomberg				8:https://www.bloomberg.com/media-manifest/streams/phoenix-us.m3u8
+  CBS *					5a:wcbs-new-york-cbs-east-live-stream
+  CBS News				8:http://cbsn-us.cbsnstream.cbsnews.com/out/v1/55a8648e8f134e82a470f83d562deeca/master.m3u8
+  CNBC *				5a:cnbc-live-stream
+  CNN *					5a:cnn-live-stream
+  C-SPAN *				5a:cspan-live-stream
+  C-SPAN 2 *				5a:cspan-2-live-stream
+  ET Live				8:https://dai.google.com/linear/hls/event/xrVrJYTmTfitfXBQfeZByQ/master.m3u8
+  Fox *					5a:wnyw-new-york-fox-east-live-stream
+  Fox Business *			5a:fox-business-network-live-stream
+  Fox News *				5a:fox-news-channel-live-stream
+  Fox News Now				8:https://fox-foxnewsnow-samsungus.amagi.tv/playlist.m3u8
+  MSNBC *				5a:msnbc-live-stream
+  NBC *					5a:wnbc-new-york-nbc-east-live-stream
+  NBC News				8:https://dai2.xumo.com/amagi_hls_data_xumo1212A-xumo-nbcnewsnow/CDN/master.m3u8
+  PBS *					5a:pbs-13-wnet-new-york-live-stream
+  PopStar!				8:https://linear-10.frequency.stream/dist/zype/10/hls/master/playlist.m3u8
+  Sundance *				5a:sundancetv-hd-live-stream
+  Syfy *				5a:syfy-live-stream
+  TBS (East)				/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023172/tbseast/slate/VIDEO_2_1964000.m3u8
+  TBS (West)				/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023174/tbswest/slate/VIDEO_2_1964000.m3u8
+  The CW *				5a:the-cw-live-stream
+  TMZ					8:https://d2dimalv43j51f.cloudfront.net/out/v1/52d3048e53eb42a7959dc347d2f810e2/index.m3u8
+  TNT (East)				/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023168/tnteast/slate/VIDEO_2_1964000.m3u8
+  TNT (West)				/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023170/tntwest/slate/VIDEO_2_1964000.m3u8
+  Tru TV (East)				/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023176/trueast/slate/VIDEO_2_1964000.m3u8
+  Tru TV (West)				/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023178/truwest/slate/VIDEO_2_1964000.m3u8
+  USA Network *				5a:usa-network-live-stream
+  WE TV *				5a:we-tv-live-stream
+`);
 
-var stack_7_3 = [""
-  , "ABC *"				, "5a:wabc-new-york-abc-east-live-stream"
-  , "ABC News"				, "1e:3324f2467c414329b3b0cc5cd987b6be"
-  , "AMC *"				, "5a:amc-live-stream"
-  , "BBC America *"			, "5a:bbc-america-live-stream"
-  , "Bloomberg"				, "8:https://www.bloomberg.com/media-manifest/streams/phoenix-us.m3u8"
-  , "CBS *"				, "5a:wcbs-new-york-cbs-east-live-stream"
-  , "CBS News"				, "8:http://cbsn-us.cbsnstream.cbsnews.com/out/v1/55a8648e8f134e82a470f83d562deeca/master.m3u8"
-  , "CNBC *"				, "5a:cnbc-live-stream"
-  , "CNN *"				, "5a:cnn-live-stream"
-  , "C-SPAN *"				, "5a:cspan-live-stream"
-  , "C-SPAN 2 *"			, "5a:cspan-2-live-stream"
-  , "ET Live"				, "8:https://dai.google.com/linear/hls/event/xrVrJYTmTfitfXBQfeZByQ/master.m3u8"
-  , "Fox *"				, "5a:wnyw-new-york-fox-east-live-stream"
-  , "Fox Business *"			, "5a:fox-business-network-live-stream"
-  , "Fox News *"			, "5a:fox-news-channel-live-stream"
-  , "Fox News Now"			, "8:https://fox-foxnewsnow-samsungus.amagi.tv/playlist.m3u8"
-  , "MSNBC *"				, "5a:msnbc-live-stream"
-  , "NBC *"				, "5a:wnbc-new-york-nbc-east-live-stream"
-  , "NBC News"				, "8:https://dai2.xumo.com/amagi_hls_data_xumo1212A-xumo-nbcnewsnow/CDN/master.m3u8"
-  , "OAN **"				, "1p:5e7cf6c7b156d500078c5f44"
-  , "OAN Encore *"			, "9a:live/oan-encore"
-  , "PBS *"				, "5a:pbs-13-wnet-new-york-live-stream"
-  , "PopStar!"				, "8:https://linear-10.frequency.stream/dist/zype/10/hls/master/playlist.m3u8"
-  , "Sundance *"			, "5a:sundancetv-hd-live-stream"
-  , "Syfy *"				, "5a:syfy-live-stream"
-  , "TBS (East)"			, "/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023172/tbseast/slate/VIDEO_2_1964000.m3u8"
-  , "TBS (West)"			, "/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023174/tbswest/slate/VIDEO_2_1964000.m3u8"
-  , "The CW *"				, "5a:the-cw-live-stream"
-  , "TMZ"				, "8:https://d2dimalv43j51f.cloudfront.net/out/v1/52d3048e53eb42a7959dc347d2f810e2/index.m3u8"
-  , "TNT (East)"			, "/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023168/tnteast/slate/VIDEO_2_1964000.m3u8"
-  , "TNT (West)"			, "/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023170/tntwest/slate/VIDEO_2_1964000.m3u8"
-  , "Tru TV (East)"			, "/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023176/trueast/slate/VIDEO_2_1964000.m3u8"
-  , "Tru TV (West)"			, "/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023178/truwest/slate/VIDEO_2_1964000.m3u8"
-  , "USA Network *"			, "5a:usa-network-live-stream"
-  , "WE TV *"				, "5a:we-tv-live-stream"
-];
+stack_7_3 = copylist (`
+  Adventure Sports *			9a:live/adventure-sports-tv
+  America's Test Kitchen **		1p:5e84f54a82f05300080e6746
+  Billiard TV *				9a:live/billiard-tv
+  Boxing TV *				9a:live/boxing-tv
+  Dot Esports *				9a:live/dot-esports
+  Dungeon TV *^				7a:channel/dungeon-tv-2
+  Entrepreneur *			9a:live/entrepreneur-1
+  Gusto TV *				9a:live/gusto-tv
+  HGTV *				5a:hgtv-live-stream
+  Hunt Channel				8:http://1111296894.rsc.cdn77.org/LS-ATL-56868-1/index.m3u8
+  MMA Junkie *				9a:live/mma-junkie
+  MotorTrend FAST TV			8:https://3fa797d5.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/T05PX01vdG9yVHJlbmRGYXN0VFZfSExT/playlist.m3u8
+  PGA Tour **				1p:5de94dacb394a300099fa22a
+  Red Bull TV				8:http://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8
+  Right Now TV *			9a:live/right-now-tv
+  SpeedVision *^			7a:channel/speedvision
+  Sports Grid				8:https://sportsgrid-klowdtv.amagi.tv/hls/amagi_hls_data_klowdtvAA-sportsgrid-klowdtv/CDN/playlist.m3u8
+  Tastemade				8:https://tastemade-xumo.amagi.tv/hls/amagi_hls_data_tastemade-tastemadefreetv16xumo/CDN/master.m3u8
+  TBD (Sinclair)			1e:1831163f97674328ad9f4b4814ed39c5
+  This Old House **			1p:5d51e791b7dba3b2ae990ab2
+  Waypoint TV				8:https://live-manifest.production-public.tubi.io/live/0831606b-a9dc-4ee9-a381-52b0c9b59b2f/playlist.m3u8
+  World Poker Tour *			9a:live/world-poker-tour
+  ESPN *				5a:espn-live-stream
+  ESPN 2 *				5a:espn2-live-stream
+  Fox Sports 1 *			5a:fox-sports-1-live-stream
+  Fox Sports 2 *			5a:fox-sports-2-live-stream
+  Golf Channel *			5a:golf-channel-live-stream
+  NBA TV *				5a:nba-tv-live-stream/
+  NBC Golf *				5a:golf-channel-live-stream
+  NFL Network *				5a:nfl-network-live-stream
+  NHL Network *				5a:nhl-network-live-stream
+  Olympic Channel *			1x:olympic
+  Tennis Channel			8:https://tennischannel-intl-samsung-uk.amagi.tv/playlist.m3u8
+`);
 
-var stack_7_4 = [""
-  , "Adventure Sports *"		, "9a:live/adventure-sports-tv"
-  , "America's Test Kitchen **"		, "1p:5e84f54a82f05300080e6746"
-  , "Billiard TV *"			, "9a:live/billiard-tv"
-  , "Boxing TV *"			, "9a:live/boxing-tv"
-  , "Dot Esports *"			, "9a:live/dot-esports"
-  , "Dungeon TV *^"			, "7a:channel/dungeon-tv-2"
-  , "Entrepreneur *"			, "9a:live/entrepreneur-1"
-  , "Gusto TV *"			, "9a:live/gusto-tv"
-  , "HGTV *"				, "5a:hgtv-live-stream"
-  , "Hunt Channel"			, "8:http://1111296894.rsc.cdn77.org/LS-ATL-56868-1/index.m3u8"
-  , "MMA Junkie *"			, "9a:live/mma-junkie"
-  , "MotorTrend FAST TV"		, "8:https://3fa797d5.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/T05PX01vdG9yVHJlbmRGYXN0VFZfSExT/playlist.m3u8"
-  , "PGA Tour **"			, "1p:5de94dacb394a300099fa22a"
-  , "Red Bull TV"			, "8:http://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8"
-  , "Right Now TV *"			, "9a:live/right-now-tv"
-  , "SpeedVision *^"			, "7a:channel/speedvision"
-  , "Sports Grid"			, "8:https://sportsgrid-klowdtv.amagi.tv/hls/amagi_hls_data_klowdtvAA-sportsgrid-klowdtv/CDN/playlist.m3u8"
-  , "Tastemade"				, "8:https://tastemade-xumo.amagi.tv/hls/amagi_hls_data_tastemade-tastemadefreetv16xumo/CDN/master.m3u8"
-  , "TBD (Sinclair)"			, "1e:1831163f97674328ad9f4b4814ed39c5"
-  , "This Old House **"			, "1p:5d51e791b7dba3b2ae990ab2"
-  , "Waypoint TV"			, "8:https://live-manifest.production-public.tubi.io/live/0831606b-a9dc-4ee9-a381-52b0c9b59b2f/playlist.m3u8"
-  , "World Poker Tour *"		, "9a:live/world-poker-tour"
-  , "ESPN *"				, "5a:espn-live-stream"
-  , "ESPN 2 *"				, "5a:espn2-live-stream"
-  , "Fox Sports 1 *"			, "5a:fox-sports-1-live-stream"
-  , "Fox Sports 2 *"			, "5a:fox-sports-2-live-stream"
-  , "Golf Channel *"			, "5a:golf-channel-live-stream"
-  , "NBA TV *"				, "5a:nba-tv-live-stream/"
-  , "NBC Golf *"			, "5a:golf-channel-live-stream"
-  , "NFL Network *"			, "5a:nfl-network-live-stream"
-  , "NHL Network *"			, "5a:nhl-network-live-stream"
-  , "Olympic Channel *"			, "1x:olympic"
-  , "Tennis Channel"			, "8:https://tennischannel-intl-samsung-uk.amagi.tv/playlist.m3u8"
-];
+stack_7_4 = copylist (`
+  American Heroes *			5a:american-heroes-channel-live-stream
+  American Kennel Club			8:https://install.akctvcontrol.com/speed/broadcast/138/desktop-playlist.m3u8
+  Circle TV				8:http://circle-xumo.amagi.tv/playlist.m3u8
+  Classic Arts Showcase			8:https://classicarts.akamaized.net/hls/live/1024257/CAS/master.m3u8
+  Comedy Dynamics *			9a:live/comedy-dynamics
+  Comet					1e:3e45c6b5354a40f787e0b2aadb0f5d6a
+  Dark Matter TV *			9a:live/dark-matter-tv
+  DocuBay				8:https://stream.ads.ottera.tv/playlist.m3u8?network_id=3444
+  Dove Channel *			9a:live/dove-channel
+  FTV Midnight Secrets			8:https://fash1043.cloudycdn.services/slive/_definst_/ftv_midnite_secrets_adaptive.smil/playlist.m3u8
+  FX *					5a:fx-live-stream
+  FX Movie *				5a:fx-movie-live-stream
+  FXX *					5a:fxx-live-stream
+  Galxy TV *^				7a:channel/galxy-tv-2
+  HBO East*				5a:hbo-east-live-stream
+  HBO Signature *			5a:hbo-signature-live-stream
+  Horror Machine *			9a:live/horror-machine
+  Law & Crime				8:http://dai2.xumo.com/amagi_hls_data_xumo1234A-lawcrime/CDN/master.m3u8
+  Lone Star *				9a:live/lone-star
+  Paramount Movie Channel **		1p:5cb0cae7a461406ffe3f5213
+  Paramount Network **			1p:5812bcc8237a6ff45d16c407
+  Scream Factory *^			7a:channel/scream-factory-tv
+  The Archive				8:https://stream-us-east-1.getpublica.com/playlist.m3u8?network_id=74
+  The Film Detective			8:https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01201-cinedigmenterta-filmdetective-cineverse/playlist.m3u8
+  The Pet Collective *^			7a:channel/the-pet-collective-2
+  Unexplained *^			7a:channel/unexplained
+`);
 
-var stack_7_5 = [""
-  , "American Heroes *"			, "5a:american-heroes-channel-live-stream"
-  , "American Kennel Club"		, "8:https://install.akctvcontrol.com/speed/broadcast/138/desktop-playlist.m3u8"
-  , "Circle TV"				, "8:http://circle-xumo.amagi.tv/playlist.m3u8"
-  , "Classic Arts Showcase"		, "8:https://classicarts.akamaized.net/hls/live/1024257/CAS/master.m3u8"
-  , "Comedy Dynamics *"			, "9a:live/comedy-dynamics"
-  , "Comet"				, "1e:3e45c6b5354a40f787e0b2aadb0f5d6a"
-  , "Dark Matter TV *"			, "9a:live/dark-matter-tv"
-  , "DocuBay"				, "8:https://stream.ads.ottera.tv/playlist.m3u8?network_id=3444"
-  , "Dove Channel *"			, "9a:live/dove-channel"
-  , "FTV Midnight Secrets"		, "8:https://fash1043.cloudycdn.services/slive/_definst_/ftv_midnite_secrets_adaptive.smil/playlist.m3u8"
-  , "FX *"				, "5a:fx-live-stream"
-  , "FX Movie *"			, "5a:fx-movie-live-stream"
-  , "FXX *"				, "5a:fxx-live-stream"
-  , "Galxy TV *^"			, "7a:channel/galxy-tv-2"
-  , "HBO East*"				, "5a:hbo-east-live-stream"
-  , "HBO Signature *"			, "5a:hbo-signature-live-stream"
-  , "Horror Machine *"			, "9a:live/horror-machine"
-  , "Law & Crime"			, "8:http://dai2.xumo.com/amagi_hls_data_xumo1234A-lawcrime/CDN/master.m3u8"
-  , "Lone Star *"			, "9a:live/lone-star"
-  , "Paramount Movie Channel **"	, "1p:5cb0cae7a461406ffe3f5213"
-  , "Paramount Network **"		, "1p:5812bcc8237a6ff45d16c407"
-  , "Scream Factory *^"			, "7a:channel/scream-factory-tv"
-  , "The Archive"			, "8:https://stream-us-east-1.getpublica.com/playlist.m3u8?network_id=74"
-  , "The Film Detective"		, "8:https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01201-cinedigmenterta-filmdetective-cineverse/playlist.m3u8"
-  , "The Pet Collective *^"		, "7a:channel/the-pet-collective-2"
-  , "Unexplained *^"			, "7a:channel/unexplained"
-];
+stack_7_5 = copylist (`
+  BBC 1 **				/0/0/1 8a:stream=bbc-london
+  BBC 2 **				/396.1/0/0 8a:stream=bbc-two
+  BBC News *				3a:bbcnews_live
+  CBBC **				/396.1/0/0 8a:stream=cbbc
+  CBeebies **				/396.1/0/0 8a:stream=cbeebies
+  Sky News Int'l **			1p:55b285cd2665de274553d66f
+  Sky News Arabia			8:^https://slh/moc.aibaraswenyks.maerts/sna.m3u8
+  France 24 - English (YT)		0:Ap-UM1O9RBU
+  France 24 - French (YT)		0:l8PMl7tUDIE
+  France 24 - Arabic (YT)		0:VuYzy8IuT0Y
+  ABC News (Australia)			8:https://abc-news-dmd-streams-1.akamaized.net/out/v1/701126012d044971b3fa89406a440133/index.m3u8
+  CBC News (Canada)			8:https://apollo.production-public.tubi.io/live/ac-cbc2.m3u8
+  Global News				8:^https://lmsi.evil/7f0d3f550165-66d8-f034-3201-f7e19a94/evil/dpuorg/moc.vedlatigidsuroc.evil/.m3u8
+  Newfoundland TV			8:https://2-fss-1.streamhoster.com/pl_122/201748-1431018-1/playlist.m3u8
+  Knowledge Network (BC)		8:https://d1wal6k3d7ssin.cloudfront.net/out/v1/ea91db0906c847a4931b46a9ec36e77b/index.m3u8
+  Ici RDI (CBC)				8:https://rcavlive.akamaized.net/hls/live/704025/xcanrdi/master.m3u8
+  CPAC					8:https://d7z3qjdsxbwoq.cloudfront.net/groupa/live/f9809cea-1e07-47cd-a94d-2ddd3e1351db/live.isml/.m3u8
+`);
 
-var stack_7_6 = [""
-  , "BBC 1 **"				, "/0/0/1 8a:stream=bbc-london"
-  , "BBC 2 **"				, "/396.1/0/0 8a:stream=bbc-two"
-  , "BBC News *"			, "3a:bbcnews_live"
-  , "CBBC **"				, "/396.1/0/0 8a:stream=cbbc"
-  , "CBeebies **"			, "/396.1/0/0 8a:stream=cbeebies"
-  , "Sky News Int'l **"			, "1p:55b285cd2665de274553d66f"
-  , "Sky News Arabia"			, "8:^https://slh/moc.aibaraswenyks.maerts/sna.m3u8"
-  , "France 24 - English (YT)"		, "0:Ap-UM1O9RBU"
-  , "France 24 - French (YT)"		, "0:l8PMl7tUDIE"
-  , "France 24 - Arabic (YT)"		, "0:VuYzy8IuT0Y"
-  , "ABC News (Australia)"		, "8:https://abc-news-dmd-streams-1.akamaized.net/out/v1/701126012d044971b3fa89406a440133/index.m3u8"
-  , "CBC News (Canada)"			, "8:https://apollo.production-public.tubi.io/live/ac-cbc2.m3u8"
-  , "Global News"			, "8:^https://lmsi.evil/7f0d3f550165-66d8-f034-3201-f7e19a94/evil/dpuorg/moc.vedlatigidsuroc.evil/.m3u8"
-  , "Newfoundland TV"			, "8:https://2-fss-1.streamhoster.com/pl_122/201748-1431018-1/playlist.m3u8"
-  , "Knowledge Network (BC)"		, "8:https://d1wal6k3d7ssin.cloudfront.net/out/v1/ea91db0906c847a4931b46a9ec36e77b/index.m3u8"
-  , "Ici RDI (CBC)"			, "8:https://rcavlive.akamaized.net/hls/live/704025/xcanrdi/master.m3u8"
-  , "CPAC"				, "8:https://d7z3qjdsxbwoq.cloudfront.net/groupa/live/f9809cea-1e07-47cd-a94d-2ddd3e1351db/live.isml/.m3u8"
-];
+stack_7_6 = copylist (`
+  AfricaNews (YT)			0:NQjabLGdP5g
+  Al Jazeera				8:https://live-hls-web-aje.getaj.net/AJE/index.m3u8
+  Arirang (South Korea)			8:http://amdlive.ctnd.com.edgesuite.net/arirang_1ch/smil:arirang_1ch.smil/chunklist.m3u8
+  CGTN News				/0/0/1 7:https://english-livetx.cgtn.com/hls/yypdyyctzb_hd.m3u8
+  Deutsche Welle			8:https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8
+  EuroNews *				9a:live/euronews
+  GB News (UK, YT)			0:8WX6YL9JnLw
+  NHK World Japan			8:http://nhkwlive-ojp.akamaized.net/hls/live/2003459/nhkwlive-ojp-en/index.m3u8
+  NTD (New Tang Dynasty)		8:https://ntd02.akamaized.net/NTDA/index.m3u8
+  NDTV (India)				8:https://ndtv24x7elemarchana.akamaized.net/hls/live/2003678/ndtv24x7/ndtv24x7master.m3u8
+  Press TV				8:https://cdnlive.presstv.ir/cdnlive/smil:cdnlive.smil/playlist.m3u8
+  RT News				8:https://rt-glb.rttv.com/live/rtnews/playlist.m3u8
+  RT Documentary			8:https://rt-rtd.rttv.com/live/rtdoc/playlist.m3u8
+  TeleSUR				8:https://cdnenmain.telesur.ultrabase.net/mblivev3/480p/playlist.m3u8
+  TRT World				8:http://tv-trtworld.medya.trt.com.tr/master.m3u8
+  World Is One News (India) *		9a:live/wion-world-is-one-news
+  Blaze TV **				1p:5e46fba0c43b0d00096e5ac1
+  Cheddar News				8:https://livestream.chdrstatic.com/b93e5b0d43ea306310a379971e384964acbe4990ce193c0bd50078275a9a657d/cheddar-42620/cheddarweblive/cheddar/index.m3u8
+  Free Speech TV			8:https://edge.fstv-live-linear-channel.top.comcast.net/Content/HLS_HLSv3/Live/channel(b168a609-19c1-2203-ae1d-6b9726f05e67)/index.m3u8
+  NewsMax *				5a:newsmax-tv
+  NewsMax 2				8:https://nmxlive.akamaized.net/hls/live/529965/Live_1/index.m3u8
+  OAN **				1p:5e7cf6c7b156d500078c5f44
+  OAN Encore *				9a:live/oan-encore
+  Real America's Voice			8:https://dai.google.com/linear/hls/event/c-oMNcDLTeuszRKPugMj9Q/master.m3u8
+  Salem Network				8:https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg00732-salemmediagroup-snc-ono/playlist.m3u8
+  The First TV				8:https://thefirst-oando.amagi.tv/hls/amagi_hls_data_thefirstd-thefirst-oando/CDN/playlist.m3u8
+  TYT - The Young Turks			8:https://tyt-xumo-us.amagi.tv/hls/amagi_hls_data_tytnetwor-tyt-xumo/CDN/master.m3u8
+  InfoWars - Live			8:https://freespeech.akamaized.net/hls/live/2016712/live1/playlist.m3u8
+  InfoWars - Alex Jones			8:https://freespeech.akamaized.net/hls/live/2024573/live2/playlist.m3u8
+  InfoWars - Harrison Smith		8:https://freespeech.akamaized.net/hls/live/2016873/live3/playlist.m3u8
+  InfoWars - Owen Shroyer		8:https://freespeech.akamaized.net/hls/live/2024574/live4/playlist.m3u8
+  FrankSpeech TV 1 *			1f:tv1
+  FrankSpeech TV 2 *			1f:tv2
+  FrankSpeech TV 3 *			1f:tv3
+`);
 
-var stack_7_7 = [""
-  , "AfricaNews (YT)"			, "0:NQjabLGdP5g"
-  , "Al Jazeera"			, "8:https://live-hls-web-aje.getaj.net/AJE/index.m3u8"
-  , "Arirang (South Korea)"		, "8:http://amdlive.ctnd.com.edgesuite.net/arirang_1ch/smil:arirang_1ch.smil/chunklist.m3u8"
-  , "CGTN News"				, "/0/0/1 7:https://english-livetx.cgtn.com/hls/yypdyyctzb_hd.m3u8"
-  , "Deutsche Welle"			, "8:https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8"
-  , "EuroNews *"			, "9a:live/euronews"
-  , "GB News (UK, YT)"			, "0:8WX6YL9JnLw"
-  , "NHK World Japan"			, "8:http://nhkwlive-ojp.akamaized.net/hls/live/2003459/nhkwlive-ojp-en/index.m3u8"
-  , "NTD (New Tang Dynasty)"		, "8:https://ntd02.akamaized.net/NTDA/index.m3u8"
-  , "NDTV (India)"			, "8:https://ndtv24x7elemarchana.akamaized.net/hls/live/2003678/ndtv24x7/ndtv24x7master.m3u8"
-  , "Press TV"				, "8:https://cdnlive.presstv.ir/cdnlive/smil:cdnlive.smil/playlist.m3u8"
-  , "RT News"				, "8:https://rt-glb.rttv.com/live/rtnews/playlist.m3u8"
-  , "RT Documentary"			, "8:https://rt-rtd.rttv.com/live/rtdoc/playlist.m3u8"
-  , "TeleSUR"				, "8:https://cdnenmain.telesur.ultrabase.net/mblivev3/480p/playlist.m3u8"
-  , "TRT World"				, "8:http://tv-trtworld.medya.trt.com.tr/master.m3u8"
-  , "World Is One News (India) *"	, "9a:live/wion-world-is-one-news"
-  , "Blaze TV **"			, "1p:5e46fba0c43b0d00096e5ac1"
-  , "Cheddar News"			, "8:https://livestream.chdrstatic.com/b93e5b0d43ea306310a379971e384964acbe4990ce193c0bd50078275a9a657d/cheddar-42620/cheddarweblive/cheddar/index.m3u8"
-  , "Free Speech TV"			, "8:https://edge.fstv-live-linear-channel.top.comcast.net/Content/HLS_HLSv3/Live/channel(b168a609-19c1-2203-ae1d-6b9726f05e67)/index.m3u8"
-  , "NewsMax 2"				, "8:https://nmxlive.akamaized.net/hls/live/529965/Live_1/index.m3u8"
-  , "Real America's Voice"		, "8:https://dai.google.com/linear/hls/event/c-oMNcDLTeuszRKPugMj9Q/master.m3u8"
-  , "Salem Network"			, "8:https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg00732-salemmediagroup-snc-ono/playlist.m3u8"
-  , "The First TV"			, "8:https://thefirst-oando.amagi.tv/hls/amagi_hls_data_thefirstd-thefirst-oando/CDN/playlist.m3u8"
-  , "TYT - The Young Turks"		, "8:https://tyt-xumo-us.amagi.tv/hls/amagi_hls_data_tytnetwor-tyt-xumo/CDN/master.m3u8"
-  , "InfoWars - Main Feed"		, "8:https://freespeech.akamaized.net/hls/live/2016712/live1/playlist.m3u8"
-  , "InfoWars - Alex Jones"		, "8:https://freespeech.akamaized.net/hls/live/2024573/live2/playlist.m3u8"
-  , "InfoWars - Harrison Smith"		, "8:https://freespeech.akamaized.net/hls/live/2016873/live3/playlist.m3u8"
-  , "InfoWars - Owen Shroyer"		, "8:https://freespeech.akamaized.net/hls/live/2024574/live4/playlist.m3u8"
-  , "FrankSpeech TV 1 *"		, "1f:tv1"
-  , "FrankSpeech TV 2 *"		, "1f:tv2"
-  , "FrankSpeech TV 3 *"		, "1f:tv3"
-];
-
-var stack_7_8 = [""
-  , "EBS-1 (South Korea)"		, "8:http://ebsonair.ebs.co.kr/groundwavefamilypc/familypc1m/master.m3u8"
-  , "EBS-2 (South Korea)"		, "8:http://ebsonair.ebs.co.kr/ebs2familypc/familypc1m/index.m3u8"
-  , "EBS Kids (South Korea)"		, "8:https://ebsonair.ebs.co.kr/ebsufamilypc/familypc1m/playlist.m3u8"
-  , "Thai PBS (Thailand) **^"		, "/0/1/1 8:**http://thaipbs-live.cdn.byteark.com/live/playlist.m3u8"
-  , "Kompas TV (Indonesia, YT)"		, "0:DOOrIxw5xOw"
-  , "CCTV-4 (China, YT)"		, "0:twhG7_jvA8g"
-  , "Public TV Armenia"			, "8:https://amtvusdvr.tulix.tv/am2abr/index.m3u8"
-  , "Kepez TV (Azerbaijan)"		, "/0/540.1/0 7:http://85.132.81.184:8080/arbkepez/live/index.m3u8"
-  , "Turkmenistan TV *"			, "/406.1/0/0 7:**http://alpha.tv.online.tm/hls/ch007_720/index.m3u8"
-  , "Zvezda TV (Russia)"		, "8:http://tvchannelstream1.tvzvezda.ru/cdn/tvzvezda/playlist.m3u8"
-  , "TV Kujawy (Poland)"		, "/0/576.1/0 7:http://stream.tvkujawy.pl:8080/live/broadcast.m3u8"
-  , "FS1 Salzburg (Austria)"		, "/0/0/1 7:http://stream.fs1.tv:8080/hls/webstream.m3u8"
-  , "Radio Weser TV (Germany)"		, "8:https://h057.video-stream-hosting.de/radiowesertv-live/_definst_/mp4:livestreamTV/playlist.m3u8"
-  , "TV Filopoli (Greece)"		, "8:http://live.streams.ovh:1935/tvfilopoli/tvfilopoli/playlist.m3u8"
-  , "Super TV (Italy)"			, "8:http://wms.shared.streamshow.it:1935/supertv/supertv/live.m3u8"
-  , "TV 2000 (Italy)"			, "8:https://hls-live-tv2000.akamaized.net/hls/live/2028510/tv2000/master.m3u8"
-  , "TeleSUR (Venezuela)"		, "8:https://cdnesmain.telesur.ultrabase.net/mbliveMain/480p/playlist.m3u8"
-  , "Antofagasta TV (Chile)"		, "8:http://unlimited1-us.dps.live/atv/atv.smil/playlist.m3u8"
-  , "Wow! TV (El Salvador)"		, "8:http://cdn.elsalvadordigital.com:1935/wowtv/wowtv/playlist.m3u8"
-  , "TV Lobo (Mexico)"			, "8:http://streamingcws20.com:1935/lobodurango/videolobodurango/playlist.m3u8"
-];
-
-var stack_7_9 = [""
-];
+stack_7_7 = copylist (`
+  EBS-1 (South Korea)			8:http://ebsonair.ebs.co.kr/groundwavefamilypc/familypc1m/master.m3u8
+  EBS-2 (South Korea)			8:http://ebsonair.ebs.co.kr/ebs2familypc/familypc1m/index.m3u8
+  EBS Kids (South Korea)		8:https://ebsonair.ebs.co.kr/ebsufamilypc/familypc1m/playlist.m3u8
+  Thai PBS (Thailand) **^		/0/1/1 8:**http://thaipbs-live.cdn.byteark.com/live/playlist.m3u8
+  Kompas TV (Indonesia, YT)		0:DOOrIxw5xOw
+  CCTV-4 (China, YT)			0:twhG7_jvA8g
+  Public TV Armenia			8:https://amtvusdvr.tulix.tv/am2abr/index.m3u8
+  Kepez TV (Azerbaijan)			/0/540.1/0 7:http://85.132.81.184:8080/arbkepez/live/index.m3u8
+  Turkmenistan TV *			/406.1/0/0 7:**http://alpha.tv.online.tm/hls/ch007_720/index.m3u8
+  Zvezda TV (Russia)			8:http://tvchannelstream1.tvzvezda.ru/cdn/tvzvezda/playlist.m3u8
+  TV Kujawy (Poland)			/0/576.1/0 7:http://stream.tvkujawy.pl:8080/live/broadcast.m3u8
+  FS1 Salzburg (Austria)		/0/0/1 7:http://stream.fs1.tv:8080/hls/webstream.m3u8
+  Radio Weser TV (Germany)		8:https://h057.video-stream-hosting.de/radiowesertv-live/_definst_/mp4:livestreamTV/playlist.m3u8
+  TV Filopoli (Greece)			8:http://live.streams.ovh:1935/tvfilopoli/tvfilopoli/playlist.m3u8
+  Super TV (Italy)			8:http://wms.shared.streamshow.it:1935/supertv/supertv/live.m3u8
+  TV 2000 (Italy)			8:https://hls-live-tv2000.akamaized.net/hls/live/2028510/tv2000/master.m3u8
+  TeleSUR (Venezuela)			8:https://cdnesmain.telesur.ultrabase.net/mbliveMain/480p/playlist.m3u8
+  Antofagasta TV (Chile)		8:http://unlimited1-us.dps.live/atv/atv.smil/playlist.m3u8
+  Wow! TV (El Salvador)			8:http://cdn.elsalvadordigital.com:1935/wowtv/wowtv/playlist.m3u8
+  TV Lobo (Mexico)			8:http://streamingcws20.com:1935/lobodurango/videolobodurango/playlist.m3u8
+`);
 
 /*
   
-?9a:live/sonicentric
-?7a:channel/midnight-pulp
-?7a:channel/frightflix-2
-?7a:channel/usa-today-news
-?7a:channel/pickletv
-?7a:channel/wildearth
-?7a:channel/retrocrush
-?7a:channel/asiancrush
+9a:live/sonicentric
+7a:channel/midnight-pulp
+7a:channel/frightflix-2
+7a:channel/usa-today-news
+7a:channel/pickletv
+7a:channel/wildearth
+7a:channel/retrocrush
+7a:channel/asiancrush
 
   australia abc  https://abc-news-dmd-streams-1.akamaized.net/out/v1/abc83881886746b0802dc3e7ca2bc792/index.m3u8
 
-  , "8:https://stream-us-east-1.getpublica.com/playlist.m3u8?&network_id=1879"		, "OAN Encore"
-  , "8:https://snc-ono.amagi.tv/playlist.m3u8"						, "Salem Network"
-  , "1:UCeY0bbntWzzVIaj2z3QigXg"							, "NBC News (YT)"
-  , "/432.1/0/0 7:*https://usnewson.com*https://s0.usnlive.com/stream/foxnews.m3u8"	, "Fox News **"
-  , "/0/540.1/0 7:*https://usnewson.com*https://s0.usnlive.com/stream/msnbc.m3u8"	, "MSNBC **"
+  OAN Encore				8:https://stream-us-east-1.getpublica.com/playlist.m3u8?&network_id=1879
+  Salem Network				8:https://snc-ono.amagi.tv/playlist.m3u8
+  NBC News (YT)				1:UCeY0bbntWzzVIaj2z3QigXg
+  Fox News **				/432.1/0/0 7:*https://usnewson.com*https://s0.usnlive.com/stream/foxnews.m3u8
+  MSNBC **				/0/540.1/0 7:*https://usnewson.com*https://s0.usnlive.com/stream/msnbc.m3u8
 
 */
 

@@ -2,8 +2,8 @@
 
 document.getElementById ("src5").innerHTML = `
   <option value= "youtube"     class="w">YouTube / Invidious
-  <option value= "bitchute"    ># mp4 - BitChute
   <option value= "rumble"      >+ mp4 - Rumble
+  <option value= "bitchute"    ># mp4 - BitChute
   <option value= "vimeo"       ># mp4 - Vimeo
   <option value= "infowars"    >+ m3u - InfoWars
   <option value= "brighteon"   >+ m3u - Brighteon
@@ -23,108 +23,88 @@ document.getElementById ("src5").innerHTML = `
 `;
 
 document.getElementById ("butt5").innerHTML = `
-  <button onclick="javascript:copylist(this,5,0)">YouTube</button>
-  <button onclick="javascript:copylist(this,5,1)">BitChute</button>
-  <button onclick="javascript:copylist(this,5,2)">Vimeo</button>
-  <button onclick="javascript:copylist(this,5,3)">InfoWars</button>
-  <button onclick="javascript:copylist(this,5,4)">iHeart</button>
+  <button onclick="copylist(this,5,0)">YouTube</button>
+  <button onclick="copylist(this,5,1)">BitChute</button>
+  <button onclick="copylist(this,5,2)">Vimeo</button>
+  <button onclick="copylist(this,5,3)">InfoWars</button>
+  <button onclick="copylist(this,5,4)">iHeart</button>
 `;
 
-var frame_5 = {
+frame_5 = {
   0: 'youtube', 1: 'bitchute', 2: 'vimeo', 3: 'infowars', 4: 'iheartradio', req_youtube: request
 };
 
-var stack_5_0 = [""
-  , "0:NOZKLtIIUZE" , "Hitler Rant"
-  , "0:m_MaJDK3VNE" , "Herding Cats"
-  , "0:fXjtDs2wO4Q" , "The Martians"
-  , "0:uaPKEbVypRQ" , "Typing Lesson"
-  , "0:W-JhfjGtlp8" , "V - The Miniseries"
-  , "0:kJAsn_vJyY4" , "Starship Enterprise"
-  , "0:We-HMZDSWFU" , "Me and You and a Dog Named Boo"
-  , "0:8Pa9x9fZBtY" , "Sultans of Swing"
-  , "0:6Ath-3JGk8M" , "Flashdance: What A Feeling"
-  , "0:onJspmvJr0E" , "Flashdance: Love's Theme"
-  , "0:FnV0LqHd3h8" , "Make America Great Again"
-  , "0:xB4iFysPm9Q" , "Karolina Protsenko"
-  , "0:HtVdAasjOgU" , "Witcher 3 Trailer"
-  , "0:0ZwfXUURS3g" , "Dukes of Hazzard"
-  , "0:0pKfxbCHLoU" , "AKB48: Sustainable"
-  , "0:vxl4gsvgEQY" , "Perfume: Tokyo Girl"
-  , "0:74VHwppfHuI" , "The Best Is Yet To Come"
-  , "0:uQJoar17jyo" , "Schiff Hits the Fan"
-  , "0:wLTGXblgUoc" , "Never Forget"
-  , "0:XkkvC3D_srM" , "March of the Frogs"
-  , "0:sGdWkl9M_TY" , "American Airman"
-  , "0:AzEBH6DZJVk" , "St. James Infirmary"
-  , "0:W-gngBsA_DI" , "I Told You So"
-  , "0:w8KQmps-Sog" , "Muse: Uprising"
-  , "0:D_XdjviX6gQ" , "Cat Scratch Fever"
-  , "0:kx-inoYmN2Q" , "Alley Cat"
-];
+stack_5_0 = copylist (`
+  Hitler Rant				0:NOZKLtIIUZE
+  Herding Cats				0:m_MaJDK3VNE
+  The Martians	 			0:fXjtDs2wO4Q
+  Typing Lesson				0:uaPKEbVypRQ
+  V - The Miniseries			0:W-JhfjGtlp8
+  Starship Enterprise			0:kJAsn_vJyY4
+  Me and You and a Dog Named Boo	0:We-HMZDSWFU
+  Sultans of Swing			0:8Pa9x9fZBtY
+  Flashdance: What A Feeling		0:6Ath-3JGk8M
+  Flashdance: Love's Theme		0:onJspmvJr0E
+  Make America Great Again		0:FnV0LqHd3h8
+  Karolina Protsenko			0:xB4iFysPm9Q
+  Witcher 3 Trailer			0:HtVdAasjOgU
+  Dukes of Hazzard			0:0ZwfXUURS3g
+  AKB48: Sustainable			0:0pKfxbCHLoU
+  Perfume: Tokyo Girl			0:vxl4gsvgEQY
+  The Best Is Yet To Come		0:74VHwppfHuI
+  Schiff Hits the Fan			0:uQJoar17jyo
+  Never Forget				0:wLTGXblgUoc 
+  March of the Frogs			0:XkkvC3D_srM
+  American Airman			0:sGdWkl9M_TY
+  St. James Infirmary			0:AzEBH6DZJVk
+  I Told You So				0:W-gngBsA_DI
+  Muse: Uprising			0:w8KQmps-Sog
+  Cat Scratch Fever			0:D_XdjviX6gQ
+  Alley Cat				0:kx-inoYmN2Q
+`);
 
-var stack_5_1 = [""
-  , "1:ZPlfDFBkS6w7" , "Rod Stewart: Young Turks"
-  , "1:sSKnCoWAbDos" , "Brother Nathaniel"
-  , "1:A7jZJfaEJK2p" , "Malice in the Palace"
-  , "1:Ol2plIF2otcI" , "QAnon Proofs"
-];
+stack_5_1 = copylist (`
+  Rod Stewart: Young Turks		1:ZPlfDFBkS6w7
+  Brother Nathaniel			1:sSKnCoWAbDos
+  Malice in the Palace			1:A7jZJfaEJK2p
+  QAnon Proofs				1:Ol2plIF2otcI
+`);
 
-var stack_5_2 = [""
-  , "2:129463420" , "Miniatur Wunderland"
-  , "2:166403522" , "Some Kind of Quest"
-  , "2:31883614"  , "Star Trek: Aurora"
-  , "2:175806163" , "Martian American"
-];
+stack_5_2 = copylist (`
+  Miniatur Wunderland			2:129463420
+  Some Kind of Quest			2:166403522
+  Star Trek: Aurora			2:31883614
+  Martian American			2:175806163
+`);
 
-var stack_5_3 = [""
-  , "3:5d4c9fd22ec69a001858eb60" , "Alex Jones"
-  , "3:5d4a339571d8e00017f8afaf" , "Owen Shroyer"
-  , "3:5d4c54aae936660017aee3c0" , "Kaitlin Bennett"
-];
+stack_5_3 = copylist (`
+  Alex Jones				3:5d4c9fd22ec69a001858eb60
+  Owen Shroyer				3:5d4a339571d8e00017f8afaf
+  Kaitlin Bennett			3:5d4c54aae936660017aee3c0
+`);
 
-var stack_5_4 = [""
-  , "4:" , "majic-100-7483"
-  , "4:" , "chum-1045-6270"
-  , "4:" , "iheartradio-top-20-7556"
-  , "4:" , "z1035-7757"
-  , "4:" , "971-the-eagle-2241"
-  , "4:" , "heavy-rock-7554"
-  , "4:" , "z100-1469"
-  , "4:" , "1027-kiis-fm-los-angeles-185"
-  , "4:" , "y100-561"
-  , "4:" , "1017-the-bull-6586"
-  , "4:" , "1035-kiss-fm-849"
-  , "4:" , "alt-987-los-angeles-201"
-  , "4:" , "1035-ktu-1473"
-  , "4:" , "1067-lite-fm-1477"
-  , "4:" , "smooth-jazz-4242"
-  , "4:" , "the-vinyl-experience-6878"
-  , "4:" , "iheart80s-radio-5060"
-  , "4:" , "lone-star-925-3379"
-  , "4:" , "q1043-1465"
-  , "4:" , "500-cfra-7500"
-];
-
-frame_5.req_bitchute = async (id, frame, fmt) =>
-{
-  var tag = "bitchute"; id = getid (frame, id, -12);
-  if (!id || is_busy (frame, tag + " (ID)", 0)) return;
-
-  var url = "https://www.bitchute.com/embed/" + id + "/";
-
-if (stream_all (frame, 0)) fmt = ""; else try
-{
-  response = await kitty (cors_bypass + url);
-  textData = await response.text();
-
-  url = pullstring (textData, "var media_url = '", "'"); if (!url) throw ("!!!");
-
-} catch (err) { console.log (err); busy = 0; }
-
-  if (no_fail (frame, id)) loadwindow (url, frame, tag, id);
-}
-////////////////////
+stack_5_4 = copylist (`
+  majic-100-7483			4:
+  chum-1045-6270			4:
+  iheartradio-top-20-7556		4:
+  z1035-7757				4:
+  971-the-eagle-2241			4:
+  heavy-rock-7554			4:
+  z100-1469				4:
+  1027-kiis-fm-los-angeles-185		4:
+  y100-561				4:
+  1017-the-bull-6586			4:
+  1035-kiss-fm-849			4:
+  alt-987-los-angeles-201		4:
+  1035-ktu-1473				4:
+  1067-lite-fm-1477			4:
+  smooth-jazz-4242			4:
+  the-vinyl-experience-6878		4:
+  iheart80s-radio-5060			4:
+  lone-star-925-3379			4:
+  q1043-1465				4:
+  500-cfra-7500				4:
+`);
 
 frame_5.req_rumble = async (id, frame, fmt) =>
 {
@@ -164,6 +144,26 @@ if (stream_all (frame, 0)) fmt = ""; else try
 } catch (err) { console.log (err); busy = 0; }
 
   if (no_fail (frame, id)) loadwindow (url, frame, tag, id, fmt);
+}
+////////////////////
+
+frame_5.req_bitchute = async (id, frame, fmt) =>
+{
+  var tag = "bitchute"; id = getid (frame, id, -12);
+  if (!id || is_busy (frame, tag + " (ID)", 0)) return;
+
+  var url = "https://www.bitchute.com/embed/" + id + "/";
+
+if (stream_all (frame, 0)) fmt = ""; else try
+{
+  response = await kitty (cors_bypass + url);
+  textData = await response.text();
+
+  url = pullstring (textData, "var media_url = '", "'"); if (!url) throw ("!!!");
+
+} catch (err) { console.log (err); busy = 0; }
+
+  if (no_fail (frame, id)) loadwindow (url, frame, tag, id);
 }
 ////////////////////
 

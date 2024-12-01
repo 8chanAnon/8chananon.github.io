@@ -52,10 +52,15 @@ iframe {
 }
 
 .popbox button {
-  width: 100%; height: auto; line-height: 14px; padding: 2px 5px 2px 5px;
+  width: 100%; height: auto; line-height: 14px; padding: 2px 5px;
   overflow: hidden; font-size: 12px; font-family: 'segoe ui', sans-serif;
   text-align: left; text-overflow: ellipsis; white-space: nowrap;
   border-width: 1px; color: maroon; pointer-events: auto;
+}
+
+.popbox button:hover:active {
+  background-color: peachpuff !important;
+  border-color: peachpuff #acacac peachpuff #ececec;
 }
 
 .ranger button {
@@ -69,7 +74,7 @@ iframe {
 }
 
 input[type=text] {
-  height: 17px; padding: 3px 5px 1px 5px; margin: 0; outline: none;
+  height: 17px; padding: 3px 5px 1px; margin: 0; outline: none;
   font-size: 13px; font-family: 'helvetica', sans-serif; caret-color: navy;
   border: 2px solid; border-color: tan lemonchiffon lemonchiffon burlywood;
 }
@@ -85,17 +90,17 @@ input[type=checkbox] {
 }
 
 input.idspec {
-  width: calc(100% - 28px); margin: -4px 0 0 0;
+  width: calc(100% - 28px); margin: -4px 0 0;
   color: firebrick; background-color: oldlace;
 }
 
 input.urlspec {
-  width: 60%; padding: 4px 6px 3px 6px; margin: -2px 2px 1px 2px;
+  width: 60%; padding: 4px 6px 3px; margin: -2px 2px 1px;
   color: slateblue; background-color: oldlace;
 }
 
 input.static {
-  padding: 4px 0 3px 0; text-align: center;
+  padding: 4px 0 3px; text-align: center;
   color: mediumvioletred; background-color: papayawhip;
   border-radius: 3px; border: 1px solid darkorange;
 }
@@ -110,7 +115,7 @@ input.static {
 }
 
 .dropbox button, .dropbox button:hover:active {
-  vertical-align: top; width: 24px; height: 25px; padding: 0 0 4px 0;
+  vertical-align: top; width: 24px; height: 25px; padding: 0 0 4px;
   font-size: 18px; font-family: 'segoe ui', sans-serif; font-weight: bold;
   border: 2px solid; border-color: tan lemonchiffon lemonchiffon burlywood;
   color: indianred; background-color: mistyrose;
@@ -141,7 +146,7 @@ input.static {
 }
 
 .dropdown option {
-  margin: 0 3px 0 3px; padding: 0 22px 0 6px;
+  margin: 0 3px; padding: 0 22px 0 6px;
   min-height: 15px; max-height: 15px; line-height: 15px;
 }
 
@@ -194,11 +199,15 @@ table.list {
   border: 2px solid olivedrab;
 }
 
-.ir input {
+table.radio {
+  width: 100%; padding-bottom: 2px; border: 2px solid olivedrab;
+}
+
+.radio input {
   height: 17px; margin: 2px 5px -2px -1px;
 }
 
-.ir a {
+.radio a {
   color: crimson; text-decoration: none;
 }
 
@@ -208,15 +217,13 @@ th {
 }
 
 td {
-  font-size: 14px; line-height: 13px;
-  padding: 0 4px 0 4px; color: saddlebrown;
-  text-align: left; vertical-align: top;
+  font-size: 14px; line-height: 13px; padding: 0 4px;
+  text-align: left; vertical-align: top; color: saddlebrown;
 }
 
 td.textbox {
-  width: 30vw; min-width: 230px;
-  padding: 0; font-size: 14px; line-height: 17px;
-  text-align: center; white-space: nowrap;
+  width: 30vw; min-width: 230px; padding: 0; text-align: center;
+  font-size: 14px; line-height: 17px; white-space: nowrap;
 }
 
 td.vidbox {
@@ -232,7 +239,7 @@ td.grill {
 }
 
 button {
-  line-height: 18px; padding: 2px 6px 0 6px; margin: 0;
+  line-height: 18px; padding: 2px 6px 0; margin: 0;
   font-size: 12px; font-family: 'helvetica', sans-serif; outline: none;
   border: 2px solid; color: darkblue; background-color: powderblue;
   border-color: #e8e8e8 #acacac #a8a8a8 #ececec;
@@ -254,13 +261,13 @@ button.is_on {
 
 button.wrapper, button.wrapper:hover:active {
   width: 56px; height: 18px; font-size: 13px; line-height: 17px;
-  margin: 0 2px 0 1px; padding: 0; border: 1px solid pink;
+  margin: 0 3px 0 0; padding: 0; border: 1px solid pink;
   color: red; background-color: papayawhip;
 }
 
 .stack button {
-  font-size: 19px; line-height: 23px;
-  padding: 2px 10px 1px 10px; background-color: pink;
+  font-size: 19px; line-height: 23px; padding: 3px 10px 1px;
+  color: mediumblue; background-color: pink;
 }
 
 .grill button {
@@ -447,7 +454,7 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 </span></span></div><table><tr><td class="textbox">
 
 <a id="dload5" onclick="return false">
-<button onclick="javascript:btn_dload(5)"><b_>DLoad</b_></button></a>
+<button onclick="javascript:btn_dload(5)">DLoad</button></a>
 <button onclick="javascript:frame_req(5,0)">Play ID</button>
 <button onclick="javascript:reset_frame(5)">Clear</button>
 <p></p>
@@ -500,7 +507,7 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 <p style="margin-top:-2px"></p>
 <input type=radio id="mov5a" name="chk5"> Raw&nbsp;
-<input type=radio id="mov5b" name="chk5" checked><button onclick="javascript:poke_hls(5,0)"
+<input type=radio id="mov5b" name="chk5" checked><button onclick="javascript:poke_hls(5)"
   class="wrapper" id="hls5">Wrapper</button><input type=radio id="mov5c" name="chk5"> Sandbox
 
 </td><td class="vidbox">
@@ -514,7 +521,7 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 <button onclick="javascript:frame_req(5,1)">Play URL</button>
 <button onclick="javascript:urlcopy(5,true)">Copy</button>
-<button onclick="javascript:frame_dig(5)"><b_>DIG</b_></button>
+<button onclick="javascript:frame_dig(5)">DIG</button>
 
 <input type=text id="line5" class="urlspec">
 <input type=text id="meta5" class="static" disabled style="width:82px">
@@ -560,7 +567,7 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 </span></span></div><table><tr><td class="textbox">
 
 <a id="dload6" onclick="return false">
-<button onclick="javascript:btn_dload(6)"><b_>DLoad</b_></button></a>
+<button onclick="javascript:btn_dload(6)">DLoad</button></a>
 <button onclick="javascript:frame_req(6,0)">Play ID</button>
 <button onclick="javascript:reset_frame(6)">Clear</button>
 <p></p>
@@ -613,7 +620,7 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 <p style="margin-top:-2px"></p>
 <input type=radio id="mov6a" name="chk6"> Raw&nbsp;
-<input type=radio id="mov6b" name="chk6" checked><button onclick="javascript:poke_hls(6,0)"
+<input type=radio id="mov6b" name="chk6" checked><button onclick="javascript:poke_hls(6)"
   class="wrapper" id="hls6">Wrapper</button><input type=radio id="mov6c" name="chk6"> Sandbox
 
 </td><td class="vidbox">
@@ -627,7 +634,7 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 <button onclick="javascript:frame_req(6,1)">Play URL</button>
 <button onclick="javascript:urlcopy(6,true)">Copy</button>
-<button onclick="javascript:frame_dig(6)"><b_>DIG</b_></button>
+<button onclick="javascript:frame_dig(6)">DIG</button>
 
 <input type=text id="line6" class="urlspec">
 <input type=text id="meta6" class="static" disabled style="width:82px">
@@ -672,7 +679,7 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 </span></span></div><table><tr><td class="textbox">
 
 <a id="dload7" onclick="return false">
-<button onclick="javascript:btn_dload()"><b_>DLoad</b_></button></a>
+<button onclick="javascript:btn_dload()">DLoad</button></a>
 <button onclick="javascript:frame_req(7,0)">Play ID</button>
 <button onclick="javascript:reset_frame(7)">Clear</button>
 <p></p>
@@ -725,7 +732,7 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 <p style="margin-top:-2px"></p>
 <input type=radio id="mov7a" name="chk7"> Raw&nbsp;
-<input type=radio id="mov7b" name="chk7" checked><button onclick="javascript:poke_hls(7,0)"
+<input type=radio id="mov7b" name="chk7" checked><button onclick="javascript:poke_hls(7)"
   class="wrapper" id="hls7">Wrapper</button><input type=radio id="mov7c" name="chk7"> Sandbox
 
 </td><td class="vidbox">
@@ -739,7 +746,7 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 <button onclick="javascript:frame_req(7,1)">Play URL</button>
 <button onclick="javascript:urlcopy(7,true)">Copy</button>
-<button onclick="javascript:frame_dig(7)"><b_>DIG</b_></button>
+<button onclick="javascript:frame_dig(7)">DIG</button>
 
 <input type=text id="line7" class="urlspec">
 <input type=text id="meta7" class="static" disabled style="width:82px">
@@ -771,7 +778,7 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 <input type=text value="50" class="static" id="ir_volume" style="width:40px" disabled>
 <button onclick="javascript:ir_action(5)">&gt;</button></span>
 
-</p><table id="ir" class="list ir" style="width:100%;padding-bottom:2px"></table>
+</p><table id="ir" class="radio"></table>
 
 <audio id="internet_radio"
   onerror="javascript:ir_action(-2)" ontimeupdate="javascript:ir_update(event)"></audio>
@@ -805,6 +812,7 @@ var worker, client, last_client, vidwin, blank_page, download;
 var last_h = last_w = last_raw = last_time = the_time = busy = 0;
 var response, textData, jsonData, dropdown, msg_timer, msg_result;
 
+var frame_5 = {}, frame_6 = {}, frame_7 = {}, radio = [];
 var cookies = {}, streams = {}, poorkitty = { abort: () => {} };
 
 var HLS_PLAYER  = "https://cdn.jsdelivr.net/npm/hls.js@0.12.0/dist/hls.min.js";
@@ -894,8 +902,8 @@ var msg_worker = function (id, msg)
     client = ""; if (id) loadwindow (id, frm, "@ raw stream"); return;
   }
 
-  msg = ((id.includes ("http:/") || id.includes ("https:/")) ? "dig_" : "req_") + src;
-  msg = window ["frame_5"][msg] || window ["frame_6"][msg] || window ["frame_7"][msg];
+  msg = (id.includes ("/") ? "dig_" : "req_") + src;
+  msg = frame_5 [msg] || frame_6 [msg] || frame_7 [msg];
 
   if (msg) msg (id, frm, fmt); else { say_worker (client, "error"); client = ""; }
 }
@@ -945,7 +953,6 @@ var resize_all = function (x)
 
     var a = hood.previousSibling.previousSibling.clientWidth;
     var b = hood.clientWidth; hood.style.minWidth = "90px";
-
     hood.style.width = (a < 280 && b < 40) ? "0" : "35vw";
 
     if (a + b < 330)
@@ -974,7 +981,36 @@ var init_frames = function (x)
     selectmake ("ytx" + n); selectmake ("fmt" + n);
     selectmake ("stk" + n); selectmake ("src" + n); selectmake ("win" + n);
   }
-  selectmake ("proxy", x); document.body.style = "display:block"; resize_all();
+  selectmake ("proxy", x); init_radio();
+  document.body.style = "display:block"; resize_all();
+}
+////////////////////
+
+var init_radio = function ()
+{
+  var m, n, p, q, r = radio, list = []; radio = "";
+  if (typeof r[0] != "string") r = ["Sum Ting Wong"];
+
+  for (n = 2; n < r.length; n += 2)
+  {
+    p = r[n]; q = r[n+1]; if (p[0] == "-") p = q = "";
+    if (p[0] == "+") p = list.pop(); list.push (p + "\0" + q);
+  }
+
+  var doc = document.getElementById ("ir"); m = doc.insertRow (0);
+  r = "<th>" + r[0].replace (/\|/g, "</th><th>") + "</th>";
+  m.innerHTML = r; n = list.length / m.children.length;
+  if ((m = Math.trunc (n)) != n) n = m + 1; r = "";
+
+  for (var i = 0, j = 0, k; i < list.length; i++, j = j || n)
+  {
+    m = list [i].split ("\0"); p = m[0]; q = m[1] || "";
+    if (m[2]) p = `<a href="${m[2]}" target=_blank>${p}</a>`;
+    q = `<input type=radio name=ir value="${q}">${p}<br>`;
+    if (i && !--j) q = "</td>\n\n<td>" + q; r += q;
+  }
+
+  doc.insertRow (1).innerHTML = "<td>" + r + "</td>";
 }
 ////////////////////
 
@@ -1018,11 +1054,12 @@ var MEOW = function (e, type)
 {
   var a = e.target, b = a.nodeName, d = dropdown, t = e.timeStamp;
 
-  if (type < 2 && b == "INPUT" && a.type == "text" && !a.disabled)
+  if (type < 2 && b == "INPUT") if (a.type == "text" && !a.disabled)
   {
     b = !a.checked && type; a.checked = type;
     if (b && a.selectionStart >= a.selectionEnd) a.select();
   }
+  else if (type == 1 && a.name == "ir") ir_start (a.value);
 
   if (!d || !type) return; b = d.step && b != t; d.step = t;
   if (b) { d.style.display = "none"; dropdown = null; }
@@ -1052,22 +1089,33 @@ var urlcopy = function (frame, copy)
 
 var copylist = function (btn, frame, num)
 {
+  if (typeof (btn) == "string")
+  {
+    var n, p, q, r, s = btn.split ("\n"); btn = [];
+
+    for (n = 0; n < s.length; n++)
+    {
+      r = s[n].trim().replace (/\t/g, "  ").split ("  ");
+      p = r.shift(); q = (r.pop() || "").trim(); if (!p) continue;
+      btn.push (p, q.substr (-1) == ":" ? q + p : q);
+    }
+    return (btn);
+  }
+
   var iptv = num < 0; if (iptv) num = -num;
   var list = window ["stack_" + frame + "_" + num]; if (!list) return;
 
   var box = document.getElementById ("stk" + frame), item = box.children;
-  for (i = item.length - 1; i > 0; i--) box.removeChild (item [i]);
+  for (var i = item.length - 1; i > 0; i--) box.removeChild (item [i]);
 
-  for (var val, txt, i = 2, j = 101, k; i < list.length; i += 2, j++)
+  for (var i = 1, j = 100, k; i < list.length; i += 2)
   {
-    txt = list [iptv ? i-1 : i]; val = list [iptv ? i : i-1];
-    if (txt [0] == "?") { k = txt.substr (1); txt = val; val = k; }
-    if (val.substr (-1) == ":") val += txt; if (iptv) val = "?" + val;
-    box.appendChild (new Option ("[" + (j + "] ").substr (1) + txt, val));
+    k = "[" + (++j + "] ").substr (1) + list [i-1];
+    box.appendChild (new Option (k, (iptv ? "?" : "") + list [i]));
   }
 
-  list = "Select a channel (" + btn.innerText + ")";
-  item [0].innerText = box.parentNode.firstElementChild.value = list;
+  iptv = "Select a channel (" + ((btn && btn.innerText) || "") + ")";
+  item [0].innerText = box.parentNode.firstElementChild.value = iptv;
   box.value = ""; popper (frame, 0);
 }
 ////////////////////
@@ -1099,9 +1147,6 @@ var btn_toggle = function (frame, num)
 
 var brightness = function (frame, mode)
 {
-  var win = document.getElementById ("mov" + frame), vid = win.contentDocument;
-  if (vid) vid = vid.getElementById ("video"); if (!vid) vid = win;
-
   var LVL = document.getElementById ("ctr" + frame + "x");
   var SAT = document.getElementById ("ctr" + frame + "y");
 
@@ -1128,6 +1173,9 @@ var brightness = function (frame, mode)
 
   lvl = lvl.toFixed (3); con = con.toFixed (3); sat = sat.toFixed (3);
   lvl = "brightness(" + lvl + ") contrast(" + con + ") saturate(" + sat + ")";
+
+  var win = document.getElementById ("mov" + frame); vid = win.contentDocument;
+  if (vid) vid = vid.getElementById ("video"); if (!vid) vid = win;
   vid.style.filter = win.value = lvl;
 }
 ////////////////////
@@ -1171,17 +1219,16 @@ var setup_cors = function (frame)
 
 var poke_hls = function (frame, state)
 {
-  if (state < 0) return;
+  if (!state) state = 0; if (state < 0) return;
 
   var doc = document.getElementById ("hls" + frame);
-  var hls = doc.checked; hls = hls ? hls * 1 : 0;
+  var hls = doc.checked * 1 || 0, txt = "Wrapper";
 
-  var txt = "Wrapper"; if (++hls > 2) hls = 0; if (state > 0) hls = state - 1;
+  if (++hls > 2) hls = 0; if (state) hls = state - 1;
   if (hls == 1) txt = "M3U8"; else if (hls == 2) txt = "DASH";
 
   doc.checked = hls; doc.innerHTML = txt;
-
-  if (!state) document.getElementById ("mov" + frame + "b").checked = true;
+  if (!state) doc.previousElementSibling.checked = true;
 }
 ////////////////////
 
@@ -1324,16 +1371,17 @@ var frame_req = function (frame, mode, url)
 
   if (!url) return; if (mode == 1) { loadwindow (url, frame, ""); return; }
 
-  url = url.split (" ").pop();
+  var target = "req_"; url = url.split (" ").pop();
   src = document.getElementById ("src" + frame).value;
 
   if ((sub = url.split (":")).length > 1 && sub [0].length < 4)
   {
-    src = window ["frame_" + frame][sub [0]];
-    if (src && (url = sub [1])) poke_site (frame, src); else return;
+    src = window ["frame_" + frame][sub.shift()];
+    url = sub.join (":"); if (url.includes ("/")) target = "dig_";
+    if (src && url) poke_site (frame, src); else return;
   }
 
-  if (src = window ["frame_" + frame]["req_" + src])
+  if (src = window ["frame_" + frame][target + src])
     src (url, frame, fmt); else no_fail (frame, "", "Not supported");
 }
 ////////////////////
@@ -1375,8 +1423,9 @@ var open_stream = function (url, frame, fmt)
 
   if (url [0] == "^")  // string is reversed to hide from DMCA scans
   {
-    var a = url.lastIndexOf ("//") + 2, b = url.lastIndexOf ("/"), c = url.substr (a, b - a);
-    a = url.substr (1, a - 1); b = url.substr (b); url = a + c.split("").reverse().join("") + b;
+    s = url.indexOf ("//") + 2, t = url.lastIndexOf ("/");
+    n = url.substr (s, t - s).split("").reverse().join("");
+    url = url.substr (1, s - 1) + n + url.substr (t);
   }
 
   if (src == "0") { request (url, frame, -fmt); return; }
@@ -1405,10 +1454,10 @@ var open_dloader = async (url, frame, fmt) =>
 }
 ////////////////////
 
-var radio = function (url)
+var ir_start = function (url)
 {
-  if (!url) return; setTimeout (() => ir_action (url), 1000);
-  document.getElementById ("ir_url").value = url;
+  if (!url) return; radio = url;
+  setTimeout (() => ir_action (url), 1000);
 }
 ////////////////////
 
@@ -1425,7 +1474,8 @@ var ir_action = function (mode)
 
   if (typeof (mode) == "string")
   {
-    if (mode != url || mode == vid.src) return; mode = 2; src_ok = false;
+    url = radio; if (mode != url || mode == vid.src) return;
+    document.getElementById ("ir_url").value = url; mode = 2; src_ok = false;
   }
 
   if (mode == 2 && url.length == 11 && !url.includes (":"))
@@ -1438,7 +1488,7 @@ var ir_action = function (mode)
   if (mode == 2) if (!url)
   {
     vid = document.getElementsByName ("ir");
-    for (sib of vid) if (sib.checked) sib.onclick(); return;
+    for (sib of vid) if (sib.checked) ir_start (sib.value); return;
   }
   else if (pop.checked)
   {
@@ -1675,13 +1725,9 @@ var loadwindow = function (url, frame, site, id, fmt)
 
   if (btn_a) { h = w = 0; specs = ""; } else if (btn_b)
   {
-    var lft, top;
-
-    win = document.getElementById ("win" + frame);
-    if (!(specs = win.value)) specs = win.children[0].value;
-
+    win = document.getElementById ("win" + frame); specs = win.value;
     h = specs.indexOf (":"); w = specs.substr (0, h); h = specs.substr (h + 1);
-    lft = (window.screen.width - w)  / 2 - 4; top = (window.screen.height - h) / 3 - 12;
+    var lft = (window.screen.width - w) / 2 - 4, top = (window.screen.height - h) / 3;
     specs = "width=" + w + ",height=" + h + ",top=" + top + ",left=" + lft;
   }
   else
@@ -1711,9 +1757,10 @@ var loadwindow = function (url, frame, site, id, fmt)
   if (!vidwin || vidwin.closed) win = vidwin = window.open (blank_page + "#" + raw, "", specs);
   if (!vidwin) { msg.innerHTML = "Blocked"; return; }
 
-  vidwin.focus(); msg.innerHTML = "Popup"; win = (win && blank_page) ? null : vidwin.document;
+  win = (win && blank_page) ? null : vidwin.document;
+  msg.innerHTML = "Popup"; (raw = vidwin).focus(); if (multi) vidwin = null;
 
-  load_window (vidwin, win, title, insert, w + " " + h,
+  load_window (raw, win, title, insert, w + " " + h,
     function (doc) { load_stream (frame, false, url, doc, filter, scale); });
 }
 ////////////////////
