@@ -251,12 +251,13 @@ var play_video = function (download)
 
 const request_youtube = async (id, frame, fmt) =>
 {
-  var i, j, n, s, t, u, v, sub, vid, aud, key, sig, nkey, base;
+  var i, j, n, r, s, t, u, sub, vid, aud, key, sig, nkey, base;
   var url, webm, dash, f = [0,0,0,0,0,0,0,0,0,0];
 
   fmt = -fmt; if (is_busy (frame)) return;
 
-  var ua1 = localhost + "user-agent=|*", ua2 = ua1.replace ("=", "=!Mozilla/5.0 (Android 14)");
+  var ua1 = localhost + "user-agent=|*";
+  var ua2 = ua1.replace ("=", "=!Mozilla/5.0 (Android 14)");
 
 try
 {
@@ -276,9 +277,9 @@ try
     t = textData.substring (i, j + 11); s = "var " + pullstring (t, "typeof ", "==");
     s = s + pullstring (textData, s, ";"); nkey = s + "; var nsig=" + t + " sig=nsig(sig);";
 
-    s = pullstring (textData, '.split("");', 'return'); t = "var " + pullstring (s, "", ".") + "={";
-    u = pullstring (textData, t, "};"); v = pullstring (s, "(", ","); if (!u) throw ("???");
-    key = t + u + "}; var " + v + "=sig.split('');\n" + s + "sig=" + v + ".join('');";
+    r = pullstring (textData, '.split("");', 'return'); s = "var " + pullstring (r, "", ".") + "={";
+    t = pullstring (textData, s, "};"); u = pullstring (r, "(", ","); if (!t) throw ("???");
+    key = s + t + "}; var " + u + "=sig.split('');\n" + r + "sig=" + u + ".join('');";
 
     cookies [base] = key; cookies ["!" + base] = nkey;
     n = pullstring (textData, "signatureTimestamp:", "}") * 1;
