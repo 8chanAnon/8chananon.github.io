@@ -126,62 +126,57 @@ Death FM			http://hi.death.fm/;
 
 // Internet TV
 
-var request_iptv = function (src, url, frame, fmt, f)
+var request_iptv = function (src, url, frame, fmt)
 {
-  if (src == "7") open_tv0 (frame, 0, f, fmt, url);
-  if (src == "8") open_tv0 (frame, 1, f, fmt, url);
+  if (src == "0") { request (url, frame, -fmt); return; }
+  if (src == "1") { request ("@" + url, frame, -fmt); return; }
 
-  if (src == "1a") open_tv1 (frame, 2, f, fmt, url, src);  // tv247.us
-  if (src == "1b") open_tv1 (frame, 3, f, fmt, url, src);  // tv247.us
-  if (src == "1c") open_tv1 (frame, 0, f, fmt, url, src);  // tv247.us
-  if (src == "1e") open_tv1 (frame, 1, f, fmt, url, src);  // content.uplynk.com
-  if (src == "1f") open_tv1 (frame, 1, f, fmt, url, src);  // frankspeech.com
-  if (src == "1p") open_tv1 (frame, 1, f, fmt, url, src);  // Pluto TV
-  if (src == "1x") open_tv1 (frame, 1, f, fmt, url, src);  // Olympics
+  if (src == "6")  open_tv0 (frame, 1, url, 0);  // DASH
+  if (src == "7")  open_tv0 (frame, 0, url, fmt);
+  if (src == "8")  open_tv0 (frame, 1, url, fmt);
+  if (src == "9")  open_tv0 (frame, 0, url, 0);  // mp4, webm, etc.
 
-  if (src == "3a") open_tv3 (frame, 1, f, fmt, url, "http://www.freeintertv.com");
-  if (src == "4a") open_tv4 (frame, 0, f, fmt, url, "http://streamw.ink");
-  if (src == "5a") open_tv5 (frame, 1, f, fmt, url, "https://thetvapp.to");
-  if (src == "6a") open_tv6 (frame, 1, f, fmt, url, "https://therokuchannel.roku.com");
-  if (src == "7a") open_tv7 (frame, 1, f, fmt, url, "https://watch.plex.tv");
-  if (src == "8a") open_tv8 (frame, 0, f, fmt, url, "https://easycatchup.eu");
-  if (src == "9a") open_tv9 (frame, 1, f, fmt, url, "https://www.distro.tv");
+  if (src == "1a") open_tv1 (frame, 2, url, fmt, src);  // tv247.us
+  if (src == "1b") open_tv1 (frame, 3, url, fmt, src);  // tv247.us
+  if (src == "1c") open_tv1 (frame, 0, url, fmt, src);  // tv247.us
+  if (src == "1e") open_tv1 (frame, 1, url, fmt, src);  // content.uplynk.com
+  if (src == "1f") open_tv1 (frame, 1, url, fmt, src);  // frankspeech.com
+  if (src == "1p") open_tv1 (frame, 1, url, fmt, src);  // Pluto TV
+  if (src == "1x") open_tv1 (frame, 1, url, fmt, src);  // Olympics
+
+  if (src == "3a") open_tv3 (frame, 1, url, fmt, "http://www.freeintertv.com");
+  if (src == "4a") open_tv4 (frame, 0, url, fmt, "http://streamw.ink");
+  if (src == "5a") open_tv5 (frame, 1, url, fmt, "https://thetvapp.to");
+  if (src == "6a") open_tv6 (frame, 1, url, fmt, "https://therokuchannel.roku.com");
+  if (src == "7a") open_tv7 (frame, 1, url, fmt, "https://watch.plex.tv");
+  if (src == "8a") open_tv8 (frame, 0, url, fmt, "https://easycatchup.eu");
+  if (src == "9a") open_tv9 (frame, 1, url, fmt, "https://www.distro.tv");
 }
 ////////////////////
 
-const open_tv0 = async (frame, mode, f, fmt, url) =>
+const open_tv0 = async (frame, mode, url, fmt) =>
 {
-  if (is_busy (frame)) return;
-
   if (url [0] == "*") if (cors_local) url = cors_local + "~" + url; else
   {
     n = url.indexOf ("*", 1); url = url.substr (n < 0 ? 1 : n + 1);
   }
 
-  if (stream_all (frame, 1)) fmt = mode = 0; else
+  if (is_busy (frame)) return; else if (!fmt)
   {
-    var x = 0, n = getformat (f, fmt);
-    if ((n = argformat (n)) >= 0)
-    {
-      x = pixformat (n); n = f[n]; var y = Math.trunc (n); if (n != y) x = y;
-    }
-    if (mode) mode = (x ? x : 2); else { fmt = x; if (x) mode = 1; }
+    if (mode & 1) stream_all (frame, 2); else fmt = undefined;
   }
-
-  if (mode > 1) try
+  else if (stream_all (frame, 1) || !(mode & 1)) fmt = 0; else try
   {
     response = await kitty (url); textData = await response.text();
     [url,fmt] = crack_m3u8 (response.url, textData, frame, fmt);
-    if (fmt && mode > 2) fmt = mode; else mode = 0;
   }
   catch (err) { console.log (err); busy = 0; }
 
-  if (mode) fixformat (f, frame);
-  if (no_fail (frame)) loadwindow (url, frame, "Internet TV", "", fmt);
+  if (no_fail (frame)) loadwindow (url, frame, "@", "", fmt);
 }
 ////////////////////
 
-const open_tv1 = async (frame, mode, f, fmt, url, src) =>
+const open_tv1 = async (frame, mode, url, fmt, src) =>
 {
   var n, p, s, sub = src + "," + url; if (is_busy (frame, "", mode & 2)) return;
 
@@ -223,11 +218,11 @@ try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode & 1, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, url, fmt);
 }
 ////////////////////
 
-const open_tv2 = async (frame, mode, f, fmt, url, src) =>
+const open_tv2 = async (frame, mode, url, fmt, src) =>
 {
   var n, s, sub = "2," + url; if (is_busy (frame)) return;
 
@@ -236,12 +231,12 @@ if (s = stream_cache (sub)) url = s; else try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, url, fmt);
 }
 ////////////////////
 
 // http://www.freeintertv.com  format: ?????
-const open_tv3 = async (frame, mode, f, fmt, url, src) =>
+const open_tv3 = async (frame, mode, url, fmt, src) =>
 {
   var s, t, sub = "3," + url; if (is_busy (frame, "", 2)) return;
 
@@ -280,7 +275,7 @@ if (s = stream_cache (sub)) url = s; else try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, url, fmt);
 }
 ////////////////////
 
@@ -294,7 +289,7 @@ if (s = stream_cache (sub)) url = s; else try
 */
 
 // http://streamw.ink
-const open_tv4 = async (frame, mode, f, fmt, url, src) =>
+const open_tv4 = async (frame, mode, url, fmt, src) =>
 {
   var n, s, sub = "4," + url; if (is_busy (frame), "", 2) return;
 
@@ -311,12 +306,12 @@ if (s = stream_cache (sub)) url = s; else try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, url, fmt);
 }
 ////////////////////
 
 // https://thetvapp.to
-const open_tv5 = async (frame, mode, f, fmt, url, src) =>
+const open_tv5 = async (frame, mode, url, fmt, src) =>
 {
   var s, t, u, sub = "5," + url; if (is_busy (frame)) return;
 
@@ -364,7 +359,7 @@ if (s = stream_cache (sub)) url = s; else try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, url, fmt);
 }
 ////////////////////
 
@@ -482,7 +477,7 @@ if (s = stream_cache (sub)) url = s; else try
 */
 
 // https://therokuchannel.roku.com  format: ?????
-const open_tv6 = async (frame, mode, f, fmt, url, src) =>
+const open_tv6 = async (frame, mode, url, fmt, src) =>
 {
   var n, p, q, r, s, sub = "6," + url; if (is_busy (frame)) return;
 
@@ -508,14 +503,14 @@ if (s = stream_cache (sub)) url = s; else try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, url, fmt);
 }
 ////////////////////
 
 // https://watch.plex.tv/live-tv  format: channel/?????
-const open_tv7 = async (frame, mode, f, fmt, url, src) =>
+const open_tv7 = async (frame, mode, url, fmt, src) =>
 {
-  var h, s, t, sub = "7," + url; if (is_busy (frame, "", 2)) return;
+  var h, s, t, sub = "7," + url; if (is_busy (frame, "", 1)) return;
 
 if (s = stream_cache (sub)) url = s; else try
 {
@@ -527,19 +522,21 @@ if (s = stream_cache (sub)) url = s; else try
   response = await kitty (cors_kraker + src + "/en-GB/live-tv/" + url);
   textData = await response.text();
 
-  s = pullstring (textData, '/library/parts/', '\\"');
-  url = "https://epg.provider.plex.tv/library/parts/" + s + "?X-Plex-Token=" + t;
+  s = textData.lastIndexOf ("/library/parts/");
+  s = pullstring (textData.substr (s, 100), '', '\\"'); if (!s) throw ("!!!");
+
+  url = "https://epg.provider.plex.tv" + s + "?X-Plex-Token=" + t;
 
   if (!s.includes (".m3u8")) throw ("!!!"); stream_cache (sub, url, 0);
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, url, fmt);
 }
 ////////////////////
 
 // https://easycatchup.eu  format: stream=?????
-const open_tv8 = async (frame, mode, f, fmt, url, src) =>
+const open_tv8 = async (frame, mode, url, fmt, src) =>
 {
   var n, s, sub = "8," + url; if (is_busy (frame, "", 2)) return;
 
@@ -556,12 +553,12 @@ if (s = stream_cache (sub)) url = s; else try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, url, fmt);
 }
 ////////////////////
 
 // view-source:https://www.distro.tv/live format: live/?????
-const open_tv9 = async (frame, mode, f, fmt, url, src) =>
+const open_tv9 = async (frame, mode, url, fmt, src) =>
 {
   var n, s, sub = "9," + url; if (is_busy (frame)) return;
 
@@ -580,7 +577,7 @@ if (s = stream_cache (sub)) url = s; else try
 
 } catch (err) { console.log (err); busy = 0; }
 
-  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, f, fmt, url);
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, url, fmt);
 }
 ////////////////////
 

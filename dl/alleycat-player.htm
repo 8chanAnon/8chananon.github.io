@@ -34,13 +34,12 @@ iframe {
 
 .msgbox {
   display: block; position: absolute; top: 38%; left: 40%; right: 40%;
-  text-align: center; border-radius: 14px; font-style: italic; padding-left: 4px;
+  text-align: center; border-radius: 14px; font-style: italic; padding: 1px 2px 2px 4px;
   cursor: pointer; color: paleturquoise; background-color: slateblue;
 }
 
 .popbox {
-  z-index: -1; width: 100%; height: 100%;
-  position: absolute; pointer-events: none;
+  position: absolute; width: 100%; height: 100%; z-index: -1; pointer-events: none;
 }
 
 .popbox table {
@@ -48,18 +47,22 @@ iframe {
 }
 
 .popbox td {
-  padding: 6px 4px 0 5px;
+  padding: 6px 4px 3px 5px;
 }
 
 .popbox button {
-  width: 100%; height: auto; line-height: 14px; padding: 2px 5px;
-  overflow: hidden; font-size: 12px; font-family: 'segoe ui', sans-serif;
-  text-align: left; text-overflow: ellipsis; white-space: nowrap;
-  border-width: 1px; color: maroon; pointer-events: auto;
+  display: block; width: 100%; height: auto; padding: 2px 5px;
+  line-height: 14px; font-size: 12px; font-family: 'segoe ui', sans-serif;
+  text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  border-width: 1px; color: maroon; background-color: pink; pointer-events: auto;
+}
+
+.popbox button[checked] {
+  background-color: powderblue;
 }
 
 .popbox button:hover:active {
-  background-color: peachpuff !important;
+  background-color: peachpuff;
   border-color: peachpuff #acacac peachpuff #ececec;
 }
 
@@ -106,7 +109,8 @@ input.static {
 }
 
 .dropbox {
-  display: inline-block; color: mediumvioletred; background-color: papayawhip;
+  display: inline-block; text-align: left;
+  color: mediumvioletred; background-color: papayawhip;
 }
 
 .dropbox input {
@@ -122,7 +126,7 @@ input.static {
 }
 
 .dropbox0 {
-  width: 160px; color: firebrick; background-color: oldlace;
+  width: 160px; background-color: oldlace;
 }
 
 .dropbox1 {
@@ -130,31 +134,30 @@ input.static {
 }
 
 .dropbox2 {
-  margin-top: -4px; width: calc(100% - 14px); max-width: 270px; color: red;
+  margin: -4px 0 1px; width: calc(100% - 14px); max-width: 270px; color: red;
 }
 
 .dropbox3 {
-  margin-top: -2px; width: 140px;
+  margin: 1px 0; width: 140px;
 }
 
 .dropdown {
   display: none; position: absolute; max-height: 50vh; z-index: 2;
-  text-align: left; margin: 3px 0 0 1px; overflow-x: hidden; overflow-y: auto;
-  outline: 1px solid peru; border: 0 solid transparent; border-width: 3px 0;
-  font-size: 13.5px; font-family: 'consolas', monospace;
+  margin: 3px 0 0 1px; outline: 1px solid peru; border: 3px solid transparent;
+  font-size: 14px; font-family: 'consolas', monospace; cursor: default;
   color: darkgreen; background-color: ivory;
 }
 
-.dropdown option {
-  margin: 0 3px; padding: 0 22px 0 6px;
-  min-height: 15px; max-height: 15px; line-height: 15px;
+.dropdown option, .dropdown span {
+  display: block; margin: 0; padding: 0 5px 0 4px; 
+  height: 15px; line-height: 15px; min-height: 0; white-space: pre;
 }
 
-.dropdown option[checked] {
+.dropdown option[checked], .dropdown span[checked] {
   background-color: lightgray;
 }
 
-.dropdown option:hover {
+.dropdown option:hover, .dropdown span:hover {
   color: yellow; background-color: orchid;
 }
 
@@ -174,13 +177,13 @@ input.static {
 
 .pickpanel {
   display: inline-block; position: relative; z-index: 0;
-  margin-top: -1px; padding: 1px; border: 2px solid skyblue;
-  outline: 1px solid thistle; color: crimson; background-color: cornsilk;
+  margin: -1px 0 0; padding: 1px; border: 2px solid skyblue;
+  outline-color: thistle; color: crimson; background-color: oldlace;
 }
 
 .pickpanel span {
-  display: inline-block; height: 19px; line-height: 19px; white-space: pre;
-  padding: 0 6px 0 7px; margin: 1px 1px; border: 1px solid orange;
+  display: inline-block; margin: 1px 1px; padding: 0 6px 0 7px;
+  height: 19px; line-height: 19px; border: 1px solid orange;
 }
 
 .pickpanel span[checked] {
@@ -188,7 +191,7 @@ input.static {
 }
 
 .pickpanel span:hover {
-  background-color: peachpuff;
+  color: inherit; background-color: peachpuff;
 }
 
 table {
@@ -227,7 +230,7 @@ td.textbox {
 }
 
 td.vidbox {
-  font-size: 15px; line-height: normal; padding: 0;
+  font-size: 15px; line-height: normal; padding: 0 0 0 2px;
   vertical-align: middle; border-left: 1px solid firebrick;
 }
 
@@ -385,8 +388,8 @@ You may have to do this more than once since the cookie can expire.<p></p>
   <option value="https://m3u8.justchill.workers.dev/?url=">m3u8.justchill.workers.dev
   <option value="">None
 </div></div>
-&nbsp; &nbsp; &nbsp; &nbsp; <b>Go to &nbsp;<a href="#sites">Sites List</a> - <a href="#movies">Movie Sites</a>
- - <a href="#notes">Special Notes</a> - <a href="#livestream">TV & Radio</a></b>
+&nbsp; &nbsp; &nbsp; &nbsp; <b>Go to&nbsp;
+  <a href="#sites">Sites List</a> - <a href="#movies">Movie Sites</a> - <a href="#notes">Special Notes</a></b>
 </div>
 
 <p><hr><p>
@@ -405,6 +408,7 @@ CORS Unblockers:&nbsp;
 <a href="https://8chananon.github.io/Alleycat-Player/current/manual-alleycat-v2.htm" target=_blank>Alleycat Player</a> --
 <a href="https://8chananon.github.io/Alleycat-Player/current/manual-kraker-v3.htm" target=_blank>Local Proxy Server</a>
 &nbsp;|&nbsp; <a href="https://8chananon.github.io" target=_blank>Check for Updates</a>
+&nbsp;|&nbsp; <button onclick="javascript:window.open('alleycat-helper.htm')">Helper</button>
 <p>
 If you have not installed the <b>Kraker Local Proxy Server</b> then please go read the Installation Manual.
 <br>
@@ -485,16 +489,16 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 <div class="dropbox dropbox3"><input type=text disabled><button>+</button>
 <div id="win5" class="dropdown dropdown3">
-  <option value="320:180">[16:9]&nbsp; 320 x 180
-  <option value="480:270">[16:9]&nbsp; 480 x 270
-  <option value="640:360">[16:9]&nbsp; 640 x 360
-  <option value="960:540">[16:9]&nbsp; 960 x 540
-  <option value="1280:720">[16:9] 1280 x 720
-  <option value="240:180">&nbsp;[4:3]&nbsp; 240 x 180
-  <option value="360:270">&nbsp;[4:3]&nbsp; 360 x 270
-  <option value="480:360">&nbsp;[4:3]&nbsp; 480 x 360
-  <option value="720:540">&nbsp;[4:3]&nbsp; 720 x 540
-  <option value="960:720">&nbsp;[4:3]&nbsp; 960 x 720
+  <span value="320:180" >[16:9]  320 x 180</span>
+  <span value="480:270" >[16:9]  480 x 270</span>
+  <span value="640:360" >[16:9]  640 x 360</span>
+  <span value="960:540" >[16:9]  960 x 540</span>
+  <span value="1280:720">[16:9] 1280 x 720</span>
+  <span value="240:180" > [4:3]  240 x 180</span>
+  <span value="360:270" > [4:3]  360 x 270</span>
+  <span value="480:360" > [4:3]  480 x 360</span>
+  <span value="720:540" > [4:3]  720 x 540</span>
+  <span value="960:720" > [4:3]  960 x 720</span>
 </div></div><p></p>
 
 <p style="margin-left:-2px">
@@ -598,16 +602,16 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 <div class="dropbox dropbox3"><input type=text disabled><button>+</button>
 <div id="win6" class="dropdown dropdown3">
-  <option value="320:180">[16:9]&nbsp; 320 x 180
-  <option value="480:270">[16:9]&nbsp; 480 x 270
-  <option value="640:360">[16:9]&nbsp; 640 x 360
-  <option value="960:540">[16:9]&nbsp; 960 x 540
-  <option value="1280:720">[16:9] 1280 x 720
-  <option value="240:180">&nbsp;[4:3]&nbsp; 240 x 180
-  <option value="360:270">&nbsp;[4:3]&nbsp; 360 x 270
-  <option value="480:360">&nbsp;[4:3]&nbsp; 480 x 360
-  <option value="720:540">&nbsp;[4:3]&nbsp; 720 x 540
-  <option value="960:720">&nbsp;[4:3]&nbsp; 960 x 720
+  <span value="320:180" >[16:9]  320 x 180</span>
+  <span value="480:270" >[16:9]  480 x 270</span>
+  <span value="640:360" >[16:9]  640 x 360</span>
+  <span value="960:540" >[16:9]  960 x 540</span>
+  <span value="1280:720">[16:9] 1280 x 720</span>
+  <span value="240:180" > [4:3]  240 x 180</span>
+  <span value="360:270" > [4:3]  360 x 270</span>
+  <span value="480:360" > [4:3]  480 x 360</span>
+  <span value="720:540" > [4:3]  720 x 540</span>
+  <span value="960:720" > [4:3]  960 x 720</span>
 </div></div><p></p>
 
 <p style="margin-left:-2px">
@@ -710,16 +714,16 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 <div class="dropbox dropbox3"><input type=text disabled><button>+</button>
 <div id="win7" class="dropdown dropdown3">
-  <option value="320:180">[16:9]&nbsp; 320 x 180
-  <option value="480:270">[16:9]&nbsp; 480 x 270
-  <option value="640:360">[16:9]&nbsp; 640 x 360
-  <option value="960:540">[16:9]&nbsp; 960 x 540
-  <option value="1280:720">[16:9] 1280 x 720
-  <option value="240:180">&nbsp;[4:3]&nbsp; 240 x 180
-  <option value="360:270">&nbsp;[4:3]&nbsp; 360 x 270
-  <option value="480:360">&nbsp;[4:3]&nbsp; 480 x 360
-  <option value="720:540">&nbsp;[4:3]&nbsp; 720 x 540
-  <option value="960:720">&nbsp;[4:3]&nbsp; 960 x 720
+  <span value="320:180" >[16:9]  320 x 180</span>
+  <span value="480:270" >[16:9]  480 x 270</span>
+  <span value="640:360" >[16:9]  640 x 360</span>
+  <span value="960:540" >[16:9]  960 x 540</span>
+  <span value="1280:720">[16:9] 1280 x 720</span>
+  <span value="240:180" > [4:3]  240 x 180</span>
+  <span value="360:270" > [4:3]  360 x 270</span>
+  <span value="480:360" > [4:3]  480 x 360</span>
+  <span value="720:540" > [4:3]  720 x 540</span>
+  <span value="960:720" > [4:3]  960 x 720</span>
 </div></div><p></p>
 
 <p style="margin-left:-2px">
@@ -807,7 +811,7 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 <script>
 
 var localhost, cors_local, cors_bypass, cors_kraker, us_geo_bypass;
-var worker, client, last_client, vidwin, blank_page, download;
+var worker, client, last_client, vidwin, blank_page, download, helper;
 
 var last_h = last_w = last_raw = last_time = the_time = busy = 0;
 var response, textData, jsonData, dropdown, msg_timer, msg_result;
@@ -860,14 +864,14 @@ var got_crypto = function ()
 
 var say_worker = function (id, msg)
 {
-  if (!id) id = ""; if (!msg) msg = "goodbye";
+  if (!id) { id = ""; if (!msg) msg = "timeout"; }
   worker.postMessage ({ id: id, app: "@alleycat", msg: msg });
 }
 ////////////////////
 
 var msg_worker = function (id, msg)
 {
-  console.log ("Shared worker says " + msg);
+  if (!id && !msg) say_worker (); else console.log ("Shared worker says", msg);
 
   if (!id)
   {
@@ -883,7 +887,7 @@ var msg_worker = function (id, msg)
   if (busy || !get_time()) { say_worker (id, "retry"); return; }
 
   client = id; msg = msg.split (" "); var frm = msg [0] * 1;
-  if (isNaN (frm) || frm < 1 || frm > 3) frm = 1;
+  if (isNaN (frm) || frm < 1 || frm > 3) frm = 3;
   var src = msg [1]; id = msg [2];
 
   if (!id || !src) { say_worker (client, "error"); client = ""; return; }
@@ -891,19 +895,22 @@ var msg_worker = function (id, msg)
   frm += 4; clear_video (frm); setup_cors (frm);
   var fmt = document.getElementById ("fmt" + frm).value;
 
-  if (src.substr (0, 4) == "raw_")
+  if (!src.indexOf ("raw_"))
   {
     fmt = 1; src = src.substr (4); if (src == "m3u8") fmt = 2;
     if (src == "dash") fmt = 3; poke_hls (frm, fmt); fixformat ("", frm);
 
-    if (id.substr (0,4) != "http") id = localhost ? localhost + id : "";
+    if (id.indexOf ("http")) id = localhost ? localhost + id : "";
 
     say_worker (client, id ? "okay" : "error"); last_client = client;
-    client = ""; if (id) loadwindow (id, frm, "@ raw stream"); return;
+    client = ""; if (id) loadwindow (id, frm, "@ raw video"); return;
   }
 
-  msg = (id.includes ("/") ? "dig_" : "req_") + src;
-  msg = frame_5 [msg] || frame_6 [msg] || frame_7 [msg];
+  if (id [0] == "?") { id = id.substr (1); msg = open_stream; } else
+  {
+    msg = (id.includes ("/") ? "dig_" : "req_") + src;
+    msg = frame_5 [msg] || frame_6 [msg] || frame_7 [msg];
+  }
 
   if (msg) msg (id, frm, fmt); else { say_worker (client, "error"); client = ""; }
 }
@@ -920,8 +927,8 @@ var load_all = function ()
 
   if (localhost)
   {
-    HLS_PLAYER = "/~hls_player-1-3-5.js"; DASH_PLAYER = "/~dash.all.min.js";
-    blank_page = "/~widget.htm"; crypto.src = "/~crypto.js"; return;
+    HLS_PLAYER = "/hls_player-1-3-5.js"; DASH_PLAYER = "/dash.all.min.js";
+    blank_page = "/~widget.htm"; crypto.src = "/crypto.js"; return;
   }
 
   blank_page = ""; crypto.src = CRYPTO_SRC;
@@ -940,7 +947,7 @@ var dump_all = function ()
     // remove iframes to prevent reloading on restart
     m = document.getElementById ("mov" + n); m.parentNode.removeChild (m);
   }
-  say_worker(); ir_action (0);
+  say_worker("", "goodbye"); ir_action (0);
 }
 ////////////////////
 
@@ -981,6 +988,7 @@ var init_frames = function (x)
     selectmake ("ytx" + n); selectmake ("fmt" + n);
     selectmake ("stk" + n); selectmake ("src" + n); selectmake ("win" + n);
   }
+
   selectmake ("proxy", x); init_radio();
   document.body.style = "display:block"; resize_all();
 }
@@ -1031,11 +1039,11 @@ var selectmake = function (a, b)
 
 var selectpick = function (a, b)
 {
-  var m, n = a.nodeName; if (n == "DIV") return;
-  if (n != "SPAN" && n != "OPTION") a = a.parentNode;
+  var m = a.nodeName; if (m == "DIV") return;
+  if (m != "SPAN" && m != "OPTION") a = a.parentNode;
 
   if (b) b.value = a.innerText.trim();
-  m = a.parentNode; for (n of m.children) n.removeAttribute ("checked");
+  m = a.parentNode; for (b of m.children) b.removeAttribute ("checked");
   a.setAttribute ("checked", ""); m.value = a.getAttribute ("value");
 }
 ////////////////////
@@ -1043,10 +1051,11 @@ var selectpick = function (a, b)
 var selectdrop = function (a, b)
 {
   var m = a.nextElementSibling; if (m == dropdown) return;
-  m.style.minWidth = (a.clientWidth + b.clientWidth + 6) + "px";
+  if (dropdown) dropdown.style.display = "none"; dropdown = m;
 
-  if (dropdown) dropdown.style.display = "none";
-  dropdown = m; m.step = 0; m.style.display = "block";
+  m.style.minWidth = (a.clientWidth + b.clientWidth) + "px";
+  m.step = 0; m.style.overflowY = "scroll"; m.style.display = "block";
+  if (m.scrollHeight < m.clientHeight + 4) m.style.overflowY = "";
 }
 ////////////////////
 
@@ -1093,9 +1102,9 @@ var copylist = function (btn, frame, num)
   {
     var n, p, q, r, s = btn.split ("\n"); btn = [];
 
-    for (n = 0; n < s.length; n++)
+    for (n of s)
     {
-      r = s[n].trim().replace (/\t/g, "  ").split ("  ");
+      r = n.trim().replace (/\t/g, "  ").split ("  ");
       p = r.shift(); q = (r.pop() || "").trim(); if (!p) continue;
       btn.push (p, q.substr (-1) == ":" ? q + p : q);
     }
@@ -1105,8 +1114,8 @@ var copylist = function (btn, frame, num)
   var iptv = num < 0; if (iptv) num = -num;
   var list = window ["stack_" + frame + "_" + num]; if (!list) return;
 
-  var box = document.getElementById ("stk" + frame), item = box.children;
-  for (var i = item.length - 1; i > 0; i--) box.removeChild (item [i]);
+  var box = document.getElementById ("stk" + frame);
+  var top = box.children [0]; box.innerHTML = ""; box.appendChild (top);
 
   for (var i = 1, j = 100, k; i < list.length; i += 2)
   {
@@ -1115,7 +1124,7 @@ var copylist = function (btn, frame, num)
   }
 
   iptv = "Select a channel (" + ((btn && btn.innerText) || "") + ")";
-  item [0].innerText = box.parentNode.firstElementChild.value = iptv;
+  top.innerText = box.parentNode.firstElementChild.value = iptv;
   box.value = ""; popper (frame, 0);
 }
 ////////////////////
@@ -1367,7 +1376,7 @@ var frame_req = function (frame, mode, url)
     url = url.replace (/&amp;/g, "&"); url = url.replace (/\\\//g, "/");
   }
 
-  if (url [0] == "?") { open_stream (url, frame, fmt); return; }
+  if (url [0] == "?") { open_stream (url.substr (1), frame, fmt); return; }
 
   if (!url) return; if (mode == 1) { loadwindow (url, frame, ""); return; }
 
@@ -1403,36 +1412,21 @@ var frame_dig = function (frame)
 
 var open_stream = function (url, frame, fmt)
 {
-  var n, s, t, f = [0,0,0,0,0,0,0,0]; if (!url || busy) return;
-
-  if (url [0] == "?") url = url.substr (1);
   if (url [0] == "<") { open_dloader (url, frame, fmt); return; }
 
-  if (url [0] == "/")
-  {
-    s = url.split (" "); t = (s[0] + "/////").split ("/");
-    f[0] = t[1] * 1; f[1] = t[2] * 1; f[2] = t[3] * 1;
-    f[4] = t[4] * 1; f[5] = t[5] * 1; f[6] = t[6] * 1;
-    fmt = getformat (f, fmt); if ((n = argformat (fmt)) < 0) return;
-    n = f[n]; if (n != Math.trunc (n)) n = (n * 10) % 10;
-    url = s[n]; if (n <= 0 || !url) return;
-  }
-
-  n = url.indexOf (":"); if (n > 3) return;
-  var src = url.substr (0, n); url = url.substr (n+1); if (!src) return;
+  var sub = url.split (":"), src = sub.shift();
+  url = sub.join (":"); if (!url || !src || src.length > 3) return;
 
   if (url [0] == "^")  // string is reversed to hide from DMCA scans
   {
-    s = url.indexOf ("//") + 2, t = url.lastIndexOf ("/");
-    n = url.substr (s, t - s).split("").reverse().join("");
-    url = url.substr (1, s - 1) + n + url.substr (t);
+    var i = url.indexOf ("//") + 2, j = url.lastIndexOf ("/");
+    var k = url.substr (i, j - i).split("").reverse().join("");
+    url = url.substr (1, i - 1) + k + url.substr (j);
   }
 
-  if (src == "0") { request (url, frame, -fmt); return; }
-  if (src == "1") { request ("@" + url, frame, -fmt); return; }
-
   document.getElementById ("id" + frame).value = "Tuning...";
-  request_iptv (src, url, frame, fmt, f);
+
+  request_iptv (src, url, frame, fmt);
 }
 ////////////////////
 
@@ -1550,22 +1544,13 @@ var ir_update = function (event)
 }
 ////////////////////
 
-var popper = function (frame, mode)
+var popper = function (frame, mode, btn)
 {
-  if (busy) return; var i, j, k, val = "", txt = "";
-  var win = document.getElementById ("pop" + frame);
-  var index = win.style.zIndex; if (!index) index = -1;
+  if (busy) return; var win = document.getElementById ("pop" + frame);
   var popup = document.getElementById ("mov" + frame + "m").checked;
+  var index = win.style.zIndex; if (!index) index = -1;
 
-  if (mode.length != undefined)
-  {
-    txt = mode.substr (mode.indexOf ("<>") + 2);
-    val = mode.substr (0, mode.indexOf ("<>"));
-    txt = txt.substr (txt.indexOf (" ") + 1);
-    if (val == "") mode = 1;
-  }
-
-  if (mode && mode.length == undefined)
+  if (mode)
   {
     if (mode == 1) win.style.zIndex = -index;
     if (mode == 2) win.style.zIndex = popup ? -index : index;
@@ -1574,56 +1559,59 @@ var popper = function (frame, mode)
     return;
   }
 
-  var box = document.getElementById ("stk" + frame);
-  var doc = win.getElementsByTagName ("table");
+  var m, n, val, txt, doc, box = document.getElementById ("stk" + frame);
 
-  if (doc.length < 2 || !(doc = doc [1])) doc = null;
-  if (doc) doc = doc.getElementsByTagName ("button");
-  if (!doc || doc.length < 2) doc = null;
-
-  if (mode)
+  if (win.children.length) doc = win.children [0]; else
   {
-    if (doc)
-    {
-      for (i = 0; i < doc.length - 1; i++) if (txt == doc[i].innerText) break;
+    doc = win.appendChild (document.createElement ("TABLE"));
+    doc.onclick = function (event) { popper (frame, 0, event.target); }
+    doc.insertRow (0); doc.insertRow (1);
+  }
 
-      for (; i > 0; i--)
-      {    
-        doc[i].value = doc[i-1].value; doc[i].innerText = doc[i-1].innerText;
-      }
-      doc[0].value = mode; doc[0].innerText = txt;
+  if (btn) if (btn.nodeName != "BUTTON") return; else
+  {
+    txt = btn.innerText; val = btn.value; if (!val) { popper (frame, 1); return; }
+    if (txt [0] == "[" && (n = txt.indexOf ("] ")) > 0) txt = txt.substr (n + 2);
+    m = doc.rows [1].getElementsByTagName ("button");
+
+    for (n = 0; n < m.length - 1; n++)
+      if (txt == m[n].innerText && val == m[n].value) break;
+
+    for (; n > 0; n--)
+    {    
+      m[n].value = m[n-1].value; m[n].innerText = m[n-1].innerText;
     }
+    m[0].value = val; m[0].innerText = txt;
 
     box.parentNode.firstElementChild.value = "@ " + txt;
     box.value = val; frame_req (frame, 2, val); return;
   }
 
-  var start = '<button onclick="javascript:popper(' + frame + ',this.value)" value="';
-  var middle2 = '" style="background-color:lightblue">';
-  var middle1 = '" style="background-color:pink">';
-  var pop = "<table><tr><td>"; box = box.children;
+  btn = function (check, x = check ? ' checked' : '')
+  {
+    return ("<button" + x + " value='" + val + "'>" + txt + "</button>");
+  }
 
-  var n = Math.floor (((i = box.length) + 2) / 3);
-  if ((i -= 45) > 0) n = 15; else i = 1;
+  var i, j, k, pop = ""; box = box.children; i = box.length;
+  n = Math.floor ((i + 2) / 3); i -= 44; if (i > 0) n = 15; else i = 1;
 
   for (j = k = 0; k < 3; i++)
   {
-    if (i >= box.length) { val = ""; txt = "-"; } else
-      { val = box[i].value; txt = box[i].innerText; }
-    pop = pop + start + val + "<>" + txt + middle1 + txt + "</button><br>";
-    if (++j >= n) { j = 0; if (++k < 3) pop = pop + "</td><td>"; }
+    m = box [i]; val = m ? m.value : ""; txt = m ? m.innerText : "-";
+    pop += btn (0); if (++j >= n) { j = 0; if (++k < 3) pop += "</td><td>"; }
   }
-  pop = pop + "</td></tr></table><table><tr><td>";
+  doc.rows [0].innerHTML = "<td>" + pop + "</td>"; pop = val = "", txt = "-";
 
-  for (i = 0, j = k = 0; k < 3; i++)
+  if (!doc.rows [1].children.length)
   {
-    if (!doc || i >= doc.length) { val = ""; txt = "-"; } else
-      { val = doc[i].value; txt = doc[i].innerText; }
-    pop = pop + start + val + middle2 + txt + "</button><br>";
-    if (++j >= 4) { j = 0; if (++k < 3) pop = pop + "</td><td>"; }
+    for (i = j = k = 0; k < 3; i++)
+    {
+      pop += btn (1); if (++j > 3) { j = 0; if (++k < 3) pop += "</td><td>"; }
+    }
+    doc.rows [1].innerHTML = "<td>" + pop + "</td>";
   }
-  win.innerHTML = pop + "</td></tr></table>";
-  win.style.zIndex = 1;  //if (popup) win.style.zIndex = 1;
+
+  win.style.zIndex = 1;
 }
 ////////////////////
 
@@ -1688,11 +1676,12 @@ var loadwindow = function (url, frame, site, id, fmt)
 
   if (site)
   {
+    if (site == "@") site = "Internet TV"; else if (site [0] != "@")
+      if (url.indexOf ("http")) { msg.innerHTML = "Bad URL"; return; }
+
     if (id == "?") id = "id-none"; id = id ? ": " + id : "";
     fmt = site + (fmt != undefined ? " [" + (fmt || 0) + "]" : "");
     document.getElementById ("id" + frame).value = fmt + id;
-
-    if (url.substr (0,4) != "http") { msg.innerHTML = "Bad URL"; return; }
 
     document.getElementById ("line" + frame).value = url; urlcopy (frame, false);
 
@@ -1732,11 +1721,14 @@ var loadwindow = function (url, frame, site, id, fmt)
   }
   else
   {
+    client = client && helper && !helper.closed && (win = helper.getvideo);
+    client = client && raw == 1 && (win = win()) && (msg.innerHTML = "Helper", frm = win);
+
     if (raw == 1)
     {
       win = frm.contentDocument; win.open();
       win.write ("<!DOCTYPE html>" + bstyle + "black" + insert);
-      win.close(); load_stream (frame, true, url, win, filter, scale);
+      win.close(); load_stream (frame, !client, url, win, filter, scale);
     }
     else
     {
@@ -1876,9 +1868,8 @@ var err_play = function (error)
 
 var hls_quality = function (levels, fmt)
 {
-  if (!fmt) return (-1); var f = formats_m3u8 (levels);
-  fmt = getformat (f, fmt); fmt = argformat (fmt);
-  if (fmt >= 0) fmt = f [fmt] - 1; return (fmt);
+  if (!fmt) return (-1); var f = formats_list (levels);
+  if ((fmt = gotformat (f, fmt)) >= 0) fmt = f [fmt] - 1; return (fmt);
 }
 ////////////////////
 
@@ -1977,9 +1968,10 @@ var play_dash = async (frame, url, doc, win, fmt, js) =>
 }
 ////////////////////
 
-// DASH settings: http://cdn.dashjs.org/latest/jsdoc/module-Settings.html
+/*
+DASH settings: http://cdn.dashjs.org/latest/jsdoc/module-Settings.html
 
-/* HLS settings (https://github.com/video-dev/hls.js/blob/master/docs/API.md#fine-tuning)
+HLS settings: https://github.com/video-dev/hls.js/blob/master/docs/API.md#fine-tuning
 
 var config = {
       autoStartLoad: true,
@@ -2074,25 +2066,25 @@ var crack_m3u8 = function (path, data, frame, fmt, dload)
     }
     if (str = pullstring (url, "BANDWIDTH=", ",")) b = str * 1;
 
-    levels [i-1] = { width: w, height: h, bitrate: b, url: k[1], dat: k[0] }
+    levels [i-1] = { width: w, height: h, bitrate: b, url: k[1], dat: url }
   }
 
-  k = formats_m3u8 (levels); fixformat (k, frame); fmt = getformat (k, fmt);
+  k = formats_list (levels); fixformat (k, frame);
 
-  if ((j = argformat (fmt)) < 0 || (i = k[j] - 1) < 0)
+  if ((j = gotformat (k, fmt)) < 0 || (i = k[j] - 1) < 0)
   {
     if (dload) make_downloader (dload, "", ""); return ([path, ""]);
   }
 
-  if (!(fmt = levels [i].height)) fmt = pixformat (j);
-  url = levels [i].url.trim(); url = merge_url (path, url) + url;
-  sub = audio.split ("#EXT-X-MEDIA"); k = levels [i].dat.indexOf ("AUDIO=");
+  k = levels [i]; url = k.url.trim(); fmt = k.height;
+  url = merge_url (path, url) + url; if (!fmt) fmt = pixformat (j);
+  sub = audio.split ("#EXT-X-MEDIA"); k = k.dat.includes ("AUDIO=");
 
-  for (i = 1, j = ""; i < sub.length; i++)
+  for (i = sub.length - 1, j = ""; i > 0; i--)
   {
     audio = pullstring (sub [i], "", "\n");
     if (!audio.includes ("TYPE=AUDIO")) continue;
-    if (!audio.includes ("DEFAULT=YES") && k < 0) continue;
+    if (!audio.includes ("DEFAULT=YES") && !k) continue;
     if (j = pullstring (audio, 'URI="', '"')) break;
   }
   audio = j ? merge_url (path, j) + j : "";
@@ -2102,7 +2094,7 @@ var crack_m3u8 = function (path, data, frame, fmt, dload)
 }
 ////////////////////
 
-var formats_m3u8 = function (levels)
+var formats_list = function (levels)
 {
   var i, j, k, w, h, b, f = [0,0,0,0], p = [0,0,0,0], r = [0,0,0,0];
 
@@ -2372,7 +2364,7 @@ var fixformat = function (f, frame)
   <br>
     <span class="play-lft"></span><span></span><span class="play-rgt"></span>
     <span class="v-span v-span2" style="width:auto">Mute</span>
-  <input type=range value=1 min=0 max=1 step=0.05 style="min-width:40px;max-width:196px">
+  <input type=range value=1 min=0 max=1 step=0.05 style="min-width:40px;max-width:194px">
     <span class="v-span v-span2" style="width:auto">Seek</span>
   <input type=text value="0:0:0" style="width:78px">
   <button class="v-seek" style="width:36px">5s</button>
@@ -2664,7 +2656,7 @@ var vid_cursor = function (vid, mode)
 
 var vid_external = function (param, mode)
 {
-  var frame = param.split("|")[0] * 1; if (frame) popper (frame, mode == 2 ? 1 : mode);
+  var frame = param.split("|")[0] * 1; if (frame) popper (frame, mode);
 }
 ////////////////////
 

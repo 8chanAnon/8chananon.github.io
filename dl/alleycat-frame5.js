@@ -132,7 +132,7 @@ if (stream_all (frame, 0)) fmt = ""; else try
     var f, v = []; m = m.mp4; if (m) m = Object.values (m);
     if (m) for (f of m) v.push ({ width: f.meta.w, height: f.meta.h, url: f.url });
 
-    f = formats_m3u8 (v); n = gotformat (f, fmt); if (n < 0) throw ("!!!");
+    f = formats_list (v); n = gotformat (f, fmt); if (n < 0) throw ("!!!");
     n = f[n] - 1; url = v[n].url; fmt = v[n].height; fixformat (f, frame);
   }
   else if (stream_all (frame, 1)) fmt = 0; else
@@ -189,7 +189,7 @@ if (stream_all (frame, 0)) fmt = ""; else try
   if (!(t = jsonData.download)) throw ("!!!");
 
   for (u of t) v.push ({ width: u.width, height: u.height, url: u.link });
-  f = formats_m3u8 (v); n = gotformat (f, fmt); if (n < 0) throw ("!!!");
+  f = formats_list (v); n = gotformat (f, fmt); if (n < 0) throw ("!!!");
   n = f[n] - 1; url = v[n].url; fmt = v[n].height; fixformat (f, frame);
 
 } catch (err) { console.log (err); busy = 0; }
@@ -419,7 +419,7 @@ try
       t = t[0].split ("x"); v.push ({ width: t[0], height: t[1], url: url });
     }
 
-    f = formats_m3u8 (v); n = gotformat (f, fmt);
+    f = formats_list (v); n = gotformat (f, fmt);
     download = "Twitter download links (" + id + "): ";
 
     if (n < 0) download += "Not available"; else for (m of f) if (m--)
@@ -851,7 +851,7 @@ try
   response = await kitty (cors_bypass + url);
   textData = await response.text();
 
-  url = pullstring (textData, '\\"assetUrl\\":\\"', '\\"');		// Apple Podcast (November 15, 2021)
+  url = pullstring (textData, '\\"assetUrl\\":\\"', '\\"');		// Apple Podcast
   if (!url) url = pullstring (textData, '"assetUrl":"', '"');		// Apple Podcast
   if (!url) url = pullstring (textData, 'enclosureUrl":"', '"');	// Radio Public
   if (!url) url = pullstring (textData, 'episodeURL: "', '"');		// Stitcher

@@ -1,7 +1,7 @@
 // Free Movies & TV
 
 document.getElementById ("src7").innerHTML = `
-  <option value= "youtube"    class="w">YouTube / Invidious
+  <option value= "youtube"    class="w"> YouTube / Invidious
   <option value= "tubitv"     >+ m3u - Tubi
   <option value= "thearchive" >+ mp4 - The Archive
   <option value= "darkmatter" >? m3u - Dark Matter
@@ -24,7 +24,7 @@ document.getElementById ("src7").innerHTML = `
   <option value= "upstream"   class="r"># m3u - UpStream
   <option value= "vtube"      class="r"># mp4 - VTube
   <option value= "wootly"     class="r"># mp4 - Wootly
-  <option value= "inetradio"  class="b">? mp3 - InternetRadio
+  <option value= "inetradio"  class="b">? aud - InternetRadio
 `;
 
 document.getElementById ("butt7").innerHTML = `
@@ -91,14 +91,14 @@ stack_7_2 = copylist (`
   PopStar!				8:https://linear-10.frequency.stream/dist/zype/10/hls/master/playlist.m3u8
   Sundance *				5a:sundancetv-hd-live-stream
   Syfy *				5a:syfy-live-stream
-  TBS (East)				/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023172/tbseast/slate/VIDEO_2_1964000.m3u8
-  TBS (West)				/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023174/tbswest/slate/VIDEO_2_1964000.m3u8
+  TBS (East)				7:https://turnerlive.warnermediacdn.com/hls/live/2023172/tbseast/slate/VIDEO_2_1964000.m3u8
+  TBS (West)				7:https://turnerlive.warnermediacdn.com/hls/live/2023174/tbswest/slate/VIDEO_2_1964000.m3u8
   The CW *				5a:the-cw-live-stream
   TMZ					8:https://d2dimalv43j51f.cloudfront.net/out/v1/52d3048e53eb42a7959dc347d2f810e2/index.m3u8
-  TNT (East)				/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023168/tnteast/slate/VIDEO_2_1964000.m3u8
-  TNT (West)				/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023170/tntwest/slate/VIDEO_2_1964000.m3u8
-  Tru TV (East)				/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023176/trueast/slate/VIDEO_2_1964000.m3u8
-  Tru TV (West)				/0/1/0 7:https://turnerlive.warnermediacdn.com/hls/live/2023178/truwest/slate/VIDEO_2_1964000.m3u8
+  TNT (East)				7:https://turnerlive.warnermediacdn.com/hls/live/2023168/tnteast/slate/VIDEO_2_1964000.m3u8
+  TNT (West)				7:https://turnerlive.warnermediacdn.com/hls/live/2023170/tntwest/slate/VIDEO_2_1964000.m3u8
+  Tru TV (East)				7:https://turnerlive.warnermediacdn.com/hls/live/2023176/trueast/slate/VIDEO_2_1964000.m3u8
+  Tru TV (West)				7:https://turnerlive.warnermediacdn.com/hls/live/2023178/truwest/slate/VIDEO_2_1964000.m3u8
   USA Network *				5a:usa-network-live-stream
   WE TV *				5a:we-tv-live-stream
 `);
@@ -136,7 +136,7 @@ stack_7_3 = copylist (`
   NFL Network *				5a:nfl-network-live-stream
   NHL Network *				5a:nhl-network-live-stream
   Olympic Channel *			1x:olympic
-  Tennis Channel			8:https://tennischannel-intl-samsung-uk.amagi.tv/playlist.m3u8
+  Tennis Channel *			5a:tennis-channel-live-stream
 `);
 
 stack_7_4 = copylist (`
@@ -154,7 +154,7 @@ stack_7_4 = copylist (`
   FX Movie *				5a:fx-movie-live-stream
   FXX *					5a:fxx-live-stream
   Galxy TV *^				7a:channel/galxy-tv-2
-  HBO East*				5a:hbo-east-live-stream
+  HBO East *				5a:hbo-east-live-stream
   HBO Signature *			5a:hbo-signature-live-stream
   Horror Machine *			9a:live/horror-machine
   Law & Crime				8:http://dai2.xumo.com/amagi_hls_data_xumo1234A-lawcrime/CDN/master.m3u8
@@ -169,11 +169,11 @@ stack_7_4 = copylist (`
 `);
 
 stack_7_5 = copylist (`
-  BBC 1 **				/0/0/1 8a:stream=bbc-london
-  BBC 2 **				/396.1/0/0 8a:stream=bbc-two
+  BBC 1 **^				8a:stream=bbc-london
+  BBC 2 **^				8a:stream=bbc-two
   BBC News *				3a:bbcnews_live
-  CBBC **				/396.1/0/0 8a:stream=cbbc
-  CBeebies **				/396.1/0/0 8a:stream=cbeebies
+  CBBC **^				8a:stream=cbbc
+  CBeebies **^				8a:stream=cbeebies
   Sky News Int'l **			1p:55b285cd2665de274553d66f
   Sky News Arabia			8:^https://slh/moc.aibaraswenyks.maerts/sna.m3u8
   France 24 - English (YT)		0:Ap-UM1O9RBU
@@ -192,7 +192,7 @@ stack_7_6 = copylist (`
   AfricaNews (YT)			0:NQjabLGdP5g
   Al Jazeera				8:https://live-hls-web-aje.getaj.net/AJE/index.m3u8
   Arirang (South Korea)			8:http://amdlive.ctnd.com.edgesuite.net/arirang_1ch/smil:arirang_1ch.smil/chunklist.m3u8
-  CGTN News				/0/0/1 7:https://english-livetx.cgtn.com/hls/yypdyyctzb_hd.m3u8
+  CGTN News				7:https://english-livetx.cgtn.com/hls/yypdyyctzb_hd.m3u8
   Deutsche Welle			8:https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8
   EuroNews *				9a:live/euronews
   GB News (UK, YT)			0:8WX6YL9JnLw
@@ -216,7 +216,7 @@ stack_7_6 = copylist (`
   Salem Network				8:https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg00732-salemmediagroup-snc-ono/playlist.m3u8
   The First TV				8:https://thefirst-oando.amagi.tv/hls/amagi_hls_data_thefirstd-thefirst-oando/CDN/playlist.m3u8
   TYT - The Young Turks			8:https://tyt-xumo-us.amagi.tv/hls/amagi_hls_data_tytnetwor-tyt-xumo/CDN/master.m3u8
-  InfoWars - Live			8:https://freespeech.akamaized.net/hls/live/2016712/live1/playlist.m3u8
+  InfoWars - Main Feed			8:https://freespeech.akamaized.net/hls/live/2016712/live1/playlist.m3u8
   InfoWars - Alex Jones			8:https://freespeech.akamaized.net/hls/live/2024573/live2/playlist.m3u8
   InfoWars - Harrison Smith		8:https://freespeech.akamaized.net/hls/live/2016873/live3/playlist.m3u8
   InfoWars - Owen Shroyer		8:https://freespeech.akamaized.net/hls/live/2024574/live4/playlist.m3u8
@@ -229,15 +229,15 @@ stack_7_7 = copylist (`
   EBS-1 (South Korea)			8:http://ebsonair.ebs.co.kr/groundwavefamilypc/familypc1m/master.m3u8
   EBS-2 (South Korea)			8:http://ebsonair.ebs.co.kr/ebs2familypc/familypc1m/index.m3u8
   EBS Kids (South Korea)		8:https://ebsonair.ebs.co.kr/ebsufamilypc/familypc1m/playlist.m3u8
-  Thai PBS (Thailand) **^		/0/1/1 8:**http://thaipbs-live.cdn.byteark.com/live/playlist.m3u8
+  Thai PBS (Thailand) **^		8:**http://thaipbs-live.cdn.byteark.com/live/playlist.m3u8
   Kompas TV (Indonesia, YT)		0:DOOrIxw5xOw
   CCTV-4 (China, YT)			0:twhG7_jvA8g
   Public TV Armenia			8:https://amtvusdvr.tulix.tv/am2abr/index.m3u8
-  Kepez TV (Azerbaijan)			/0/540.1/0 7:http://85.132.81.184:8080/arbkepez/live/index.m3u8
-  Turkmenistan TV *			/406.1/0/0 7:**http://alpha.tv.online.tm/hls/ch007_720/index.m3u8
+  Kepez TV (Azerbaijan)			7:http://85.132.81.184:8080/arbkepez/live/index.m3u8
+  Turkmenistan TV **			7:**http://alpha.tv.online.tm/hls/ch007_720/index.m3u8
   Zvezda TV (Russia)			8:http://tvchannelstream1.tvzvezda.ru/cdn/tvzvezda/playlist.m3u8
-  TV Kujawy (Poland)			/0/576.1/0 7:http://stream.tvkujawy.pl:8080/live/broadcast.m3u8
-  FS1 Salzburg (Austria)		/0/0/1 7:http://stream.fs1.tv:8080/hls/webstream.m3u8
+  TV Kujawy (Poland)			7:http://stream.tvkujawy.pl:8080/live/broadcast.m3u8
+  FS1 Salzburg (Austria)		7:http://stream.fs1.tv:8080/hls/webstream.m3u8
   Radio Weser TV (Germany)		8:https://h057.video-stream-hosting.de/radiowesertv-live/_definst_/mp4:livestreamTV/playlist.m3u8
   TV Filopoli (Greece)			8:http://live.streams.ovh:1935/tvfilopoli/tvfilopoli/playlist.m3u8
   Super TV (Italy)			8:http://wms.shared.streamshow.it:1935/supertv/supertv/live.m3u8
@@ -259,13 +259,15 @@ stack_7_7 = copylist (`
 7a:channel/retrocrush
 7a:channel/asiancrush
 
+  cnn https://stream1.cinerama.uz/1259/playlist.m3u8
+  cnn international https://turnerlive.warnermediacdn.com/hls/live/586497/cnngo/cnni/VIDEO_0_3564000.m3u8
   australia abc  https://abc-news-dmd-streams-1.akamaized.net/out/v1/abc83881886746b0802dc3e7ca2bc792/index.m3u8
 
   OAN Encore				8:https://stream-us-east-1.getpublica.com/playlist.m3u8?&network_id=1879
   Salem Network				8:https://snc-ono.amagi.tv/playlist.m3u8
   NBC News (YT)				1:UCeY0bbntWzzVIaj2z3QigXg
-  Fox News **				/432.1/0/0 7:*https://usnewson.com*https://s0.usnlive.com/stream/foxnews.m3u8
-  MSNBC **				/0/540.1/0 7:*https://usnewson.com*https://s0.usnlive.com/stream/msnbc.m3u8
+  Fox News **				7:*https://usnewson.com*https://s0.usnlive.com/stream/foxnews.m3u8
+  MSNBC **				7:*https://usnewson.com*https://s0.usnlive.com/stream/msnbc.m3u8
 
 */
 
@@ -541,10 +543,7 @@ frame_7.req_playtaku = async (id, frame, fmt) =>
   var n, s, t, e, f = [0,0,0,0];
 
   //https://embtaku.pro/
-  //https://playtaku.online/
-  //https://goone.pro
-  //https://anitaku.so/
-  //https://anitaku.to/
+  //https://anitaku.bz
   //https://gogoanimeapp.com/
 
 try

@@ -6,6 +6,7 @@ document.getElementById ("src6").innerHTML = `
   <option value= "abc"        >+ mp4 - ABC
   <option value= "cbs"        >? m3u - CBS
   <option value= "cnbc"       >+ m3u - CNBC
+  <option value= "cnn"        >? m3u - CNN
   <option value= "cspan"      >? m3u - C-SPAN
   <option value= "msnbc"      >+ m3u - MS/NBC
   <option value= "pbs"        >+ m3u - PBS
@@ -495,6 +496,37 @@ try
 } catch (err) { console.log (err); busy = 0; }
 
   busy = -busy; if (no_fail (frame)) frame_6.req_cnbc (url, frame, fmt);
+}
+////////////////////
+
+frame_6.dig_cnn = async (url, frame, fmt) =>
+{
+  var s, t, tag = "cnn"; if (is_busy (frame, tag + " (DIG)", 0)) return;
+
+try
+{ 
+  response = await kitty (cors_local + url);
+  textData = await response.text();
+
+  t = pullstring (textData, '"TOP_AUTH_SERVICE_APP_ID":"', '"');
+  s = pullstring (textData, 'data-video-id="', '"'); if (!s || !t) throw ("!!!");
+
+  url = "https://medium.ngtv.io/v2/media/" + s + "/desktop?appId=" + t;
+
+  response = await kitty (cors_local + url);
+  textData = await response.text();
+
+  url = pullstring (textData, '"url":"', '"'); if (!url) throw("!!!");
+
+  if (stream_all (frame, 1)) fmt = 0; else
+  {
+    response = await kitty (url); textData = await response.text();
+    [url,fmt] = crack_m3u8 (url, textData, frame, fmt);
+  }
+
+} catch (err) { console.log (err); busy = 0; }
+
+  if (no_fail (frame)) loadwindow (url, frame, tag, "?", fmt);
 }
 ////////////////////
 

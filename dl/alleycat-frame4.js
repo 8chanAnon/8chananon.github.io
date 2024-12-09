@@ -2,117 +2,8 @@
 
 document.getElementById ("blob").innerHTML = `
 
-<p><hr><p>
-<b><b_>Release notes for v5x (unofficial release)</b_></b>
-<p>
-<ul><li>
-Added: Gotaku, EMovies, Goojara, Noxx, PressPlay, Vidcloud, DoodStream, EplayVid, PkSpeed, Wootly
-</li><li>
-Removed: BrandNewTube, KeyMovies, UniqueStream, CloudVideo, Streamzz, UserLoad, VideoBin, VidNode
-</li><li>
-Updated: YouTube, Odysee, Twitter, Facebook, TikTok, TEDTalks, NatFilmBrd,
-  Fox, ABC, CNBC, MS/NBC, PBS, CBC, CTV, BBC, Epoch Times, TubiTV, XHamster
-</li><li>
-Widevine DRM is now supported for CTV (DASH/mpd) and TubiTV (HLS/m3u8).
-</li><li>
-Updated Rumble to allow page ID to work as embed ID. Example: <g_>https://rumble.com/v13wepf-2000-mules.html</g_>
-will work with the "Play ID" option if the string is cut before the hypen. Note that it can sometimes happen that
-the wrong video will come up.
-</li></ul>
+<p><hr><p><div style="width:90vw;height:50vh"></div>
 
-<p><hr><p>
-<b>Release notes for v5c (August 7, 2022)</b>
-<p>
-<b>Update:</b> This version was revised on October 5 due to an error with the HLS/m3u8 (not working). It was trying
-to load a file which doesn't exist though it does exist on my system. Sorry about that but nobody complained (as usual).
-<ul><li>
-Removed: DarkMatter (geo US), LookMovie, HighStream and WolfStream (both broken for a long time)
-</li><li>
-Updated: Rumble, Odysee, Twitch TV, BBC, BrightCove, VidNode, KeyMovies, XHamster, Streamzz, UserLoad
-</li><li>
-Updated Youtube to fix some age-gated videos and to bypass the rate limiting which restricts download speed
-to about 45K bytes per second. The DASH formats still appear to have some rate limiting in place compared to the normal
-formats (110K versus 600K on my DSL connection).
-</li><li>
-A new site called Gogo-play (<g_>https://gogoplay1.com</g_>) has been added to the Movies Sites list in the
-VidNode category. This site is dedicated to anime and most of the content is not reachable from the VidNode site
-itself but can be retrieved from there. That is, select "VidNode" in the dropdown list to play a video from Gogo-play.
-</li></ul>
-
-<p><hr><p>
-<b>Release notes for v5b (March 25, 2022)</b>
-<p>
-<ul><li>
-Updated: TikTok, TEDTalks, Bloomberg, Epoch Times, VidNode, StreamTape
-</li><li>
-Added: DarkMatter, KeyMovies, LookMovie, Streamzz, UserLoad, VOE
-</li><li>
-Removed: ItemFix, Minds, Ask4Movie, OpenLoadMovies, WatchCartoons
-</li><li>
-Moved Brightcove to the News section because the sites covered are news sites.
-</li></ul><p>
-VidNode has changed its domain again (it is now <g_>vidembed.io</g_>), although <g_>vidnode.net</g_> will redirect to it.
-I read on TorrentFreak (<g_>https://torrentfreak.com</g_>) that the domain <g_>vidcloud9.com</g_> was being targeted by
-the usual "copyright" defenders so I guess VidNode is playing hard to catch (kek). Also, an encryption algo was added to
-the process of extracting the video link. Stuff like this has yet to defeat me though I admit that it can be tiresome to
-deal with. In the case of VidNode, it is worth the effort. Hopefully, I won't need to update again anytime soon.
-<p>
-There was a small change to the way the video link is handled with the US Internet TV trio (<g_>ustv247.tv, ustvgo.tv,
-watchnewslive.tv</g_>). There is an interesting story behind this and <g_>123live.tv</g_> which is now
-<g_>live94today.com</g_>, redirecting from the previous domain <g_>123tv.live</g_>. Yeah, it can be tricky to keep up
-with these domain changes but that's the game that has to be played. I still don't get how the TV trio seems like a
-protected group though. Anyway, some months ago the TV trio changed their sites to use encryption for the video link,
-presumably to guard against the Kodi addons that were stealing from <g_>ustvgo.tv</g_>. I cracked the encryption but it
-looks like the Kodi addons got stopped dead. I'm only guessing, of course. The encryption stayed in place for
-several months and then it got dropped (shortly before the last Alleycat update). The video link is now in the clear
-with no protection. Why? Also, the TV trio has been vacillating about forcing VPN access to some of the channels. For a
-while, the sites were unusable and I had to grab TV links from other sites. Now, it's just a handful of channels other
-than the sports channels that are VPN-restricted. The encryption on <g_>123tv.live</g_> has been in place for over a year
-and hasn't changed at all. However, for a period of two or three months, they added the Google Invisible Captcha to the
-encryption process and I couldn't crack it for a few reasons which have nothing to do with the encryption itself. Why
-was it dropped? Google stopped it or maybe they couldn't justify paying Google for the captcha account. Anyway, things
-appear to be pretty stable right now. I managed to restore the sports channels (<g_>ustream.to </g_> died) by going
-through <g_>tv247.us</g_> which doesn't use any method to protect the video links. It's been that way for several months
-so I guess it'll be staying that way (knock on wood).
-
-<p><hr><p>
-<b>Release notes for v5a (November 17, 2021)</b>
-<p>
-<ul><li>
-Added: Odysee
-</li><li>
-Removed: Periscope, SoundCloud, DoodStream
-</li><li>
-Updated: Vimeo, InfoWars, Gab TV, Facebook, PragerU, BBC, Al Jazeera, VidNode, StreamTape, UpStream
-</li><li>
-HighStream and WolfStream are apparently down right now.
-</li><li>
-Some channels are down because the feeds from <g_>ustream.to</g_> are not working. Some secondary channels and most of
-the sports channels are affected.
-</li><li>
-Some videos on TubiTV use Widevine DRM. These videos are inaccessible with Alleycat Player.
-</li><li>
-Replaced default audio player interface in the Internet Radio with custom version.
-</li><li>
-Adjusted the CSS for the video viewers to fix some issues with Pale Moon. The brightness controls are
-still not right but much better than before. Pale Moon adds extra padding to the buttons but no other browser
-does that. Browser consistency has improved a lot over the past several years but it is still not perfect.
-</li><li>
-Created custom border colours for all buttons due to the inconsistency between browsers as to the brightness
-of the borders. Some browsers (specifically Waterfox) apply far too much contrast.
-</li><li>
-Modified the image container for audio-only media in order to fit any size of image ("poster.jpg").
-</li></ul>
-
-<p><hr><p>
-<a href="https://8chananon.github.io/Alleycat-Player/archive/player/notes-v1a-v2f.htm"
-  target=_blank>Release notes for versions 1a to 2f</a><br>
-<a href="https://8chananon.github.io/Alleycat-Player/archive/player/notes-v3a-v3e.htm"
-  target=_blank>Release notes for versions 3a to 3e</a><br>
-<a href="https://8chananon.github.io/Alleycat-Player/archive/player/notes-v4a-v4h.htm"
-  target=_blank>Release notes for versions 4a to 4h</a>
-
-<p><hr><p>
 <h3 id="notes">Special Notes</h3>
 <ul><li>
 Vimeo live streaming (m3u8) is supported. Requires Kraker or a CORS unblocker.
@@ -158,6 +49,7 @@ Sites accessible with a Brightcove DIG:<br>
 &nbsp;- https://nypost.com
 
 <p><hr><p>
+
 <h3 id="sites" class="skinny"><r_>Sites List</r_>
   <small> -- Go to <a href="#info">Info viewer</a> or <a href="#news">News viewer</a>
     or <a href="#free">Movie viewer</a></small></h3>
@@ -219,7 +111,7 @@ Sites accessible with a Brightcove DIG:<br>
 <tr><td>Nat. Film Board	</td><td>m3u8		</td><td>&nbsp;?</td><td>Proxy</td><td></td>
 <td><a target=_blank href="https://www.nfb.ca">www.nfb.ca</a></td></tr>
 
-<tr><td>iHeartRadio	</td><td>mp3		</td><td>&nbsp;#</td><td>No Proxy</td><td>$</td>
+<tr><td>iHeartRadio	</td><td>aud		</td><td>&nbsp;#</td><td>No Proxy</td><td>$</td>
 <td><a target=_blank href="https://www.iheart.com/podcast/">www.iheart.com/podcast</a></td>
 <td><a target=_blank href="https://www.iheart.com/live/">www.iheart.com/live</a> (radio)</td></tr>
 
@@ -237,6 +129,10 @@ Sites accessible with a Brightcove DIG:<br>
 
 <tr><td>CNBC		</td><td>m3u8		</td><td>&nbsp;+</td><td>Proxy</td><td></td>
 <td><a target=_blank href="https://www.cnbc.com">www.cnbc.com</a></td></tr>
+
+<tr><td>CNN		</td><td>m3u8		</td><td>&nbsp;?</td><td>No Proxy</td><td></td>
+<td><a target=_blank href="https://www.cnn.com">www.cnn.com</a></td>
+<td><a target=_blank href="https://edition.cnn.com">edition.cnn.com</a></td></tr>
 
 <tr><td>C-SPAN		</td><td>m3u8		</td><td>&nbsp;?</td><td>Proxy</td><td></td>
 <td><a target=_blank href="https://www.c-span.org">www.c-span.org</a></td></tr>
@@ -290,12 +186,13 @@ Sites accessible with a Brightcove DIG:<br>
 # = works with Play ID only<br>
 + = works with both DIG and Play ID<br>
 $ = use the Sandbox option to embed the original video
-<p></p>
+<p>
 KRAK = only accessible with the Kraker Local Proxy Server<br>
 CORS = only accessible with a CORS unblocker (or Kraker Local)<br>
 KRKR = accessible with the Kraker Remote Proxy (may have limitations)
 
 <p><hr><p>
+
 <h3 id="movies" class="skinny"><r_>Movie Sites</r_>
   <small> -- Go to <a href="#info">Info viewer</a> or <a href="#news">News viewer</a>
     or <a href="#free">Movie viewer</a></small></h3>
@@ -364,13 +261,13 @@ KRKR = accessible with the Kraker Remote Proxy (may have limitations)
 <tr><td>Wootly		</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
 <td>no site link</td></tr>
 
-<tr><td>InternetRadio	</td><td>mp3		</td><td>&nbsp;?</td><td>Proxy</td><td></td>
+<tr><td>InternetRadio	</td><td>aud		</td><td>&nbsp;?</td><td>Proxy</td><td></td>
 <td><a target=_blank href="https://www.internet-radio.com">www.internet-radio.com</a></td></tr>
 
 </table>
 <p>
 ! on a site url = use caution on the site due to popup ads<br>
-<p><hr><p>
+<p>
 Some search sites to get video links from:
 <p>
 <a target=_blank href="https://www.downloads-anymovies.com">www.downloads-anymovies.com</a><br>
@@ -380,29 +277,7 @@ Some search sites to get video links from:
 <a target=_blank href="https://www.primewire.tf">www.primewire.tf</a><br>
 
 <p><hr><p>
-<h3 id="livestream"><r_>Internet TV</r_></h3>
 
-Go to the <a href="#free">Movie viewer</a>, select a TV stack and press the button for the desired channel.
-That's it. All channels are m3u8 live streams and most are not region locked. Some channels require an initial
-lookup (thus requiring a CORS proxy or unblocker) to find the direct stream URL. Such URLs are temporary and will
-time out (anywhere from a few hours to two days). Alleycat Player will refresh the link after two hours.
-<p>
-Some channels have two stream sources. This is indicated with a plus sign (+) after the channel name. A double-plus
-indicates that the streams are from different local stations. Select "webm" in the format panel to access the
-secondary channel.
-
-<h3><r_>Internet Radio</r_></h3>
-
-Simply go to the bottom of the page and press a radio button to play the Internet Radio. That's it.
-For your convenience, the radio will pause when you play a video. Press the Clear button to unpause.
-You can also open a radio station in a popup window.
-<p>
-You can input your own URL for either an mp4 or an mp3 or whatever your
-browser supports. To play a YouTube video in audio-only mode, just enter the 11-character video id.
-<p>
-To find some radio station URLs, you can use the AudioRealm DIG tool supplied with the <a href="#free">Movie viewer</a>.
-Also supplied is a stack with links to iHeartRadio and Virtual DJ. These will pop up a window with an embedded web site.
-</p>
 `;
 
 var getid = function (frame, url)
@@ -471,7 +346,7 @@ var crack_smil = function (data, frame, fmt)
     levels.push ({ width: w, height: h, bitrate: b, url: k });
   }
 
-  k = formats_m3u8 (levels); fmt = getformat (k, fmt); url = m3u;
+  k = formats_list (levels); fmt = getformat (k, fmt); url = m3u;
   if (j >= 0) { url = levels [j].url; fixformat (k, frame); }
   return (url + "<>" + fmt);
 }
@@ -681,9 +556,10 @@ t.context.thirdParty = { embedUrl: 'https://www.youtube.com' };
 const request_youtube = async (id, frame, fmt) =>
 {
   var tag = "youtube"; if (is_busy (frame, tag + " (ID)")) return;
-  var i, j, n, s, t, url, sub, vid, aud, key, sig, nkey, webm, dash, f = [0,0,0,0,0,0,0,0,0,0];
+  var i, j, n, r, s, t, u, url, sub, vid, aud, key, sig, nkey, base;
+  var webm, dash, f = [0,0,0,0,0,0,0,0,0,0];
 
-  if (!cors_local) if (fmt < 0) fmt = -fmt;
+  if (!cors_local && fmt < 0) fmt = -fmt;
 
   var ua1 = cors_bypass + (cors_kraker ? "user-agent=|*" : "");
   var ua2 = ua1.replace ("|*", "!Mozilla/5.0 (Android 14)|*");
@@ -693,24 +569,26 @@ try
   response = await kitty (ua1 + "https://www.youtube.com/embed/" + id);
   textData = await response.text();
 
-  if (!(s = pullstring (textData, '"jsUrl":"', '"'))) throw ("!!!");
-  key = cookies [s]; nkey = cookies ["!" + s]; n = cookies ["?" + s];
+  base = pullstring (textData, '"jsUrl":"', '"'); if (!base) throw ("!!!");
+  key = cookies [base]; nkey = cookies ["!" + base]; n = cookies ["?" + base];
 
   if (!key || !nkey || !n)
   {
-    response = await kitty (ua1 + "https://www.youtube.com" + s);
+    response = await kitty (ua1 + "https://www.youtube.com" + base);
     textData = await response.text();
 
-    if ((n = textData.indexOf ('var b=a.split(a.slice(0,0))')) < 0) nkey = ""; else
-    {
-      t = textData.substr (n, textData.indexOf ('b.join("")', n) - n);
-      t = 'function(a){var b=a.split(""' + t.substr (t.indexOf ('),')) + 'b.join("")};';
-      nkey = "var nsig=" + t + " sig=nsig(sig);";
-    }
+    i = textData.indexOf ('.slice(0,0))'); if (i < 0) throw ("???");
+    i = textData.lastIndexOf ("func", i); j = textData.indexOf ('.join("")};', i);
+    t = textData.substring (i, j + 11); s = "var " + pullstring (t, "typeof ", "==");
+    s = s + pullstring (textData, s, ";"); nkey = s + "; var nsig=" + t + " sig=nsig(sig);";
 
-    cookies [s] = key = yt_algo (textData);
-    cookies ["!" + s] = nkey; t = pullstring (textData, "signatureTimestamp:", "}");
-    cookies ["?" + s] = n = t ? t * 1 : Math.trunc (Date.now() / 86400000) - 1;
+    r = pullstring (textData, '.split("");', 'return'); s = "var " + pullstring (r, "", ".") + "={";
+    t = pullstring (textData, s, "};"); u = pullstring (r, "(", ","); if (!t) throw ("???");
+    key = s + t + "}; var " + u + "=sig.split('');\n" + r + "sig=" + u + ".join('');";
+
+    cookies [base] = key; cookies ["!" + base] = nkey;
+    n = pullstring (textData, "signatureTimestamp:", "}") * 1;
+    if (n) cookies ["?" + base] = n; else n = Math.trunc (Date.now() / 86400000) - 1;
   }
 
   t = JSON.stringify ({
@@ -720,7 +598,7 @@ try
 
   try
   {
-    url = cors_kraker + ua1 + "https://www.youtube.com/youtubei/v1/player";
+    url = ua1 + "https://www.youtube.com/youtubei/v1/player";
     response = await kitty (url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: t });
     jsonData = await response.json();
   }
@@ -735,6 +613,7 @@ try
     t = pullstring (textData, '"adaptiveFormats":[', ']');
 
     sub = JSON.parse ('{"formats":[' + s + '],"adaptiveFormats":[' + t + ']}');
+    //s = pullstring (textData, '"PLAYER_JS_URL":"', '"'); console.log(base); console.log(s);
   }
 
   if (fmt < 0 && (fmt = -fmt) && (t = sub.adaptiveFormats))
@@ -822,26 +701,6 @@ const yt_split = function (data)
   d = data.approxDurationMs || 0; m = data.mimeType || "";
 
   return ([u, s, d / 1000, i + "," + j, pullstring (m, '"', '"')]);
-}
-////////////////////
-
-const yt_algo = function (data)
-{
-  var i, j, n, s, v;
-
-  for (i = 0; i < 3; i++)
-  {
-    j = data.indexOf ('a=a.split("")'); if (j < 0) return "";
-    s = data.substr (j + 14, 300); if ((n = s.indexOf ("a.join")) > 0) break;
-    if (i > 1) return ""; data = data.substr (j + 1);
-  }
-
-  s = s.substr (0, n - 7);
-  v = "var " + s.substr (0, s.indexOf (".")) + "={";  // August 28, 2023
-  if ((n = data.indexOf (v)) < 0) return "";
-
-  v = data.substr (n, 300); v = v.substr (0, v.indexOf ("};") + 2);
-  return (v + "var a=sig.split('');" + s + "sig=a.join('');");
 }
 ////////////////////
 
