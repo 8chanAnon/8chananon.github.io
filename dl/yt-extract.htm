@@ -61,6 +61,7 @@ b_ { color: blue; }
 <button onclick="javascript:next_proxy()">Next</button>
 
 <p></p><div class="box"></div>
+<p>YouTube will sometimes block my proxy servers. Just wait a few minutes and try again. (<g_>December 9, 2024</g_>)
 
 <script>
 
@@ -118,44 +119,45 @@ var grab_video = function ()
 
 const request_youtube = async (id) =>
 {
-  var m, n, s, t, sub, vid, key, sig, nkey; busy = 1;
+  var i, j, m, n, r, s, t, u, sub, vid, key, sig, nkey, base; busy = 1;
 
   var url = cors_kraker + "user-agent=|!vpx:XXX|*https://www.youtube.com/embed/" + id;
 
   message ("Loading...<br>https://www.youtube.com/embed/" + id + "<br>");
 
-  for (s = "", n = 0; n < proxies.length; n++) try
+  for (n = 0; n < proxies.length; n++) try
   {
     response = await fetch (url.replace ("XXX", proxies [proxy]));
     textData = await response.text();
 
-    if (s = pullstring (textData, '"jsUrl":"', '"')) break; throw ("");
+    if (base = pullstring (textData, '"jsUrl":"', '"')) break; throw ("");
   }
   catch { next_proxy() } 
 
 try
 {
-  if (!s) throw ("File not found or proxy not working.");
-  key = cookies [s]; nkey = cookies ["!" + s]; n = cookies ["?" + s];
+  if (!base) throw ("File not found or proxy not working.");
+  key = cookies [base]; nkey = cookies ["!" + base]; n = cookies ["?" + base];
   var ua1 = "user-agent=!Mozilla/5.0 (Android 14)|!vpx:" + proxies [proxy] + "|*";
   var ua2 = "user-agent=|!vpx:" + proxies [proxy] + "|*";
 
   if (!key || !nkey || !n)
   {
-    message ("https://www.youtube.com" + s + "<br>");
-    response = await fetch (cors_kraker + "https://www.youtube.com" + s);
+    response = await fetch (cors_kraker + "https://www.youtube.com" + base);
     textData = await response.text();
 
-    if ((n = textData.indexOf ('var b=a.split(a.slice(0,0))')) < 0) nkey = ""; else
-    {
-      t = textData.substr (n, textData.indexOf ('b.join("")', n) - n);
-      t = 'function(a){var b=a.split(""' + t.substr (t.indexOf ('),')) + 'b.join("")};';
-      nkey = "var nsig=" + t + " sig=nsig(sig);";
-    }
+    i = textData.indexOf ('.slice(0,0))'); if (i < 0) throw ("???");
+    i = textData.lastIndexOf ("func", i); j = textData.indexOf ('.join("")};', i);
+    t = textData.substring (i, j + 11); s = "var " + pullstring (t, "typeof ", "==");
+    s = s + pullstring (textData, s, ";"); nkey = s + "; var nsig=" + t + " sig=nsig(sig);";
 
-    cookies [s] = key = yt_algo (textData);
-    cookies ["!" + s] = nkey; t = pullstring (textData, "signatureTimestamp:", "}");
-    cookies ["?" + s] = n = t ? t * 1 : Math.trunc (Date.now() / 86400000) - 1;
+    r = pullstring (textData, '.split("");', 'return'); s = "var " + pullstring (r, "", ".") + "={";
+    t = pullstring (textData, s, "};"); u = pullstring (r, "(", ","); if (!t) throw ("???");
+    key = s + t + "}; var " + u + "=sig.split('');\n" + r + "sig=" + u + ".join('');";
+
+    cookies [base] = key; cookies ["!" + base] = nkey;
+    n = pullstring (textData, "signatureTimestamp:", "}") * 1;
+    if (n) cookies ["?" + base] = n; else n = Math.trunc (Date.now() / 86400000) - 1;
   }
 
   if (!key || !nkey || !n) throw ("Cannot extract signature information.");
@@ -167,7 +169,9 @@ try
 
   try
   {
-    s = "https://www.youtube.com/youtubei/v1/player"; url = cors_kraker + ua2 + s; message (s + "<br>");
+    message ("https://www.youtube.com/youtubei/v1/player<br>");
+    url = cors_kraker + ua2 + "https://www.youtube.com@142.251.41.78/youtubei/v1/player";
+
     response = await fetch (url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: t });
     jsonData = await response.json();
   }
@@ -176,7 +180,7 @@ try
   if (!(sub = jsonData.streamingData))
   {
     message ("https://m.youtube.com/watch?v=" + id + "<br>");
-    response = await fetch (cors_kraker + ua1 + "https://m.youtube.com/watch?v=" + id);
+    response = await fetch (cors_kraker + ua1 + "https://m.youtube.com@142.251.41.78/watch?v=" + id);
     textData = await response.text();
 
     s = pullstring (textData, '"formats":[', ']');
@@ -222,26 +226,6 @@ var yt_split = function (data)
   if (!(d = data.approxDurationMs)) d = 0;
 
   return ([u, s, d / 1000, i + "," + r]);
-}
-////////////////////
-
-var yt_algo = function (data)
-{
-  var i, j, n, s, v;
-
-  for (i = 0; i < 3; i++)
-  {
-    j = data.indexOf ('a=a.split("")'); if (j < 0) return "";
-    s = data.substr (j + 14, 300); if ((n = s.indexOf ("a.join")) > 0) break;
-    if (i > 1) return ""; data = data.substr (j + 1);
-  }
-
-  s = s.substr (0, n - 7);
-  v = "var " + s.substr (0, s.indexOf (".")) + "={";
-  if ((n = data.indexOf (v)) < 0) return "";
-
-  v = data.substr (n, 300); v = v.substr (0, v.indexOf ("};") + 2);
-  return (v + "var a=sig.split('');" + s + "sig=a.join('');");
 }
 ////////////////////
 

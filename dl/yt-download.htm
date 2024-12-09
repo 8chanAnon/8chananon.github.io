@@ -15,9 +15,8 @@ body {
 }
 
 .widevid {
-  width: 736px; height: 414px;
-  position: relative; overflow: hidden;
-  border: 2px solid red; background-color: indigo;
+  position: relative; width: 736px; height: 414px;
+  border: 2px solid red; background-color: navy; overflow: hidden;
 }
 
 .widevid:fullscreen {
@@ -25,9 +24,9 @@ body {
 }
 
 .msgbox {
-  display: block; position: absolute; top: 36%; left: 40%; right: 40%;
-  text-align: center; border-radius: 10px; font-style: italic;
-  color: paleturquoise; background-color: slateblue;
+  display: block; position: absolute; top: 38%; left: 40%; right: 40%;
+  text-align: center; border-radius: 14px; font-style: italic; padding: 1px 2px 2px 4px;
+  cursor: pointer; color: paleturquoise; background-color: slateblue;
 }
 
 iframe {
@@ -162,9 +161,9 @@ Brightness:
 
 </div></td></tr></table>
 
-<div style="margin:12px 0 12px 0;color:green">
+<div style="margin:12px 0 12px 0">
 <button onclick="javascript:play_video(0)">Play</button> &nbsp;
-<input type=text style="width:360px"><input type=file style="display:none"> &nbsp;
+<input type=text style="width:360px"><input type=file style="display:none">&nbsp;
 <button onclick="javascript:stop_video()">Stop</button> &nbsp;
 <input type=text style="width:85px" id="info" disabled>
 
@@ -181,6 +180,7 @@ var start = function ()
 {
   localhost = location.origin + "/"; busy = location.hostname != "localhost";
   if (busy) alert ("This page must be loaded from the Kraker Local Proxy Server.");
+  line.value = "UPDATED: December 9, 2024";
 }
 ////////////////////
 
@@ -251,9 +251,10 @@ var play_video = function (download)
 
 const request_youtube = async (id, frame, fmt) =>
 {
-  var i, j, n, s, t, sub, vid, aud, key, sig, nkey, webm, f = [0,0,0,0,0,0,0,0,0,0];
+  var i, j, n, s, t, u, v, sub, vid, aud, key, sig, nkey, base;
+  var url, webm, dash, f = [0,0,0,0,0,0,0,0,0,0];
 
-  var url, dash = false; fmt = -fmt; if (is_busy (frame)) return;
+  fmt = -fmt; if (is_busy (frame)) return;
 
   var ua1 = localhost + "user-agent=|*", ua2 = ua1.replace ("=", "=!Mozilla/5.0 (Android 14)");
 
@@ -262,24 +263,26 @@ try
   response = await fetch (ua1 + "https://www.youtube.com/embed/" + id);
   textData = await response.text();
 
-  if (!(s = pullstring (textData, '"jsUrl":"', '"'))) throw ("!!!");
-  key = cookies [s]; nkey = cookies ["!" + s]; n = cookies ["?" + s];
+  if (!(base = pullstring (textData, '"jsUrl":"', '"'))) throw ("!!!");
+  key = cookies [base]; nkey = cookies ["!" + base]; n = cookies ["?" + base];
 
   if (!key || !nkey || !n)
   {
-    response = await fetch (ua1 + "https://www.youtube.com" + s);
+    response = await fetch (ua1 + "https://www.youtube.com" + base);
     textData = await response.text();
 
-    if ((n = textData.indexOf ('var b=a.split(a.slice(0,0))')) < 0) nkey = ""; else
-    {
-      t = textData.substr (n, textData.indexOf ('b.join("")', n) - n);
-      if (t) t = 'function(a){var b=a.split(""' + t.substr (t.indexOf ('),')) + 'b.join("")};';
-      nkey = t ? "var nsig=" + t + " sig=nsig(sig);" : "";
-    }
+    i = textData.indexOf ('.slice(0,0))'); if (i < 0) throw ("???");
+    i = textData.lastIndexOf ("func", i); j = textData.indexOf ('.join("")};', i);
+    t = textData.substring (i, j + 11); s = "var " + pullstring (t, "typeof ", "==");
+    s = s + pullstring (textData, s, ";"); nkey = s + "; var nsig=" + t + " sig=nsig(sig);";
 
-    cookies [s] = key = yt_algo (textData); if (!key || !nkey) throw ("!!!");
-    cookies ["!" + s] = nkey; t = pullstring (textData, "signatureTimestamp:", "}");
-    cookies ["?" + s] = n = t ? t * 1 : Math.trunc (Date.now() / 86400000) - 1;
+    s = pullstring (textData, '.split("");', 'return'); t = "var " + pullstring (s, "", ".") + "={";
+    u = pullstring (textData, t, "};"); v = pullstring (s, "(", ","); if (!u) throw ("???");
+    key = t + u + "}; var " + v + "=sig.split('');\n" + s + "sig=" + v + ".join('');";
+
+    cookies [base] = key; cookies ["!" + base] = nkey;
+    n = pullstring (textData, "signatureTimestamp:", "}") * 1;
+    if (n) cookies ["?" + base] = n; else n = Math.trunc (Date.now() / 86400000) - 1;
   }
 
   t = JSON.stringify ({
@@ -390,26 +393,6 @@ var yt_split = function (data)
   d = data.approxDurationMs || 0; m = data.mimeType || "";
 
   return ([u, s, d / 1000, i + "," + j, pullstring (m, '"', '"')]);
-}
-////////////////////
-
-var yt_algo = function (data)
-{
-  var i, j, n, s, v;
-
-  for (i = 0; i < 3; i++)
-  {
-    j = data.indexOf ('a=a.split("")'); if (j < 0) return "";
-    s = data.substr (j + 14, 300); if ((n = s.indexOf ("a.join")) > 0) break;
-    if (i > 1) return ""; data = data.substr (j + 1);
-  }
-
-  s = s.substr (0, n - 7);
-  v = "var " + s.substr (0, s.indexOf (".")) + "={";
-  if ((n = data.indexOf (v)) < 0) return "";
-
-  v = data.substr (n, 300); v = v.substr (0, v.indexOf ("};") + 2);
-  return (v + "var a=sig.split('');" + s + "sig=a.join('');");
 }
 ////////////////////
 

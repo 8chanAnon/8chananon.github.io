@@ -9,33 +9,28 @@
 
 body {
   font-size: 17px; line-height: 19px;
-  font-family: 'times new roman', serif; 
+  text-align: center; font-family: 'times new roman', serif; 
   color: maroon; background-color: navajowhite;
-  text-align: center;
 }
 
 .widevid {
-  width: 736px; height: 414px;
-  position: relative; overflow: hidden;
-  border: 2px solid red; background-color: indigo;
+  position: relative; width: 736px; height: 414px;
+  border: 2px solid red; background-color: navy; overflow: hidden;
 }
 
 .widevid:fullscreen {
   border: none;
 }
 
-.msgbox {
-  position: absolute; top: 36%; left: 40%; right: 40%; display: block;
-  text-align: center; border-radius: 10px;
-  color: paleturquoise; background-color: slateblue;
-  font-style: italic; cursor: pointer;
+iframe {
+  position: absolute; width: 100%; height: 100%;
+  border: none; background-color: transparent; pointer-events: auto;
 }
 
-iframe {
-  width: 100%; height: 100%;
-  position: absolute; border: none;
-  background-color: transparent;
-  pointer-events: auto;
+.msgbox {
+  display: block; position: absolute; top: 38%; left: 40%; right: 40%;
+  text-align: center; border-radius: 14px; font-style: italic; padding: 1px 2px 2px 4px;
+  cursor: pointer; color: paleturquoise; background-color: slateblue;
 }
 
 input[type=text] {
@@ -134,12 +129,8 @@ b_ { color: blue; }
 <input type=text class="static" style="width:56px" disabled> &nbsp;&nbsp;
 <button onclick="javascript:next_proxy()">Next</button>
 
-</div><r_>All videos are 360p. Some videos might not work due to IP address mismatch.</r_> (<g_>October 30, 2024</g_>)
-<!--
-<p><r_>This app is no longer working because YouTube has blocked all of my proxy servers (data center IP address ban).<br>
-The only solution is to install my local proxy server and the YouTube app which is designed for it.</r_><br>
-<g_>Go to my <a href="https://8chananon.github.io">website</a> for more information. Sorry about that.</g_>
--->
+</div><r_>All videos are 360p. Some videos might not work due to IP address mismatch.</r_> (<g_>December 9, 2024</g_>)
+<br>YouTube will sometimes block my proxy servers. Just wait a few minutes and try again.
 
 <script>
 
@@ -224,40 +215,42 @@ var play_video = function ()
 
 const request_youtube = async (id, fmt) =>
 {
-  var n, s, t, sub, vid, key, sig, nkey; if (is_busy()) return;
+  var i, j, n, r, s, t, u, sub, vid, key, sig, nkey, base; if (is_busy()) return;
 
   var url = cors_kraker + "user-agent=|!vpx:XXX|*https://www.youtube.com/embed/" + id;
 
-  for (s = "", n = 0; n < proxies.length; n++) try
+  for (n = 0; n < proxies.length; n++) try
   {
     response = await fetch (url.replace ("XXX", proxies [proxy]));
     textData = await response.text();
 
-    if (s = pullstring (textData, '"jsUrl":"', '"')) break; throw ("");
+    if (base = pullstring (textData, '"jsUrl":"', '"')) break; throw ("");
   }
   catch { next_proxy() } 
 
 try
 {
-  if (!s) throw ("???");
-  key = cookies [s]; nkey = cookies ["!" + s]; n = cookies ["?" + s];
+  if (!base) throw ("???");
+  key = cookies [base]; nkey = cookies ["!" + base]; n = cookies ["?" + base];
   var ua = "user-agent=!Mozilla/5.0 (Android 14)|!vpx:" + proxies [proxy] + "|*";
 
   if (!key || !nkey || !n)
   {
-    response = await fetch (cors_kraker + "https://www.youtube.com" + s);
+    response = await fetch (cors_kraker + "https://www.youtube.com" + base);
     textData = await response.text();
 
-    if ((n = textData.indexOf ('var b=a.split(a.slice(0,0))')) < 0) nkey = ""; else
-    {
-      t = textData.substr (n, textData.indexOf ('b.join("")', n) - n);
-      t = 'function(a){var b=a.split(""' + t.substr (t.indexOf ('),')) + 'b.join("")};';
-      nkey = "var nsig=" + t + " sig=nsig(sig);";
-    }
+    i = textData.indexOf ('.slice(0,0))'); if (i < 0) throw ("???");
+    i = textData.lastIndexOf ("func", i); j = textData.indexOf ('.join("")};', i);
+    t = textData.substring (i, j + 11); s = "var " + pullstring (t, "typeof ", "==");
+    s = s + pullstring (textData, s, ";"); nkey = s + "; var nsig=" + t + " sig=nsig(sig);";
 
-    cookies [s] = key = yt_algo (textData);
-    cookies ["!" + s] = nkey; t = pullstring (textData, "signatureTimestamp:", "}");
-    cookies ["?" + s] = n = t ? t * 1 : Math.trunc (Date.now() / 86400000) - 1;
+    r = pullstring (textData, '.split("");', 'return'); s = "var " + pullstring (r, "", ".") + "={";
+    t = pullstring (textData, s, "};"); u = pullstring (r, "(", ","); if (!t) throw ("???");
+    key = s + t + "}; var " + u + "=sig.split('');\n" + r + "sig=" + u + ".join('');";
+
+    cookies [base] = key; cookies ["!" + base] = nkey;
+    n = pullstring (textData, "signatureTimestamp:", "}") * 1;
+    if (n) cookies ["?" + base] = n; else n = Math.trunc (Date.now() / 86400000) - 1;
   }
 
   t = JSON.stringify ({
@@ -267,7 +260,7 @@ try
 
   try
   {
-    url = cors_kraker + ua + "https://www.youtube.com/youtubei/v1/player";
+    url = cors_kraker + ua + "https://www.youtube.com@142.251.41.78/youtubei/v1/player";
     response = await fetch (url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: t });
     jsonData = await response.json();
   }
@@ -310,26 +303,6 @@ var yt_split = function (data)
   if (!(d = data.approxDurationMs)) d = 0;
 
   return ([u, s, d / 1000, i + "," + r]);
-}
-////////////////////
-
-var yt_algo = function (data)
-{
-  var i, j, n, s, v;
-
-  for (i = 0; i < 3; i++)
-  {
-    j = data.indexOf ('a=a.split("")'); if (j < 0) return "";
-    s = data.substr (j + 14, 300); if ((n = s.indexOf ("a.join")) > 0) break;
-    if (i > 1) return ""; data = data.substr (j + 1);
-  }
-
-  s = s.substr (0, n - 7);
-  v = "var " + s.substr (0, s.indexOf (".")) + "={";
-  if ((n = data.indexOf (v)) < 0) return "";
-
-  v = data.substr (n, 300); v = v.substr (0, v.indexOf ("};") + 2);
-  return (v + "var a=sig.split('');" + s + "sig=a.join('');");
 }
 ////////////////////
 
