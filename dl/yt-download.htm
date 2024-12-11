@@ -167,6 +167,8 @@ Brightness:
 <button onclick="javascript:stop_video()">Stop</button> &nbsp;
 <input type=text style="width:85px" id="info" disabled>
 
+<p>Due to YouTube restrictions, <r_>webm</r_> may not be available for some videos. (<g_>December 11, 2024</g_>)
+
 </div><div class="popbox"></div>
 
 <script>
@@ -180,7 +182,6 @@ var start = function ()
 {
   localhost = location.origin + "/"; busy = location.hostname != "localhost";
   if (busy) alert ("This page must be loaded from the Kraker Local Proxy Server.");
-  line.value = "UPDATED: December 9, 2024";
 }
 ////////////////////
 
@@ -286,28 +287,29 @@ try
     if (n) cookies ["?" + base] = n; else n = Math.trunc (Date.now() / 86400000) - 1;
   }
 
-  t = JSON.stringify ({
+  t = {
     videoId: id, playbackContext: { contentPlaybackContext: { signatureTimestamp: n }},
     context: { client: { gl: 'US', hl: 'en', clientName: 'WEB_EMBEDDED_PLAYER', clientVersion: '1.20241009.01.00' }}
-  });
+  };
 
   try
   {
+    s = { 'content-type': 'application/json' };
     url = ua1 + "https://www.youtube.com/youtubei/v1/player";
-    response = await fetch (url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: t });
+
+    response = await fetch (url, { method: 'POST', headers: s, body: JSON.stringify (t) });
     jsonData = await response.json();
   }
-  catch { jsonData = {} }
+  catch { jsonData = {}; }
 
   if (!(sub = jsonData.streamingData))
   {
-    response = await fetch (ua2 + "https://m.youtube.com/watch?v=" + id);
-    textData = await response.text();
+    t.context.client.clientName = 'IOS'; t.context.client.clientVersion = '19.45.4';
 
-    s = pullstring (textData, '"formats":[', ']');
-    t = pullstring (textData, '"adaptiveFormats":[', ']');
+    response = await fetch (url, { method: 'POST', headers: s, body: JSON.stringify (t) });
+    jsonData = await response.json();
 
-    sub = JSON.parse ('{"formats":[' + s + '],"adaptiveFormats":[' + t + ']}');
+    if (!(sub = jsonData.streamingData)) throw ("!!!");
   }
 
   if (!fmt) { vid_download (id, sub, key, nkey, url); return; }
@@ -342,10 +344,10 @@ try
 
     if (!(s = vid [2]))  // livestream
     {
-      v = "x-head-seqnum"; w = "x-head-time-sec";
-      s = "~range=bytes=0-499|" + v + "|" + w + "|*";
+      v = "x-head-seqnum"; w = "x-head-time-sec"; s = "~" + v + "|" + w + "|*";
 
-      response = await fetch (localhost + s + url);
+      response = await fetch (localhost + s + url, { method: 'HEAD' });
+
       v = response.headers.get (v); if (!v) throw ("!!!");
       w = response.headers.get (w); if (!w) throw ("!!!");
 
@@ -358,6 +360,11 @@ try
 
       v = seg_num + "," + seg_ofs + "," + seg_dur + ",";
       w = "wanna_boot_dash_live"; s = "";
+    }
+    else
+    {
+      response = await fetch (localhost + "~" + url, { method: 'HEAD' });
+      if (response.status != 200) throw ("???");
     }
 
     aud = aud [4] || (webm ? "opus" : "mp4a.40.2");

@@ -61,7 +61,8 @@ b_ { color: blue; }
 <button onclick="javascript:next_proxy()">Next</button>
 
 <p></p><div class="box"></div>
-<p>YouTube will sometimes block my proxy servers. Just wait a few minutes and try again. (<g_>December 9, 2024</g_>)
+<p>YouTube will sometimes block my proxy servers. Just wait a few minutes and try again. (<g_>December 11, 2024</g_>)
+<p><g_>Videos retrieved with the</g_> <r_>IOS</r_> <g_>agent will not have all of the available formats.</g_>
 
 <script>
 
@@ -143,6 +144,7 @@ try
 
   if (!key || !nkey || !n)
   {
+    message ("https://www.youtube.com" + base + "<br>");
     response = await fetch (cors_kraker + "https://www.youtube.com" + base);
     textData = await response.text();
 
@@ -162,31 +164,31 @@ try
 
   if (!key || !nkey || !n) throw ("Cannot extract signature information.");
 
-  t = JSON.stringify ({
+  t = {
     videoId: id, playbackContext: { contentPlaybackContext: { signatureTimestamp: n }},
     context: { client: { gl: 'US', hl: 'en', clientName: 'WEB_EMBEDDED_PLAYER', clientVersion: '1.20241009.01.00' }}
-  });
+  };
 
   try
   {
-    message ("https://www.youtube.com/youtubei/v1/player<br>");
-    url = cors_kraker + ua2 + "https://www.youtube.com@142.251.41.78/youtubei/v1/player";
+    s = { 'content-type': 'application/json' };
+    url = ua1 + "https://www.youtube.com/youtubei/v1/player";
+    message ("https://www.youtube.com/youtubei/v1/player (WEB_EMBEDDED_PLAYER)<br>");
 
-    response = await fetch (url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: t });
+    response = await fetch (url, { method: 'POST', headers: s, body: JSON.stringify (t) });
     jsonData = await response.json();
   }
   catch { jsonData = {}; }
 
   if (!(sub = jsonData.streamingData))
   {
-    message ("https://m.youtube.com/watch?v=" + id + "<br>");
-    response = await fetch (cors_kraker + ua1 + "https://m.youtube.com@142.251.41.78/watch?v=" + id);
-    textData = await response.text();
+    t.context.client.clientName = 'IOS'; t.context.client.clientVersion = '19.45.4';
+    message ("https://www.youtube.com/youtubei/v1/player (IOS)<br>");
 
-    s = pullstring (textData, '"formats":[', ']');
-    t = pullstring (textData, '"adaptiveFormats":[', ']');
+    response = await fetch (url, { method: 'POST', headers: s, body: JSON.stringify (t) });
+    jsonData = await response.json();
 
-    sub = JSON.parse ('{"formats":[' + s + '],"adaptiveFormats":[' + t + ']}');
+    if (!(sub = jsonData.streamingData)) throw ("!!!");
   }
 
   sub = sub.adaptiveFormats || ""; console.log (sub);
