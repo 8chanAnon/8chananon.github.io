@@ -139,13 +139,12 @@ try
 {
   if (!base) throw ("File not found or proxy not working.");
   key = cookies [base]; nkey = cookies ["!" + base]; n = cookies ["?" + base];
-  var ua1 = "user-agent=!Mozilla/5.0 (Android 14)|!vpx:" + proxies [proxy] + "|*";
-  var ua2 = "user-agent=|!vpx:" + proxies [proxy] + "|*";
+  var ua = cors_kraker + "user-agent=|!vpx:" + proxies [proxy] + "|*";
 
   if (!key || !nkey || !n)
   {
     message ("https://www.youtube.com" + base + "<br>");
-    response = await fetch (cors_kraker + "https://www.youtube.com" + base);
+    response = await fetch (ua + "https://www.youtube.com" + base);
     textData = await response.text();
 
     i = textData.indexOf ('.slice(0,0))'); if (i < 0) throw ("???");
@@ -172,7 +171,7 @@ try
   try
   {
     s = { 'content-type': 'application/json' };
-    url = ua1 + "https://www.youtube.com/youtubei/v1/player";
+    url = ua + "https://www.youtube.com/youtubei/v1/player";
     message ("https://www.youtube.com/youtubei/v1/player (WEB_EMBEDDED_PLAYER)<br>");
 
     response = await fetch (url, { method: 'POST', headers: s, body: JSON.stringify (t) });
