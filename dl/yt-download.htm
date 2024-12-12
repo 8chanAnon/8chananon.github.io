@@ -323,7 +323,7 @@ try
     if ((s = t[i].itag) && (j = argformat (s)) >= 0) f[j] = i + 1;
 
   fmt = getformat (f, fmt); i = argformat (fmt);
-  if (i < 0 || (j = f[i] - 1) < 0) throw ("!!!");
+  if (i < 0 || (j = f[i] - 1) < 0) throw ("!!!"); fmt = pixformat (i);
 
   vid = yt_split (t [j]); url = yt_sign (vid [0], vid [1], key, nkey);
 
@@ -362,8 +362,7 @@ try
     aud = aud [4] || (webm ? "opus" : "mp4a.40.2");
     vid = vid [4] || (webm ? "vp9" : "avc1.4d401e");
 
-    t = [134,135,136,137,243,244,247,248,140,251][argformat (fmt)] + "(" + id + ").mpd";
-
+    t = (webm ? "w" : "m") + fmt + "(" + id + ").mpd";
     s += "|" + (webm ? "audio/webm" : "audio/mp4") + "|" + aud;
     s += "|" + (webm ? "video/webm" : "video/mp4") + "|" + vid;
     s += "|" + v + "|" + t + "|" + sub + "|" + url + "|";
