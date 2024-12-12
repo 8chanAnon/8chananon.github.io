@@ -123,13 +123,13 @@ b_ { color: blue; }
 </div></td></tr></table>
 
 <div style="margin:12px 0 12px 0">
-<input type=text style="width:360px"> &nbsp;&nbsp;
 <button onclick="javascript:play_video()">Play</button> &nbsp;
+<input type=text style="width:360px"> &nbsp;
 <button onclick="javascript:stop_video()">Stop</button> &nbsp;&nbsp;
 <input type=text class="static" style="width:56px" disabled> &nbsp;&nbsp;
 <button onclick="javascript:next_proxy()">Next</button>
 
-</div><r_>All videos are 360p. Some videos might not work due to IP address mismatch.</r_> (<g_>December 9, 2024</g_>)
+</div><r_>All videos are 360p. Some videos might not work due to YouTube restrictions.</r_> (<g_>December 12, 2024</g_>)
 <br>YouTube will sometimes block my proxy servers. Just wait a few minutes and try again.
 
 <script>
@@ -215,7 +215,7 @@ var play_video = function ()
 
 const request_youtube = async (id, fmt) =>
 {
-  var i, j, n, r, s, t, u, sub, vid, key, sig, nkey, base; if (is_busy()) return;
+  var i, j, n, r, s, t, u, sub, vid, key, nkey, base; if (is_busy()) return;
 
   var url = cors_kraker + "user-agent=|!vpx:XXX|*https://www.youtube.com/embed/" + id;
 
@@ -231,12 +231,12 @@ const request_youtube = async (id, fmt) =>
 try
 {
   if (!base) throw ("???");
+  var ua = cors_kraker + "user-agent=|!vpx:" + proxies [proxy] + "|*";
   key = cookies [base]; nkey = cookies ["!" + base]; n = cookies ["?" + base];
-  var ua = "user-agent=!Mozilla/5.0 (Android 14)|!vpx:" + proxies [proxy] + "|*";
 
   if (!key || !nkey || !n)
   {
-    response = await fetch (cors_kraker + "https://www.youtube.com" + base);
+    response = await fetch (ua + "https://www.youtube.com" + base);
     textData = await response.text();
 
     i = textData.indexOf ('.slice(0,0))'); if (i < 0) throw ("???");
@@ -253,33 +253,31 @@ try
     if (n) cookies ["?" + base] = n; else n = Math.trunc (Date.now() / 86400000) - 1;
   }
 
-  t = JSON.stringify ({
+  t = {
     videoId: id, playbackContext: { contentPlaybackContext: { signatureTimestamp: n }},
     context: { client: { gl: 'US', hl: 'en', clientName: 'WEB_EMBEDDED_PLAYER', clientVersion: '1.20241009.01.00' }}
-  });
+  };
 
   try
   {
-    url = cors_kraker + ua + "https://www.youtube.com@142.251.41.78/youtubei/v1/player";
-    response = await fetch (url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: t });
+    s = { 'content-type': 'application/json' };
+    url = ua + "https://www.youtube.com/youtubei/v1/player";
+
+    response = await fetch (url, { method: 'POST', headers: s, body: JSON.stringify (t) });
     jsonData = await response.json();
   }
   catch { jsonData = {}; }
 
   if (!(sub = jsonData.streamingData))
   {
-    response = await fetch (cors_kraker + ua + "https://m.youtube.com/watch?v=" + id);
-    textData = await response.text();
+    t.context.client.clientName = 'TVHTML5'; t.context.client.clientVersion = '7.20241201.18.00';
 
-    s = pullstring (textData, '"formats":[', ']');
-    t = pullstring (textData, '"adaptiveFormats":[', ']');
-
-    sub = JSON.parse ('{"formats":[' + s + '],"adaptiveFormats":[' + t + ']}');
+    response = await fetch (url, { method: 'POST', headers: s, body: JSON.stringify (t) });
+    jsonData = await response.json(); if (!(sub = jsonData.streamingData)) throw ("!!!");
   }
-  if (!(sub = sub.formats [0])) throw ("!!!");
 
-  vid = yt_split (sub); url = vid [0]; sig = vid [1]; if (!url) throw ("!!!");
-  url = yt_nsig (url, nkey); if (sig && key) { eval (key); url += "&sig=" + sig; }
+  if (!(sub = sub.formats [0])) throw ("!!!"); vid = yt_split (sub);
+  url = yt_sign (vid [0], vid [1], key, nkey); if (!url) throw ("!!!");
 
 } catch (err) { console.log (err); busy = 0; }
 
@@ -306,11 +304,11 @@ var yt_split = function (data)
 }
 ////////////////////
 
-var yt_nsig = function (url, nkey)
+var yt_sign = function (url, sig, key, nkey)
 {
-  var sig = pullstring (url, "&n=", "&"); if (!nkey || !sig) return url;
-  var s = "&n=" + sig + "&"; eval (nkey); sig = "&n=" + sig + "&";
-  return (url.replace (s, sig));
+  if (url && sig && key) { eval (key); url += "&sig=" + sig; }
+  sig = pullstring (url, "&n=", "&"); if (!nkey || !sig) return url;
+  key = "&n=" + sig; eval (nkey); return (url.replace (key, "&n=" + sig));
 }
 ////////////////////
 
@@ -443,17 +441,16 @@ var create_controls = function (vid)
   vid.onseeking    = function() { vid_cntrl (this, 5); }
   vid.onwaiting    = function() { vid_cntrl (this, 6); }
   vid.onstalled    = function() { vid_cntrl (this, 7); }
-  vid.ontimeupdate = function() { vid_cntrl (this, 8); }
 
+  vid.ontimeupdate = function(e) { vid_event (e, 0); }
   vid.onmousemove  = function(e) { vid_event (e, 1); }
   ctr.onclick      = function(e) { vid_event (e, 2); }
 
   ctr.onmouseleave = function() { vid_cntrl (vid, 0); }
   ctr.onmouseenter = function() { vid_cntrl (vid, 1); }
 
-  sib [0].classList.add ("anim-bar");
-  control.style.display = "inline-block";
-  vid.checked = 0; ctr.step = 1; ctr.checked = 30;
+  sib [0].classList.add ("anim-bar"); control.style.display = "inline-block";
+  vid.checked = vid.curtime = vid.durtime = 0; ctr.step = 1; ctr.checked = 30;
 
   doc.body.appendChild (control);
 }
@@ -474,12 +471,11 @@ var vid_cntrl = function (vid, mode)
   if (ctr.value == undefined && mode > 2 && mode < 8) return;
   if (vid.disabled && mode > 2 && mode < 9) return;
 
-  var t = vid.currentTime, d = vid.duration;
-  if (isNaN (t)) t = 0; if (isNaN (d) || !isFinite (d)) d = 0;
-  var z = (t > 0 && d > 0) ? 400 * t / d : 0; z = Math.round (z) * 0.25;
-
   var no_action = ctr.value == undefined || vid.disabled;
   var got_video = vid.videoWidth && vid.videoHeight;
+
+  var t = vid.currentTime, d = vid.durtime;
+  var z = (t && d) ? 400 * t / d : 0; z = Math.round (z) * 0.25;
 
   if (mode == 0)  // hide
   {
@@ -527,7 +523,6 @@ var vid_cntrl = function (vid, mode)
 
   if (mode == 8)  // time update
   {
-    if (t == vid.checked) return; vid.checked = t;
     var v = ctr.value, ts = Math.round (t), ds = Math.round (d);
     var th = Math.trunc (ts / 3600), dh = Math.trunc (ds / 3600); ts -= th * 3600; ds -= dh * 3600;
     var tm = Math.trunc (ts / 60), dm = Math.trunc (ds / 60); ts -= tm * 60; ds -= dm * 60;
@@ -573,8 +568,8 @@ var vid_click = function (item, mode)
 
   if (mode == 1)
   {
-    var t = vid.duration * item.value; if (isNaN (t) || !isFinite (t)) return;
-    if (t < min_vt) t = min_vt; vid.currentTime = t; //ctr.children [11].value = t.toFixed(2);
+    var t = vid.durtime * item.value; if (t < min_vt) t = min_vt;
+    vid.currentTime = t; ctr.children [11].value = t.toFixed(2);
   }
 
   if (mode == 3) { var m = vid.muted; vid.muted = true; vid.volume = item.value; vid.muted = m; }
@@ -586,15 +581,22 @@ var vid_click = function (item, mode)
 
 var vid_event = function (event, type)
 {
-  var min_vt = 0, item = event.target, node = item.nodeName;
+  var min_vt = 0, item = event.target, node = item.nodeName, vid = item;
+
+  if (type == 0)
+  {
+    var e = event.timeStamp / 1000, c = vid.curtime || e, d = vid.durtime;
+    var t = vid.currentTime; vid.curtime = e; d += e - c; if (t > d) d = t;
+    vid.durtime = d = (c = vid.duration) < 72000 ? c : d; vid_cntrl (vid, 8);
+  }
 
   if (type == 1)
   {
-    var ctr = item.nextElementSibling.firstElementChild;
-    vid_cursor (item, true); if (ctr.value == undefined) return;
+    var ctr = vid.nextElementSibling.firstElementChild;
+    vid_cursor (vid, true); if (ctr.value == undefined) return;
 
     if (ctr.value <= 0) ctr.value = -8;
-    if (event.clientY > item.clientHeight - ctr.checked) vid_cntrl (item, 1);
+    if (event.clientY > vid.clientHeight - ctr.checked) vid_cntrl (vid, 1);
   }
   if (type != 2 || node != "BUTTON") return;
 
@@ -618,7 +620,7 @@ var vid_event = function (event, type)
   if (txt == "5m" ) dir *= 300;
 
   if ((dir += vid.currentTime) < min_vt) dir = min_vt;
-  vid.currentTime = dir > vid.duration ? vid.duration : dir;
+  vid.currentTime = dir > vid.durtime ? vid.durtime : dir;
 }
 ////////////////////
 

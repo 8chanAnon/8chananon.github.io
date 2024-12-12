@@ -61,8 +61,7 @@ b_ { color: blue; }
 <button onclick="javascript:next_proxy()">Next</button>
 
 <p></p><div class="box"></div>
-<p>YouTube will sometimes block my proxy servers. Just wait a few minutes and try again. (<g_>December 11, 2024</g_>)
-<p><g_>Videos retrieved with the</g_> <r_>IOS</r_> <g_>agent will not have all of the available formats.</g_>
+<p>YouTube will sometimes block my proxy servers. Just wait a few minutes and try again. (<g_>December 12, 2024</g_>)
 
 <script>
 
@@ -138,8 +137,8 @@ const request_youtube = async (id) =>
 try
 {
   if (!base) throw ("File not found or proxy not working.");
-  key = cookies [base]; nkey = cookies ["!" + base]; n = cookies ["?" + base];
   var ua = cors_kraker + "user-agent=|!vpx:" + proxies [proxy] + "|*";
+  key = cookies [base]; nkey = cookies ["!" + base]; n = cookies ["?" + base];
 
   if (!key || !nkey || !n)
   {
@@ -161,7 +160,7 @@ try
     if (n) cookies ["?" + base] = n; else n = Math.trunc (Date.now() / 86400000) - 1;
   }
 
-  if (!key || !nkey || !n) throw ("Cannot extract signature information.");
+  if (!key || !nkey || !n) throw ("Cannot extract signatures.");
 
   t = {
     videoId: id, playbackContext: { contentPlaybackContext: { signatureTimestamp: n }},
@@ -181,27 +180,23 @@ try
 
   if (!(sub = jsonData.streamingData))
   {
-    t.context.client.clientName = 'IOS'; t.context.client.clientVersion = '19.45.4';
-    message ("https://www.youtube.com/youtubei/v1/player (IOS)<br>");
+    t.context.client.clientName = 'TVHTML5'; t.context.client.clientVersion = '7.20241201.18.00';
+    message ("https://www.youtube.com/youtubei/v1/player (TVHTML5)<br>");
 
     response = await fetch (url, { method: 'POST', headers: s, body: JSON.stringify (t) });
-    jsonData = await response.json();
-
-    if (!(sub = jsonData.streamingData)) throw ("!!!");
+    jsonData = await response.json(); if (!(sub = jsonData.streamingData)) throw ("Cannot extract metadata.");
   }
 
-  sub = sub.adaptiveFormats || ""; console.log (sub);
-  if (!sub.length) throw ("Cannot extract formats list."); message ("<br>");
+  sub = (sub.formats || []).concat (sub.adaptiveFormats || []);
+  if (!sub.length) throw ("Cannot extract formats."); message ("<br>"); console.log (sub);
 
-  for (m = [], n = 0; n < sub.length; n++) m.push (sub[n].itag + " " + n);
+  for (m = [], n = 0; n < sub.length; n++)
+    { s = sub[n].itag; m.push ((s < 100 ? "0" : "") + s + " " + s + " " + n); }
 
   for (m.sort(), t = "", n = 0; n < m.length; n++)
   {
-    s = m[n].split (" "); if (t == s[0]) continue; t = s[0]; s = s[1];
-
-    vid = yt_split (sub [s]); url = vid [0]; sig = vid [1]; if (!url) continue;
-    url = yt_nsig (url, nkey); if (sig && key) { eval (key); url += "&sig=" + sig; }
-
+    s = m[n].split (" "); if (t == s[1]) continue; t = s[1]; s = s[2];
+    vid = yt_split (sub [s]); url = yt_sign (vid [0], vid [1], key, nkey);
     message ("<a href='" + url + "'>" + t + "</a> &nbsp; ");
   }
 
@@ -230,11 +225,11 @@ var yt_split = function (data)
 }
 ////////////////////
 
-var yt_nsig = function (url, nkey)
+var yt_sign = function (url, sig, key, nkey)
 {
-  var sig = pullstring (url, "&n=", "&"); if (!nkey || !sig) return url;
-  var s = "&n=" + sig + "&"; eval (nkey); sig = "&n=" + sig + "&";
-  return (url.replace (s, sig));
+  if (url && sig && key) { eval (key); url += "&sig=" + sig; }
+  sig = pullstring (url, "&n=", "&"); if (!nkey || !sig) return url;
+  key = "&n=" + sig; eval (nkey); return (url.replace (key, "&n=" + sig));
 }
 ////////////////////
 
