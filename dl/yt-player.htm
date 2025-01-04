@@ -122,6 +122,7 @@ b_ { color: blue; }
 
 </div></td></tr></table>
 
+<!--
 <div style="margin:12px 0 12px 0">
 <button onclick="javascript:play_video()">Play</button> &nbsp;
 <input type=text style="width:360px"> &nbsp;
@@ -131,6 +132,11 @@ b_ { color: blue; }
 
 </div><r_>All videos are 360p. Some videos might not work due to YouTube restrictions.</r_> (<g_>December 12, 2024</g_>)
 <br>YouTube will sometimes block my proxy servers. Just wait a few minutes and try again.
+-->
+
+<p>
+<r_>This app no longer works due to additional restrictions imposed by YouTube.</r_>
+<br>Check my <a href="https://8chananon.github.io">website</a> for more information. (<g_>January 4, 2025</g_>)
 
 <script>
 
@@ -231,7 +237,7 @@ const request_youtube = async (id, fmt) =>
 try
 {
   if (!base) throw ("???");
-  var ua = cors_kraker + "user-agent=|!vpx:" + proxies [proxy] + "|*";
+  var ua = cors_kraker + "user-agent=|!mock:1A|!vpx:" + proxies [proxy] + "|*";
   key = cookies [base]; nkey = cookies ["!" + base]; n = cookies ["?" + base];
 
   if (!key || !nkey || !n)
