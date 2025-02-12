@@ -216,7 +216,7 @@ var action = function ()
 
   //if (cmd.substr (0, 10) == "[snapshot]") cmd = cmd.substr (10).trim();
 
-  if (cmd) { start ("?tweet##" + cmd); return; }
+  if (cmd) { location.replace ("?tweet##" + cmd); return; }
 
 /*
   var box = document.createElement ("DIV");
@@ -284,7 +284,7 @@ var start = function (cmd)
 
   if (type == "tweet")
   {
-    location.replace ("##" + url); fetchtweet (doc, msg, url); return;
+    fetchtweet (doc, msg, url); return;
   }
   else if (!link.includes (".128ducks.")) url = link; else
   {
