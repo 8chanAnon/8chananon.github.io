@@ -167,7 +167,7 @@ Brightness:
 <button onclick="javascript:stop_video()">Stop</button> &nbsp;
 <input type=text style="width:85px" id="info" disabled>
 
-<p>Updated: <g_>December 12, 2024</g_>
+<p>Updated: <g_>February 17, 2025</g_>
 
 </div><div class="popbox"></div>
 
@@ -261,6 +261,9 @@ try
   response = await fetch (ua + "https://www.youtube.com/embed/" + id);
   textData = await response.text();
 
+  s = pullstring (textData, '"visitorData":"', '"');
+  ua = ua.replace ("|*", "|x-goog-visitor-id=" + s + "|*");
+
   base = pullstring (textData, '"jsUrl":"', '"'); if (!base) throw ("!!!");
   key = cookies [base]; nkey = cookies ["!" + base]; n = cookies ["?" + base];
 
@@ -287,16 +290,10 @@ try
     videoId: id, playbackContext: { contentPlaybackContext: { signatureTimestamp: n }},
     context: { client: { gl: 'US', hl: 'en', clientName: 'WEB_EMBEDDED_PLAYER', clientVersion: '1.20241009.01.00' }}
   };
+  url = ua + "https://www.youtube.com/youtubei/v1/player"; s = { 'content-type': 'application/json' }
 
-  try
-  {
-    s = { 'content-type': 'application/json' };
-    url = ua + "https://www.youtube.com/youtubei/v1/player";
-
-    response = await fetch (url, { method: 'POST', headers: s, body: JSON.stringify (t) });
-    jsonData = await response.json(); title = jsonData.videoDetails.title;
-  }
-  catch { jsonData = {}; }
+  response = await fetch (url, { method: 'POST', headers: s, body: JSON.stringify (t) });
+  jsonData = await response.json(); try { title = jsonData.videoDetails.title } catch { };
 
   if (!(sub = jsonData.streamingData))
   {
