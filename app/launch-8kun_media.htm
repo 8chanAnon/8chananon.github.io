@@ -164,11 +164,11 @@ w_ { }
 
 </style></head>
 
-<body onload="javascript:start()" onhashchange="javascript:start()" onclick="javascript:toggle(event)">
+<body onload="javascript:start()" onhashchange="javascript:action(0)" onclick="javascript:toggle(event)">
 
 <div class="status">
 <span style="margin:0 4px 0 5px"><a target=_self href=""
-  onclick="javascript:action(); return false" style="color:firebrick">Save file</a>:
+  onclick="javascript:action(1); return false" style="color:firebrick">Save file</a>:
 <input type=text style="width:calc(100% - 700px);min-width:314px;text-align:left"></span>
 <span style="display:inline-block;margin:0 4px">Size:
 <input type=text style="width:80px" disabled>&nbsp;
@@ -205,46 +205,12 @@ var toggle = function (event)
   t.setAttribute ("checked", t.getAttribute ("checked") == 1 ? 0 : 1);
 }
 
-var action = function ()
+var action = function (mode)
 {
   var msg = document.getElementsByTagName ("input")[0], cmd = msg.value.trim();
 
-  if (type != "tweet")
-  {
-    msg.value = link ? "Use right-click to save" : "Nothing to save"; return;
-  }
-
-  //if (cmd.substr (0, 10) == "[snapshot]") cmd = cmd.substr (10).trim();
-
-  if (cmd) { location.replace ("?tweet##" + cmd); return; }
-
-/*
-  var box = document.createElement ("DIV");
-  box.classList.add ("tweetbox"); box.classList.add ("clonebox");
-  var i, j, k, doc = document.getElementsByTagName ("div")[1].firstChild;
-
-  for (i = 0; i < doc.children.length - 1; i++)
-  {
-    j = doc.children [i]; k = j.children [1].children [0];
-    if (k.getAttribute ("checked") == 1) box.appendChild (j.cloneNode (true));
-  }
-
-  if (!box.children.length) for (i = 0; i < doc.children.length - 1; i++)
-  {
-    j = doc.children [i].cloneNode (true); box.appendChild (j);
-  }
-
-  j = document.head.innerHTML;
-  j = j.replace ('[checked="1"]', '[checked="2"]');
-  j = j.replace (/<title>.*</, "<title>Snapshot<");
-  k = box.outerHTML;
-  k = k.replace (RegExp (origin + "\\?(image|video)=", 'g'), "");
-  k = k.replace (RegExp (origin + "\\?tweet=", 'g'), "https://twitter.com/i/status/");
-
-  k = "<!DOCTYPE html><html>" + j + "<body>" + k + "</body>";
-  fetch ("/+test", { method: 'PUT', body: k });
-//  doc = window.open().document; doc.write (k); doc.close();
-*/
+  if (type == "tweet") start (mode ? "?tweet##" + cmd : ""); else
+    msg.value = link ? "Use right-click to save" : "Nothing to save";
 }
 
 var oops = function (err)
@@ -267,7 +233,9 @@ var start = function (cmd)
   var ref = document.getElementsByTagName ("a")[0];
 
   if (m = pullstring (link, "", "#")) link = m;
-  if (m = pullstring (link, "", "?"))  url = m; else url = link;
+  if (m = pullstring (link, "&id=", "&") && type == "tweet") link = m;
+  if (m = pullstring (link, "", "?")) url = m; else url = link;
+
   if (url.substr (-1) == "/") url = url.substr (0, url.length - 1);
   m = url.lastIndexOf ("/"); if (m >= 0) url = url.substr (m + 1);
 
@@ -284,9 +252,11 @@ var start = function (cmd)
 
   if (type == "tweet")
   {
-    fetchtweet (doc, msg, url); return;
+    m = "##" + url; if (m == location.hash) m = "";
+    if (m) location.replace (m); else fetchtweet (doc, msg, url); return;
   }
-  else if (!link.includes (".128ducks.")) url = link; else
+
+  if (!link.includes (".128ducks.")) url = link; else
   {
     url = link.replace ("/file_dl/", "/file_store/");
     if (url.length != link.length) url = url.substr (0, m + 3);
