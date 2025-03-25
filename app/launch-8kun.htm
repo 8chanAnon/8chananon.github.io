@@ -2,7 +2,6 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="referrer" content="no-referrer">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="icon" href="launch-8kun.ico">
 <base target="_blank">
@@ -54,12 +53,16 @@ input[type=text] {
 
 input[type=radio] {
   vertical-align: bottom; margin: 0 1px 3px 2px;
-  filter: contrast(1.2) brightness(1.2) opacity(85%);
+  filter: contrast(1.0) brightness(1.2) opacity(90%);
 }
 
 input[type=checkbox] {
-  vertical-align: bottom; margin: 0 2px 3px 1px;
-  filter: contrast(1.2) brightness(1.2) opacity(80%);
+  vertical-align: bottom; margin: 0 2px 3px 2px;
+  filter: contrast(1.0) brightness(1.2) opacity(90%);
+}
+
+input[disabled] {
+  filter: none;
 }
 
 input.small {
@@ -67,18 +70,19 @@ input.small {
 }
 
 input.static {
-  font-family: 'times new roman', serif; text-align: center; 
-  padding: 3px 7px 3px 7px; border: 2px solid burlywood;
-  color: red; background-color: cornsilk;
+  margin: 0 1px 0 2px; padding: 3px 0 3px 0; text-align: center;
+  color: mediumvioletred; background-color: papayawhip;
+  border-radius: 3px; border: 1px solid darkorange;
 }
 
 button {
   width: auto; height: auto;
   font-size: 15px; line-height: 19px;
-  padding: 1px 6px 0 6px; margin: 0;
+  padding: 1px 8px 0 8px; margin: 0;
   font-family: 'helvetica', sans-serif;
   color: darkblue; background-color: powderblue;
-  outline: none; border-color: #e8e8e8 #9c9c9c #9c9c9c #ececec;
+  outline: none; border-size: 2px; border-style: solid;
+  border-color: #e8e8e8 #9c9c9c #9c9c9c #ececec;
 }
 
 button:hover:active {
@@ -87,6 +91,16 @@ button:hover:active {
 
 button.pink {
   background-color: pink; padding: 1px 8px 0 8px;
+}
+
+button.stop {
+  margin: 0 3px; padding: 0 10px; line-height: 20px;
+  border: 1px solid darkgoldenrod; border-radius: 15px;
+  color: darkmagenta; background-color: lightpink;
+}
+
+button.stop:hover:active {
+  border-color: firebrick;
 }
 
 a:link {
@@ -116,7 +130,7 @@ p.listbox {
 }
 
 .command button {
-  width: 100px;
+  width: 104px;
 }
 
 span.status {
@@ -130,7 +144,7 @@ span.status {
 .status p {
   display: inline-block; max-width: calc(100vw - 440px); margin: 0;
   text-overflow: ellipsis; font-style: italic; vertical-align: top;
-  overflow: hidden; white-space: nowrap; word-break: break-all;
+  overflow: hidden; white-space: nowrap;overflow:hidden; word-break: break-all;
 }
 
 .status span {
@@ -148,12 +162,12 @@ span.status2 {
 }
 
 span.status3 {
-  display: inline-block; position: sticky; top: auto; bottom: 60px;
-  left: 0; right: 0; margin: auto; padding: 10px;
+  display: inline-block; position: sticky; top: auto; bottom: 80px;
+  left: 0; right: 0; margin: auto; padding: 5px 12px 7px;
   width: 600px; max-width: calc(100vw - 100px);
-  border: 2px solid hotpink; border-radius: 10px;
-  font-size: 16px; line-height: 21px;
-  color: mediumblue; background-color: snow;
+  border: 2px solid hotpink; border-radius: 12px;
+  font-size: 16px; line-height: 24px;
+  color: blue; background-color: snow;
 }
 
 span.status4 {
@@ -218,7 +232,7 @@ a.reply:link, a.reply:visited {
 
 a.moderate:link, a.moderate:visited {
   float: right; text-decoration: none; padding: 0;
-  width: 7px; height: 10px; margin: 2px 0 0 6px;
+  width: 8px; height: 10px; margin: 2px 0 0 6px;
   border-style: solid; border-width: 2px; border-radius: 5px;
   border-color: lightskyblue; background-color: transparent;
 }
@@ -347,7 +361,7 @@ a.banner {
 }
 
 textarea {
-  box-sizing: border-box; resize: none;
+  box-sizing: border-box; resize: none; margin: 0;
   vertical-align: top; white-space: pre-wrap; outline: none;
   font-size: 13px; font-family: 'verdana', 'helvetica', sans-serif;
   caret-color: maroon; border: 2px solid burlywood;
@@ -449,33 +463,6 @@ div.editor {
   border: 1px solid darksalmon;
 }
 
-div.captcha {
-  display: none; position: fixed; top: 10px; left: 10px;
-  width: calc(100% - 20px); height: calc(25vw + 165px);
-  box-sizing: border-box; text-align: center; padding: 12px;
-  font-size: 17px; line-height: 22px; font-family: 'times new roman', serif;
-  border: 3px solid darkgoldenrod; border-radius: 10px;
-  background-color: mistyrose;
-}
-
-.captcha img {
-  width: 75vw; height: 25vw; margin: 12px 0 15px 0; background-color: gray;
-}
-
-.captcha span {
-  display: inline-block; width: 200px; height: 33px; font-size: 22px; line-height: 33px;
-  font-style: italic; font-weight: bold; font-family: 'helvetica', sans-serif;
-  border-radius: 16px; background-color: rosybrown; color: lightyellow;
-}
-
-.captcha button {
-  color: darkgreen; background-color: pink;
-}
-
-button.cap_login {
-  color: firebrick; background-color: mistyrose;
-}
-
 ::selection {
   color: yellow; background-color: orchid;
 }
@@ -490,7 +477,7 @@ n_ { }
 
 </style></head>
 
-<body onload="javascript:startup()" onunload="javascript:say_worker()">
+<body onload="javascript:startup()" onunload="javascript:say_worker('','goodbye')">
 
 <h1 style="margin:20px 0 25px 0"><g_>8kun</g_> <r_>Bread Launcher</r_> <g_>v3x</g_></h1>
 
@@ -508,7 +495,7 @@ n_ { }
 <g_>HTML <input type=radio name="html-json" value="0" checked> &nbsp;
 JSON <input type=radio name="html-json" value="1"></g_><br>
 <g_>Board Moderator</g_> <input type=checkbox name="moderator" value="1"><br>
-<!-- <g_>Tor Onion Post</g_> <input type=checkbox name="onion" value="1"> -->
+<g_>Post via Tor</g_> <input type=checkbox name="onion" value="1">
 </p>
 
 <p class="listbox">
@@ -526,7 +513,7 @@ JSON <input type=radio name="html-json" value="1"></g_><br>
 &nbsp;|&nbsp; <a href="#help" target=_self>Instructions</a>
 &nbsp;|&nbsp; <a href="#bake" target=_self>QR Baker Hints</a>
 &nbsp;|&nbsp; <a href="#proxy" target=_self>Kraker Control Panel</a>
-&nbsp;|&nbsp; <a href="javascript:cap_login(1)" target=_self>Moderator Login</a>
+&nbsp;|&nbsp; <a href="javascript:moderator()" target="_self">Moderator Login/Logout</a>
 
 <p><hr><p>
 
@@ -786,6 +773,8 @@ You can change back to another font afterward without affecting the Post Office.
 <input id="flg1" type=checkbox> Console &nbsp;
 <input id="flg2" type=checkbox> TOR Alt Port &nbsp;
 <input id="flg3" type=checkbox> TOR for All
+<br><br>
+<input id="code" type=text placeholder="Service code (if enabled)">
 </g_><br><br>
 </p>
 <p style="text-align:left">
@@ -798,6 +787,8 @@ Activate group(s) and resolve DNS (console output)
 Reload settings file (default is <g_>_settings.txt</g_>)
 <br><br>
 <input id="flg4" type=checkbox> <g_>Show DNS/DoH activity</g_> (sockets if console is on)
+<br><br>
+Must include initial plus sign (+)
 </p>
 
 </div><div style="width:90vw;height:75vh"></div>
@@ -870,23 +861,6 @@ Embed:<input type=text style="width:calc(38vw - 130px)">
 <input type=checkbox><small><r_> Auto-clear</r_></small>
 </div></div>
 
-<!-- ///// Captcha ///// -->
-
-<div id="captcha" class="captcha">
-<span id="cap_banner">Captcha</span><br>
-<img id="cap_image" onclick="javascript:cap_pop(0)"><br>
-<button onclick="javascript:cap_image()">New Image</button> &nbsp;
-<input type=text id="cap_answer" style="width:120px" autofocus> &nbsp;
-<button onclick="javascript:cap_answer()">Answer</button>
-&nbsp; &nbsp; <g_>Contrast:</g_>&nbsp;
-<button onclick="javascript:cap_contrast(-1)">&lt;</button>
-<input type=text id="cap_contrast" class="static" style="width:28px">
-<button onclick="javascript:cap_contrast(+1)">&gt;</button> &nbsp; &nbsp;
-<button onclick="javascript:cap_login(1)" class="cap_login">LOG IN</button>&nbsp;
-<button onclick="javascript:cap_login(0)" class="cap_login">LOG OUT</button>
-<br><br>Answer is case-insensitive. Click on the image to close.
-</div>
-
 <!-- ///// SCRIPTS ///// -->
 
 <script>
@@ -906,18 +880,18 @@ var url_login = "launch-8kun_login.htm";
 var url_media = "launch-8kun_media.htm";
 
 var domain_8kun  = "https://8kun.top/";
-var media_server = "https://media.128ducks.com/";
+var media_server = "https://nerv.8kun.top/"; //"https://media.128ducks.com/";
 var image_server = "https://8chananon.github.io/img/";
+var local_server = "http://localhost:8080/";
 
-var sys_8kun     = "**https://sys.8kun.top/";
-var tor_8kun	 = "**http://sys.w7m432cocr665kf5tlpcxojwldajr3njd2etcxwhpbrt44eemuxhp7ad.onion/";
+var sys_8kun     = "https://sys.8kun.top/";
+var tor_8kun	 = "http://sys.w7m432cocr665kf5tlpcxojwldajr3njd2etcxwhpbrt44eemuxhp7ad.onion/";
 
-var captcha_url  = "";
-var captcha_tor  = "";
-var posting_url  = sys_8kun + "post.php";
-var posting_tor  = tor_8kun + "post.php";
-var modlogin_url = sys_8kun + "mod.php";
-var modlogin_tor = tor_8kun + "mod.php";
+var net_posting  = sys_8kun + "post.php";
+var tor_posting  = tor_8kun + "post.php";
+var net_modopts  = sys_8kun + "mod.php";
+var tor_modopts  = tor_8kun + "mod.php";
+var url_modopts  = "";
 
 var vid_embed = ["", "YouTube", "invidio", "YouTube", "hooktube", "YouTube",
   "bitchute", "!BitChute", "twitter", "!Twitter", "rumble", "!Rumble", "vimeo", "!Vimeo",
@@ -926,19 +900,20 @@ var vid_embed = ["", "YouTube", "invidio", "YouTube", "hooktube", "YouTube",
 
 var say_worker = function (id, msg)
 {
-  worker.postMessage ({ id: id ? id : "", app: "launch-8kun", msg: msg ? msg : "goodbye" });
+  if (!id) { id = ""; if (!msg) msg = "timeout"; }
+  worker.postMessage ({ id: id, app: "launch-8kun", msg: msg });
 }
 ////////////////////
 
 var say_player = function (id, msg)
 {
-  worker.postMessage ({ id: id, app: "alleycat", msg: msg });
+  worker.postMessage ({ id: "null", app: "@alleycat", msg: msg });
 }
 ////////////////////
 
-var msg_worker = function (id, app, msg, info)
+var msg_worker = function (id, app, msg)
 {
-  if (app == "alleycat")
+  if (app == "@alleycat")
   {
     var doc, box; if (!video_win) return;
     try { doc = video_win.document; } catch (e) { }
@@ -952,6 +927,8 @@ var msg_worker = function (id, app, msg, info)
     video_win = null; return;
   }
 
+  if (!id && !msg) say_worker (); else console.log ("Shared worker says", msg);
+
   if (!id)
   {
     if (msg == "start") say_worker ("", "hello");
@@ -962,17 +939,17 @@ var msg_worker = function (id, app, msg, info)
   {
     say_worker (id, "close"); fetchpost (null, msg);
   }
-  console.log ("Shared worker says " + msg);
 }
 ////////////////////
 
 const startup = async () =>
 {
-  localhost = location.hostname == "localhost" ? location.origin + "/" : "";
+  var w = location.hostname; w = w.substr (w.lastIndexOf (".") + 1);
+  localhost = w == "localhost" ? location.origin + "/" : "";
 
   if (!localhost) localpath = ""; else
   {
-    var w = location.pathname; w = w.substr (1, w.lastIndexOf ("/"));
+    w = location.pathname; w = w.substr (1, w.lastIndexOf ("/"));
     if (w [0] == "~") w = w.substr (1); localpath = localhost + "~" + w;
   }
 
@@ -980,20 +957,41 @@ const startup = async () =>
   worker = new SharedWorker (localhost + "worker.js").port;
   worker.onmessage = function (e) { msg_worker (e.data.id, e.data.app, e.data.msg); }
 
-  document.getElementById ("cap_answer").value = "";
-  document.getElementById ("cap_contrast").value = "2";
-
-  if (localhost) return;
-
-  document.getElementsByName ("proxy")[0].checked = false;
-  document.getElementsByName ("proxy")[1].checked = true;
+  if (!localhost)
+  {
+    document.getElementsByName ("onion")[0].disabled = true;
+    document.getElementsByName ("proxy")[0].checked  = false;
+    document.getElementsByName ("proxy")[1].checked  = true;
+  }
 }
 ////////////////////
 
-var localhost_missing = function ()
+var get_url_posting = function ()
 {
-  if (localhost) return false;
-  alert ("The Kraker Local Proxy Server is not available."); return true;
+  return ((localhost && get_checked ("onion", 0)) ? tor_posting : net_posting);
+}
+////////////////////
+
+var get_url_modopts = function ()
+{
+  return ((localhost && get_checked ("onion", 0)) ? tor_modopts : net_modopts);
+}
+////////////////////
+
+var moderator = function ()
+{
+  window.open (url_login + "?" + get_url_modopts());
+}
+////////////////////
+
+var site_login = function (a, b)  // called by launch-8kun_login.htm
+{
+  if (a) { cookies ["moderator"] = a; cookies ["logoutid"] = b; } else
+  {
+    a = cookies ["moderator"] || ""; b = cookies ["logoutid"] || "";
+    cookies ["moderator"] = cookies ["logoutid"] = "";
+    return (a + "**" + b);
+  }
 }
 ////////////////////
 
@@ -1011,48 +1009,46 @@ var input_onblur = function (id)
 }
 ////////////////////
 
+var dns_comm = function (cmd, str)
+{
+  var m = document.getElementById ("code").value;
+  if (!localhost) alert ("The Kraker Local Proxy Server is not available.");
+    else window.open (localhost + "?" + cmd + m + "=" + str, "_blank", "");
+}
+////////////////////
+
 var dns_lookup = function ()
 {
-  if (localhost_missing()) return;
-  var name = document.getElementById ("cmd1").value;
-  window.open (localhost + "?dnslookup=" + name, "_blank", "");
+  dns_comm ("dnslookup", document.getElementById ("cmd1").value);
 }
 ////////////////////
 
 var dns_servers = function ()
 {
-  if (localhost_missing()) return;
-  var name = document.getElementById ("cmd2").value;
-  window.open (localhost + "?servers=" + name, "_blank", "");
+  dns_comm ("servers", document.getElementById ("cmd2").value);
 }
 ////////////////////
 
 var dns_activate = function ()
 {
-  if (localhost_missing()) return;
-  var name = document.getElementById ("cmd3").value;
-  window.open (localhost + "?activate=" + name, "_blank", "");
+  dns_comm ("activate", document.getElementById ("cmd3").value);
 }
 ////////////////////
 
 var dns_reload = function ()
 {
-  if (localhost_missing()) return;
-  var name = document.getElementById ("cmd4").value;
-  window.open (localhost + "?reload=" + name, "_blank", "");
+  dns_comm ("reload", document.getElementById ("cmd4").value);
 }
 ////////////////////
 
 var dns_flags = function ()
 {
-  if (localhost_missing()) return;
   var a = document.getElementById ("flg1").checked;
   var b = document.getElementById ("flg2").checked;
   var c = document.getElementById ("flg3").checked;
   var d = document.getElementById ("flg4").checked;
 
-  var n = a + (b << 1) + (c << 2) + (d << 4);
-  window.open (localhost + "?flags=" + n, "_blank", "");
+  dns_comm ("flags", a + (b << 1) + (c << 2) + (d << 4));
 }
 ////////////////////
 
@@ -1080,122 +1076,11 @@ var allow_cookie = function (source, cookie)
 }
 ////////////////////
 
-var get_captcha_url = function ()
-{
-  return (get_checked ("onion", 0) ? captcha_tor : captcha_url);
-}
-////////////////////
-
-var get_posting_url = function ()
-{
-  return (get_checked ("onion", 0) ? posting_tor : posting_url);
-}
-////////////////////
-
-var get_modlogin_url = function ()
-{
-  return (get_checked ("onion", 0) ? modlogin_tor : modlogin_url);
-}
-////////////////////
-
-var cap_pop = function (mode)
-{
-  document.getElementById ("captcha").style.display = mode ? "block" : "none";
-}
-////////////////////
-
-var cap_msg = function (mode, msg)
-{
-  var p = document.getElementById ("cap_banner");
-  var color = ["indianred", "cornflowerblue", "forestgreen", ""][mode];
-  p.innerHTML = msg; p.style.backgroundColor = color;
-}
-////////////////////
-
-const cap_image = async () =>
-{
-  var resp, data; cookie = ""; cap_msg (1, "Waiting...");
-
-  document.getElementById ("cap_answer").value = "";
-  document.getElementById ("cap_contrast").value = "2";
-  document.getElementById ("cap_image").style.filter = "contrast(2)";
-
-  try {
-    resp = await fetch (get_captcha_url(), { headers: { accept: '**' }});
-    data = await resp.text(); } catch (e) { data = ""; }
-
-  data = pullstring (data, 'src="data:', '"');
-  if (!data) { cap_msg (0, "Error"); return; }
-
-  document.getElementById ("cap_image").src = "data:" + data;
-  cap_msg (2, "Ready"); document.getElementById ("cap_answer").focus();
-
-  cookie = resp.headers.get ("zz-set-cookie") || "";
-  cookie = "tkn=" + pullstring (cookie, "tkn=", ";");
-}
-////////////////////
-
-const cap_answer = async () =>
-{
-  var resp, data; if (!cookie) return; cap_msg (1, "Sending...");
-  var p = document.getElementById ("cap_answer").value.trim();
-
-  var head = { accept: "**" + cookie, 'content-type':'application/x-www-form-urlencoded' };
-  var body = "captcha_text=" + p + "&tos_agree=on";
-
-  try {
-    resp = await fetch (get_captcha_url(), { method: 'POST', headers: head, body: body });
-    data = await resp.text(); } catch (e) { data = ""; }
-
-  if (!data.includes ("Success!")) { cap_msg (0, "Error"); return; }
-
-  cap_msg (2, "Success!"); cookies ["posting"] = cookie + ";ans=" + p;
-}
-////////////////////
-
-var cap_contrast = function (mode)
-{
-  var p = document.getElementById ("cap_contrast"), q = p.value * 1 - 1.5;
-  q += mode * 0.5; if (q < -1) q = -1; if (q > 1) q = 1; p.value = q += 1.5;
-  document.getElementById ("cap_image").style.filter = "contrast(" + q + ")";
-}
-////////////////////
-
-const cap_login = async (mode) =>
-{
-  var resp, data, key = cookies ["logoutid"], url = get_modlogin_url();
-  if (mode) { window.open (localpath + url_login + "?" + url); return; }
-
-  cap_msg (3, "Logged out"); cookies ["moderator"] = cookies ["logoutid"] = "";
-
-/*
-  cap_msg (1, "Logging out...");
-
-  if (key) try
-  {
-    data = cookies ["moderator"] || "";
-    resp = await fetch (url + "?/logout/" + key, { headers: { accept: "**" + data }});
-    data = await resp.text(); if (resp.status == 200 || resp.status == 303) key = "";
-  } catch (e) { }
-
-  if (key) cap_msg (3, "Error"); else
-  {
-    cap_msg (3, "Logged out"); cookies ["moderator"] = cookies ["logoutid"] = "";
-  }
-*/
-}
-
-var site_login = function (a, b)
-{
-  cap_msg (3, "Logged in"); cookies ["moderator"] = a; cookies ["logoutid"] = b;
-}
-////////////////////
-
 var setup_cors = function ()
 {
   cors_kraker = ""; cors_bypass = get_checked ("proxy", "");
   if (cors_bypass [0] == "!") cors_bypass = cors_kraker = cors_bypass.substr (1);
-  if (cors_bypass == "LOCAL") cors_bypass = cors_kraker = localhost || "http://localhost:8080/";
+  if (cors_bypass == "LOCAL") cors_bypass = cors_kraker = localhost || local_server;
 }
 ////////////////////
 
@@ -1249,7 +1134,8 @@ var make_title = function (title, item1, url, item2)
 var mod_tools = function (win, url)
 {
   var doc = win.document, target = doc.name.split ("/");
-  target = "https://sys.8kun.top/mod.php?/" + target [1] + "/";
+  target = sys_8kun + "mod.php?/" + target [1] + "/";
+
 /*
   var insert = "<big><w_>Moderator options for post #" + url + "</w_></big><p>" +
     "<a href='" + target + "delete/" + url + "'>Delete this post</a> -- " +
@@ -1261,7 +1147,7 @@ var mod_tools = function (win, url)
     "<a href='" + target + "ban/" + url + "'>Ban IP</a> -- " +
     "<a href='" + target + "banrange/" + url + "'>Range ban</a> -- " +
     "<a href='" + target + "edit/" + url + "'>Edit this post</a> -- " +
-    "<a href='https://sys.8kun.top/mod.php?/'>Dashboard</a>";
+    "<a href='" + sys_8kun + "mod.php?/'>Dashboard</a>";
 */
   var insert = "<big><w_>Moderator options for post #" + url + "</w_></big><p>" +
     "<a href='" + target + "ban/" + url + "'>Ban IP</a> -- " +
@@ -1269,7 +1155,7 @@ var mod_tools = function (win, url)
     "<a href='" + target + "ban&delete/" + url + "'>Ban IP + delete post</a><p>" +
     "<a href='" + target + "banrange/" + url + "'>Range ban</a> -- " +
     "<a href='" + target + "edit/" + url + "'>Edit post</a> -- " +
-    "<a href='https://sys.8kun.top/mod.php?/'>Dashboard</a>";
+    "<a href='" + sys_8kun + "mod.php?/'>Dashboard</a>";
 
   var box = doc.getElementById ("moderator"); if (box) doc.body.removeChild (box);
   box = document.createElement ("SPAN"); box.id = "moderator"; box.innerHTML = insert;
@@ -1444,10 +1330,11 @@ var getimage = function (v, multi)
     if (s.substr (-1) == "/") s = s.substr (0, s.length - 1);
 
     if (title == "BitChute") { banner = "red"; s = s.replace ("/video/", "/embed/"); }
-    if (title == "Rumble")   { banner = "red"; }
+    if (title == "Rumble")   { banner = "red"; s += "/?pub=4"; }
     if (title == "Twitter")  { banner = "red"; type = "tweet"; }
     if (title == "Vimeo")    { banner = "red"; }
     if (title == "YouTube")  { banner = "red"; }
+    if (title == "Tora3")    { s = s.replace ("/video/", "/embed/"); }
   }
   else
   {
@@ -1573,15 +1460,15 @@ var newcrumb = function (post, target, bread)
   var head = "<p class='header'># " + s + pid + "</a>  ";
   var multi = post.tim && post.extra_files && post.extra_files.length;
 
-  if ((t = post.embed_thumb) && (p = post.embed))
+  if (p = post.embed)  // v3a: embed_thumb not always present
   {
-    s = pullstring (p, 'class="', '"');
+    s = pullstring (p, 'class="', '"'); t = post.embed_thumb;
     if (s.substr (0,15) != "video-container") s = "?"; else s = s.substr (16);
 
     for (j = 0, v = ""; j < vid_embed.length; j += 2)
       if (s == vid_embed [j]) { v = vid_embed [j + 1]; break; }
 
-    if (t.includes ("media.8kun.top")) t = image_server + "unknown.png";
+    if (!t || t.includes ("media.8kun.top")) t = image_server + "unknown.png";
     if (v [0] == "!") { v = v.substr (1); t = image_server + s + ".png"; }
     if (!v) v = s; s = pullstring (p, 'href="', '"');
 
@@ -1750,8 +1637,9 @@ var fetchpost = function (win, url)
     return;
   }
 
-  if (url.includes ("twitter.com"))
+  if (url.includes ("twitter.com") || url.includes ("/x.com"))
   {
+    var m = pullstring (url, "&id=", "&"); if (m) url = m;
     if (url.includes ("?")) url = url.substr (0, url.indexOf ("?"));
     url = url.substr (url.lastIndexOf ("/") + 1);
   }
@@ -1770,7 +1658,6 @@ var fetchpost = function (win, url)
   link = localpath + url_bread + "##" + (link ? link : url);
 
   // the new window must call fetchbread()
-
   if (!win) win = window; try { win = win.open (link, "_blank"); }
     catch (e) { win = window.open (link, "_blank"); }; win.focus();
 }
@@ -2306,27 +2193,38 @@ var loadimage = function (top, e, num)
   if (name.search (".jpg|.jpeg|.png|.gif") < 0)
     img.src = "launch-8kun.ico"; else img.src = URL.createObjectURL (src);
 
-  taglist (top, "input[type=file]")[num].onchange = null;
+  box = taglist (top, "input[type=file]")[num]; box.onchange = null; box.step = src.size;
 }
+////////////////////
+
+const alienprobe = async (key, cmd, box) => { try
+{
+  var a = await fetch (localhost + "?probe=" + key + cmd);
+  var b = await a.text(); if (cmd) return;
+ 
+  b = (b + "  ").split (" "); a = (b[1] * 100) || 0; if (b = (b[2] * 1) || 0) b = a / b;
+  if (b > 0) box.style.background = "linear-gradient(90deg, palegreen " + b + "%, lemonchiffon 0%)";
+
+} catch (e) { } };
 ////////////////////
 
 const sendform = async (top, win, doc, thread) =>
 {
-  var n, p, q, box, frm, posturl = doc.name, url = posturl.split ("/");
+  var n, p, q, box, frm, key, cmd, timer, fsize = 0;
+  var resp, data, postnum, error, statusText, status = 0;
+  var posturl = doc.name, url = posturl.split ("/");
 
-  if (box = doc.getElementById ("posting"))
-  {
-    box.style.display = "block"; box.style.backgroundColor = "pink"; return;
-  }
+  if (box = doc.getElementById ("posting")) { box.style.display = "block"; return; }
   if (box = doc.getElementById ("posterror")) doc.body.removeChild (box);
-  frm = document.getElementById ("postform").cloneNode(true);
 
+  frm = document.getElementById ("postform").cloneNode(true);
   frm.appendChild (taglist (top, "textarea")[0].cloneNode(true));
   box = taglist (top, "input[type=file]");
 
   for (n = p = 0; n < box.length; n++) if ((q = box [n]).value)
   {
-    frm.appendChild (q = q.cloneNode(true)); q.name = "file" + (p++ ? p : "");
+    frm.appendChild (q = q.cloneNode(true));
+    fsize += q.step * 1; q.name = "file" + (p++ ? p : "");
   }
 
   box = taglist (top, "input[type=text]");
@@ -2340,21 +2238,30 @@ const sendform = async (top, win, doc, thread) =>
     frm [4].name = "page"; frm [4].value = "1"; frm [5].value = "New Thread";
   }
 
-  box = document.createElement ("SPAN");
-  box.onclick = function() { box.style.display = "none"; }
-  box.id = "posting"; box.innerHTML = "Submitting your post...";
-  box.classList.add ("status3"); doc.body.appendChild (box);
-
+  box = document.createElement ("SPAN"); box.classList.add ("status3");
+  box.id = "posting"; box.onclick = function() { box.style.display = "none"; }
+  box.innerHTML = "Submitting your post..."; doc.body.appendChild (box);
   if (doc.value) { box.style.position = "absolute"; postalcode (doc, "", 2); }
-  var resp, data, head, postnum, error, statusText, status = 0; setup_cors();
 
   var err_message = function (msg) { if (!win.closed)
   {
     box.id = "posterror"; box.style.display = "block";
-    box.innerHTML = msg; box.style.backgroundColor = "yellow";
+    box.innerHTML = msg; box.style.background = "yellow";
   }}
 
-  if (!cors_kraker) { err_message ("Need Kraker Proxy to post."); return; }
+  var progress_bar = function (end)
+  {
+    if (cmd == "???") return; if (end) cmd = "=!!!";
+    if (cmd) err_message ("Cancelling..."); alienprobe (key, cmd, box);
+  }
+
+  setup_cors(); if (!cors_kraker) { err_message ("Need Kraker Proxy to post."); return; }
+
+  if ((fsize -= cors_kraker == localhost ? 16000000 : 5000000) > 0)
+  {
+    fsize = (fsize / 1000000).toFixed(1) + "</r_> megabytes";
+    err_message ("Upload size exceeds limit by <r_>" + fsize); return;
+  }
 
   if (!get_checked ("moderator", 0)) q = ""; else
     if (q = cookies ["moderator"]) frm [6].value = "1"; else
@@ -2365,18 +2272,28 @@ const sendform = async (top, win, doc, thread) =>
     frm [7].value = p [0]; frm [8].value = p [1];
   }
 
-  data = new FormData (frm);
-  head = { method: 'POST', headers: { accept: "**" + q }, body: data };
+  if (cors_kraker == localhost)
+  {
+    box.innerHTML += " &nbsp; <button class='stop'>Cancel</button>";
+    box.firstElementChild.onclick = function (e) { e.stopPropagation(); progress_bar (1); }
+    timer = setInterval (function() { progress_bar (0); }, 2000);
+  }
+
+  data = new FormData (frm); key = Date.now(); cmd = "";
+  frm = { method: 'POST', headers: { accept: "**" + q }, body: data };
+  q = "**!timeout:300|!key:" + key + "|*" + get_url_posting();
 
   try {
-    resp = await fetch (cors_kraker + get_posting_url(), head);
+    resp = await fetch (cors_kraker + q, frm);
+    status = resp.status; statusText = resp.statusText;
     data = await resp.text(); } catch (e) { data = ""; }
+
+  cmd = "???"; if (timer) clearInterval (timer);
 
   if (data)
   {
     p = resp.headers.get ("zz-set-cookie") || "";
     if (p.includes ("mod=deleted")) cookies ["moderator"] = "";
-    status = resp.status; statusText = resp.statusText;
   }
 
   if (status == 200) if (postnum = pullstring (data, '"id":"', '"'))
@@ -2405,7 +2322,7 @@ const sendform = async (top, win, doc, thread) =>
     if (!status) error = "Status unknown (possible CORS block)"; else
       if (!error) error = "Status: " + status + " (" + statusText + ")";
 
-    error = error.replace (/\\//g, "/");
+    error = error.replace (/\\\//g, "/");
     error = error.replace (/\\u/g, "&#x"); err_message (error);
   }
 }
@@ -2429,7 +2346,10 @@ var playvideo = function (win, url)
     if (win != video_win) box.innerHTML = "Please wait..."; return;
   }
 
-  if ((n = url.indexOf ("?")) >= 0) { s = url.substr (n); url = url.substr (0, n); }
+  if ((n = url.indexOf ("?")) < 0) s = ""; else
+  {
+    s = url.substr (n); url = url.substr (0, n);
+  }
   if (url.substr (-1) == "/") url = url.substr (0, url.length - 1);
 
   if (url.includes (".mp3"))  src = "raw_mp3"; else
@@ -2438,7 +2358,13 @@ var playvideo = function (win, url)
   if (url.includes (".m3u8")) src = "raw_m3u8"; else
   if (url.includes (".mpd"))  src = "raw_dash"; else
     
-  if (url.includes (src = "youtube") || url.includes ("youtu.be"))
+  if (url.includes (src = "rumble"))
+  {
+    if (!url.includes ("/embed/")) url = "!" + url;
+    if ((n = url.indexOf ("-")) > 0) url = url.substr (0, n);
+    if ((n = url.indexOf ("\u2013")) > 0) url = url.substr (0, n);
+  }
+  else if (url.includes (src = "youtube") || url.includes ("youtu.be"))
   {
     if (s)
     {
@@ -2448,25 +2374,20 @@ var playvideo = function (win, url)
       if (m) url = "/" + m;
     }
   }
-  else if (url.includes (src = "rumble"))
-  {
-    if ((n = url.indexOf ("-")) > 0) url = url.substr (0, n);
-    if ((n = url.indexOf ("\u2013")) > 0) url = url.substr (0, n);
-  }
   else if (
-    !url.includes (src = "bitchute") &&
-    !url.includes (src = "twitter") &&
-    !url.includes (src = "vimeo")) src = "";
+    !url.includes (src = "twitter") && !url.includes ("/x.com") &&
+    !url.includes (src = "bitchute") && !url.includes (src = "vimeo")) src = "";
 
   if (!src) { box.innerHTML = "Invalid source."; return; }
 
-  if (src.substr (0, 4) != "raw_")
-    url = (n = url.lastIndexOf ("/")) < 0 ? "" : url.substr (n + 1);
-
-  if (url.length < 5) { box.innerHTML = "Parsing error."; return; }
+  if (src.indexOf ("raw_")) if (url [0] == "!") url = url.substr (1); else 
+  {
+    s = ""; url = (n = url.lastIndexOf ("/")) < 0 ? "" : url.substr (n + 1);
+  }
+  if (!url) { box.innerHTML = "Parsing error."; return; }
 
   video_win = win; box.innerHTML = "Waiting for Alleycat Player...";
-  say_player ("launch-8kun", get_checked ("viewer", 1) + " " + src + " " + url);
+  say_player ("launch-8kun", get_checked ("viewer", 1) + " " + src + " " + url + s);
 }
 ////////////////////
 

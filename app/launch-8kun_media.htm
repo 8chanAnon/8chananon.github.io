@@ -233,7 +233,7 @@ var start = function (cmd)
   var ref = document.getElementsByTagName ("a")[0];
 
   if (m = pullstring (link, "", "#")) link = m;
-  if (m = pullstring (link, "&id=", "&") && type == "tweet") link = m;
+  if (m = pullstring (link, "&id=", "&")) if (type == "tweet") link = m;console.log(link,m);
   if (m = pullstring (link, "", "?")) url = m; else url = link;
 
   if (url.substr (-1) == "/") url = url.substr (0, url.length - 1);
