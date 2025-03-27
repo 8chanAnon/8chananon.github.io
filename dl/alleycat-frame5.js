@@ -1,7 +1,7 @@
 // Info / Entertainment
 
 document.getElementById ("src5").innerHTML = `
-  <option value= "youtube"     class="w">YouTube / Invidious
+  <option value= "youtube" class="w">YouTube MP4 / WEBM
   <option value= "rumble"      >+ mp4 - Rumble
   <option value= "bitchute"    ># mp4 - BitChute
   <option value= "vimeo"       ># mp4 - Vimeo
@@ -149,7 +149,7 @@ if (stream_all (frame, 0)) fmt = ""; else try
 
 frame_5.req_bitchute = async (id, frame, fmt) =>
 {
-  var tag = "bitchute"; id = getid (frame, id, -12);
+  var tag = "bitchute"; id = getid (frame, id, 12, 11);
   if (!id || is_busy (frame, tag + " (ID)", 0)) return;
 
   var url = "https://www.bitchute.com/embed/" + id + "/";
@@ -267,7 +267,7 @@ if (stream_all (frame, 0)) fmt = ""; else try
 frame_5.req_dailymotion = async (id, frame, fmt) =>
 {
   var tag = "dailymotion"; id = getid (frame, id, -7);
-  if (!id || is_busy (frame, tag + " (ID)", 2)) return;
+  if (!id || is_busy (frame, tag + " (ID)", 1)) return;
 
   var url = "https://www.dailymotion.com/embed/video/" + id;
 
@@ -275,18 +275,18 @@ if (stream_all (frame, 0)) fmt = ""; else try
 {
   url = "https://www.dailymotion.com/player/metadata/video/" + id;
 
-  response = await kitty (cors_kraker + url);
+  response = await kitty (cors_bypass + url);
   jsonData = await response.json();
 
-  url = jsonData.qualities.auto[0].url; url = cors_kraker + "~*,,*" + url;
+  url = jsonData.qualities.auto[0].url; var s = cors_kraker + "~" + url;
 
-  if (stream_all (frame, 1)) fmt = 0; else
+  if (stream_all (frame, 1)) { url = s; fmt = 0; } else
   {
-    response = await kitty (url); textData = await response.text();
+    response = await kitty (s); textData = await response.text();
     [url,fmt] = crack_m3u8 (url, textData, frame, fmt);
   }
 
-  url = url.split ("#").shift();
+  url = url.split ("#")[0];
 
 } catch (err) { console.log (err); busy = 0; }
 
@@ -388,9 +388,11 @@ try
       v = encodeURIComponent (JSON.stringify (v));
       w = encodeURIComponent (JSON.stringify (w));
       u = "?variables=" + v + "&features=" + w;
-      u = cors_kraker + "~**https://x.com/i/api/graphql/NgGZ325iUTdno0iBOZRGOA/AudioSpaceById" + u;
+//      u = cors_kraker + "~**https://x.com/i/api/graphql/NgGZ325iUTdno0iBOZRGOA/AudioSpaceById" + u;
+      u = cors_kraker + "~**https://api.x.com/graphql/NgGZ325iUTdno0iBOZRGOA/AudioSpaceById" + u;
 
-      response = await kitty (u, { headers: { authorization: bb, accept: "**" + cc, 'x-csrf-token': tt }});
+    response = await kitty (u, { headers: { authorization: bb, 'x-guest-token': gg } });
+//      response = await kitty (u, { headers: { authorization: bb, accept: "**" + cc, 'x-csrf-token': tt }});
       jsonData = await response.json();
 
       if (!(u = jsonData.data.audioSpace.metadata.media_key)) throw ("!!!");
@@ -472,7 +474,7 @@ try
   url = id * 1 ? url.videoPlaybackAccessToken : url.streamPlaybackAccessToken;
   url = ".m3u8?sig=" + url.signature + "&token=" + encodeURIComponent (url.value);
   url = "https://usher.ttvnw.net/" + (id * 1 ? "vod/" : "api/channel/hls/") + id + url;
-  q = url; if (cors_local) url = cors_local + "~" + url;
+  q = url; if (cors_local) url = cors_local + "~*,,*" + url;
 
   if (stream_all (frame, 1)) fmt = 0; else
   {

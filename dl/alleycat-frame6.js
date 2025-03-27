@@ -1,7 +1,7 @@
 // News & Propaganda
 
 document.getElementById ("src6").innerHTML = `
-  <option value= "youtube"    class="w">YouTube / Invidious
+  <option value= "youtube" class="w">YouTube MP4 / WEBM
   <option value= "fox"        >+ m3u - Fox
   <option value= "abc"        >+ mp4 - ABC
   <option value= "cbs"        >? m3u - CBS
@@ -429,7 +429,7 @@ try
   textData = await response.text();
 
   url = pullstring (textData, 'data-video="', '"');
-  if (!url) url = pullstring (textData, '"videoId":"', '"');
+//  if (!url) url = pullstring (textData, '"videoId":"', '"');
   if (!url) url = pullstring (textData, '/video/itemfeed?id=', '"');
   if (!url) url = pullstring (textData, 'playlist":[{"id":"', '"');
 

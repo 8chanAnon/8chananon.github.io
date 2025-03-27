@@ -76,7 +76,7 @@ Sites accessible with a Brightcove DIG:<br>
 <td><a target=_blank href="https://www.brighteon.com">www.brighteon.com</a></td>
 <td><a target=_blank href="https://www.naturalnews.com">www.naturalnews.com</a></td></tr>
 
-<tr><td>DailyMotion	</td><td>m3u8		</td><td>&nbsp;#</td><td>KRAK</td><td>$</td>
+<tr><td>DailyMotion	</td><td>m3u8		</td><td>&nbsp;#</td><td>KRKR</td><td>$</td>
 <td><a target=_blank href="https://www.dailymotion.com">www.dailymotion.com</a></td></tr>
 
 <tr><td>153News		</td><td>mp4		</td><td>&nbsp;#</td><td>Proxy</td><td></td>
@@ -199,7 +199,7 @@ KRKR = accessible with the Kraker Remote Proxy (may have limitations)
 
 <table class="list" style="padding:2px 0">
 
-<tr><td>Tubi		</td><td>m3u8		</td><td>&nbsp;+</td><td>Proxy</td><td></td>
+<tr><td>Tubi		</td><td>m3u8		</td><td>&nbsp;#</td><td>Proxy</td><td></td>
 <td><a target=_blank href="https://tubitv.com">tubitv.com</a></td></tr>
 
 <tr><td>The Archive	</td><td>m3u8		</td><td>&nbsp;+</td><td>No Proxy</td><td></td>
@@ -208,23 +208,33 @@ KRKR = accessible with the Kraker Remote Proxy (may have limitations)
 <tr><td>Dark Matter	</td><td>m3u8		</td><td>&nbsp;?</td><td>KRKR</td><td></td>
 <td><a target=_blank href="https://www.darkmattertv.com">www.darkmattertv.com</a></td></tr>
 
-<tr><td>PlayTaku	</td><td>m3u8/mp4	</td><td>&nbsp;+</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://playtaku.net">playtaku.net</a> !</td><tr>
+<tr><td>Plex		</td><td>m3u8/mpd	</td><td>&nbsp;+</td><td>Proxy</td><td></td>
+<td><a target=_blank href="https://watch.plex.tv/on-demand">watch.plex.tv/on-demand</a></td></tr>
 
-<tr><td>EMovies		</td><td>m3u8		</td><td>&nbsp;+</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://emovies.si">emovies.si</a> !</td><tr>
+<tr><td>Fawesome	</td><td>m3u8		</td><td>&nbsp;#</td><td>Proxy</td><td></td>
+<td><a target=_blank href="https://fawesome.tv/home">fawesome.tv/home</a></td></tr>
 
-<tr><td>GOKU		</td><td>m3u8		</td><td>&nbsp;+</td><td>KRAK</td><td></td>
-<td><a target=_blank href="http://goku.sx">goku.sx !</a></td><tr>
+<tr><td>Filmzie		</td><td>m3u8		</td><td>&nbsp;#</td><td>Proxy</td><td></td>
+<td><a target=_blank href="https://filmzie.com">filmzie.com</a></td></tr>
+
+<tr><td>Bilibili	</td><td>mpd		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
+<td><a target=_blank href="https://www.bilibili.tv">www.bilibili.tv</a></td></tr>
+
+<tr><td>CatFlix		</td><td>m3u8		</td><td>&nbsp;+</td><td>KRAK</td><td></td>
+<td><a target=_blank href="https://catflix.su">catflix.su</a></td><tr>
 
 <tr><td>Goojara		</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://www.goojara.to">www.goojara.to</a></td><tr>
+<td><a target=_blank href="https://ww1.goojara.to">ww1.goojara.to</a></td><tr>
 
-<tr><td>Noxx		</td><td>mp4		</td><td>&nbsp;?</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://noxx.to">noxx.to</a> !</td><tr>
+<tr><td>LookMovie	</td><td>m3u		</td><td>&nbsp;?</td><td>KRAK</td><td></td>
+<td><a target=_blank href="https://www.lookmovie2.to">www.lookmovie2.to</a></td><tr>
 
-<tr><td>PressPlay	</td><td>m3u8		</td><td>&nbsp;?</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://pressplay.top">pressplay.top</a> !</td><tr>
+<tr><td>StreamFlix	</td><td>m3u8		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
+<td><a target=_blank href="https://watch.streamflix.one">watch.streamflix.one</a></td><tr>
+
+<tr><td>PlayTaku	</td><td>m3u8/mp4	</td><td>&nbsp;+</td><td>KRAK</td><td></td>
+<td><a target=_blank href="https://s3embtaku.pro">s3embtaku.pro</a> !</td>
+<td><a target=_blank href="https://playtaku.net">playtaku.net</a> !</td><tr>
 
 <tr><td>XHamster	</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td>$</td>
 <td><a target=_blank href="https://xhamster.com">xhamster.com</a></td></tr>
@@ -243,8 +253,11 @@ KRKR = accessible with the Kraker Remote Proxy (may have limitations)
 <tr><td>EplayVid	</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td>$</td>
 <td>no site link</td></tr>
 
-<tr><td>MixDrop		</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td>$</td>
+<tr><td>MixDrop		</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
 <td><a target=_blank href="https://mixdrop.ag">mixdrop.ag</a></td><tr>
+
+<tr><td>MoviesAPI	</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
+<td><a target=_blank href="https://moviesapi.club">moviesapi.club</a></td><tr>
 
 <tr><td>PkSpeed		</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td>$</td>
 <td><a target=_blank href="https://pkspeed.net">pkspeed.net</a></td><tr>
@@ -252,8 +265,14 @@ KRKR = accessible with the Kraker Remote Proxy (may have limitations)
 <tr><td>StreamTape	</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
 <td><a target=_blank href="https://streamtape.com">streamtape.com</a></td><tr>
 
+<tr><td>TurboVid	</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
+<td><a target=_blank href="https://turbovid.eu">turbovid.eu</a></td><tr>
+
 <tr><td>UpStream	</td><td>m3u8/mp4	</td><td>&nbsp;#</td><td>KRAK</td><td>$</td>
 <td><a target=_blank href="https://upstream.to">upstream.to</a></td><tr>
+
+<tr><td>VidSrc		</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
+<td><a target=_blank href="https://vidsrc.net">vidsrc.net</a></td><tr>
 
 <tr><td>VTube		</td><td>m3u		</td><td>&nbsp;#</td><td>Proxy</td><td>$</td>
 <td><a target=_blank href="https://vtube.network">vtube.network</a></td></tr>
@@ -467,16 +486,18 @@ var request = async (id, frame, fmt) =>
     if (is_busy (frame, "youtube")) return;
     id = "https://www.youtube.com/embed/live_stream?channel=" + id.substr (1);
     response = await kitty (cors_bypass + id); textData = await response.text();
-    busy = 0; id = pullstring (textData, '<link rel="canonical" href="', '"');
+    id = pullstring (textData, '<link rel="canonical" href="', '"');
+    busy = -busy; no_fail (frame);
   }
   catch (err) { console.log (err); busy = 0; no_fail (frame); return; }
 
-  id = getid (frame, id, 11); if (!id) return;
+  var s = id.split ("?"), t = pullstring ("&" + s[1] + "&", "&v=", "&");
+  id = t || s[0]; id = getid (frame, id, 11); if (!id) return;
 
-  if (stream_all (frame, 0))
+  if (stream_all (frame, 0)) if (is_busy (frame, "youtube")) return; else
   {
     var url = "https://www.youtube.com/embed/" + id;
-    loadwindow (url, frame, "youtube", id); return;
+    no_fail (frame); loadwindow (url, frame, "youtube", id); return;
   }
 
   var src = document.getElementById ("ytx" + frame).value;
@@ -545,75 +566,88 @@ https://www.youtube.com/iframe_api
 
 t.context = { client: { gl: 'US', hl: 'en', clientName: 'WEB', clientVersion: '2.20230426.02.00' }};
 t.context = { client: { gl: 'US', hl: 'en', clientName: 'ANDROID_EMBEDDED_PLAYER', clientVersion: '16.02' }};
-t.context = { client: { gl: 'US', hl: 'en', clientName: 'WEB_EMBEDDED_PLAYER', clientVersion: '1.20240708.01.00' }};
+t.context = { client: { gl: 'US', hl: 'en', clientName: 'WEB_EMBEDDED_PLAYER', clientVersion: '1.20241009.01.00' }};
 t.context = { client: { gl: 'US', hl: 'en', clientName: 'TVHTML5_SIMPLY_EMBEDDED_PLAYER', clientVersion: '2.0' }};
 t.playbackContext = { contentPlaybackContext: { signatureTimestamp: "sts", html5Preference: "HTML5_PREF_WANTS" }};
 t.context.thirdParty = { embedUrl: 'https://www.youtube.com' };
 */
 
 // https://www.youtube.com/watch?v=VaSV4NtZCXU - mp4 video with webm audio
+// yt-dlp --proxy http://127.0.0.1:8084 --no-check-certificates --simulate https://www.youtube.com/embed/74VHwppfHuI
+// https://raw.githubusercontent.com/bashonly/yt-dlp/refs/heads/master/yt_dlp/extractor/youtube/_video.py
 
 const request_youtube = async (id, frame, fmt) =>
 {
-  var tag = "youtube"; if (is_busy (frame, tag + " (ID)")) return;
-  var i, j, n, r, s, t, u, url, sub, vid, aud, key, sig, nkey, base;
-  var webm, dash, f = [0,0,0,0,0,0,0,0,0,0];
-
-  if (!cors_local && fmt < 0) fmt = -fmt;
-
-  var ua1 = cors_bypass + (cors_kraker ? "user-agent=|*" : "");
-  var ua2 = ua1.replace ("|*", "!Mozilla/5.0 (Android 14)|*");
+  var tag = "youtube"; if (is_busy (frame, tag + " (ID)", 2)) return;
+  var i, j, n, r, s, t, u, url, sub, vid, aud, key, nkey, base, dash;
+  var f = [0,0,0,0,0,0,0,0,0,0], ua = cors_kraker + "user-agent=|*";
 
 try
 {
-  response = await kitty (ua1 + "https://www.youtube.com/embed/" + id);
+  response = await kitty (ua + "https://www.youtube.com/embed/" + id);
   textData = await response.text();
+
+  s = pullstring (textData, '"visitorData":"', '"');
+  ua = ua.replace ("|*", "|x-goog-visitor-id=" + s + "|*");
 
   base = pullstring (textData, '"jsUrl":"', '"'); if (!base) throw ("!!!");
   key = cookies [base]; nkey = cookies ["!" + base]; n = cookies ["?" + base];
 
   if (!key || !nkey || !n)
   {
-    response = await kitty (ua1 + "https://www.youtube.com" + base);
+    response = await kitty (ua + "https://www.youtube.com" + base);
     textData = await response.text();
 
-    i = textData.indexOf ('.slice(0,0))'); if (i < 0) throw ("???");
+    i = textData.indexOf ("timedtext_video"); j = textData.lastIndexOf ("split", i);
+    r = textData.substring (j, i); s = pullstring (r, "(", "["); if (!s) throw ("aaa");
+
+    s = "var " + s + '='; i = textData.indexOf (s); t = textData [i + s.length];
+    j = textData.indexOf (t == "[" ? '"],' : '"),'); if (i < 0 || j < 0) throw ("bbb");
+//throw(textData.substring (i, j + 2));
+    u = ";\n" + textData.substring (i, j + 2) + ";\nvar nsig=";
+
+    i = textData.indexOf ('.slice(0,0))'); if (i < 0) throw ("ccc");
+    i = textData.lastIndexOf ("func", i); j = textData.indexOf ('.join(', i);
+    t = textData.substring (i, j); s = "var " + pullstring (t, "typeof ", "==");
+    nkey = s + pullstring (textData, s, ";") + u + t + ".join('')}; sig=nsig(sig);";
+console.log(nkey);
+
+    r = pullstring (r, ";", "return"); s = "var " + pullstring (r, "", ".") + "={";
+    t = pullstring (textData, s, "};"); u = pullstring (r, "(", ","); if (!t) throw ("ddd");
+    key = s + t + "}; var " + u + "=sig.split('');\n" + r + "sig=" + u + ".join('');";
+
+/*
+obsoleted March 2025
+    i = textData.indexOf ('.slice(0,0))'); if (i < 0) throw ("a???");
     i = textData.lastIndexOf ("func", i); j = textData.indexOf ('.join("")};', i);
     t = textData.substring (i, j + 11); s = "var " + pullstring (t, "typeof ", "==");
     s = s + pullstring (textData, s, ";"); nkey = s + "; var nsig=" + t + " sig=nsig(sig);";
 
     r = pullstring (textData, '.split("");', 'return'); s = "var " + pullstring (r, "", ".") + "={";
-    t = pullstring (textData, s, "};"); u = pullstring (r, "(", ","); if (!t) throw ("???");
+    t = pullstring (textData, s, "};"); u = pullstring (r, "(", ","); if (!t) throw ("b???");
     key = s + t + "}; var " + u + "=sig.split('');\n" + r + "sig=" + u + ".join('');";
+*/
 
     cookies [base] = key; cookies ["!" + base] = nkey;
     n = pullstring (textData, "signatureTimestamp:", "}") * 1;
     if (n) cookies ["?" + base] = n; else n = Math.trunc (Date.now() / 86400000) - 1;
   }
 
-  t = JSON.stringify ({
+  t = {
     videoId: id, playbackContext: { contentPlaybackContext: { signatureTimestamp: n }},
     context: { client: { gl: 'US', hl: 'en', clientName: 'WEB_EMBEDDED_PLAYER', clientVersion: '1.20241009.01.00' }}
-  });
-
-  try
-  {
-    url = ua1 + "https://www.youtube.com/youtubei/v1/player";
-    response = await kitty (url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: t });
-    jsonData = await response.json();
   }
-  catch { jsonData = {}; }
+  url = ua + "https://www.youtube.com/youtubei/v1/player"; s = { 'content-type': 'application/json' }
+
+  response = await kitty (url, { method: 'POST', headers: s, body: JSON.stringify (t) });
+  jsonData = await response.json();
 
   if (!(sub = jsonData.streamingData))
   {
-    response = await kitty (ua2 + "https://m.youtube.com/watch?v=" + id);
-    textData = await response.text();
+    t.context.client.clientName = 'TVHTML5'; t.context.client.clientVersion = '7.20241201.18.00';
 
-    s = pullstring (textData, '"formats":[', ']');
-    t = pullstring (textData, '"adaptiveFormats":[', ']');
-
-    sub = JSON.parse ('{"formats":[' + s + '],"adaptiveFormats":[' + t + ']}');
-    //s = pullstring (textData, '"PLAYER_JS_URL":"', '"'); console.log(base); console.log(s);
+    response = await fetch (url, { method: 'POST', headers: s, body: JSON.stringify (t) });
+    jsonData = await response.json(); if (!(sub = jsonData.streamingData)) throw ("!!!");
   }
 
   if (fmt < 0 && (fmt = -fmt) && (t = sub.adaptiveFormats))
@@ -633,16 +667,14 @@ try
   fmt = getformat (f, fmt); fixformat (f, frame); i = argformat (fmt);
   if (i < 0 || (j = f[i] - 1) < 0) throw ("!!!"); fmt = pixformat (i);
 
-  webm = i > 3; if (dash) aud = yt_split (t [f [webm + 8] - 1]);
-  vid = yt_split (t [j]); url = vid [0]; sig = vid [1]; if (!url) throw ("!!!");
+  vid = yt_split (t [j]); url = yt_sign (vid [0], vid [1], key, nkey);
 
-  url = yt_nsig (url, nkey); if (sig && key) { eval (key); url += "&sig=" + sig; }
-
-  if (dash) if (!(sub = yt_nsig (aud [0], nkey))) throw ("!!!"); else
+  if (!url) throw ("!!!"); else if (dash)
   {
+    var webm = i > 3; aud = yt_split (t [f [webm + 8] - 1]);
     var v = aud [3] + "," + vid [3], w = "wanna_boot_dash";
 
-    if (key && (sig = aud [1])) { eval (key); sub += "&sig=" + sig; }
+    sub = yt_sign (aud [0], aud [1], key, nkey); if (!sub) throw ("!!!");
 
     download = "YouTube DASH download links (" + id + ") -- " +
       "<a href='" + sub + "'>Audio</a> &nbsp;" +
@@ -650,10 +682,10 @@ try
 
     if (!(s = vid [2]))  // livestream
     {
-      v = "x-head-seqnum"; w = "x-head-time-sec";
-      s = "~range=bytes=0-499|" + v + "|" + w + "|*";
+      v = "x-head-seqnum"; w = "x-head-time-sec"; s = "~" + v + "|" + w + "|*";
 
-      response = await kitty (cors_kraker + s + url);
+      response = await kitty (cors_kraker + s + url, { method: 'HEAD' });
+
       v = response.headers.get (v); if (!v) throw ("!!!");
       w = response.headers.get (w); if (!w) throw ("!!!");
 
@@ -666,6 +698,11 @@ try
 
       v = seg_num + "," + seg_ofs + "," + seg_dur + ",";
       w = "wanna_boot_dash_live"; s = "";
+    }
+    else
+    {
+      response = await kitty (cors_kraker + "~" + url, { method: 'HEAD' });
+      if (response.status != 200) throw ("???");
     }
 
     aud = aud [4] || (webm ? "opus" : "mp4a.40.2");
@@ -704,11 +741,11 @@ const yt_split = function (data)
 }
 ////////////////////
 
-const yt_nsig = function (url, nkey)
+var yt_sign = function (url, sig, key, nkey)
 {
-  var sig = pullstring (url, "&n=", "&"); if (!nkey || !sig) return url;
-  var s = "&n=" + sig + "&"; eval (nkey); sig = "&n=" + sig + "&";
-  return (url.replace (s, sig));
+  if (url && sig && key) { eval (key); url += "&sig=" + sig; }
+  sig = pullstring (url, "&n=", "&"); if (!nkey || !sig) return url;
+  key = "&n=" + sig; eval (nkey); return (url.replace (key, "&n=" + sig));
 }
 ////////////////////
 

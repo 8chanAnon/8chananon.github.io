@@ -67,7 +67,7 @@ iframe {
 }
 
 .ranger button {
-  line-height: 17px; padding: 1px 4px 1px 3px;
+  line-height: 16px; padding: 2px 4px 1px 3px;
   font-size: 13px; color: maroon; background-color: peachpuff;
   border-color: #f0f0f0 #b4b4b4 #b0b0b0 #f4f4f4;
 }
@@ -79,16 +79,16 @@ iframe {
 input[type=text] {
   height: 17px; padding: 3px 5px 1px; margin: 0; outline: none;
   font-size: 13px; font-family: 'helvetica', sans-serif; caret-color: navy;
-  border: 2px solid; border-color: tan lemonchiffon lemonchiffon burlywood;
+  border: 2px solid; border-color: burlywood lemonchiffon lemonchiffon burlywood;
 }
 
 input[type=radio] {
-  vertical-align: bottom; margin: 0 1px 2px 0; outline: none;
+  vertical-align: bottom; margin: 0 0 2px 0; outline: none;
   filter: contrast(1.0) brightness(1.2) opacity(90%);
 }
 
 input[type=checkbox] {
-  vertical-align: bottom; margin: 0 2px 2px 0; outline: none;
+  vertical-align: bottom; margin: 0 1px 2px 0; outline: none;
   filter: contrast(1.0) brightness(1.2) opacity(90%);
 }
 
@@ -98,7 +98,7 @@ input.idspec {
 }
 
 input.urlspec {
-  width: 60%; padding: 4px 6px 3px; margin: -2px 2px 1px;
+  width: 60%; padding: 4px 6px 3px; margin: -2px 3px 1px 2px;
   color: slateblue; background-color: oldlace;
 }
 
@@ -207,7 +207,7 @@ table.radio {
 }
 
 .radio input {
-  height: 17px; margin: 2px 5px -2px -1px;
+  height: 17px; margin: 2px 4px -2px -1px;
 }
 
 .radio a {
@@ -264,7 +264,7 @@ button.is_on {
 
 button.wrapper, button.wrapper:hover:active {
   width: 56px; height: 18px; font-size: 13px; line-height: 17px;
-  margin: 0 3px 0 0; padding: 0; border: 1px solid pink;
+  margin: 0 3px 0 1px; padding: 0; border: 1px solid pink;
   color: red; background-color: papayawhip;
 }
 
@@ -371,8 +371,8 @@ z_ { color: royalblue; }
 <big><r_>This video site is protected by a bot challenge.</r_></big><br>
 If you click the OK button, you will be sent to a new tab to handle this.<br>
 You may have to do this more than once since the cookie can expire.<p></p>
-<button onclick="javascript:cookiecutter (1)">OK</button> &nbsp;
-<button onclick="javascript:cookiecutter (0)">Cancel</button>
+<button onclick="javascript:cookiecutter(1)">OK</button> &nbsp;
+<button onclick="javascript:cookiecutter(0)">Cancel</button>
 </span>
 
 <h1><g_>A</g_><r_>ll</r_><g_>ey</g_><r_>cat</r_> <g_>Pl</g_><r_>ay</r_><g_>er</g_> <r_>v6a</r_></h1>
@@ -441,10 +441,10 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 <div class="dropbox dropbox0"><input type=text disabled><button>+</button>
 <div id="ytx5" class="dropdown dropdown0">
-  <option value="1" class="w">youtube.com
-  <option value="9" class="w" checked>YouTube DASH
+  <option value="1" class="r">YouTube MP4
+  <option value="9" class="b" checked>YouTube DASH
 
-</div></div> &nbsp; &nbsp;&nbsp;
+</div></div> &nbsp; &nbsp;
 
 <span class="ranger">
 <button onclick="javascript:brightness(5,1)">&lt;</button>
@@ -554,10 +554,10 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 <div class="dropbox dropbox0"><input type=text disabled><button>+</button>
 <div id="ytx6" class="dropdown dropdown0">
-  <option value="1" class="w">youtube.com
-  <option value="9" class="w" checked>YouTube DASH
+  <option value="1" class="r">YouTube MP4
+  <option value="9" class="b" checked>YouTube DASH
 
-</div></div> &nbsp; &nbsp;&nbsp;
+</div></div> &nbsp; &nbsp;
 
 <span class="ranger">
 <button onclick="javascript:brightness(6,1)">&lt;</button>
@@ -666,10 +666,10 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 <div class="dropbox dropbox0"><input type=text disabled><button>+</button>
 <div id="ytx7" class="dropdown dropdown0">
-  <option value="1" class="w">youtube.com
-  <option value="9" class="w" checked>YouTube DASH
+  <option value="1" class="r">YouTube MP4
+  <option value="9" class="b" checked>YouTube DASH
 
-</div></div> &nbsp; &nbsp;&nbsp;
+</div></div> &nbsp; &nbsp;
 
 <span class="ranger">
 <button onclick="javascript:brightness(7,1)">&lt;</button>
@@ -887,7 +887,7 @@ var msg_worker = function (id, msg)
   if (busy || !get_time()) { say_worker (id, "retry"); return; }
 
   client = id; msg = msg.split (" "); var frm = msg [0] * 1;
-  if (isNaN (frm) || frm < 1 || frm > 3) frm = 3;
+  if (isNaN (frm) || frm < 1 || frm > 3) msg = "";
   var src = msg [1]; id = msg [2];
 
   if (!id || !src) { say_worker (client, "error"); client = ""; return; }
@@ -908,7 +908,7 @@ var msg_worker = function (id, msg)
 
   if (id [0] == "?") { id = id.substr (1); msg = open_stream; } else
   {
-    msg = (id.includes ("/") ? "dig_" : "req_") + src;
+    msg = (id.includes ("://") ? "dig_" : "req_") + src;
     msg = frame_5 [msg] || frame_6 [msg] || frame_7 [msg];
   }
 
@@ -1259,10 +1259,15 @@ var poke_site = function (frame, value)
 
 var is_busy = function (frame, msg, cors)
 {
-  if (busy) return true; busy = 1;
-  cors = (cors == 1 && !cors_kraker) || (cors == 2 && !cors_local);
-  if (!cors) cors = "Busy"; else { msg = busy = 0; cors = "KRAK"; }
+  if (busy) return true; busy = cors; cors = "";
+  if (busy == 1 && !cors_kraker) cors = "KRKR";
+  if (busy == 2 && !cors_local ) cors = "KRAK";
 
+  if (busy = !cors) cors = "Busy"; else
+  {
+    if (client) say_worker (client, "error");
+    last_client = client = msg = "";
+  }
   if (msg) document.getElementById ("id" + frame).value = msg;
   document.getElementById ("vid" + frame).innerHTML = cors;
   fixformat ("", frame); return (!busy);
@@ -1274,8 +1279,8 @@ var no_fail = function (frame, err, msg)
   if (busy) poke_hls (frame, busy); else
   {
     fixformat ("", frame); if (err) msg = "err: " + err;
-    if (msg) document.getElementById ("id" + frame).value = msg;
     document.getElementById ("vid" + frame).innerHTML = "Error";
+    if (msg) document.getElementById ("id" + frame).value = msg;
   }
   if (client && busy >= 0)
   {
@@ -1289,7 +1294,7 @@ var no_fail = function (frame, err, msg)
 var stream_all = function (frame, type)
 {
   frame = document.getElementById ("mov" + frame + (type ? "f" : "c")).checked;
-  if (type && busy) busy = type + 1; return (type ? !frame : frame);
+  if (type && busy) busy = type + 1; return (type ? (type == 2 || !frame) : frame);
 }
 ////////////////////
 
@@ -1317,7 +1322,8 @@ var allow_cookie = function (source, cookie)
 {
   if (!cors_kraker) return ({});
   if (source) if (cookie) cookies [source] = cookie; else cookie = cookies [source];
-  if (!cookie) cookie = "null"; return ({ headers: { accept: '**' + cookie } });
+  if (!cookie) cookie = "null"; if (cookie.indexOf ("**")) cookie = "**" + cookie;
+  return ({ headers: { accept: cookie } });
 }
 ////////////////////
 
@@ -1910,7 +1916,6 @@ var play_hls = async (frame, url, doc, win, fmt, js) =>
   vid.on (Hls.Events.ERROR, function (event,data) { vid_oops (frame, win, data.fatal); });
 
   vid.on (Hls.Events.MANIFEST_LOADED, function (event,data)
-//    { vid.loadLevel = hls_quality (vid.levels, fmt); vid.startLoad(); });
     { vid.loadLevel = hls_quality (vid.levels, fmt); vid.startLoad(); });
 
   vid.on (Hls.Events.BUFFER_CODECS, function (event,data) {
@@ -2120,20 +2125,12 @@ var formats_list = function (levels)
 
 var merge_url = function (path1, path2)
 {
-  var url = "", sub, str, i, j, k;
+  var sub, str, m, n; if (!path2.indexOf ("http")) return "";
 
-  if (path2.indexOf ("http") == 0) return "";
+  sub = path1.split ("?")[0].split ("/"); str = path2.split ("/");
+  n = str [0] ? 1 : str.length; if ((m = sub.length - n) < 3) m = 3;
 
-  if ((k = path1.indexOf ("?")) < 0) k = path1.length;
-  sub = path1.substr (0, k).split ("/"); str = path2.split ("/");
-
-  if (str[0] == "") k = str.length; else k = 1;
-  j = sub.length - k; if (j < 3) j = 3;
-
-  for (i = 0; i < j; i++) url = url + sub [i] + "/";
-  if (k > 1) url = url.substr (0, url.length - 1);
-
-  return url;
+  str = sub.slice (0, m).join ("/"); return (n > 1 ? str : str + "/");
 }
 ////////////////////
 
@@ -2164,7 +2161,7 @@ var make_downloader = function (url, aud, vid)
 
 var download_m3u8 = async (doc, aud, vid) =>
 {
-  var i, j, k, m, p, q, resp, data, str, url, header;
+  var i, j, k, m, p, q, resp, data, str, url, header, range;
   var src, sub, name, key, iv, count, total, errors, msg = "DONE";
   var crypt_error = "AES decryption error";
 
@@ -2199,33 +2196,35 @@ for (i = 0; i < 2; i++) try
     if (!m.indexOf ("#EXT-X-ENDLIST")) break; sub [k++] = m;
     if (!m.indexOf ("#EXT-X-BYTERANGE:") || !m.indexOf ("#EXT-X-KEY:")) continue;
     if (m [0] == "#") k--; else total++; if (m.indexOf ("#EXT-X-MAP:")) continue;
-    m = pullstring (m, 'URI="', '"'); if (m) { sub [k++] = m; total++; }
+
+    p = pullstring (m, 'URI="', '"'); q = pullstring (m, 'BYTERANGE="', '"');
+    if (!p) continue; if (q) sub [k++] = "#EXT-X-BYTERANGE:" + q; sub [k++] = p; total++;
   }
 
-  sub.splice (k); header = {}; count = errors = 0;
+  sub.splice (k); header = {}; count = errors = range = 0;
 
   for (j = 0; j < sub.length; j++) if ((str = sub [j])[0] == "#")
   {
     if (!str.indexOf ("#EXT-X-KEY"))
     {
       m = pullstring (str, "METHOD=", ""); m = (m + ",,").split (",");
-      iv = pullstring (m [1], '"', '"'); data = merge_url (src, iv) + iv;
+      iv = pullstring (m[1], '"', '"'); data = merge_url (src, iv) + iv;
 
-      if (!iv || m [0] == "NONE") key = ""; else
+      if (m[0] == "NONE") key = ""; else
       {
         try { resp = await fetch (data);
               data = await resp.arrayBuffer(); } catch { data = ""; }
   
-        if (!got_crypto() || m [0] != "AES-128" || !data) throw (crypt_error);
-        iv = pullstring (m [2], "=0x", "") || "00000000000000000000000000000000";
+        if (m[0] != "AES-128" || !got_crypto() || !data) throw (crypt_error);
+        iv = pullstring (m[2], "=0x", "") || "00000000000000000000000000000000";
         iv = CryptoJS.enc.Hex.parse (iv); key = CryptoJS.lib.WordArray.create (data);
       }
     }
 
     if (!str.indexOf ("#EXT-X-BYTERANGE"))
     {
-      p = (str.substr (17) + "@").split ("@");
-      q = p [0] * 1 + p [1] * 1 - 1; q = p [1] + "-" + q;
+      m = str.substr (17).split ("@"); q = m[0] * 1; if (!q) continue;
+      p = m[1] * 1 || range; range = q += p; q = p + "-" + (q - 1);
       header = { headers: { range: "bytes=" + q }};
     }
   }
@@ -2781,7 +2780,7 @@ var vid_resize = function (vid)
   h = fs ? 9 : Math.round (h * 10 / screen.height) - 2;
   if (h < 5) h = 4; ctr.checked = 45 + h; ctr.style.paddingBottom = h + "px";
  
-  if (w > 960) { h = w / 960; w = 960; } else h = 1;
+  if (w > 1024) { h = w / 1024; w = 1024; } else h = 1;
   ctr.step = fs ? -h : h; ctr.style.transform = "scale(" + h + ")";
   ctr.style.transformOrigin = "bottom center";
 

@@ -1,60 +1,8 @@
 console.log (window);
 
-var invidious_site = [
-  "https://invidious.nerdvpn.de",
-  "", "", "", "", "", "", "", "", "",
-  "https://invidious.ethibox.fr",
-  "https://invidious.nerdvpn.de",
-  "https://yewtu.be",
-  "https://invidious.private.coffee",
-  "https://invidious.privacyredirect.com",
-  "https://iv.datura.network",
-  "https://invidious.jing.rocks",
-  "https://invidious.reallyaweso.me",
-  "https://inv.tux.pizza"
-];
-
-var invidious_link = invidious_site [0];
-
-document.getElementById ("ytx5").innerHTML =
-document.getElementById ("ytx6").innerHTML =
-document.getElementById ("ytx7").innerHTML = `
-  <option value= 1  class="w">youtube.com
-  <option value= 10>invidious.ethibox.fr (fr)
-  <option value= 11>invidious.nerdvpn.de (de)
-  <option value= 12 class="r">yewtu.be (nl)
-  <option value= 13>https://invidious.private.coffee (at)
-  <option value= 14>https://invidious.privacyredirect.com (fi)
-  <option value= 15 class="r">https://iv.datura.network (fi)
-  <option value= 16 class="b">https://invidious.jing.rocks (jp)
-  <option value= 17>https://invidious.reallyaweso.me (de)
-  <option value= 18>https://inv.tux.pizza (us)
-  <option value= 9  class="w" checked>YouTube DASH
-`;
-
 document.getElementById ("src7").innerHTML += `
-  <option value= "9vids"    >? mp4 - 9vids
   <option value= "goodporn" >? mp4 - GoodPorn
 `;
-
-frame_7.dig_9vids = async (url, frame, fmt) =>
-{
-  var tag = "9vids"; if (is_busy (frame, tag + " (DIG)", 0)) return;
-
-try
-{
-  response = await kitty (cors_bypass + url);
-  textData = await response.text();
-
-  url = pullstring (textData, "<iframe src=", ">"); url = pullstring (url, '=', '"');
-  url = decodeURIComponent (atob (url)); url = pullstring (url, 'src="', '"');
-  if (url.substr (0,4) != "http") throw ("!!!");
-
-} catch (err) { console.log (err); busy = 0; }
-
-  if (no_fail (frame)) loadwindow (url, frame, tag, "?");
-}
-////////////////////
 
 frame_7.dig_goodporn = async (url, frame, fmt) =>
 {
@@ -93,6 +41,34 @@ try
   response = await kitty (cors_kraker + "**!mock:1A|*" + url);
   textData = await response.text();
 
+  if (!(url = pullstring (textData, '<source src="', '"')))
+  {
+    url = pullstring (textData, "<iframe src=", ">"); url = pullstring (url, '=', '"');
+    try { url = decodeURIComponent (atob (url)) } catch {}; url = pullstring (url, 'src="', '"');
+  }
+
+  if (url.substr (0,4) == "http") if (url.includes (".m3u8"))  // www.pornflip.com
+  {
+    url = url.replace (/\&amp;/g, "&");
+    if (stream_all (frame, 1)) fmt = 0; else
+    {
+      response = await kitty (url); textData = await response.text();
+      [url,fmt] = crack_m3u8 (response.url, textData, frame, fmt);
+    }
+    if (no_fail (frame)) loadwindow (url, frame, tag, "?", fmt); return;
+  }
+  else if (url.includes (".mp4"))
+  {
+    no_fail (frame); loadwindow (url, frame, tag, "?"); return;
+  }
+
+  if ((url = pullstring (textData, "<iframe", ">")) && (url = pullstring (url, 'data-src="http', '"')))
+  {
+    response = await kitty (cors_kraker + "http" + url); url = await response.text();
+    if (!(url = pullstring (url, "videoFile = '", "'"))) throw ("!!!");
+    no_fail (frame); loadwindow (url, frame, tag, "?"); return;
+  }
+
   r = response.url; r = r.substr (r.indexOf ("|*") + 2).split ("/").slice (0,3).join ("/");
   s = pullstring (textData, "kt_player('", ")"); s = s.split (", ")[4] || "flashvars";
   s = pullstring (textData, "var " + s + " = ", "embed:"); if (!s) throw ("!!!");
@@ -118,7 +94,6 @@ try
 
   fmt = argformat (getformat (f, fmt)); if (fmt < 0) throw ("!!!");
   url = u [fmt]; fmt = pixformat (fmt); fixformat (f, frame);
-//  url = cors_kraker + "~!mock:1A|*" + url;
 
 } catch (err) { console.log (err); busy = 0; }
 

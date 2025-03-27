@@ -97,9 +97,9 @@ WZUP WRLD			http://usa17.fastcast4u.com/proxy/nczrhanc?mp=/1
 --
 --
 --
-<g_>Danheim: <i>Mannavegr</i></g_>	8tilKaOINmE
-<g_>Audiomachine: <i>Decimus</i></g_>	RM_J5cFy70M
-<g_>Classic Rock - Greatest Hits</g_>	G4tx9WDGp6c
+--
+--
+--
 
 Radio El Dorado			http://el-dorado.stream.laut.fm/el-dorado
 Asia Dream Jazz			http://kathy.torontocast.com:3330/;
@@ -118,9 +118,9 @@ Death FM			http://hi.death.fm/;
 --
 --
 --
-<g_>Nature Sounds</g_>			od23CVaq2SQ
-<g_><i>Star Trek</i> Music</g_>		gfXhmdjOqGI
-<g_>The Cars: Full Album</g_>		ZTkH1kP_kx4
+--
+--
+--
 
 `);
 
@@ -197,14 +197,6 @@ try
   if (src == "1p") url = "*,,*https://stitcher.pluto.tv/stitch/hls/channel/" + url + "/master.m3u8" +
     "?appName=web&appVersion=na&deviceVersion=na&deviceDNT=na&deviceMake=na&deviceModel=na" +
     "&deviceType=na&deviceId=na&sid=na";
-
-  if (src == "1f")
-  {
-    response = await kitty (cors_bypass + "https://frankspeech.com/live/" + url);
-    textData = await response.text();
-
-    url = pullstring (textData, 'application/x-mpegURL" src="', '"'); if (!url) throw ("!!!");
-  }
 
   if (src == "1x") if (url == "olympic")
   {
@@ -317,6 +309,32 @@ const open_tv5 = async (frame, mode, url, fmt, src) =>
 
 if (s = stream_cache (sub)) url = s; else try
 {
+  response = await kitty (cors_bypass + src + "/tv/" + url, allow_cookie ("", ""));
+  textData = await response.text();
+
+  s = response.headers.get ("zz-set-cookie") || "";
+  s = (t = "thetvapp_session=") + pullstring (s, t, ";") + "; " + (t = "XSRF-TOKEN=") + pullstring (s, t, ";");
+  u = pullstring (textData, '"stream_name" name="', '"'); if (!u) throw ("!!!");
+
+  response = await kitty (cors_bypass + src + "/token/" + u, allow_cookie ("", s));
+  textData = await response.text();
+
+  url = pullstring (textData, '"url":"', '"').replace (/\\/g, "");
+  if (!url) throw ("!!!"); stream_cache (sub, url, 0);
+
+} catch (err) { console.log (err); busy = 0; }
+
+  busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, url, fmt);
+}
+////////////////////
+
+/*
+const open_tv5 = async (frame, mode, url, fmt, src) =>
+{
+  var s, t, u, sub = "5," + url; if (is_busy (frame)) return;
+
+if (s = stream_cache (sub)) url = s; else try
+{
   var decrypt = function ()
   {
     var a = "", b = [], c = 0, d; for (s of t) b.push ((s.charCodeAt (0) % 26) - 26);
@@ -362,6 +380,7 @@ if (s = stream_cache (sub)) url = s; else try
   busy = -busy; if (no_fail (frame)) open_tv0 (frame, mode, url, fmt);
 }
 ////////////////////
+*/
 
 /*
 const open_tv5 = async (frame, mode, f, fmt, url, src) =>
