@@ -3,10 +3,201 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Helper</title></meta><body>
+<title>YouTube Player</title>
 
-<a href="alleycat-helper1.htm">Helper 1</a><br>
-<a href="alleycat-helper2.htm">Helper 2</a>
+<style type="text/css">
 
-</body></html>
+body {
+  font-size: 17px; line-height: 19px;
+  text-align: center; font-family: 'times new roman', serif; 
+  color: maroon; background-color: navajowhite;
+}
+
+.widevid {
+  position: relative; width: 736px; height: 414px;
+  border: 2px solid red; background-color: navy; overflow: hidden;
+}
+
+.widevid:fullscreen {
+  border: none;
+}
+
+.msgbox {
+  display: block; position: absolute; top: 38%; left: 40%; right: 40%;
+  text-align: center; border-radius: 14px; font-style: italic; padding: 1px 2px 2px 4px;
+  cursor: pointer; color: paleturquoise; background-color: slateblue;
+}
+
+iframe {
+  position: absolute; width: 100%; height: 100%;
+  border: none; background-color: transparent; pointer-events: none;
+}
+
+input[type=text] {
+  height: 20px; padding: 1px 6px; outline: none; margin: 0;
+  font-size: 13px; font-family: verdana, sans-serif;
+  border: 1px solid peru; border-radius: 4px;
+  color: darkred; background-color: snow;
+}
+
+input[type=text][disabled] {
+  background-color: papayawhip; text-align: center; padding-right: 5px;
+}
+
+input[type=radio] {
+  vertical-align: middle; margin: -2px 1px 1px 2px;
+  filter: contrast(1.0) brightness(1.2) opacity(90%);
+}
+
+button {
+  width: auto; height: auto; margin: 1px 0; padding: 2px 12px 1px;
+  line-height: 17px; font-size: 13px; font-family: helvetica, sans-serif;
+  outline: none; border: 1px solid peru; border-radius: 5px;
+  color: slateblue; background-color: moccasin;
+}
+
+button:hover:not(:active) {
+  background-color: gainsboro;
+}
+
+table {
+  display: inline-block; border: 3px solid green;
+}
+
+td.textbox {
+  width: 30vw; max-width: 250px; vertical-align: top; line-height: 20px;
+  padding: 0 2px 0 0; text-align: center; white-space: nowrap;
+}
+
+td.vidbox {
+  font-size: 15px; vertical-align: middle; line-height: normal;
+  padding: 0 0 0 2px; text-align: left; border-left: 1px solid firebrick;
+}
+
+hr {
+  border-color: thistle; border-style: solid; margin: 12px 0;
+}
+
+::selection {
+  color: yellow; background-color: orchid;
+}
+
+r_ { color: crimson; }
+g_ { color: seagreen; }
+b_ { color: blue; }
+
+</style></head><body onload="start()">
+
+<h2 style="text-align:center;margin:7px 0 10px 0"><r_>YouTube Player</r_></h2>
+
+<table><tr><td class="textbox">
+
+<span style="display:block;font-size:22px;margin:16px 0 -7px">&#x1f408;</span>
+
+<span style="display:inline-block;text-align:left">
+
+<br><input type=radio name="tv" onclick="javascript:tv ('NOZKLtIIUZE')"> Hitler Rant
+<br><input type=radio name="tv" onclick="javascript:tv ('m_MaJDK3VNE')"> Herding Cats
+<br><input type=radio name="tv" onclick="javascript:tv ('0ZwfXUURS3g')"> Dukes of Hazzard
+<br><input type=radio name="tv" onclick="javascript:tv ('uQJoar17jyo')"> Schiff Hits the Fan
+<br><input type=radio name="tv" onclick="javascript:tv ('wLTGXblgUoc')"> Never Forget
+<br><input type=radio name="tv" onclick="javascript:tv ('fXjtDs2wO4Q')"> The Martians in Surrey
+<br><input type=radio name="tv" onclick="javascript:tv ('FnV0LqHd3h8')"> Make America Great Again
+<br><input type=radio name="tv" onclick="javascript:tv ('kJAsn_vJyY4')"> Starship Enterprise
+<br><input type=radio name="tv" onclick="javascript:tv ('74VHwppfHuI')"> The Best Is Yet To Come
+<br><input type=radio name="tv" onclick="javascript:tv ('XkkvC3D_srM')"> March of the Frogs
+<br><input type=radio name="tv" onclick="javascript:tv ('sGdWkl9M_TY')"> American Airman
+<br><input type=radio name="tv" onclick="javascript:tv ('AzEBH6DZJVk')"> St. James Infirmary
+<br><input type=radio name="tv" onclick="javascript:tv ('W-gngBsA_DI')"> I Told You So
+<br><input type=radio name="tv" onclick="javascript:tv ('w8KQmps-Sog')"> Uprising
+<br><input type=radio name="tv" onclick="javascript:tv ('D_XdjviX6gQ')"> Cat Scratch Fever
+<br><input type=radio name="tv" onclick="javascript:tv ('kx-inoYmN2Q')"> Alley Cat
+
+</span><span style="display:block;font-size:22px;margin:14px 0 0;transform:scale(-1,1)">&#x1f408;</span>
+
+</td><td class="vidbox">
+
+<div class="widevid"><h2 id="msg" class="msgbox">No Video</h2>
+<iframe id="frame" autoplay allowfullscreen controls></iframe>
+
+</div></td></tr></table>
+
+<div style="margin:12px 0 12px 0">
+<button onclick="javascript:play_video()">Play</button> &nbsp;
+<input type=text style="width:360px"> &nbsp;
+<button onclick="javascript:stop_video()">Stop</button>
+
+</div><script>
+
+var line = document.querySelectorAll ("input[type=text]")[0];
+var stat = document.getElementById ("msg");
+var vid  = document.getElementById ("frame");
+
+var getvideo = function ()
+{
+  return (vid);
+}
+
+var pullstring = function (s, t, u)
+{
+  if (!s) return ""; var m = t.length, n = s.indexOf (t) + m;
+  m = n < m ? -1 : (u ? s.indexOf (u, n) : s.length);
+  return (m < 0 ? "" : s.substr (n, m - n));
+}
+
+var say_worker = function (id, msg)
+{
+  worker.postMessage ({ id: id, app: "@alleycat", msg: msg });
+}
+
+var msg_worker = function (id, msg)
+{
+  console.log ("Shared worker says", msg);
+
+  if (msg == "okay")  stat.innerHTML = "Okay";
+  if (msg == "error") stat.innerHTML = "Error";
+  if (msg == "retry") stat.innerHTML = "Retry";
+}
+
+var start = function ()
+{
+  worker = new SharedWorker ("worker.js").port;
+  worker.onmessage = function (e) { msg_worker (e.data.id, e.data.msg); }
+  if (opener) opener.helper = window;
+}
+
+var stop_video = function ()
+{
+  vid.src = "about:blank"; stat.innerHTML = "No Video";
+}
+////////////////////
+
+var tv = function (id)
+{
+  stop_video(); stat.innerHTML = "Busy";
+  line.value = "https://www.youtube.com/watch?v=" + id;
+  if (opener) opener.helper = window; say_worker ("test", "2 youtube " + id);
+}
+////////////////////
+
+var play_video = function ()
+{
+  var m, n, s, url = line.value.trim(); if (!url) return;
+
+  if (url.includes ("youtube") || url.includes ("youtu.be"))
+  {
+    if ((n = url.indexOf ("?")) >= 0)
+    {
+      s = url.substr (n); url = url.substr (0, n);
+      m = pullstring (s, "?v=", "") || pullstring (s, "&v=", "");
+      if ((n = m.indexOf ("&")) >= 0) m = m.substr (0, n); if (m) url = "/" + m;
+    }
+    url = (n = url.lastIndexOf ("/")) < 0 ? "" : url.substr (n + 1);
+  }
+
+  if (url.length == 11) tv (url); else line.value = "Invalid";
+}
+////////////////////
+
+</script></body></html>
 

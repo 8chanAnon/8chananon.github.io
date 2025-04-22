@@ -167,6 +167,7 @@ if (stream_all (frame, 0)) fmt = ""; else try
 }
 ////////////////////
 
+// https://vimeo.com/1025470093/1093a325b4 (use *1025470093:1093a325b4)
 frame_5.req_vimeo = async (id, frame, fmt) =>
 {
   var tag = "vimeo"; id = getid (frame, id, -9);
@@ -682,20 +683,32 @@ frame_5.dig_facebook = async (url, frame, fmt) =>
 {
   var tag = "facebook"; if (is_busy (frame, tag + " (DIG)", 1)) return;
 
-  url = cors_kraker + "accept=text/html|*" + url;
+  url = cors_kraker + "accept=text/html|user-agent=|*" + url;
   var n, s, f = [0,0,0,0]; u = [0,0,0,0]
 
 try
 {
-  response = await kitty (url);
-  textData = await response.text();
+  if (!url.includes (".instagram.com/reel/"))
+  {
+    response = await kitty (url); textData = await response.text();
+  }
+  else
+  {
+//    url = url.split ("?")[0];
+// if (url.substr (-1) != "/") url += "/";
+// url = url.replace(".com/", ".com@8083/");
+url = "http://localhost:8080/*~*sec-fetch-dest=document|sec-fetch-mode=navigate|sec-fetch-site=none|sec-fetch-user=!%3F1|*https://www.instagram.com@8083";
+    response = await kitty (url, allow_cookie ("", "")); textData = await response.text();
+    s = response.headers.get ("zz-set-cookie") || ""; s = pullstring (s, "ig_did=", ";"); if (!s) throw ("!!!");
+    response = await kitty (url, allow_cookie ("", "ig_did=" + s)); textData = await response.text();
+  }    
 
-  if (url = pullstring (textData, 'playable_url":"', '"')) { u [0] = url; f [0] = 1; }
-  if (url = pullstring (textData, '_quality_hd":"', '"'))  { u [2] = url; f [2] = 1; }
-  if (url = pullstring (textData, 'sd_src:"', '"'))        { u [0] = url; f [0] = 1; }
-  if (url = pullstring (textData, 'hd_src:"', '"'))        { u [2] = url; f [2] = 1; }
-  if (url = pullstring (textData, '_sd_url":"', '"'))      { u [0] = url; f [0] = 1; }
-  if (url = pullstring (textData, '_hd_url":"', '"'))      { u [2] = url; f [2] = 1; }
+  if (s = pullstring (textData, 'playable_url":"', '"')) { u [0] = s; f [0] = 1; }
+  if (s = pullstring (textData, '_quality_hd":"', '"'))  { u [2] = s; f [2] = 1; }
+  if (s = pullstring (textData, 'sd_src:"', '"'))        { u [0] = s; f [0] = 1; }
+  if (s = pullstring (textData, 'hd_src:"', '"'))        { u [2] = s; f [2] = 1; }
+  if (s = pullstring (textData, '_sd_url":"', '"'))      { u [0] = s; f [0] = 1; }
+  if (s = pullstring (textData, '_hd_url":"', '"'))      { u [2] = s; f [2] = 1; }
 
   n = gotformat (f, fmt);
 
@@ -713,7 +726,12 @@ try
     if (s = pullstring (textData, "src&quot;:&quot;", "&quot;,&quot;")) url = s;
   }
 
-  if (!url) throw ("!!!");
+  if (!url)
+  {
+    url = pullstring (textData, '"video_versions":', '"type"');
+    url = pullstring (url, '"url":"', '"'); if (!url) throw ("!!!");
+  }
+
   url = url.replace (/\\u0025/g, "%"); url = url.replace (/\\u0026/g, "&");
   url = url.replace (/&amp;/g, "&"); url = url.replace (/\\\//g, "/");
 
@@ -908,7 +926,7 @@ try
     jsonData = await response.json();
 
   }
-
+*/
 
 /*
 const req_vimeo = async (id, frame, fmt) =>

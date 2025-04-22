@@ -211,7 +211,7 @@ KRKR = accessible with the Kraker Remote Proxy (may have limitations)
 <tr><td>Plex		</td><td>m3u8/mpd	</td><td>&nbsp;+</td><td>Proxy</td><td></td>
 <td><a target=_blank href="https://watch.plex.tv/on-demand">watch.plex.tv/on-demand</a></td></tr>
 
-<tr><td>Fawesome	</td><td>m3u8		</td><td>&nbsp;#</td><td>Proxy</td><td></td>
+<tr><td>Fawesome	</td><td>m3u8		</td><td>&nbsp;#</td><td>KRKR</td><td></td>
 <td><a target=_blank href="https://fawesome.tv/home">fawesome.tv/home</a></td></tr>
 
 <tr><td>Filmzie		</td><td>m3u8		</td><td>&nbsp;#</td><td>Proxy</td><td></td>
@@ -235,6 +235,9 @@ KRKR = accessible with the Kraker Remote Proxy (may have limitations)
 <tr><td>PlayTaku	</td><td>m3u8/mp4	</td><td>&nbsp;+</td><td>KRAK</td><td></td>
 <td><a target=_blank href="https://s3embtaku.pro">s3embtaku.pro</a> !</td>
 <td><a target=_blank href="https://playtaku.net">playtaku.net</a> !</td><tr>
+
+<tr><td>WatchCartoons	</td><td>mp4		</td><td>&nbsp;?</td><td>KRAK</td><td></td>
+<td><a target=_blank href="https://www.wco.tv">www.wco.tv</a></td><tr>
 
 <tr><td>XHamster	</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td>$</td>
 <td><a target=_blank href="https://xhamster.com">xhamster.com</a></td></tr>
@@ -602,15 +605,13 @@ try
     r = textData.substring (j, i); s = pullstring (r, "(", "["); if (!s) throw ("aaa");
 
     s = "var " + s + '='; i = textData.indexOf (s); t = textData [i + s.length];
-    j = textData.indexOf (t == "[" ? '"],' : '"),'); if (i < 0 || j < 0) throw ("bbb");
-//throw(textData.substring (i, j + 2));
+    j = textData.indexOf (t == "[" ? '"],' : '"),', i); if (i < 0 || j < 0) throw ("bbb");
     u = ";\n" + textData.substring (i, j + 2) + ";\nvar nsig=";
 
     i = textData.indexOf ('.slice(0,0))'); if (i < 0) throw ("ccc");
     i = textData.lastIndexOf ("func", i); j = textData.indexOf ('.join(', i);
     t = textData.substring (i, j); s = "var " + pullstring (t, "typeof ", "==");
     nkey = s + pullstring (textData, s, ";") + u + t + ".join('')}; sig=nsig(sig);";
-console.log(nkey);
 
     r = pullstring (r, ";", "return"); s = "var " + pullstring (r, "", ".") + "={";
     t = pullstring (textData, s, "};"); u = pullstring (r, "(", ","); if (!t) throw ("ddd");
@@ -646,7 +647,7 @@ obsoleted March 2025
   {
     t.context.client.clientName = 'TVHTML5'; t.context.client.clientVersion = '7.20241201.18.00';
 
-    response = await fetch (url, { method: 'POST', headers: s, body: JSON.stringify (t) });
+    response = await kitty (url, { method: 'POST', headers: s, body: JSON.stringify (t) });
     jsonData = await response.json(); if (!(sub = jsonData.streamingData)) throw ("!!!");
   }
 

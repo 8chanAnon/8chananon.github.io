@@ -13,7 +13,7 @@ document.getElementById ("src7").innerHTML = `
   <option value= "goojara"    ># mp4 - Goojara
   <option value= "lookmovie"  >? m3u - LookMovie
   <option value= "playtaku"   >+ m3u - PlayTaku
-  <option value= "streamflix" ># m3u - StreamFlix
+  <option value= "wcotv"      >? mp4 - Watch Cartoons
   <option value= "xhamster"   ># mp4 - XHamster
   <option value= "xvideos"    >? m3u - XVideos
   <option value= "doodstream" class="r"># mp4 - DoodStream
@@ -352,7 +352,7 @@ try
   textData = await response.text();
 
   u = "/library/metadata/" + id; if (!(t = pullstring (textData, '"authToken":"', '"'))) throw("!!!");
-  url = "https://play.provider.plex.tv/playQueues?uri=provider://tv.plex.provider.vod" + u;
+  url = src + "/playQueues?uri=provider://tv.plex.provider.vod" + u;
 
   s = { accept: 'application/json', 'X-Plex-Token': t };
   response = await kitty (cors_bypass + url, { method: 'POST', headers: s });
@@ -435,24 +435,31 @@ frame_7.req_fawesome = async (id, frame, fmt) =>
 {
   if (id.includes ("/")) id = id.split ("/")[4];
   var tag = "fawesome"; id = getid (frame, id, 8);
-  if (!id || is_busy (frame, tag + " (ID)", 0)) return;
+  if (!id || is_busy (frame, tag + " (ID)", 1)) return;
 
   var s, t, url, src = "https://fawesome.tv/";
-  var query = src + "home/new/v386/api/XXX.php?appId=9&siteId=236&auth-token=1217575";
+  var query = "**" + src + "home/new/v404/api/XXX.php?appId=9&siteId=236&auth-token=1217575";
 
 try
 {
   if (!(t = cookies [tag]))
   {
-    response = await kitty (cors_bypass + query.replace ("XXX", "getSecurityToken"));
+    response = await kitty (cors_kraker + query.replace ("XXX", "getSecurityToken"));
     textData = await response.text();
 
-    t = cookies [tag] = pullstring (textData, '"securityToken":"', '"'); if (!t) throw ("???");
+    t = pullstring (textData, '"securityToken":"', '"');
+    if (!t) throw ("???"); s = { headers: { token: t }};
+
+    response = await kitty (cors_kraker + query.replace ("XXX", "index"), s);
+    textData = await response.text();
+
+    s = pullstring (textData, '"countryCode":"', '"') || "US"; t = cookies [tag] = t + " " + s;
   }
 
-  s = { headers: { token: t }}; t = "&searchType=nodeid&nid=" + id;
+  t = t.split (" "); s = { headers: { token: t[0] }};
+  t = "&searchType=nodeid&country=" + t[1] + "&nid=" + id;
 
-  response = await kitty (cors_bypass + "**" + query.replace ("XXX", "recipes") + t, s);
+  response = await kitty (cors_kraker + query.replace ("XXX", "recipes") + t, s);
   textData = await response.text();
 
   url = pullstring (textData, '"video_hls_url":"', '"'); if (!url) throw ("!!!");
@@ -546,9 +553,6 @@ frame_7.req_playtaku = async (id, frame, fmt) =>
   var src = "https://s3embtaku.pro", url = src + "/loadserver.php?id=" + id;
   var n, s, t, e, f = [0,0,0,0];
 
-  //https://anitaku.bz
-  //https://gogoanimeapp.com/
-
 if (!got_crypto()) busy = 0; else try
 {
   response = await kitty (cors_kraker + url);
@@ -633,41 +637,6 @@ if (!got_crypto()) busy = 0; else try
   else if (stream_all (frame, 1)) fmt = 0; else
   {
     url = cors_kraker + "~" + url;
-    response = await kitty (url); textData = await response.text();
-    [url,fmt] = crack_m3u8 (url, textData, frame, fmt);
-  }
-
-} catch (err) { console.log (err); busy = 0; }
-
-  if (no_fail (frame, id)) loadwindow (url, frame, tag, id, fmt);
-}
-////////////////////
-
-frame_7.req_streamflix = async (id, frame, fmt) =>
-{
-  var tag = "streamflix"; if (is_busy (frame, tag + " (ID)", 1)) return;
-
-  var s = id.split ("?"), t = s[1] + "&"; s = s[0].split ("/"); id = s[4] || s[0];
-  s = pullstring (t, "&season=", "&"); t = pullstring (t, "&episode=", "&");
-  if (s && t) id += "-" + s + "-" + t; s = id.split ("-"); t = s[0];
-  if (s[1] && s[2]) t += "?s=" + s[1] + "&e=" + s[2];
-
-  var url, src = "*https://watch.streamflix.one/*https://vidsrc.rip/api/source/streamflix/showbox/" + t;
-
-try
-{
-  response = await kitty (cors_kraker + src);
-  textData = await response.text();
-
-  if (!(url = pullstring (textData, '"file":"', '"')))
-  {
-    response = await kitty (cors_kraker + src.replace ("showbox", "flixhq"));
-    textData = await response.text();
-    if (!(url = pullstring (textData, '"file":"', '"'))) throw ("!!!");
-  }
-  
-  if (stream_all (frame, 1)) fmt = 0; else
-  {
     response = await kitty (url); textData = await response.text();
     [url,fmt] = crack_m3u8 (url, textData, frame, fmt);
   }
@@ -1123,7 +1092,7 @@ try
   url = pullstring (textData, '<iframe src="', '"'); if (!url) throw ("!!!");
   h = { 'content-type': 'application/x-www-form-urlencoded', accept: "**" };
 
-  response = await kitty (cors_kraker + url, { method: 'POST', headers: h, body: 'qdf=1' });
+  response = await kitty (cors_kraker + url, { method: 'POST', headers: h, body: 'qdfx=1' });
   textData = await response.text();
 
   c = response.headers.get ("zz-set-cookie") || ""; c = pullstring (c, "", ";");
@@ -1138,6 +1107,8 @@ try
   url = textData; if (url.indexOf ("http")) throw ("!!!");
 
   response = await kitty (cors_kraker + url, { method: 'HEAD' });
+  if (response.status != 200) throw ("!!!");
+
   url = response.url.replace (/[^.]*.nebula.to\//, "https://orix.nebula.to/");
 
 } catch (err) { console.log (err); busy = 0; }
@@ -1243,8 +1214,8 @@ try
   response = await kitty (cors_kraker + url);
   textData = await response.text();
 
-  url = pullstring (textData, "<iframe", ">");
-  url = pullstring (url, 'src="', '"'); if (!url) throw ("!!!");
+  url = atob (pullstring (textData, 'main_origin = "', '"'));
+  if (!url.includes ("turbovid")) throw ("!!!"); url = url.split ("/").pop();
 
 } catch (err) { console.log (err); busy = 0; }
 
@@ -1307,6 +1278,41 @@ try
 } catch (err) { console.log (err); busy = 0; }
 
   busy = -busy; if (no_fail (frame)) frame_7.req_playtaku (url, frame, fmt);
+}
+////////////////////
+
+frame_7.dig_wcotv = async (url, frame, fmt) =>
+{
+  var tag = "wcotv"; if (is_busy (frame, tag + " (DIG)", 2)) return;
+  var s, t, sub, f = [0,0,0,0], ua = cors_kraker + "**!mock:1A|*";
+
+try
+{ 
+  response = await fetch (ua + url);
+  textData = await response.text();
+
+  s = pullstring (textData, "script>var", "document"); if (!s) throw ("!!!");
+  t = pullstring (s, " ", " "); url = ""; eval (s + "url=" + t);
+  url = pullstring (url, 'src="', '"'); if (!url) throw ("!!!");
+
+  response = await fetch (ua + url);
+  textData = await response.text();
+
+  s = pullstring (textData, 'getJSON("', '"'); if (!s) throw ("!!!");
+  ua = cors_kraker + "**user-agent=abc|x-requested-with=XMLHttpRequest|*";
+
+  response = await fetch (ua + "https://" + url.split ("/")[2] + s);
+  jsonData = await response.json();
+
+  if (jsonData.enc) f[1] = 1; if (jsonData.hd) f[2] = 1;
+  fmt = gotformat (f, fmt); fixformat (f, frame);
+
+  url = fmt < 2 ? jsonData.enc : jsonData.hd; fmt = pixformat (fmt);
+  url = cors_kraker + "~user-agent=abc|*" + jsonData.server + "/getvid?evid=" + url;
+
+} catch (err) { console.log (err); busy = 0; }
+
+  if (no_fail (frame)) loadwindow (url, frame, tag, "?", fmt);
 }
 ////////////////////
 
