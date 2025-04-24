@@ -1304,10 +1304,10 @@ try
   response = await fetch (ua + "https://" + url.split ("/")[2] + s);
   jsonData = await response.json();
 
-  if (jsonData.enc) f[1] = 1; if (jsonData.hd) f[2] = 1;
-  fmt = gotformat (f, fmt); fixformat (f, frame);
+  t = ["", jsonData.enc, jsonData.hd, jsonData.fhd];
+  if (t[1]) f[1] = 1; if (t[2]) f[2] = 1; if (t[3]) f[3] = 1;
+  fmt = gotformat (f, fmt); fixformat (f, frame); url = t [fmt]; fmt = pixformat (fmt);
 
-  url = fmt < 2 ? jsonData.enc : jsonData.hd; fmt = pixformat (fmt);
   url = cors_kraker + "~user-agent=abc|*" + jsonData.server + "/getvid?evid=" + url;
 
 } catch (err) { console.log (err); busy = 0; }
