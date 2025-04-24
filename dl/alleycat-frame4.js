@@ -600,7 +600,7 @@ try
   {
     response = await kitty (ua + "https://www.youtube.com" + base);
     textData = await response.text();
-
+/*
     i = textData.indexOf ("timedtext_video"); j = textData.lastIndexOf ("split", i);
     r = textData.substring (j, i); s = pullstring (r, "(", "["); if (!s) throw ("aaa");
 
@@ -615,21 +615,27 @@ try
 
     r = pullstring (r, ";", "return"); s = "var " + pullstring (r, "", ".") + "={";
     t = pullstring (textData, s, "};"); u = pullstring (r, "(", ","); if (!t) throw ("ddd");
-    key = s + t + "}; var " + u + "=sig.split('');\n" + r + "sig=" + u + ".join('');";
-
-/*
-obsoleted March 2025
-    i = textData.indexOf ('.slice(0,0))'); if (i < 0) throw ("a???");
-    i = textData.lastIndexOf ("func", i); j = textData.indexOf ('.join("")};', i);
-    t = textData.substring (i, j + 11); s = "var " + pullstring (t, "typeof ", "==");
-    s = s + pullstring (textData, s, ";"); nkey = s + "; var nsig=" + t + " sig=nsig(sig);";
-
-    r = pullstring (textData, '.split("");', 'return'); s = "var " + pullstring (r, "", ".") + "={";
-    t = pullstring (textData, s, "};"); u = pullstring (r, "(", ","); if (!t) throw ("b???");
-    key = s + t + "}; var " + u + "=sig.split('');\n" + r + "sig=" + u + ".join('');";
+    key = ""; //s + t + "}; var " + u + "=sig.split('');\n" + r + "sig=" + u + ".join('');";
 */
 
-    cookies [base] = key; cookies ["!" + base] = nkey;
+    i = textData.indexOf (s = "'use strict'") + 1; j = textData.indexOf ("=", i) + 1;
+    if (!i || !j) throw ("aaa"); j = textData.indexOf (textData [j] == "[" ? '"],' : '"),', j);
+    u = textData.substring (i + s.length, j + 2) + ";\n";
+
+    s = pullstring (textData, "FORMAT_STREAM_TYPE_UNKNOWN", "(decode");
+    s = pullstring (s, '"alr"', ''); s = pullstring (s, "=", ""); if (!s) throw ("bbb");
+    s = "var xx=" + pullstring (textData, ";\n" + s + "=", "}") + "};\n";
+
+    t = "var " + pullstring (s, ";", "[") + "="; t += pullstring (textData, t, "};");
+    cookies [base] = key = s + t + "};\n" + u + "sig=xx(sig);";
+
+    i = textData.indexOf ("privateDoNotAccess"); if (i < 0) throw ("ccc");
+    i = textData.indexOf ("{var ", i); i = textData.lastIndexOf ("func", i);
+    j = textData.indexOf ("};", i); t = "var xx=" + textData.substring (i, j + 2);
+
+    s = "var " + pullstring (t, "typeof ", "=="); s += pullstring (textData, s, ";");
+    cookies ["!" + base] = nkey = s + ";\n" + u + t + "\nsig=xx(sig);";
+
     n = pullstring (textData, "signatureTimestamp:", "}") * 1;
     if (n) cookies ["?" + base] = n; else n = Math.trunc (Date.now() / 86400000) - 1;
   }
