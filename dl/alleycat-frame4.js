@@ -236,8 +236,9 @@ KRKR = accessible with the Kraker Remote Proxy (may have limitations)
 <td><a target=_blank href="https://s3embtaku.pro">s3embtaku.pro</a> !</td>
 <td><a target=_blank href="https://playtaku.net">playtaku.net</a> !</td><tr>
 
-<tr><td>WatchCartoons	</td><td>mp4		</td><td>&nbsp;?</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://www.wco.tv">www.wco.tv</a></td><tr>
+<tr><td>WCOnline	</td><td>mp4		</td><td>&nbsp;?</td><td>KRAK</td><td></td>
+<td><a target=_blank href="https://www.wco.tv">www.wco.tv</a> !</td>
+<td><a target=_blank href="https://www.wcofun.net">www.wcofun.net</a> !</td><tr>
 
 <tr><td>XHamster	</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td>$</td>
 <td><a target=_blank href="https://xhamster.com">xhamster.com</a></td></tr>

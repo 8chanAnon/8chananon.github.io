@@ -66,6 +66,9 @@ iframe {
   border-color: peachpuff #acacac peachpuff #ececec;
 }
 
+.popbox button:hover {
+  background-color: lightgray;
+}
 .ranger button {
   line-height: 16px; padding: 2px 4px 1px 3px;
   font-size: 13px; color: maroon; background-color: peachpuff;
@@ -83,13 +86,13 @@ input[type=text] {
 }
 
 input[type=radio] {
-  vertical-align: bottom; margin: 0 0 2px 0; outline: none;
-  filter: contrast(1.0) brightness(1.2) opacity(90%);
+  height: 15px; vertical-align: bottom; margin: 0 0 2px 0;
+  outline: none; filter: contrast(1.0) brightness(1.2) opacity(90%);
 }
 
 input[type=checkbox] {
-  vertical-align: bottom; margin: 0 1px 2px 0; outline: none;
-  filter: contrast(1.0) brightness(1.2) opacity(90%);
+  height: 15px; vertical-align: bottom; margin: 0 1px 2px 0;
+  outline: none; filter: contrast(1.0) brightness(1.2) opacity(90%);
 }
 
 input.idspec {
@@ -98,7 +101,7 @@ input.idspec {
 }
 
 input.urlspec {
-  width: 60%; padding: 4px 6px 3px; margin: -2px 3px 1px 2px;
+  width: 60%; padding: 4px 6px 3px; margin: -2px 4px 1px 2px;
   color: slateblue; background-color: oldlace;
 }
 
@@ -121,7 +124,7 @@ input.static {
 .dropbox button, .dropbox button:hover:active {
   vertical-align: top; width: 24px; height: 25px; padding: 0 0 4px;
   font-size: 18px; font-family: 'segoe ui', sans-serif; font-weight: bold;
-  border: 2px solid; border-color: tan lemonchiffon lemonchiffon burlywood;
+  border: 2px solid; border-color: burlywood lemonchiffon lemonchiffon burlywood;
   color: indianred; background-color: mistyrose;
 }
 
@@ -138,7 +141,7 @@ input.static {
 }
 
 .dropbox3 {
-  margin: 1px 0; width: 140px;
+  margin: 1px 0; width: 148px;
 }
 
 .dropdown {
@@ -177,13 +180,13 @@ input.static {
 
 .pickpanel {
   display: inline-block; position: relative; z-index: 0;
-  margin: -1px 0 0; padding: 1px; border: 2px solid skyblue;
+  width: 182px; margin: -1px 0 0; padding: 1px; border: 2px solid skyblue;
   outline-color: thistle; color: crimson; background-color: oldlace;
 }
 
 .pickpanel span {
   display: inline-block; margin: 1px 1px; padding: 0 6px 0 7px;
-  height: 19px; line-height: 19px; border: 1px solid orange;
+  height: 19px; line-height: 19px; outline: none; border: 1px solid orange;
 }
 
 .pickpanel span[checked] {
@@ -207,7 +210,7 @@ table.radio {
 }
 
 .radio input {
-  height: 17px; margin: 2px 4px -2px -1px;
+  height: 16px; margin: 2px 4px -1px -1px;
 }
 
 .radio a {
@@ -264,7 +267,7 @@ button.is_on {
 
 button.wrapper, button.wrapper:hover:active {
   width: 56px; height: 18px; font-size: 13px; line-height: 17px;
-  margin: 0 3px 0 1px; padding: 0; border: 1px solid pink;
+  margin: 0 3px 0 1px; padding: 0; border: 1px solid plum;
   color: red; background-color: papayawhip;
 }
 
@@ -375,7 +378,9 @@ You may have to do this more than once since the cookie can expire.<p></p>
 <button onclick="javascript:cookiecutter(0)">Cancel</button>
 </span>
 
-<h1><g_>A</g_><r_>ll</r_><g_>ey</g_><r_>cat</r_> <g_>Pl</g_><r_>ay</r_><g_>er</g_> <r_>v6a</r_></h1>
+<h1><span style="float:left;font-size:22px;transform:scale(-1,1)">&#x1f408;</span>
+<g_>A</g_><r_>ll</r_><g_>ey</g_><r_>cat</r_> <g_>Pl</g_><r_>ay</r_><g_>er</g_> <r_>v6a</r_>
+<span style="float:right;font-size:22px">&#x1f408;</span></h1>
 
 <p><hr><p>
 <div><g_>Pick a Proxy:</g_>&nbsp;
@@ -1339,9 +1344,10 @@ var cookiecutter = function (name, cookie)
 
 var kitty = async (url, arg) =>
 {
-  if (!busy) throw ("@@@"); var e = poorkitty = new AbortController();
+  if (!busy) throw ("@@@"); var d = url [0] == "!" ? -6500000 : 0;
+  var e = poorkitty = new AbortController(); if (d) url = url.substr (1);
   if (!arg) arg = {}; arg.signal = e.signal; var f = await fetch (url, arg);
-  var d = 0, r = f.body; try { r = r.getReader() } catch { return (f) }
+  var r = f.body; try { r = r.getReader() } catch { return (f) }
 
   function a (c)
   {
@@ -2357,13 +2363,13 @@ var fixformat = function (f, frame)
 
 <div class="v-control">
   <input type=range value=1 min=0 max=1 step=0.01 style="width:490px;margin:2px 2px 4px 2px">
-  <button class="v-ctrl" style="width:48px;margin-right:1px">1.0</button>
+  <button class="v-ctrl" style="width:48px;margin-right:3px">1.0</button>
   <input type=text style="width:72px;color:azure;background-color:transparent" disabled>
   <input type=text style="width:72px;color:azure;background-color:transparent" disabled>
   <br>
     <span class="play-lft"></span><span></span><span class="play-rgt"></span>
     <span class="v-span v-span2" style="width:auto">Mute</span>
-  <input type=range value=1 min=0 max=1 step=0.05 style="min-width:40px;max-width:194px">
+  <input type=range value=1 min=0 max=1 step=0.05 style="min-width:40px;max-width:192px">
     <span class="v-span v-span2" style="width:auto">Seek</span>
   <input type=text value="0:0:0" style="width:78px">
   <button class="v-seek" style="width:36px">5s</button>

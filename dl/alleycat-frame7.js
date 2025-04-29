@@ -13,7 +13,7 @@ document.getElementById ("src7").innerHTML = `
   <option value= "goojara"    ># mp4 - Goojara
   <option value= "lookmovie"  >? m3u - LookMovie
   <option value= "playtaku"   >+ m3u - PlayTaku
-  <option value= "wcotv"      >? mp4 - Watch Cartoons
+  <option value= "wconline"   >? mp4 - WCOnline
   <option value= "xhamster"   ># mp4 - XHamster
   <option value= "xvideos"    >? m3u - XVideos
   <option value= "doodstream" class="r"># mp4 - DoodStream
@@ -59,12 +59,14 @@ stack_7_1 = copylist (`
   Radio Capital (Italy)			8:http://4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S35394734/Z6U2wGoDYANk/playlist.m3u8
   Radio Chanson (Russia)		8:http://chanson-video.hostingradio.ru:8080/hls/chansonabr/live.m3u8
   Radio m2o (Italy)			8:http://4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S62628868/uhdWBlkC1AoO/playlist.m3u8
-  Reload TV (Greece)			8:http://web.onair-radio.eu:1935/video/video/index.m3u8
+  Reload TV (Greece) ??			8:http://web.onair-radio.eu:1935/video/video/index.m3u8
   Retro Music (Czech Republic)		8:http://stream.mediawork.cz/retrotv/retrotvHQ1/playlist.m3u8
   Shuffle Dance Music (YouTube)		0:qWf-FPFmVw0
   Siganos Music (Greece)		8:http://web.onair-radio.eu:1935/Alpha-Host/Alpha-Host/playlist.m3u8
-  Stingray Classica (Canada) *		9a:live/stingray-classica
-  Stingray Qello (Canada) *		9a:live/stingray-qello
+  Stingray Classica (Canada)		8:https://lotus.stingray.com/manifest/classica-cla008-montreal/samsungtvplus/master.m3u8
+  Stringray CMusic (Canada)		8:https://lotus.stingray.com/manifest/cmusic-cme004-montreal/samsungtvplus/master.m3u8
+  Stingray DJazz (Canada)		8:https://lotus.stingray.com/manifest/djazz-djaads-montreal/samsungtvplus/master.m3u8
+  Stringray Qello (Canada)		8:https://lotus.stingray.com/manifest/qello-qello001-montreal/samsungtvplus/master.m3u8
   Strana FM (Russia)			8:http://live.stranafm.cdnvideo.ru/stranafm/smil:stranafm.smil/playlist.m3u8
   V2Beat (Germany)			8:http://stream.v2beat.live/playlist.m3u8
   Vevo Pop (US) **			1p:5d93b635b43dd1a399b39eee
@@ -87,10 +89,10 @@ stack_7_2 = copylist (`
   Fox *					5a:wnyw-new-york-fox-east-live-stream
   Fox Business *			5a:fox-business-network-live-stream
   Fox News *				5a:fox-news-channel-live-stream
-  Fox News Now				8:https://fox-foxnewsnow-samsungus.amagi.tv/playlist.m3u8
+  Fox News Now (YT)			0:YDfiTGGPYCk
   MSNBC *				5a:msnbc-live-stream
   NBC *					5a:wnbc-new-york-nbc-east-live-stream
-  NBC News				8:https://dai2.xumo.com/amagi_hls_data_xumo1212A-xumo-nbcnewsnow/CDN/master.m3u8
+  NBC News (YT)				1:UCeY0bbntWzzVIaj2z3QigXg
   PBS *					5a:pbs-13-wnet-new-york-live-stream
   PopStar!				8:https://linear-10.frequency.stream/dist/zype/10/hls/master/playlist.m3u8
   Sundance *				5a:sundancetv-hd-live-stream
@@ -113,22 +115,21 @@ stack_7_3 = copylist (`
   Billiard TV *				9a:live/billiard-tv
   Boxing TV *				9a:live/boxing-tv
   Dot Esports *				9a:live/dot-esports
-  Dungeon TV *^				7a:channel/dungeon-tv-2
+  Dungeon TV **^			7a:dungeon-tv-2
   Entrepreneur *			9a:live/entrepreneur-1
   Gusto TV *				9a:live/gusto-tv
   HGTV *				5a:hgtv-live-stream
-  Hunt Channel				8:http://1111296894.rsc.cdn77.org/LS-ATL-56868-1/index.m3u8
+  Hunt Channel ??			8:http://1111296894.rsc.cdn77.org/LS-ATL-56868-1/index.m3u8
   MMA Junkie *				9a:live/mma-junkie
   MotorTrend FAST TV			8:https://3fa797d5.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/T05PX01vdG9yVHJlbmRGYXN0VFZfSExT/playlist.m3u8
   PGA Tour **				1p:5de94dacb394a300099fa22a
   Red Bull TV				8:http://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8
   Right Now TV *			9a:live/right-now-tv
-  SpeedVision *^			7a:channel/speedvision
+  SpeedVision **^			7a:speedvision
   Sports Grid				8:https://sportsgrid-klowdtv.amagi.tv/hls/amagi_hls_data_klowdtvAA-sportsgrid-klowdtv/CDN/playlist.m3u8
   Tastemade				8:https://tastemade-xumo.amagi.tv/hls/amagi_hls_data_tastemade-tastemadefreetv16xumo/CDN/master.m3u8
-  TBD (Sinclair)			1e:1831163f97674328ad9f4b4814ed39c5
   This Old House **			1p:5d51e791b7dba3b2ae990ab2
-  Waypoint TV				8:https://live-manifest.production-public.tubi.io/live/0831606b-a9dc-4ee9-a381-52b0c9b59b2f/playlist.m3u8
+  Waypoint TV **^			7a:waypoint-tv
   World Poker Tour *			9a:live/world-poker-tour
   ESPN *				5a:espn-live-stream
   ESPN 2 *				5a:espn2-live-stream
@@ -149,37 +150,33 @@ stack_7_4 = copylist (`
   Circle TV				8:http://circle-xumo.amagi.tv/playlist.m3u8
   Classic Arts Showcase			8:https://classicarts.akamaized.net/hls/live/1024257/CAS/master.m3u8
   Comedy Dynamics *			9a:live/comedy-dynamics
-  Comet					1e:3e45c6b5354a40f787e0b2aadb0f5d6a
-  Court TV				8:https://content.uplynk.com/channel/6c0bd0f94b1d4526a98676e9699a10ef.m3u8
+  Comet ??				1e:3e45c6b5354a40f787e0b2aadb0f5d6a
+  Court TV ??				1e:6c0bd0f94b1d4526a98676e9699a10ef
   Dark Matter TV *			9a:live/dark-matter-tv
-  DocuBay				8:https://stream.ads.ottera.tv/playlist.m3u8?network_id=3444
-  Dove Channel *			9a:live/dove-channel
+  DocuBay ??				8:https://stream.ads.ottera.tv/playlist.m3u8?network_id=3444
+  Dove Channel *			9a:live/dove
   FTV Midnight Secrets			8:https://fash1043.cloudycdn.services/slive/_definst_/ftv_midnite_secrets_adaptive.smil/playlist.m3u8
   FX *					5a:fx-live-stream
   FX Movie *				5a:fx-movie-live-stream
   FXX *					5a:fxx-live-stream
-  Galxy TV *^				7a:channel/galxy-tv-2
+  Galxy TV **^				7a:galxy-tv-2
   HBO East *				5a:hbo-east-live-stream
   HBO Signature *			5a:hbo-signature-live-stream
   Horror Machine *			9a:live/horror-machine
-  Law & Crime				8:http://dai2.xumo.com/amagi_hls_data_xumo1234A-lawcrime/CDN/master.m3u8
+  Law & Crime				9a:live/law-crime
   Lifetime *				5a:lifetime-live-stream
   Lone Star *				9a:live/lone-star
   Paramount Movie Channel **		1p:5cb0cae7a461406ffe3f5213
   Paramount Network **			1p:5812bcc8237a6ff45d16c407
-  Scream Factory *^			7a:channel/scream-factory-tv
+  Scream Factory **^			7a:scream-factory-tv
   The Archive				8:https://stream-us-east-1.getpublica.com/playlist.m3u8?network_id=74
   The Film Detective			8:https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01201-cinedigmenterta-filmdetective-cineverse/playlist.m3u8
-  The Pet Collective *^			7a:channel/the-pet-collective-2
-  Unexplained *^			7a:channel/unexplained
+  The Pet Collective **^		7a:the-pet-collective-2
+  Unexplained **^			7a:unexplained
 `);
 
 stack_7_5 = copylist (`
-  BBC 1 **^				8a:stream=bbc-london
-  BBC 2 **^				8a:stream=bbc-two
   BBC News *				3a:bbcnews_live
-  CBBC **^				8a:stream=cbbc
-  CBeebies **^				8a:stream=cbeebies
   Sky News Int'l **			1p:55b285cd2665de274553d66f
   Sky News Arabia			8:^https://slh/moc.aibaraswenyks.maerts/sna.m3u8
   France 24 - English (YT)		0:Ap-UM1O9RBU
@@ -201,23 +198,23 @@ stack_7_6 = copylist (`
   CGTN News				7:https://english-livetx.cgtn.com/hls/yypdyyctzb_hd.m3u8
   Deutsche Welle			8:https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8
   EuroNews *				9a:live/euronews
-  GB News (UK, YT)			0:8WX6YL9JnLw
-  NHK World Japan			8:http://nhkwlive-ojp.akamaized.net/hls/live/2003459/nhkwlive-ojp-en/index.m3u8
+  GB News (UK, YT)			0:QliL4CGc7iY
+  NHK World Japan			8:https://master.nhkworld.jp/nhkworld-tv/playlist/live.m3u8
   NTD (New Tang Dynasty)		8:https://ntd02.akamaized.net/NTDA/index.m3u8
   NDTV (India)				8:https://ndtv24x7elemarchana.akamaized.net/hls/live/2003678/ndtv24x7/ndtv24x7master.m3u8
   Press TV				8:https://live.presstv.ir/hls/presstv.m3u8
   RT News				8:https://rt-glb.rttv.com/live/rtnews/playlist.m3u8
   RT Documentary			8:https://rt-rtd.rttv.com/live/rtdoc/playlist.m3u8
-  TeleSUR				8:https://cdnenmain.telesur.ultrabase.net/mblivev3/480p/playlist.m3u8
+  TeleSUR (YT)				0:qP2Gnp8I9sY
   TRT World				8:http://tv-trtworld.medya.trt.com.tr/master.m3u8
   World Is One News (India) *		9a:live/wion-world-is-one-news
   Blaze TV **				1p:5e46fba0c43b0d00096e5ac1
   Cheddar News				8:https://livestream.chdrstatic.com/b93e5b0d43ea306310a379971e384964acbe4990ce193c0bd50078275a9a657d/cheddar-42620/cheddarweblive/cheddar/index.m3u8
   Free Speech TV			8:https://edge.fstv-live-linear-channel.top.comcast.net/Content/HLS_HLSv3/Live/channel(b168a609-19c1-2203-ae1d-6b9726f05e67)/index.m3u8
-  Lindell TV				https://rumble.com/live-hls-dvr/6bll2p/playlist.m3u8
+  Lindell TV				8:https://rumble.com/live-hls-dvr/6pggjd/playlist.m3u8
   NewsMax *				5a:newsmax-tv
   NewsMax 2				8:https://nmxlive.akamaized.net/hls/live/529965/Live_1/index.m3u8
-  OAN					https://a-cdn.klowdtv.com/live1/oan/playlist.m3u8
+  OAN					8:https://a-cdn.klowdtv.com/live1/oan/playlist.m3u8
   OAN Plus *				9a:live/oan-encore
   Real America's Voice			8:https://dai.google.com/linear/hls/event/c-oMNcDLTeuszRKPugMj9Q/master.m3u8
   Salem Network				8:https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg00732-salemmediagroup-snc-ono/playlist.m3u8
@@ -235,19 +232,14 @@ stack_7_7 = copylist (`
   EBS Kids (South Korea)		8:https://ebsonair.ebs.co.kr/ebsufamilypc/familypc1m/playlist.m3u8
   Thai PBS (Thailand) **^		8:**http://thaipbs-live.cdn.byteark.com/live/playlist.m3u8
   Kompas TV (Indonesia, YT)		0:DOOrIxw5xOw
-  CCTV-4 (China, YT)			0:twhG7_jvA8g
   Public TV Armenia			8:https://amtvusdvr.tulix.tv/am2abr/index.m3u8
-  Kepez TV (Azerbaijan)			7:http://85.132.81.184:8080/arbkepez/live/index.m3u8
   Turkmenistan TV **			7:**http://alpha.tv.online.tm/hls/ch007_720/index.m3u8
   Zvezda TV (Russia)			8:http://tvchannelstream1.tvzvezda.ru/cdn/tvzvezda/playlist.m3u8
   TV Kujawy (Poland)			7:http://stream.tvkujawy.pl:8080/live/broadcast.m3u8
   FS1 Salzburg (Austria)		7:http://stream.fs1.tv:8080/hls/webstream.m3u8
-  Radio Weser TV (Germany)		8:https://h057.video-stream-hosting.de/radiowesertv-live/_definst_/mp4:livestreamTV/playlist.m3u8
   TV Filopoli (Greece)			8:http://live.streams.ovh:1935/tvfilopoli/tvfilopoli/playlist.m3u8
   Super TV (Italy)			8:http://wms.shared.streamshow.it:1935/supertv/supertv/live.m3u8
   TV 2000 (Italy)			8:https://hls-live-tv2000.akamaized.net/hls/live/2028510/tv2000/master.m3u8
-  TeleSUR (Venezuela)			8:https://cdnesmain.telesur.ultrabase.net/mbliveMain/480p/playlist.m3u8
-  Antofagasta TV (Chile)		8:http://unlimited1-us.dps.live/atv/atv.smil/playlist.m3u8
   Wow! TV (El Salvador)			8:http://cdn.elsalvadordigital.com:1935/wowtv/wowtv/playlist.m3u8
   TV Lobo (Mexico)			8:http://streamingcws20.com:1935/lobodurango/videolobodurango/playlist.m3u8
 `);
@@ -255,24 +247,25 @@ stack_7_7 = copylist (`
 /*
   
 9a:live/sonicentric
-7a:channel/midnight-pulp
-7a:channel/frightflix-2
-7a:channel/usa-today-news
-7a:channel/pickletv
-7a:channel/wildearth
-7a:channel/retrocrush
-7a:channel/asiancrush
+7a:midnight-pulp
+7a:frightflix-2
+7a:usa-today-news
+7a:pickletv
+7a:wildearth
+7a:retrocrush
+7a:asiancrush
 
-  cnn https://stream1.cinerama.uz/1259/playlist.m3u8
-  cnn international https://turnerlive.warnermediacdn.com/hls/live/586497/cnngo/cnni/VIDEO_0_3564000.m3u8
-  australia abc  https://abc-news-dmd-streams-1.akamaized.net/out/v1/abc83881886746b0802dc3e7ca2bc792/index.m3u8
+  Stingray Classica (Canada) *		9a:live/stingray-classica
+  Stingray Qello (Canada) *		9a:live/stingray-qello
+  Law & Crime				6a:8ba514251e1a58b7b53368177baa1041
 
   OAN Encore				8:https://stream-us-east-1.getpublica.com/playlist.m3u8?&network_id=1879
   Salem Network				8:https://snc-ono.amagi.tv/playlist.m3u8
-  NBC News (YT)				1:UCeY0bbntWzzVIaj2z3QigXg
   Fox News **				7:*https://usnewson.com*https://s0.usnlive.com/stream/foxnews.m3u8
   MSNBC **				7:*https://usnewson.com*https://s0.usnlive.com/stream/msnbc.m3u8
 
+  cnn international https://turnerlive.warnermediacdn.com/hls/live/586497/cnngo/cnni/VIDEO_0_3564000.m3u8
+  australia abc  https://abc-news-dmd-streams-1.akamaized.net/out/v1/abc83881886746b0802dc3e7ca2bc792/index.m3u8
 */
 
 frame_7.req_tubitv = async (id, frame, fmt) =>
@@ -1281,9 +1274,9 @@ try
 }
 ////////////////////
 
-frame_7.dig_wcotv = async (url, frame, fmt) =>
+frame_7.dig_wconline = async (url, frame, fmt) =>
 {
-  var tag = "wcotv"; if (is_busy (frame, tag + " (DIG)", 2)) return;
+  var tag = "wconline"; if (is_busy (frame, tag + " (DIG)", 2)) return;
   var s, t, sub, f = [0,0,0,0], ua = cors_kraker + "**!mock:1A|*";
 
 try
@@ -1291,9 +1284,13 @@ try
   response = await fetch (ua + url);
   textData = await response.text();
 
-  s = pullstring (textData, "script>var", "document"); if (!s) throw ("!!!");
-  t = pullstring (s, " ", " "); url = ""; eval (s + "url=" + t);
-  url = pullstring (url, 'src="', '"'); if (!url) throw ("!!!");
+  if (url = "", s = pullstring (textData, "script>var", "document"))
+  {
+    t = pullstring (s, " ", " "); eval (s + "url=" + t); url = pullstring (url, 'src="', '"');
+  }
+  else if (s = pullstring (textData, "<iframe", ">")) url = pullstring (s, 'src="', '"');
+
+  if (!url) throw ("!!!");
 
   response = await fetch (ua + url);
   textData = await response.text();

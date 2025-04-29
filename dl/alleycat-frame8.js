@@ -149,7 +149,6 @@ var request_iptv = function (src, url, frame, fmt)
   if (src == "5a") open_tv5 (frame, 1, url, fmt, "https://thetvapp.to");
   if (src == "6a") open_tv6 (frame, 1, url, fmt, "https://therokuchannel.roku.com");
   if (src == "7a") open_tv7 (frame, 1, url, fmt, "https://watch.plex.tv");
-  if (src == "8a") open_tv8 (frame, 0, url, fmt, "https://easycatchup.eu");
   if (src == "9a") open_tv9 (frame, 1, url, fmt, "https://www.distro.tv");
 }
 ////////////////////
@@ -526,10 +525,10 @@ if (s = stream_cache (sub)) url = s; else try
 }
 ////////////////////
 
-// https://watch.plex.tv/live-tv  format: channel/?????
+// https://watch.plex.tv/live-tv  format: ?????
 const open_tv7 = async (frame, mode, url, fmt, src) =>
 {
-  var h, s, t, sub = "7," + url; if (is_busy (frame, "", 1)) return;
+  var h, s, t, sub = "7," + url; if (is_busy (frame, "", 2)) return;
 
 if (s = stream_cache (sub)) url = s; else try
 {
@@ -538,15 +537,15 @@ if (s = stream_cache (sub)) url = s; else try
   response = await kitty (cors_kraker + "https://plex.tv/api/v2/users/anonymous", { method: 'POST', headers: s });
   textData = await response.text(); if (!(t = pullstring (textData, '"authToken":"', '"'))) throw("!!!");
 
-  response = await kitty (cors_kraker + src + "/en-GB/live-tv/" + url);
+  response = await kitty ("!" + cors_kraker + src + "/en-GB/live-tv/" + url);
   textData = await response.text();
 
-  s = textData.lastIndexOf ("/library/parts/");
-  s = pullstring (textData.substr (s, 100), '', '\\"'); if (!s) throw ("!!!");
+  s = pullstring (textData, '\\"slug\\":\\"' + url + '\\"', '.m3u8');
+  s = pullstring (s, '\\"key\\":\\"', ''); if (!s) throw ("!!!");
 
-  url = "https://epg.provider.plex.tv" + s + "?X-Plex-Token=" + t;
+  url = cors_kraker + "*,,*https://epg.provider.plex.tv" + s + ".m3u8?X-Plex-Token=" + t;
 
-  if (!s.includes (".m3u8")) throw ("!!!"); stream_cache (sub, url, 0);
+  stream_cache (sub, url, 0);
 
 } catch (err) { console.log (err); busy = 0; }
 
@@ -554,21 +553,12 @@ if (s = stream_cache (sub)) url = s; else try
 }
 ////////////////////
 
-// https://easycatchup.eu  format: stream=?????
 const open_tv8 = async (frame, mode, url, fmt, src) =>
 {
   var n, s, sub = "8," + url; if (is_busy (frame, "", 2)) return;
 
 if (s = stream_cache (sub)) url = s; else try
 {
-  url = src + "/watch.php?" + url;
-
-  response = await kitty (cors_kraker + url);
-  textData = await response.text();
-
-  url = pullstring (textData, "video.src='", "'");
-
-  if (url == "") throw ("!!!"); url = "**" + url; stream_cache (sub, url, 0);
 
 } catch (err) { console.log (err); busy = 0; }
 
@@ -589,7 +579,7 @@ if (s = stream_cache (sub)) url = s; else try
   textData = await response.text();
 
   url = pullstring (textData, '"contentUrl":"', '"');
-  n = url.indexOf ("&url="); if (n > 0) url = url.substr (n + 5);
+  n = url.indexOf ("&url=http"); if (n > 0) url = url.substr (n + 5);
   n = url.indexOf ("?"); if (n > 0) url = url.substr (0, n);
 
   if (!url) throw ("!!!"); stream_cache (sub, url, 0);
