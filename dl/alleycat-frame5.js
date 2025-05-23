@@ -19,6 +19,7 @@ document.getElementById ("src5").innerHTML = `
   <option value= "tedtalks"    >? m3u - TEDTalks
   <option value= "natfilmbrd"  >? m3u - NatFilmBrd
   <option value= "iheartradio" class="b"># aud - iHeartRadio
+  <option value= "inetradio"   class="b">? aud - InternetRadio
   <option value= "podcasts"    class="b">? aud - Podcasts
 `;
 
@@ -29,6 +30,28 @@ document.getElementById ("butt5").innerHTML = `
   <button onclick="copylist(this,5,3)">InfoWars</button>
   <button onclick="copylist(this,5,4)">iHeart</button>
 `;
+
+table_5 = [
+  "YouTube          mp4/webm  #$  CORS         https://www.youtube.com",
+  "BitChute         mp4       #$  Proxy        https://www.bitchute.com",
+  "Rumble           mp4       +   Proxy (DIG)  https://rumble.com",
+  "Vimeo            mp4/m3u8  #$  KRKR         https://vimeo.com",
+  "InfoWars         m3u8/mp4  +   No Proxy     https://www.infowars.com  https://banned.video",
+  "Brighteon        m3u8      +$  CORS         https://www.brighteon.com  https://www.naturalnews.com",
+  "DailyMotion	    m3u8      #$  KRKR         https://www.dailymotion.com",
+  "153News          mp4       #   Proxy        https://153news.net",
+  "Odysee           mp4/m3u8  ?   KRKR         https://odysee.com",
+  "Twitter          m3u8/mp4  +   KRKR         https://x.com  https://twitter.com",
+  "Facebook         mp4       ?   Proxy        https://www.facebook.com  https://www.instagram.com|(CORS)",
+  "Telegram         mp4       ?   Proxy        https://t.me",
+  "TikTok           mp4       ?   KRAK         https://www.tiktok.com",
+  "Twitch TV        m3u8      #   CORS         https://www.twitch.tv",
+  "PragerU          m3u8      ?   Proxy        https://www.prageru.com",
+  "TEDTalks         m3u8      ?   Proxy        https://www.ted.com",
+  "Nat. Film Board  m3u8      ?   Proxy        https://www.nfb.ca",
+  "iHeartRadio      aud       #$  No Proxy     https://www.iheart.com/podcast/  https://www.iheart.com/live/|(radio)",
+  "InternetRadio    aud       ?   Proxy        https://www.internet-radio.com",
+];
 
 frame_5 = {
   0: 'youtube', 1: 'bitchute', 2: 'vimeo', 3: 'infowars', 4: 'iheartradio', req_youtube: request
@@ -475,7 +498,7 @@ try
   url = id * 1 ? url.videoPlaybackAccessToken : url.streamPlaybackAccessToken;
   url = ".m3u8?sig=" + url.signature + "&token=" + encodeURIComponent (url.value);
   url = "https://usher.ttvnw.net/" + (id * 1 ? "vod/" : "api/channel/hls/") + id + url;
-  q = url; if (cors_local) url = cors_local + "~*,,*" + url;
+  q = url; if (cors_local) url = cors_local + "~*/,,*" + url;
 
   if (stream_all (frame, 1)) fmt = 0; else
   {
@@ -859,6 +882,24 @@ try
 } catch (err) { console.log (err); busy = 0; }
 
   if (no_fail (frame)) loadwindow (url, frame, tag, "?", fmt);
+}
+////////////////////
+
+frame_5.dig_inetradio = async (url, frame, fmt) =>
+{
+  var tag = "internetradio"; if (is_busy (frame, tag + " (DIG)", 0)) return;
+
+try
+{
+  response = await kitty (cors_bypass + url);
+  textData = await response.text();
+
+  url = pullstring (textData, "var stream", "}");
+  url = pullstring (url, '"', '"'); if (!url) throw ("!!!");
+
+} catch (err) { console.log (err); busy = 0; }
+
+  if (no_fail (frame)) loadwindow (url, frame, tag, "?");
 }
 ////////////////////
 

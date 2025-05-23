@@ -146,7 +146,7 @@ var request_iptv = function (src, url, frame, fmt)
 
   if (src == "3a") open_tv3 (frame, 1, url, fmt, "http://www.freeintertv.com");
   if (src == "4a") open_tv4 (frame, 0, url, fmt, "http://streamw.ink");
-  if (src == "5a") open_tv5 (frame, 1, url, fmt, "https://thetvapp.to");
+  if (src == "5a") open_tv5 (frame, 0, url, fmt, "https://thetvapp.to");
   if (src == "6a") open_tv6 (frame, 1, url, fmt, "https://therokuchannel.roku.com");
   if (src == "7a") open_tv7 (frame, 1, url, fmt, "https://watch.plex.tv");
   if (src == "9a") open_tv9 (frame, 1, url, fmt, "https://www.distro.tv");
@@ -155,14 +155,19 @@ var request_iptv = function (src, url, frame, fmt)
 
 const open_tv0 = async (frame, mode, url, fmt) =>
 {
-  if (url [0] == "*") if (cors_local) url = cors_local + "~" + url; else
-  {
-    n = url.indexOf ("*", 1); url = url.substr (n < 0 ? 1 : n + 1);
-  }
+  var n, f = [0,0,0,0], u = url.split ("<>"); if (is_busy (frame)) return;
 
-  if (is_busy (frame)) return; else if (!fmt)
+  for (n = 0; n < u.length; n++) if ((url = u[n])[0] == "*") url = u[n] =
+    cors_local ? cors_local + "~" + url : url.substr ((url.indexOf ("*", 1) + 1) || 1);
+
+  if (!fmt)
   {
     if (mode & 1) stream_all (frame, 2); else fmt = undefined;
+  }
+  else if (u.length > 1)
+  {
+    stream_all (frame, 1); for (n = 0; n < 4; n++) if (u[n]) f[n] = 1;
+    fixformat (f, frame); n = gotformat (f, fmt); url = u[n]; fmt = pixformat (n);
   }
   else if (stream_all (frame, 1) || !(mode & 1)) fmt = 0; else try
   {
@@ -314,12 +319,15 @@ if (s = stream_cache (sub)) url = s; else try
   s = response.headers.get ("zz-set-cookie") || "";
   s = (t = "thetvapp_session=") + pullstring (s, t, ";") + "; " + (t = "XSRF-TOKEN=") + pullstring (s, t, ";");
   u = pullstring (textData, '"stream_name" name="', '"'); if (!u) throw ("!!!");
+  u = cors_bypass + src + "/token/" + u;
 
-  response = await kitty (cors_bypass + src + "/token/" + u, allow_cookie ("", s));
-  textData = await response.text();
+  response = await kitty (u + "?quality=sd", allow_cookie ("", s));
+  textData = await response.text(); t = pullstring (textData, '"url":"', '"');
 
-  url = pullstring (textData, '"url":"', '"').replace (/\\/g, "");
-  if (!url) throw ("!!!"); stream_cache (sub, url, 0);
+  response = await kitty (u + "?quality=hd", allow_cookie ("", s));
+  textData = await response.text(); u = pullstring (textData, '"url":"', '"');
+
+  url = (t + "<><>" + u).replace (/\\/g, ""); if (!t && !u) throw ("!!!"); stream_cache (sub, url, 0);
 
 } catch (err) { console.log (err); busy = 0; }
 
@@ -494,10 +502,10 @@ if (s = stream_cache (sub)) url = s; else try
 ////////////////////
 */
 
-// https://therokuchannel.roku.com  format: ?????
+// https://therokuchannel.roku.com  format: #####
 const open_tv6 = async (frame, mode, url, fmt, src) =>
 {
-  var n, p, q, r, s, sub = "6," + url; if (is_busy (frame)) return;
+  var n, p, q, r, s, sub = "6," + url; if (is_busy (frame, "", 2)) return;
 
 if (s = stream_cache (sub)) url = s; else try
 {

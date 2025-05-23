@@ -223,7 +223,7 @@ th {
 }
 
 td {
-  font-size: 14px; line-height: 13px; padding: 0 4px;
+  font-size: 14px; line-height: 14px; padding: 0 4px;
   text-align: left; vertical-align: top; color: saddlebrown;
 }
 
@@ -821,7 +821,8 @@ var worker, client, last_client, vidwin, blank_page, download, helper;
 var last_h = last_w = last_raw = last_time = the_time = busy = 0;
 var response, textData, jsonData, dropdown, msg_timer, msg_result;
 
-var frame_5 = {}, frame_6 = {}, frame_7 = {}, radio = [];
+var frame_5 = {}, frame_6 = {}, frame_7 = {};
+var table_5 = "", table_6 = "", table_7 = "", radio = [];
 var cookies = {}, streams = {}, poorkitty = { abort: () => {} };
 
 var HLS_PLAYER  = "https://cdn.jsdelivr.net/npm/hls.js@0.12.0/dist/hls.min.js";
@@ -988,6 +989,11 @@ var resize_all = function (x)
 
 var init_frames = function (x)
 {
+  var tab = document.querySelectorAll ("table.list");
+
+  tab [0].innerHTML = init_table (table_5) + init_table (table_6);
+  tab [1].innerHTML = init_table (table_7);
+
   for (var n = 5; n <= 7; n++)
   {
     selectmake ("ytx" + n); selectmake ("fmt" + n);
@@ -998,6 +1004,33 @@ var init_frames = function (x)
   document.body.style = "display:block"; resize_all();
 }
 ////////////////////
+
+var init_table = function (tab)
+{
+  var m, n, p, q; if (!Array.isArray (tab)) return "";
+
+  function fixurl (x)
+  {
+    x = x.split ("|"); var z = x[0].split ("/").slice (2).join ("/");
+    if (z.substr (-1) == "/") z = z.substr (0, z.length - 1);
+
+    if (x[0]) z = "<a target=_blank href='" + x[0] + "'>" + z + "</a>";
+    if (x[1]) z += " " + x[1]; return ("<td>" + z + "</td>");
+  }
+
+  for (n = 0; n < tab.length; n++) if (typeof (p = tab [n]) != "string") tab [n] = ""; else
+  {
+    if (p == "----") { tab [n] = "<tr><td colspan=9><hr class=skinny></td></tr>"; continue; }
+    p = p.trim().replace (/\t/g, "  ").replace (/\s{2,}/g, "\n").split ("\n"); if (p.length < 5) continue;
+
+    q = "<tr><td>" + p[0] + "</td><td>" + p[1] + "</td><td>&nbsp;" + (p[2][0] || "") +
+       "</td><td>" + p[3] + "</td><td>" + (p[2][1] || "") + "</td>";
+
+    for (m = 4; m < p.length; m++) q += fixurl (p[m]); tab [n] = q;
+  }
+
+  return tab.join ("\n");
+}
 
 var init_radio = function ()
 {

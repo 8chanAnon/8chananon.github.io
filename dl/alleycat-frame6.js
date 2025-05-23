@@ -30,6 +30,28 @@ document.getElementById ("butt6").innerHTML = `
   <button onclick="copylist(this,6,3)">BBC</button>
 `;
 
+table_6 = ["----",
+  "Fox             m3u8/mp4  +   No Proxy     https://www.foxnews.com  https://www.foxbusiness.com",
+  "ABC             mp4       +   Proxy        https://abcnews.go.com",
+  "CBS             m3u8      ?   Proxy        https://www.cbsnews.com",
+  "CNBC            m3u8      +   Proxy        https://www.cnbc.com",
+  "CNN             m3u8      ?   No Proxy     https://www.cnn.com  https://edition.cnn.com",
+  "C-SPAN          m3u8      ?   Proxy        https://www.c-span.org",
+  "MS/NBC          m3u8      +   Proxy        https://www.msnbc.com  https://www.nbcnews.com",
+  "PBS             m3u8      +   Proxy        https://www.pbs.org",
+  "CBC             m3u8      ?   Proxy        https://www.cbc.ca",
+  "CPAC            m3u8      #   No Proxy     https://www.cpac.ca",
+  "CTV             mpd       +   Proxy (DIG)  https://www.ctvnews.ca  https://www.ctv.ca",
+  "Global          mp4       +   Proxy        https://globalnews.ca",
+  "TVO             mp4       +   Proxy (DIG)  https://www.tvo.org",
+  "BBC             m3u8      +   Proxy        https://www.bbc.com  https://www.bbc.co.uk/sounds",
+  "Press TV        m3u8      ?   Proxy        https://www.presstv.ir",
+  "Al Jazeera      mp4       +   Proxy (DIG)  https://www.aljazeera.com",
+  "Bloomberg       m3u8      +   Proxy        https://www.bloomberg.com",
+  "Deutsche Welle  mp4       #   No Proxy     https://www.dw.com",
+  "Epoch Times     m3u8      ?   Proxy        https://www.theepochtimes.com  http://www.ntd.com",
+];
+
 frame_6 = {
   1: 'fox', 2: 'pbs', 3: 'bbc', req_youtube: request,
   req_brightcove: load_brightcove, dig_brightcove: find_brightcove

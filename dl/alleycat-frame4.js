@@ -54,142 +54,16 @@ Sites accessible with a Brightcove DIG:<br>
   <small> -- Go to <a href="#info">Info viewer</a> or <a href="#news">News viewer</a>
     or <a href="#free">Movie viewer</a></small></h3>
 
-<table class="list" style="padding:2px 0">
-
-<tr><td>YouTube		</td><td>mp4/webm	</td><td>&nbsp;#</td><td>CORS</td><td>$</td>
-<td><a target=_blank href="https://www.youtube.com">www.youtube.com</a></td></tr>
-
-<tr><td>BitChute	</td><td>mp4		</td><td>&nbsp;#</td><td>Proxy</td><td>$</td>
-<td><a target=_blank href="https://www.bitchute.com">www.bitchute.com</a></td></tr>
-
-<tr><td>Rumble		</td><td>mp4		</td><td>&nbsp;+</td><td>Proxy (DIG)</td><td></td>
-<td><a target=_blank href="https://rumble.com">rumble.com</a></td></tr>
-
-<tr><td>Vimeo		</td><td>mp4/m3u8	</td><td>&nbsp;#</td><td>KRKR</td><td>$</td>
-<td><a target=_blank href="https://vimeo.com">vimeo.com</a></td></tr>
-
-<tr><td>InfoWars	</td><td>m3u8/mp4	</td><td>&nbsp;+</td><td>No Proxy</td><td></td>
-<td><a target=_blank href="https://www.infowars.com">www.infowars.com</a></td>
-<td><a target=_blank href="https://banned.video">banned.video</a></td></tr>
-
-<tr><td>Brighteon	</td><td>m3u8		</td><td>&nbsp;+</td><td>CORS</td><td>$</td>
-<td><a target=_blank href="https://www.brighteon.com">www.brighteon.com</a></td>
-<td><a target=_blank href="https://www.naturalnews.com">www.naturalnews.com</a></td></tr>
-
-<tr><td>DailyMotion	</td><td>m3u8		</td><td>&nbsp;#</td><td>KRKR</td><td>$</td>
-<td><a target=_blank href="https://www.dailymotion.com">www.dailymotion.com</a></td></tr>
-
-<tr><td>153News		</td><td>mp4		</td><td>&nbsp;#</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://153news.net">153news.net</a></td></tr>
-
-<tr><td>Odysee		</td><td>mp4/m3u8	</td><td>&nbsp;?</td><td>KRKR</td><td></td>
-<td><a target=_blank href="https://odysee.com">odysee.com</a></td></tr>
-
-<tr><td>Twitter		</td><td>m3u8/mp4	</td><td>&nbsp;+</td><td>KRKR</td><td></td>
-<td><a target=_blank href="https://twitter.com">twitter.com</a></td>
-<td><a target=_blank href="https://threadreaderapp.com">threadreaderapp.com</a></td></tr>
-
-<tr><td>Facebook	</td><td>mp4		</td><td>&nbsp;?</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://www.facebook.com">www.facebook.com</a></td>
-<td><a target=_blank href="https://www.instagram.com">www.instagram.com</a> (CORS)</td></tr>
-
-<tr><td>Telegram	</td><td>mp4		</td><td>&nbsp;?</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://t.me">t.me</a></td></tr>
-
-<tr><td>TikTok		</td><td>mp4		</td><td>&nbsp;?</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://www.tiktok.com">www.tiktok.com</a></td></tr>
-
-<tr><td>Twitch TV	</td><td>m3u8		</td><td>&nbsp;#</td><td>CORS</td><td></td>
-<td><a target=_blank href="https://www.twitch.tv">www.twitch.tv</a></td></tr>
-
-<tr><td>PragerU		</td><td>m3u8		</td><td>&nbsp;?</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://www.prageru.com">www.prageru.com</a></td></tr>
-
-<tr><td>TEDTalks	</td><td>m3u8		</td><td>&nbsp;?</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://www.ted.com">www.ted.com</a></td></tr>
-
-<tr><td>Nat. Film Board	</td><td>m3u8		</td><td>&nbsp;?</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://www.nfb.ca">www.nfb.ca</a></td></tr>
-
-<tr><td>iHeartRadio	</td><td>aud		</td><td>&nbsp;#</td><td>No Proxy</td><td>$</td>
-<td><a target=_blank href="https://www.iheart.com/podcast/">www.iheart.com/podcast</a></td>
-<td><a target=_blank href="https://www.iheart.com/live/">www.iheart.com/live</a> (radio)</td></tr>
-
-<tr><td colspan="7"><hr class="skinny"></td></tr>
-
-<tr><td>Fox		</td><td>m3u8/mp4	</td><td>&nbsp;+</td><td>No Proxy</td><td></td>
-<td><a target=_blank href="https://www.foxnews.com">www.foxnews.com</a></td>
-<td><a target=_blank href="https://www.foxbusiness.com">www.foxbusiness.com</a></td></tr>
-
-<tr><td>ABC		</td><td>mp4		</td><td>&nbsp;+</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://abcnews.go.com">abcnews.go.com</a></td></tr>
-
-<tr><td>CBS		</td><td>m3u8		</td><td>&nbsp;?</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://www.cbsnews.com">www.cbsnews.com</a></td></tr>
-
-<tr><td>CNBC		</td><td>m3u8		</td><td>&nbsp;+</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://www.cnbc.com">www.cnbc.com</a></td></tr>
-
-<tr><td>CNN		</td><td>m3u8		</td><td>&nbsp;?</td><td>No Proxy</td><td></td>
-<td><a target=_blank href="https://www.cnn.com">www.cnn.com</a></td>
-<td><a target=_blank href="https://edition.cnn.com">edition.cnn.com</a></td></tr>
-
-<tr><td>C-SPAN		</td><td>m3u8		</td><td>&nbsp;?</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://www.c-span.org">www.c-span.org</a></td></tr>
-
-<tr><td>MS/NBC		</td><td>m3u8		</td><td>&nbsp;+</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://www.msnbc.com">www.msnbc.com</a></td>
-<td><a target=_blank href="https://www.nbcnews.com">www.nbcnews.com</a></td></tr>
-
-<tr><td>PBS		</td><td>m3u8		</td><td>&nbsp;+</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://www.pbs.org">www.pbs.org</a></td></tr>
-
-<tr><td>CBC		</td><td>m3u8		</td><td>&nbsp;?</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://www.cbc.ca">www.cbc.ca</a></td></tr>
-
-<tr><td>CPAC		</td><td>m3u8		</td><td>&nbsp;#</td><td>No Proxy</td><td></td>
-<td><a target=_blank href="https://www.cpac.ca">www.cpac.ca</a></td></tr>
-
-<tr><td>CTV		</td><td>DASH		</td><td>&nbsp;+</td><td>Proxy (DIG)</td><td></td>
-<td><a target=_blank href="https://www.ctvnews.ca">www.ctvnews.ca</a></td>
-<td><a target=_blank href="https://www.ctv.ca">www.ctv.ca</a></td></tr>
-
-<tr><td>Global		</td><td>mp4		</td><td>&nbsp;+</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://globalnews.ca">globalnews.ca</a></td></tr>
-
-<tr><td>TVO		</td><td>mp4		</td><td>&nbsp;+</td><td>Proxy (DIG)</td><td></td>
-<td><a target=_blank href="https://www.tvo.org">www.tvo.org</a></td></tr>
-
-<tr><td>BBC		</td><td>m3u8		</td><td>&nbsp;+</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://www.bbc.com">www.bbc.com</a></td>
-<td><a target=_blank href="https://www.bbc.co.uk/sounds">www.bbc.co.uk/sounds</a></td></tr>
-
-<tr><td>Press TV	</td><td>m3u8		</td><td>&nbsp;?</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://www.presstv.ir">www.presstv.ir</a></td></tr>
-
-<tr><td>Al Jazeera	</td><td>mp4		</td><td>&nbsp;+</td><td>Proxy (DIG)</td><td></td>
-<td><a target=_blank href="https://www.aljazeera.com">www.aljazeera.com</a></td></tr>
-
-<tr><td>Bloomberg	</td><td>m3u8		</td><td>&nbsp;+</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://www.bloomberg.com">www.bloomberg.com</a></td></tr>
-
-<tr><td>Deutsche Welle	</td><td>mp4		</td><td>&nbsp;#</td><td>No Proxy</td><td></td>
-<td><a target=_blank href="https://www.dw.com">www.dw.com</a></td></tr>
-
-<tr><td>Epoch Times	</td><td>m3u8		</td><td>&nbsp;?</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://www.theepochtimes.com">www.theepochtimes.com</a></td>
-<td><a target=_blank href="http://www.ntd.com">www.ntd.com</a></td></tr>
-
-</table><p>
+<table class="list" style="padding:2px 0"></table><p>
 
 ? = works with DIG only<br>
 # = works with Play ID only<br>
 + = works with both DIG and Play ID<br>
 $ = use the Sandbox option to embed the original video
 <p>
-KRAK = only accessible with the Kraker Local Proxy Server<br>
-CORS = only accessible with a CORS unblocker (or Kraker Local)<br>
-KRKR = accessible with the Kraker Remote Proxy (may have limitations)
+KRAK = accessible with the Kraker Local Proxy Server only<br>
+KRKR = accessible with the Kraker Remote Proxy (may have limitations)<br>
+CORS = accessible with a CORS unblocker (or Kraker Local)
 
 <p><hr><p>
 
@@ -197,98 +71,8 @@ KRKR = accessible with the Kraker Remote Proxy (may have limitations)
   <small> -- Go to <a href="#info">Info viewer</a> or <a href="#news">News viewer</a>
     or <a href="#free">Movie viewer</a></small></h3>
 
-<table class="list" style="padding:2px 0">
+<table class="list" style="padding:2px 0"></table><p>
 
-<tr><td>Tubi		</td><td>m3u8		</td><td>&nbsp;#</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://tubitv.com">tubitv.com</a></td></tr>
-
-<tr><td>The Archive	</td><td>m3u8		</td><td>&nbsp;+</td><td>No Proxy</td><td></td>
-<td><a target=_blank href="https://www.thearchive.tv">www.thearchive.tv</a></td></tr>
-
-<tr><td>Dark Matter	</td><td>m3u8		</td><td>&nbsp;?</td><td>KRKR</td><td></td>
-<td><a target=_blank href="https://www.darkmattertv.com">www.darkmattertv.com</a></td></tr>
-
-<tr><td>Plex		</td><td>m3u8/mpd	</td><td>&nbsp;+</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://watch.plex.tv/on-demand">watch.plex.tv/on-demand</a></td></tr>
-
-<tr><td>Fawesome	</td><td>m3u8		</td><td>&nbsp;#</td><td>KRKR</td><td></td>
-<td><a target=_blank href="https://fawesome.tv/home">fawesome.tv/home</a></td></tr>
-
-<tr><td>Filmzie		</td><td>m3u8		</td><td>&nbsp;#</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://filmzie.com">filmzie.com</a></td></tr>
-
-<tr><td>Bilibili	</td><td>mpd		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://www.bilibili.tv">www.bilibili.tv</a></td></tr>
-
-<tr><td>CatFlix		</td><td>m3u8		</td><td>&nbsp;+</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://catflix.su">catflix.su</a></td><tr>
-
-<tr><td>Goojara		</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://ww1.goojara.to">ww1.goojara.to</a></td><tr>
-
-<tr><td>LookMovie	</td><td>m3u		</td><td>&nbsp;?</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://www.lookmovie2.to">www.lookmovie2.to</a></td><tr>
-
-<tr><td>StreamFlix	</td><td>m3u8		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://watch.streamflix.one">watch.streamflix.one</a></td><tr>
-
-<tr><td>PlayTaku	</td><td>m3u8/mp4	</td><td>&nbsp;+</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://s3embtaku.pro">s3embtaku.pro</a> !</td>
-<td><a target=_blank href="https://playtaku.net">playtaku.net</a> !</td><tr>
-
-<tr><td>WCOnline	</td><td>mp4		</td><td>&nbsp;?</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://www.wco.tv">www.wco.tv</a> !</td>
-<td><a target=_blank href="https://www.wcofun.net">www.wcofun.net</a> !</td><tr>
-
-<tr><td>XHamster	</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td>$</td>
-<td><a target=_blank href="https://xhamster.com">xhamster.com</a></td></tr>
-
-<tr><td>XVideos		</td><td>m3u8/mp4	</td><td>&nbsp;?</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://www.xvideos.com">www.xvideos.com</a></td></tr>
-
-<tr><td colspan="8"><hr class="skinny"></td></tr>
-
-<tr><td>DoodStream	</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://doodstream.com">doodstream.com</a></td></tr>
-
-<tr><td>DropLoad	</td><td>m3u8		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://dropload.io">dropload.io</a></td></tr>
-
-<tr><td>EplayVid	</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td>$</td>
-<td>no site link</td></tr>
-
-<tr><td>MixDrop		</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://mixdrop.ag">mixdrop.ag</a></td><tr>
-
-<tr><td>MoviesAPI	</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://moviesapi.club">moviesapi.club</a></td><tr>
-
-<tr><td>PkSpeed		</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td>$</td>
-<td><a target=_blank href="https://pkspeed.net">pkspeed.net</a></td><tr>
-
-<tr><td>StreamTape	</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://streamtape.com">streamtape.com</a></td><tr>
-
-<tr><td>TurboVid	</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://turbovid.eu">turbovid.eu</a></td><tr>
-
-<tr><td>UpStream	</td><td>m3u8/mp4	</td><td>&nbsp;#</td><td>KRAK</td><td>$</td>
-<td><a target=_blank href="https://upstream.to">upstream.to</a></td><tr>
-
-<tr><td>VidSrc		</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
-<td><a target=_blank href="https://vidsrc.net">vidsrc.net</a></td><tr>
-
-<tr><td>VTube		</td><td>m3u		</td><td>&nbsp;#</td><td>Proxy</td><td>$</td>
-<td><a target=_blank href="https://vtube.network">vtube.network</a></td></tr>
-
-<tr><td>Wootly		</td><td>mp4		</td><td>&nbsp;#</td><td>KRAK</td><td></td>
-<td>no site link</td></tr>
-
-<tr><td>InternetRadio	</td><td>aud		</td><td>&nbsp;?</td><td>Proxy</td><td></td>
-<td><a target=_blank href="https://www.internet-radio.com">www.internet-radio.com</a></td></tr>
-
-</table>
-<p>
 ! on a site url = use caution on the site due to popup ads<br>
 <p>
 Some search sites to get video links from:
