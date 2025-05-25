@@ -1,4 +1,4 @@
-console.log (window);
+// Patch file
 
 document.getElementById ("src7").innerHTML += `
   <option value= "goodporn" >? mp4 - GoodPorn

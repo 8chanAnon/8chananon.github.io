@@ -1,8 +1,10 @@
 // Notes and links
 
-document.getElementById ("blob").innerHTML = `
+document.getElementById ("blob1").innerHTML = `<p><hr><p>No release notes at this time.`;
 
-<p><hr><p><div style="width:90vw;height:50vh"></div>
+document.getElementById ("blob2").innerHTML = `
+
+<p><hr><p>
 
 <h3 id="notes">Special Notes</h3>
 <ul><li>
@@ -54,7 +56,7 @@ Sites accessible with a Brightcove DIG:<br>
   <small> -- Go to <a href="#info">Info viewer</a> or <a href="#news">News viewer</a>
     or <a href="#free">Movie viewer</a></small></h3>
 
-<table class="list" style="padding:2px 0"></table><p>
+<table class="links" style="padding:2px 0"></table><p>
 
 ? = works with DIG only<br>
 # = works with Play ID only<br>
@@ -71,7 +73,7 @@ CORS = accessible with a CORS unblocker (or Kraker Local)
   <small> -- Go to <a href="#info">Info viewer</a> or <a href="#news">News viewer</a>
     or <a href="#free">Movie viewer</a></small></h3>
 
-<table class="list" style="padding:2px 0"></table><p>
+<table class="links" style="padding:2px 0"></table><p>
 
 ! on a site url = use caution on the site due to popup ads<br>
 <p>

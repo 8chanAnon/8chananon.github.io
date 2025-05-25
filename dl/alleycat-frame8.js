@@ -128,8 +128,8 @@ Death FM			http://hi.death.fm/;
 
 var request_iptv = function (src, url, frame, fmt)
 {
-  if (src == "0") { request (url, frame, -fmt); return; }
-  if (src == "1") { request ("@" + url, frame, -fmt); return; }
+  if (src == "0") request (url, frame, -fmt);
+  if (src == "1") request ("@" + url, frame, -fmt);
 
   if (src == "6")  open_tv0 (frame, 1, url, 0);  // DASH
   if (src == "7")  open_tv0 (frame, 0, url, fmt);

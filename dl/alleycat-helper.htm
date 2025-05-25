@@ -3,19 +3,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>YouTube Player</title>
+<title>Playlist</title>
 
 <style type="text/css">
 
 body {
-  font-size: 17px; line-height: 19px;
-  text-align: center; font-family: 'times new roman', serif; 
+  font-size: 17px; line-height: 18px;
+  font-family: 'times new roman', serif; 
   color: maroon; background-color: navajowhite;
+  text-align: center;
 }
 
 .widevid {
-  position: relative; width: 736px; height: 414px;
-  border: 2px solid red; background-color: navy; overflow: hidden;
+  width: 736px; height: 414px;
+  position: relative; overflow: hidden;
+  border: 2px solid red; background-color: indigo;
 }
 
 .widevid:fullscreen {
@@ -30,34 +32,45 @@ body {
 
 iframe {
   position: absolute; width: 100%; height: 100%;
-  border: none; background-color: transparent; pointer-events: none;
+  border: none; background-color: transparent; pointer-events: auto;
+}
+
+.popbox {
+  position: absolute; z-index: -1; font-size: 14px;
+  width: 100%; height: 100%; overflow: auto; outline: none;
+}
+
+.popbox p {
+  width: 100%; height: 18px; line-height: 19px; margin: 0;
+  white-space: nowrap; overflow: hidden; vertical-align: top;
+  color: firebrick; background-color: blanchedalmond; cursor: default;
+}
+
+.popbox p[disabled] {
+  background-color: peachpuff;
+}
+
+.popbox span {
+  display: inline-block; width: calc(50% - 20px); padding: 0 4px; margin: 0 1px;
+  vertical-align: top; overflow: hidden; text-overflow: ellipsis; color: darkgreen;
+}
+
+.popbox span:hover:not([disabled]) {
+  background-color: palegreen;
+}
+
+.popbox button {
+  width: 15px; height: 100%; padding: 0; margin: 0;
+  font-size: 11px; line-height: 0; font-weight: bold; vertical-align: top;
+  border: none; border-radius: 0; color: chocolate; background-color: wheat;
 }
 
 input[type=text] {
-  height: 20px; padding: 1px 6px; outline: none; margin: 0;
-  font-size: 13px; font-family: verdana, sans-serif;
-  border: 1px solid peru; border-radius: 4px;
-  color: darkred; background-color: snow;
-}
-
-input[type=text][disabled] {
-  background-color: papayawhip; text-align: center; padding-right: 5px;
-}
-
-input[type=radio] {
-  vertical-align: middle; margin: -2px 1px 1px 2px;
-  filter: contrast(1.0) brightness(1.2) opacity(90%);
-}
-
-button {
-  width: auto; height: auto; margin: 1px 0; padding: 2px 12px 1px;
-  line-height: 17px; font-size: 13px; font-family: helvetica, sans-serif;
-  outline: none; border: 1px solid peru; border-radius: 5px;
-  color: slateblue; background-color: moccasin;
-}
-
-button:hover:not(:active) {
-  background-color: gainsboro;
+  height: 17px; font-size: 13px; padding: 3px 5px 1px 5px; 
+  border-width: 2px; border-style: solid; outline: none;
+  border-color: tan lemonchiffon lemonchiffon burlywood;
+  caret-color: navy; font-family: 'helvetica', sans-serif;
+  color: slateblue; background-color: cornsilk;
 }
 
 table {
@@ -65,17 +78,29 @@ table {
 }
 
 td.textbox {
-  width: 30vw; max-width: 250px; vertical-align: top; line-height: 20px;
-  padding: 0 2px 0 0; text-align: center; white-space: nowrap;
+  width: 30vw; max-width: 250px; font-size: 15px;
+  padding: 0 2px 0 0; vertical-align: top; line-height: 21px;
+  text-align: center; white-space: nowrap;
 }
 
 td.vidbox {
-  font-size: 15px; vertical-align: middle; line-height: normal;
-  padding: 0 0 0 2px; text-align: left; border-left: 1px solid firebrick;
+  font-size: 15px; line-height: normal; padding: 0 0 0 2px;
+  vertical-align: middle; border-left: 1px solid firebrick; text-align: left;
+}
+
+button {
+  width: auto; height: auto; padding: 2px 12px 1px;
+  line-height: 20px; font-size: 14px; font-family: helvetica, sans-serif;
+  outline: none; border: 1px solid peru; border-radius: 5px;
+  color: slateblue; background-color: blanchedalmond;
+}
+
+button:hover:not(:active) {
+  background-color: gainsboro;
 }
 
 hr {
-  border-color: thistle; border-style: solid; margin: 12px 0;
+  border-color: antiquewhite; border-style: solid; margin: 16px 0;
 }
 
 ::selection {
@@ -86,57 +111,44 @@ r_ { color: crimson; }
 g_ { color: seagreen; }
 b_ { color: blue; }
 
-</style></head><body onload="start()">
+</style></head><body onload="javascript:start()">
 
-<h2 style="text-align:center;margin:7px 0 10px 0"><r_>YouTube Player</r_></h2>
+<h2 style="text-align:center;margin:7px 0 10px 0"><r_>Free <g_>TV <r_>& <g_>Movie <r_>Playlist</h2>
 
 <table><tr><td class="textbox">
 
-<span style="display:block;font-size:22px;margin:16px 0 -7px">&#x1f408;</span>
-
-<span style="display:inline-block;text-align:left">
-
-<br><input type=radio name="tv" onclick="javascript:tv ('NOZKLtIIUZE')"> Hitler Rant
-<br><input type=radio name="tv" onclick="javascript:tv ('m_MaJDK3VNE')"> Herding Cats
-<br><input type=radio name="tv" onclick="javascript:tv ('0ZwfXUURS3g')"> Dukes of Hazzard
-<br><input type=radio name="tv" onclick="javascript:tv ('uQJoar17jyo')"> Schiff Hits the Fan
-<br><input type=radio name="tv" onclick="javascript:tv ('wLTGXblgUoc')"> Never Forget
-<br><input type=radio name="tv" onclick="javascript:tv ('fXjtDs2wO4Q')"> The Martians in Surrey
-<br><input type=radio name="tv" onclick="javascript:tv ('FnV0LqHd3h8')"> Make America Great Again
-<br><input type=radio name="tv" onclick="javascript:tv ('kJAsn_vJyY4')"> Starship Enterprise
-<br><input type=radio name="tv" onclick="javascript:tv ('74VHwppfHuI')"> The Best Is Yet To Come
-<br><input type=radio name="tv" onclick="javascript:tv ('XkkvC3D_srM')"> March of the Frogs
-<br><input type=radio name="tv" onclick="javascript:tv ('sGdWkl9M_TY')"> American Airman
-<br><input type=radio name="tv" onclick="javascript:tv ('AzEBH6DZJVk')"> St. James Infirmary
-<br><input type=radio name="tv" onclick="javascript:tv ('W-gngBsA_DI')"> I Told You So
-<br><input type=radio name="tv" onclick="javascript:tv ('w8KQmps-Sog')"> Uprising
-<br><input type=radio name="tv" onclick="javascript:tv ('D_XdjviX6gQ')"> Cat Scratch Fever
-<br><input type=radio name="tv" onclick="javascript:tv ('kx-inoYmN2Q')"> Alley Cat
-
-</span><span style="display:block;font-size:22px;margin:14px 0 0;transform:scale(-1,1)">&#x1f408;</span>
+<span style="display:block;font-size:22px;margin:13px 0 -1px">&#x1f408;</span>
+<hr><p><br><br><br>
+<button onclick="javascript:load_list()">Load Playlist</button>
+<br><br><br>
+<button onclick="javascript:stop_vid(1)">Open Playlist</button>
+<br><br><br>
+<button onclick="javascript:save_list()">Save Playlist</button>
+<br><br><br><br><hr>
+<span style="display:block;font-size:22px;transform:scale(-1,1)">&#x1f408;</span>
 
 </td><td class="vidbox">
 
 <div class="widevid"><h2 id="msg" class="msgbox">No Video</h2>
+<div class="popbox" tabindex="-1" onclick="javascript:play_vid(event)"></div>
 <iframe id="frame" autoplay allowfullscreen controls></iframe>
 
 </div></td></tr></table>
 
-<div style="margin:12px 0 12px 0">
-<button onclick="javascript:play_video()">Play</button> &nbsp;
-<input type=text style="width:360px"> &nbsp;
-<button onclick="javascript:stop_video()">Stop</button>
+<div style="margin:12px 0 12px 0;color:green">
+<button onclick="javascript:play_vid()">Play</button> &nbsp;
+<input type=text style="width:650px"><input type=file style="display:none"> &nbsp;
+<button onclick="javascript:stop_vid()">Stop</button>
+<p>
+This demonstrates video playback inside of another app. Runs through viewer 2 (News & Propaganda).
 
 </div><script>
 
-var line = document.querySelectorAll ("input[type=text]")[0];
-var stat = document.getElementById ("msg");
-var vid  = document.getElementById ("frame");
+var line = document.querySelector ("input[type=text]");
+var file = document.querySelector ("input[type=file]");
 
-var getvideo = function ()
-{
-  return (vid);
-}
+var stat = document.getElementById ("msg");
+var vid  = document.getElementById ("frame"), helper = vid;
 
 var pullstring = function (s, t, u)
 {
@@ -144,58 +156,131 @@ var pullstring = function (s, t, u)
   m = n < m ? -1 : (u ? s.indexOf (u, n) : s.length);
   return (m < 0 ? "" : s.substr (n, m - n));
 }
+////////////////////
 
 var say_worker = function (id, msg)
 {
   worker.postMessage ({ id: id, app: "@alleycat", msg: msg });
 }
+////////////////////
 
 var msg_worker = function (id, msg)
 {
   console.log ("Shared worker says", msg);
 
-  if (msg == "okay")  stat.innerHTML = "Okay";
-  if (msg == "error") stat.innerHTML = "Error";
-  if (msg == "retry") stat.innerHTML = "Retry";
-}
-
-var start = function ()
-{
-  worker = new SharedWorker ("worker.js").port;
-  worker.onmessage = function (e) { msg_worker (e.data.id, e.data.msg); }
-  if (opener) opener.helper = window;
-}
-
-var stop_video = function ()
-{
-  vid.src = "about:blank"; stat.innerHTML = "No Video";
+  if (msg == "okay")  stat.innerText = "Okay";
+  if (msg == "error") stat.innerText = "Error";
+  if (msg == "retry") stat.innerText = "Retry";
 }
 ////////////////////
 
-var tv = function (id)
+var crypt = async () =>
 {
-  stop_video(); stat.innerHTML = "Busy";
-  line.value = "https://www.youtube.com/watch?v=" + id;
-  if (opener) opener.helper = window; say_worker ("test", "2 youtube " + id);
-}
-////////////////////
+  var resp, data;
 
-var play_video = function ()
-{
-  var m, n, s, url = line.value.trim(); if (!url) return;
+  try { resp = await fetch ("alleycat-helper.m3u");
+        data = await resp.text(); if (data.indexOf ("#EXTM3U")) data = ""; } catch { data = "" }
 
-  if (url.includes ("youtube") || url.includes ("youtu.be"))
+  if (data) return (data); else try
   {
-    if ((n = url.indexOf ("?")) >= 0)
-    {
-      s = url.substr (n); url = url.substr (0, n);
-      m = pullstring (s, "?v=", "") || pullstring (s, "&v=", "");
-      if ((n = m.indexOf ("&")) >= 0) m = m.substr (0, n); if (m) url = "/" + m;
-    }
-    url = (n = url.lastIndexOf ("/")) < 0 ? "" : url.substr (n + 1);
+    resp = await fetch ("alleycat-helper.txt"); return (atob (await resp.text()));
+  }
+  catch { return "" }
+}
+////////////////////
+
+var start = async () =>
+{
+  load_list (await crypt());
+  file.onchange = function (e) { load_list (e.target.files [0]); }
+
+  worker = new SharedWorker ("/worker.js").port;
+  worker.onmessage = function (e) { msg_worker (e.data.id, e.data.msg); }
+  if (window.opener) window.opener.helper = window;
+}
+////////////////////
+
+var load_list = function (data)
+{
+  var m, n, p, q, r, s, t, cnt = 0;
+
+  if (data === undefined) { file.click(); return; }
+
+  if (typeof (data) != "string") if (data.size > 5000000) return; else
+  {
+    m = new FileReader(); m.readAsText (data);
+    m.onload = function () { load_list (m.result); }; return;
   }
 
-  if (url.length == 11) tv (url); else line.value = "Invalid";
+  p = ""; data = data.split ("#EXTINF:");
+
+  for (n = 1; n < data.length; n++) if (m = data [n])
+  {
+    q = m.trim().split ("\n"); r = q[0];
+    r = r.substr (r.lastIndexOf (",") + 1).trim();
+    s = q.length < 2 ? "" : q [q.length - 1].trim();
+    m = (s.indexOf ("http") && s.indexOf ("#:")) ? " disabled" : "";
+
+    if (!m) cnt ++; m += " title='";
+    r = "<span" + m + r + "'>" + r + "</span>";
+    p += "<p" + m + s + "'><button>X</button>" + r + s + "</p>";
+  }
+
+  document.querySelector (".popbox").innerHTML = p + "<p>&nbsp;</p>";
+  stop_vid (1); line.value = "Number of channels = " + cnt;
+}
+////////////////////
+
+var save_list = function ()
+{
+  var m, n, p, q, r, s = "#EXTM3U\r\n";
+  var list = document.querySelector (".popbox").children;
+
+  for (n = 0; n < list.length - 1; n++) if (m = list [n])
+  {
+    p = m.title; q = m.children [1].title; r = m.hasAttribute ("disabled");
+    s += (r ? "\r\n" : "") + "#EXTINF:-1," + q + "\r\n" + (r ? "" : p) + "\r\n";
+  }
+
+  s = new Blob ([s]); list = document.createElement ('A'); list.download = "alleycat-helper.m3u";
+  list.href = URL.createObjectURL (s); list.click(); URL.revokeObjectURL (list.href);
+}
+////////////////////
+
+var stop_vid = function (show)
+{
+  if (stat.innerText == "Busy") { say_worker ("null", "abort"); return; }
+  var win = document.querySelector (".popbox"); win.style.zIndex = show ? 2 : -1;
+  win.focus(); vid.src = "about:blank"; vid.style = ""; stat.innerText = "No Video";
+}
+////////////////////
+
+var play_vid = function (event)
+{
+  var p, q, r; if (stat.innerText == "Busy") return;
+
+  if (event)
+  {
+    p = event.target; q = p.parentNode;
+    if (p.nodeName == "BUTTON") { q.parentNode.removeChild (q); return; }
+    if (p.nodeName != "SPAN" || q.hasAttribute ("disabled")) return;
+    line.value = q.title; p.style.color = "crimson";
+  }
+
+  stop_vid (0); stat.innerText = "Busy";
+
+  r = line.value.trim(); if (r[0] == "?") r = "#:" + r.substr (1);
+  if (r[0] != "#") r = (r.includes (".m3u") ? "#:8:" : "#:9:") + r;
+
+  r = r.split (":"); p = r[1]; q = r.slice (2).join (":");
+
+  if (p == "distro")  { p = "9a"; q = "live/" + q; }
+  if (p == "plextv")  p = "7a";
+  if (p == "tvapp")   p = "5a";
+
+  if (window.opener) window.opener.helper = window;
+
+  say_worker ("null", "2 " + (p.length < 3 ? "tv" : p) + " " + (p.length < 3 ? p + ":" + q : q));
 }
 ////////////////////
 

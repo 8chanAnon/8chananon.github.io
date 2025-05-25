@@ -201,7 +201,7 @@ table {
   border: 3px solid green;
 }
 
-table.list {
+table.list, table.links {
   border: 2px solid olivedrab;
 }
 
@@ -413,7 +413,7 @@ CORS Unblockers:&nbsp;
 <a href="https://8chananon.github.io/Alleycat-Player/current/manual-alleycat-v2.htm" target=_blank>Alleycat Player</a> --
 <a href="https://8chananon.github.io/Alleycat-Player/current/manual-kraker-v3.htm" target=_blank>Local Proxy Server</a>
 &nbsp;|&nbsp; <a href="https://8chananon.github.io" target=_blank>Check for Updates</a>
-&nbsp;|&nbsp; <button onclick="javascript:window.open('alleycat-helper.htm')">Helper</button>
+&nbsp;|&nbsp; <a href="javascript:void(window.open('alleycat-helper.htm'))">Helper</a>
 <p>
 If you have not installed the <b>Kraker Local Proxy Server</b> then please go read the Installation Manual.
 <br>
@@ -428,7 +428,8 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 
 </div>
 
-<div id="blob" style="text-align:left"></div><div style="width:90vw;height:50vh"></div>
+<div id="blob1" style="text-align:left"></div>
+<div id="blob2" style="text-align:left"></div><div style="width:90vw;height:50vh"></div>
 
 <!--
 /////
@@ -877,7 +878,7 @@ var say_worker = function (id, msg)
 
 var msg_worker = function (id, msg)
 {
-  if (!id && !msg) say_worker (); else console.log ("Shared worker says", msg);
+  if (!id && !msg) say_worker(); else console.log ("Shared worker says", msg);
 
   if (!id)
   {
@@ -888,7 +889,10 @@ var msg_worker = function (id, msg)
     return;
   }
 
-  if (msg [0] == "@") { getmessage (msg); return; }
+  if (msg == "abort") if (!busy || id != client) return; else
+  {
+    busy = 0; poorkitty.abort(); say_worker (id, "error"); client = ""; return;
+  }
 
   if (busy || !get_time()) { say_worker (id, "retry"); return; }
 
@@ -912,13 +916,14 @@ var msg_worker = function (id, msg)
     client = ""; if (id) loadwindow (id, frm, "@ raw video"); return;
   }
 
-  if (id [0] == "?") { id = id.substr (1); msg = open_stream; } else
+  if (src == "tv") src = open_stream (id, frm, fmt); else
   {
     msg = (id.includes ("://") ? "dig_" : "req_") + src;
     msg = frame_5 [msg] || frame_6 [msg] || frame_7 [msg];
+    if (msg) msg (id, frm, fmt); else src = "";
   }
 
-  if (msg) msg (id, frm, fmt); else { say_worker (client, "error"); client = ""; }
+  if (!src) { say_worker (client, "error"); client = ""; }
 }
 ////////////////////
 
@@ -987,9 +992,9 @@ var resize_all = function (x)
 }
 ////////////////////
 
-var init_frames = function (x)
+var init_frames = function (prx)
 {
-  var tab = document.querySelectorAll ("table.list");
+  var tab = document.querySelectorAll ("table.links");
 
   tab [0].innerHTML = init_table (table_5) + init_table (table_6);
   tab [1].innerHTML = init_table (table_7);
@@ -1000,7 +1005,7 @@ var init_frames = function (x)
     selectmake ("stk" + n); selectmake ("src" + n); selectmake ("win" + n);
   }
 
-  selectmake ("proxy", x); init_radio();
+  selectmake ("proxy", prx); init_radio();
   document.body.style = "display:block"; resize_all();
 }
 ////////////////////
@@ -1306,6 +1311,7 @@ var is_busy = function (frame, msg, cors)
     if (client) say_worker (client, "error");
     last_client = client = msg = "";
   }
+
   if (msg) document.getElementById ("id" + frame).value = msg;
   document.getElementById ("vid" + frame).innerHTML = cors;
   fixformat ("", frame); return (!busy);
@@ -1471,7 +1477,7 @@ var open_stream = function (url, frame, fmt)
 
   document.getElementById ("id" + frame).value = "Tuning...";
 
-  request_iptv (src, url, frame, fmt);
+  request_iptv (src, url, frame, fmt); return (busy || !client);
 }
 ////////////////////
 
@@ -1694,7 +1700,9 @@ var loadwindow = function (url, frame, site, id, fmt)
 {
   var h, w, raw, win, title, insert, specs;
   var sandbox = "allow-scripts allow-same-origin allow-forms";
+
   var client = last_client; last_client = "";
+  if (helper && helper.closed !== false) helper = "";
 
   var bstyle = "<body style='margin:0;padding:0;overflow:hidden;background-color:";
   var istyle = " style='position:absolute;border:none;outline:none;width:100%;height:100%'";
@@ -1709,8 +1717,7 @@ var loadwindow = function (url, frame, site, id, fmt)
     frm.src = "about:blank"; frm.removeAttribute ("sandbox");
 //    win = frm.parentNode; win.removeChild (frm); win.appendChild (frm);
     if (site) document.getElementById ("id" + frame).value = site;
-    frm.style.backgroundColor = ""; frm.style.pointerEvents = "none";
-    frm.style.filter = ""; msg.innerHTML = "No Video"; return;
+    frm.style = ""; msg.innerHTML = "No Video"; return;
   }
 
   var btn_a = document.getElementById ("btn" + frame + "a").checked;
@@ -1766,8 +1773,8 @@ var loadwindow = function (url, frame, site, id, fmt)
   }
   else
   {
-    client = client && helper && !helper.closed && (win = helper.getvideo);
-    client = client && raw == 1 && (win = win()) && (msg.innerHTML = "Helper", frm = win);
+    if (client && helper && (win = helper.helper))
+      if (win.nodeName == "IFRAME") { frm = win; msg.innerHTML = "Helper"; }
 
     if (raw == 1)
     {
