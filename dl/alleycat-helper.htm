@@ -113,7 +113,8 @@ b_ { color: blue; }
 
 </style></head><body onload="javascript:start()">
 
-<h2 style="text-align:center;margin:7px 0 10px 0"><r_>Free <g_>TV <r_>& <g_>Movie <r_>Playlist</h2>
+<h2 style="text-align:center;margin:7px 0 10px 0">
+  <r_>Free</r_> <g_>TV</g_> <r_>&</r_> <g_>Movie</g_> <r_>Playlist</r_></h2>
 
 <table><tr><td class="textbox">
 
@@ -144,19 +145,11 @@ This demonstrates video playback inside of another app. Runs through viewer 2 (N
 
 </div><script>
 
-var line = document.querySelector ("input[type=text]");
 var file = document.querySelector ("input[type=file]");
+var line = document.querySelector ("input[type=text]");
 
 var stat = document.getElementById ("msg");
 var vid  = document.getElementById ("frame"), helper = vid;
-
-var pullstring = function (s, t, u)
-{
-  if (!s) return ""; var m = t.length, n = s.indexOf (t) + m;
-  m = n < m ? -1 : (u ? s.indexOf (u, n) : s.length);
-  return (m < 0 ? "" : s.substr (n, m - n));
-}
-////////////////////
 
 var say_worker = function (id, msg)
 {
@@ -264,23 +257,17 @@ var play_vid = function (event)
     p = event.target; q = p.parentNode;
     if (p.nodeName == "BUTTON") { q.parentNode.removeChild (q); return; }
     if (p.nodeName != "SPAN" || q.hasAttribute ("disabled")) return;
-    line.value = q.title; p.style.color = "crimson";
+    line.value = p.title + " > " + q.title; p.style.color = "crimson";
   }
 
-  stop_vid (0); stat.innerText = "Busy";
+  r = line.value.trim().split (" ").pop();
 
-  r = line.value.trim(); if (r[0] == "?") r = "#:" + r.substr (1);
+  if (r[0] == "?") r = "#:" + r.substr (1);
   if (r[0] != "#") r = (r.includes (".m3u") ? "#:8:" : "#:9:") + r;
-
-  r = r.split (":"); p = r[1]; q = r.slice (2).join (":");
-
-  if (p == "distro")  { p = "9a"; q = "live/" + q; }
-  if (p == "plextv")  p = "7a";
-  if (p == "tvapp")   p = "5a";
+  if (r[1] != ":") return; r = "2 " + r.substr (2);
 
   if (window.opener) window.opener.helper = window;
-
-  say_worker ("null", "2 " + (p.length < 3 ? "tv" : p) + " " + (p.length < 3 ? p + ":" + q : q));
+  stop_vid (0); stat.innerText = "Busy"; say_worker ("null", r);
 }
 ////////////////////
 

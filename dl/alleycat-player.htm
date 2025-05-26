@@ -468,7 +468,7 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 <button onclick="javascript:frame_req(5,0)">Play ID</button>
 <button onclick="javascript:reset_frame(5)">Clear</button>
 <p></p>
-<input type=text id="id5" maxlength=256 class="idspec" onfocus="javascript:nostack(5)">
+<input type=text id="id5" maxlength=256 class="idspec" onclick="javascript:nostack(5)">
 <p></p>
 
 <div class="dropbox dropbox1"><input type=text disabled><button>+</button>
@@ -581,7 +581,7 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 <button onclick="javascript:frame_req(6,0)">Play ID</button>
 <button onclick="javascript:reset_frame(6)">Clear</button>
 <p></p>
-<input type=text id="id6" maxlength=256 class="idspec" onfocus="javascript:nostack(6)">
+<input type=text id="id6" maxlength=256 class="idspec" onclick="javascript:nostack(6)">
 <p></p>
 
 <div class="dropbox dropbox1"><input type=text disabled><button>+</button>
@@ -693,7 +693,7 @@ Pick a station and <b>play the radio</b>. Music soothes the heart and mind. You 
 <button onclick="javascript:frame_req(7,0)">Play ID</button>
 <button onclick="javascript:reset_frame(7)">Clear</button>
 <p></p>
-<input type=text id="id7" maxlength=256 class="idspec" onfocus="javascript:nostack(7)">
+<input type=text id="id7" maxlength=256 class="idspec" onclick="javascript:nostack(7)">
 <p></p>
 
 <div class="dropbox dropbox1"><input type=text disabled><button>+</button>
@@ -897,33 +897,12 @@ var msg_worker = function (id, msg)
   if (busy || !get_time()) { say_worker (id, "retry"); return; }
 
   client = id; msg = msg.split (" "); var frm = msg [0] * 1;
-  if (isNaN (frm) || frm < 1 || frm > 3) msg = "";
-  var src = msg [1]; id = msg [2];
-
-  if (!id || !src) { say_worker (client, "error"); client = ""; return; }
+  if (isNaN (frm) || frm < 1 || frm > 3) msg = ""; id = msg [1];
 
   frm += 4; clear_video (frm); setup_cors (frm);
   var fmt = document.getElementById ("fmt" + frm).value;
 
-  if (!src.indexOf ("raw_"))
-  {
-    fmt = 1; src = src.substr (4); if (src == "m3u8") fmt = 2;
-    if (src == "dash") fmt = 3; poke_hls (frm, fmt); fixformat ("", frm);
-
-    if (id.indexOf ("http")) id = localhost ? localhost + id : "";
-
-    say_worker (client, id ? "okay" : "error"); last_client = client;
-    client = ""; if (id) loadwindow (id, frm, "@ raw video"); return;
-  }
-
-  if (src == "tv") src = open_stream (id, frm, fmt); else
-  {
-    msg = (id.includes ("://") ? "dig_" : "req_") + src;
-    msg = frame_5 [msg] || frame_6 [msg] || frame_7 [msg];
-    if (msg) msg (id, frm, fmt); else src = "";
-  }
-
-  if (!src) { say_worker (client, "error"); client = ""; }
+  if (!open_stream (id, frm, fmt)) { say_worker (client, "error"); client = ""; }
 }
 ////////////////////
 
@@ -1434,7 +1413,7 @@ var frame_req = function (frame, mode, url)
   var target = "req_"; url = url.split (" ").pop();
   src = document.getElementById ("src" + frame).value;
 
-  if ((sub = url.split (":")).length > 1 && sub [0].length < 4)
+  if ((sub = url.split (":")).length > 1 && sub [0].length < 3)
   {
     src = window ["frame_" + frame][sub.shift()];
     url = sub.join (":"); if (url.includes ("/")) target = "dig_";
@@ -1466,7 +1445,7 @@ var open_stream = function (url, frame, fmt)
   if (url [0] == "<") { open_dloader (url, frame, fmt); return; }
 
   var sub = url.split (":"), src = sub.shift();
-  url = sub.join (":"); if (!url || !src || src.length > 3) return;
+  url = sub.join (":"); if (!url || !src) return;
 
   if (url [0] == "^")  // string is reversed to hide from DMCA scans
   {
@@ -1475,9 +1454,22 @@ var open_stream = function (url, frame, fmt)
     url = url.substr (1, i - 1) + k + url.substr (j);
   }
 
-  document.getElementById ("id" + frame).value = "Tuning...";
+  sub = document.getElementById ("stk" + frame);
+  sub.parentNode.firstElementChild.value = sub.value = "?" + src + ":" + url;
 
-  request_iptv (src, url, frame, fmt); return (busy || !client);
+  if (src.length > 2)
+  {
+    src = (url.includes ("://") ? "dig_" : "req_") + src;
+    sub = frame_5 [src] || frame_6 [src] || frame_7 [src];
+    if (!sub) return; sub (url, frame, fmt);
+  }
+  else
+  {
+    document.getElementById ("id" + frame).value = "Tuning...";
+    request_iptv (src, url, frame, fmt);
+  }
+
+  return (busy || !client);
 }
 ////////////////////
 
