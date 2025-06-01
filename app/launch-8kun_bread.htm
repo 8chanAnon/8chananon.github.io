@@ -2,20 +2,21 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="referrer" content="no-referrer">
 <link rel="icon" href="launch-8kun.ico">
 
 <title>&nbsp;</title></head><body onload="javascript:start()">
 
 <script>
 
-var box, worker, url, ID;
+var box, worker, url, localhost;
 
 var start = function ()
 {
   var top = window.opener; if (top && (top = top.document.topwindow) && top.closed) top = null;
 
   url = location.hash; if (!(url = url.substr (2))) { document.title = "ERROR"; return; }
+
+  localhost = location.hostname == "localhost" ? "/" : "";
 
   if (top) { document.topwindow = top; top.fetchbread (window, url); } else
   {
@@ -29,6 +30,7 @@ var closewindow = function ()
 {
   box = document.getElementsByTagName ("button")[0];
   box.parentNode.removeChild (box); document.title = "OKAY";
+  setTimeout (function() { window.close(); }, 1000);
 }
 
 var msg_worker = function (msg)
@@ -50,18 +52,15 @@ var say_worker = function (id, msg)
 
 var go_worker = function (retry)
 {
-  setTimeout (function() { say_worker (ID, url); }, retry ? 1000 : 50);
+  setTimeout (function() { say_worker ("null", url); }, retry ? 1000 : 50);
 }
 
 var go = function ()
 {
   if (!url) return; else if (worker) go_worker (0); else
   {
-    var w = location.hostname == "localhost" ? "/" : "";
-    ID = "ID" + Math.trunc (Math.random() * 10000 + 10000);
-
-    worker = new SharedWorker (w + "worker.js").port;
-    worker.onmessage = function (e) { msg_worker (e.data.msg); };
+    worker = new SharedWorker (localhost + "worker.js").port;
+    worker.onmessage = function (e) { msg_worker (e.data.msg); }
   }
 }
 

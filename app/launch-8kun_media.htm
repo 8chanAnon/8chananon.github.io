@@ -233,7 +233,7 @@ var start = function (cmd)
   var ref = document.getElementsByTagName ("a")[0];
 
   if (m = pullstring (link, "", "#")) link = m;
-  if (m = pullstring (link, "&id=", "&")) if (type == "tweet") link = m;console.log(link,m);
+  if (m = pullstring (link, "&id=", "&")) if (type == "tweet") link = m;
   if (m = pullstring (link, "", "?")) url = m; else url = link;
 
   if (url.substr (-1) == "/") url = url.substr (0, url.length - 1);
@@ -343,31 +343,10 @@ var variables = {
   withBirdwatchNotes: true, withVoice: true, rankingMode: 'Relevance'
 }
 
-/*
-var features = {
-  rweb_tipjar_consumption_enabled: true, responsive_web_graphql_exclude_directive_enabled: true,
-  verified_phone_label_enabled: false, creator_subscriptions_tweet_preview_api_enabled: true,
-  responsive_web_graphql_timeline_navigation_enabled: true,
-  responsive_web_graphql_skip_user_profile_image_extensions_enabled: false,
-  communities_web_enable_tweet_community_results_fetch: true,
-  c9s_tweet_anatomy_moderator_badge_enabled: true, articles_preview_enabled: true,
-  tweetypie_unmention_optimization_enabled: true, responsive_web_edit_tweet_api_enabled: true,
-  graphql_is_translatable_rweb_tweet_is_translatable_enabled: true,
-  view_counts_everywhere_api_enabled: true, longform_notetweets_consumption_enabled: true,
-  responsive_web_twitter_article_tweet_consumption_enabled: true, tweet_awards_web_tipping_enabled: false,
-  creator_subscriptions_quote_tweet_preview_enabled: false,
-  freedom_of_speech_not_reach_fetch_enabled: true, standardized_nudges_misinfo: true,
-  tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled: true,
-  rweb_video_timestamps_enabled: true, longform_notetweets_rich_text_read_enabled: true,
-  longform_notetweets_inline_media_enabled: true, responsive_web_enhance_cards_enabled: false
-}
-*/
-
 var features = {
   "rweb_video_screen_enabled":false,
   "profile_label_improvements_pcf_label_in_post_enabled":true,
   "rweb_tipjar_consumption_enabled":true,
-  "responsive_web_graphql_exclude_directive_enabled":true,
   "verified_phone_label_enabled":false,
   "creator_subscriptions_tweet_preview_api_enabled":true,
   "responsive_web_graphql_timeline_navigation_enabled":true,
@@ -407,7 +386,7 @@ const fetchtweet = async (doc, msg, id) =>
 {
   doc.innerHTML = "<span class='tweetbox' tabindex='-1'></span>"; var box = doc.firstChild;
   
-  var url = proxy + "https://x.com/i/api/graphql/b9Yw90FMr_zUb8DvA8r2ug/TweetDetail";
+  var url = proxy + "https://x.com/i/api/graphql/_8aYOgEDz35BrBcBal1-_w/TweetDetail";
 
   var bb = "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA";
   var tt = "a00c423812149cefa8a26ed20bd34b6976f4511c52f07cb37e787adf883c438c1dc59e2537f073c78c3bfae81dcc86af592efed2a51655ad7835445a73c1b964a5b60b68b571967dc0e3674d058ab0df";
@@ -417,9 +396,9 @@ try
 {
   var m, n, p, q, r, s, t, twitlist, replies, twits = {}, users = {};
   var this_id = sort_id = id; while (sort_id.length < 19) sort_id = "0" + sort_id;
-  var next_id = sort_id, tw_convo, tw_reply, tw_user, cursor = "";
+  var next_id = sort_id, tw_convo, tw_reply, tw_user, cursor = "", xxx;
 
-  for (var cnt = 0; cnt < 20; cnt++)
+  for (var cnt = 0; cnt < 1; cnt++)
   {
     variables.focalTweetId = id; variables.referrer = n ? 'tweet' : '';
     if (cursor) variables.cursor = cursor; else delete variables.cursor;
@@ -428,12 +407,24 @@ try
     r = encodeURIComponent (JSON.stringify (fieldToggles));
     u = url + "?variables=" + p + "&features=" + q + "&fieldToggles=" + r;
 
-    resp = await fetch (u, { headers: { authorization: bb, accept: "**" + cc, 'x-csrf-token': tt }});
+    xxx = {
+      authorization: bb, accept: "**" + cc, 'x-csrf-token': tt,
+      'x-twitter-auth-type': 'OAuth2Session',
+      'x-client-transaction-id': 'DWPkxiW6iY3PKVUtnl8J3z4boyRtmnvif+wXxoElx/rIk9VneScRirlxt93yk6/nx6FnsQ59pF3t+U0eCqV2gvFiOSugDg'
+    };
+
+//    if (cnt) await new Promise (x => setTimeout (x, 30000));
+
+    resp = await fetch (u, { headers: xxx });
+
+//    resp = await fetch (u, { headers: { authorization: bb, accept: "**" + cc, 'x-csrf-token': tt }});
 
     if (resp.status != 200) throw (resp.status == 429 ? "!Blocked" : "!Failed");
 
-    try { data = (await resp.json()).data.threaded_conversation_with_injections_v2.instructions[0].entries;
+    try { data = (await resp.json()).data.threaded_conversation_with_injections_v2.instructions;
         } catch (e) { data = ""; }
+
+    if (data && !data [0].entries) data.shift(); data = data [0].entries || "";
 
     for (t_thread = "", m = data.length, n = 0; n < data.length; n++) try
     {

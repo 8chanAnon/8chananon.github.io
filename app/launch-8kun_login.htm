@@ -17,36 +17,35 @@ body {
 }
 
 input {
-  height: 17px; font-size: 17px; outline: none;
+  height: 17px; font-size: 16px; padding: 3px 5px;
   font-family: 'consolas', 'lucida console', monospace;
-  border-width: 2px; border-style: solid;
+  outline: none; border-width: 2px; border-style: solid;
   border-color: tan lemonchiffon lightyellow burlywood;
-  padding: 3px 5px 3px 5px; caret-color: navy;
-  color: firebrick; background-color: seashell; content: " ";
+  caret-color: navy; color: firebrick; background-color: seashell;
 }
 
 input.static {
-  height: 21px; text-align: center; border: none;
-  font-size: 18px; font-family: 'verdana', 'helvetica', sans-serif;
-  font-style: italic; font-weight: bold; border-radius: 15px;
-  background-color: rosybrown; color: lightyellow; margin-left: 1px;
+  height: 22px; text-align: center; border: none; padding: 2px 7px;
+  font-size: 17px; font-family: 'verdana', 'helvetica', sans-serif;
+  font-style: italic; font-weight: bold; border-radius: 10px;
+  background-color: rosybrown; color: lightyellow;
 }
 
 button {
   width: auto; height: auto;
-  font-size: 15px; line-height: 19px;
-  padding: 1px 6px 0 6px; margin: 0 0 0 -3px;
+  font-size: 15px; line-height: 22px;
+  padding: 1px 9px 0 10px; margin: 0;
   font-family: 'helvetica', sans-serif;
-  color: darkblue; background-color: pink;
-  outline: none; border-color: #e8e8e8 #9c9c9c #9c9c9c #ececec;
+  color: darkgreen; background-color: blanchedalmond;
+  outline: none; border: 1px solid peru; border-radius: 8px;
 }
 
-button:hover:active {
-  border-color: #a8a8a8 #f8f8f8 #f4f4f4 #acacac;
+button:hover {
+  background-color: gainsboro;
 }
 
 h2 {
-  margin: 15px 0 20px 0;
+  margin: 2px 0 15px 0;
 }
 
 div {
@@ -68,14 +67,16 @@ w_ { color: firebrick; }
 
 </style></head><body onload="javascript:start()">
 
-<div><h2><r_>Login</r_></h2>
+<div style="display:none"><h2><r_>Login</r_></h2>
 
 <div>Username:<p></p>Password:<span></span>
   <button onclick="javascript:login()">Go!</button></div>
 
-<div><input type=text style="width:160px" autofocus>
+<div><input type=text style="width:160px">
   <p></p><input type=password style="width:160px"><span></span>
   <input type=text style="width:160px" class="static" disabled></div>
+
+<br><br>&nbsp;<r_>This login is only valid for posting.</r_>
 
 </div><script>
 
@@ -85,14 +86,18 @@ var start = function ()
 {
   if (location.hostname == "localhost") proxy = location.origin + "/~";
   var w = location.href, x = w.indexOf ("?") + 1; login_url = x ? w.substr (x) : "";
+  x = login_url.split ("/"); if (x[0].indexOf ("http") || x[1] || !x[2]) login_url = "";
 
   if (!login_url || !window.opener)
   {
-    document.body.children[0].innerHTML = "<h1><r_>Invalid!</r_></h1>"; return;
+    document.body.innerHTML = "<h2><r_>Invalid</r_></h2>"; return;
   }
 
+  x = window.opener.site_login().split ("**"); if (x [0]) { logout (x); return; }
+
   w = document.getElementsByTagName ("input");
-  w [0].value = w [1].value = w [2].value = "";
+  document.getElementsByTagName ("div")[0].style.display = "block";
+  w [0].focus(); w [0].value = w [1].value = w [2].value = "";
 }
 
 var message = function (msg)
@@ -131,5 +136,18 @@ var login = async () =>
   message ("Success!"); data = pullstring (data, '/logout/', '"');
   window.opener.site_login (cookie, data);
 }  
+
+var logout = async (key) =>
+{
+  document.body.innerHTML = "<h2><r_>Logged out</r_></h2>";
+  if (!key [1]) return; var head = { headers: { accept: "**" + key [0] }};
+
+  try {
+    resp = await fetch (proxy + login_url + "?/logout/" + key [1], head);
+    data = await resp.text(); if (resp.status == 200 || resp.status == 303) key = "";
+  } catch (e) { }
+
+  if (key) document.body.innerHTML = "<h2><r_>Error!</r_></h2>";
+}
 
 </script></body></html>
