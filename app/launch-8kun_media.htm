@@ -386,7 +386,7 @@ const fetchtweet = async (doc, msg, id) =>
 {
   doc.innerHTML = "<span class='tweetbox' tabindex='-1'></span>"; var box = doc.firstChild;
   
-  var url = proxy + "https://x.com/i/api/graphql/_8aYOgEDz35BrBcBal1-_w/TweetDetail";
+  var url = proxy + "!mock:1A|*https://x.com/i/api/graphql/_8aYOgEDz35BrBcBal1-_w/TweetDetail";
 
   var bb = "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA";
   var tt = "a00c423812149cefa8a26ed20bd34b6976f4511c52f07cb37e787adf883c438c1dc59e2537f073c78c3bfae81dcc86af592efed2a51655ad7835445a73c1b964a5b60b68b571967dc0e3674d058ab0df";
@@ -396,9 +396,9 @@ try
 {
   var m, n, p, q, r, s, t, twitlist, replies, twits = {}, users = {};
   var this_id = sort_id = id; while (sort_id.length < 19) sort_id = "0" + sort_id;
-  var next_id = sort_id, tw_convo, tw_reply, tw_user, cursor = "", xxx;
+  var next_id = sort_id, tw_convo, tw_reply, tw_user, cursor = "";
 
-  for (var cnt = 0; cnt < 1; cnt++)
+  for (var cnt = 0; cnt < 20; cnt++)
   {
     variables.focalTweetId = id; variables.referrer = n ? 'tweet' : '';
     if (cursor) variables.cursor = cursor; else delete variables.cursor;
@@ -406,18 +406,16 @@ try
     q = encodeURIComponent (JSON.stringify (features));
     r = encodeURIComponent (JSON.stringify (fieldToggles));
     u = url + "?variables=" + p + "&features=" + q + "&fieldToggles=" + r;
-
-    xxx = {
+/*
+    var xxx = {
       authorization: bb, accept: "**" + cc, 'x-csrf-token': tt,
       'x-twitter-auth-type': 'OAuth2Session',
       'x-client-transaction-id': 'DWPkxiW6iY3PKVUtnl8J3z4boyRtmnvif+wXxoElx/rIk9VneScRirlxt93yk6/nx6FnsQ59pF3t+U0eCqV2gvFiOSugDg'
     };
 
-//    if (cnt) await new Promise (x => setTimeout (x, 30000));
-
     resp = await fetch (u, { headers: xxx });
-
-//    resp = await fetch (u, { headers: { authorization: bb, accept: "**" + cc, 'x-csrf-token': tt }});
+*/
+    resp = await fetch (u, { headers: { authorization: bb, accept: "**" + cc, 'x-csrf-token': tt }});
 
     if (resp.status != 200) throw (resp.status == 429 ? "!Blocked" : "!Failed");
 
