@@ -422,7 +422,9 @@ try
     try { data = (await resp.json()).data.threaded_conversation_with_injections_v2.instructions;
         } catch (e) { data = ""; }
 
-    if (data && !data [0].entries) data.shift(); data = data [0].entries || "";
+    if (!data || !data.length) throw ("!Not found");
+
+    if (!data [0].entries) data.shift(); data = data [0].entries || "";
 
     for (t_thread = "", m = data.length, n = 0; n < data.length; n++) try
     {
@@ -507,13 +509,15 @@ try
     replies.push ((t && m) ? m : r); if (t) m = p; twitlist [n] = p;
   }
 
+  if (tw_user = users [tw_user] || "") tw_user = tw_user.screen_name || "";
+
   for (n = 0; n < twitlist.length; n++)
   {
     p = q = s = twitlist [n]; r = replies [n];
     while (q.length < 19) q = "0" + q; q = q < sort_id;
     if (r == "!") if (replies.includes (p)) r = ""; else continue;
 
-    while (p) p = q = newtweet (id, box, twits, users, p, q, r);
+    while (p) p = q = newtweet (id, tw_user, box, twits, users, p, q, r);
 
     for (m = q = n + 1; m < replies.length; m++) if (s == replies [m])
     {
@@ -539,7 +543,7 @@ var peek = function (item)
     { item.classList.add ("tw-drop"); x.style.transform = "scale(-1)"; }
 }
 
-var newtweet = function (id, box, twits, users, item, check, reply)
+var newtweet = function (id, scrname, box, twits, users, item, check, reply)
 {
   var a, b, c, i, j, k, m, n, image = " ", retweet = "";
   var twit, user, urls = [], tw_link = "<a href='" + origin;
@@ -547,11 +551,11 @@ var newtweet = function (id, box, twits, users, item, check, reply)
   if (!(twit = twits [item]) || !(user = users [twit.user_id_str])) return "";
 
   if ((m = twit.extended_entities) && (m = m.media))
-    for (n = 0; n < m.length; n++) if (k = m [n].media_url_https)
+    for (n = 0; n < m.length; n++) if (k = m[n].media_url_https)
     {
       if (c = m [n].url) { urls.push (c); urls.push (""); }
       image += " " + tw_link + "?image##" + k + "'>IMAGE</a>";
-      if (!(k = m [n].video_info) || !(k = k.variants)) continue;
+      if (!(k = m[n].video_info) || !(k = k.variants)) continue;
 
       for (i = 0; i < k.length; i++) if ((a = k [i].url) && a.includes (".mp4"))
       {
@@ -589,23 +593,23 @@ var newtweet = function (id, box, twits, users, item, check, reply)
 
   if (m = twit.entities.user_mentions) for (n = 0; n < m.length; n++)
   {
-    if (twit.self_thread == t_thread || m [n].indices [0] >= i) continue;
+    if (twit.self_thread == t_thread || m[n].indices [0] >= i) continue;
     c = (reply && item != check) ? " &#x2026;" + reply.substr (-4) : "";
-    a += (a ? "" : c) + " @" + m [n].screen_name;
+    k = m[n].screen_name; if (c || k != scrname) a += (a ? "" : c) + " @" + k;
   }
 
   if (twit.long && (m = twit.long.entity_set.user_mentions))
-    for (n = 0; n < m.length; n++) a += " @" + m [n].screen_name;
+    for (n = 0; n < m.length; n++) a += " @" + m[n].screen_name;
 
   m = twit.entities.urls || []; i = m.length * 2 + urls.length;
   if (twit.long) m = m.concat (twit.long.entity_set.urls || []);
 
   for (n = 0; n < m.length; n++)
   {
-    j = m [n].display_url; k = m [n].expanded_url;
+    j = m[n].display_url; k = m[n].expanded_url;
     // check for incorrectly flagged url (due to missing space after period)
     if (k.indexOf ("http:") || k.indexOf ("/", 7) > 0) j = "<a href='" + k + "'>" + j + "</a>";
-    urls.push (m [n].url); urls.push (j);
+    urls.push (m[n].url); urls.push (j);
   }
 
   var long = twit.long ? twit.long.text : ""; j = urls.length;
