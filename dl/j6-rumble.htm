@@ -296,7 +296,7 @@ var init = async () =>
     p = "<w_>" + p.substr (0, 3) + "-" + pullstring (p, " ", ",") + "</w_>";
     if (p.length < 15) p = p.replace ("-", "-0");
 
-    m = pullstring (m, '/playlists/', '>'); vidlist.push (q + "<>" + p + "<>" + m);
+    m = pullstring (m, '/playlists/', '?'); vidlist.push (q + "<>" + p + "<>" + m);
   }
 
   m = document.createElement ("SPAN"); m.value = "";
