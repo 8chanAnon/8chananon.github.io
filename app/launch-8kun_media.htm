@@ -394,7 +394,7 @@ const fetchtweet = async (doc, msg, id) =>
 
 try
 {
-  var m, n, p, q, r, s, t, twitlist, replies, twits = {}, users = {};
+  var m, n, p, q, r, s, t, u, twitlist, replies, twits = {}, users = {};
   var this_id = sort_id = id; while (sort_id.length < 19) sort_id = "0" + sort_id;
   var next_id = sort_id, tw_convo, tw_reply, tw_user, cursor = "";
 
@@ -422,7 +422,7 @@ try
     try { data = (await resp.json()).data.threaded_conversation_with_injections_v2.instructions;
         } catch (e) { data = ""; }
 
-    if (!data || !data.length) throw ("!Not found");
+    if (!data || !data.length) throw ("!Error");
 
     if (!data [0].entries) data.shift(); data = data [0].entries || "";
 
@@ -455,8 +455,7 @@ try
     }
     catch (e) { }
 
-    if (!(t = twits [id])) throw ("!Not found");
-    twitlist = []; t_total = t_count = 0;
+    twitlist = []; t_total = t_count = 0; if (!(t = twits [id])) throw ("!Not found");
 
     tw_user  = t.user_id_str;
     tw_reply = t.in_reply_to_status_id_str || id;
@@ -485,8 +484,8 @@ try
       if (q) twitlist.push (q);
     }
 
-    try { r = data [m - 1].content.itemContent;
-          r = r.cursorType ? encodeURIComponent (r.value) : "";
+    try { r = data [m - 1].content;  //r = data [m - 1].content.itemContent;
+          r = r.cursorType == "Bottom" ? encodeURIComponent (r.value) : "";
         } catch (e) { r = ""; }
 
     cursor = (r && r != cursor && twitlist.length < 75 + t_count) ? r : "";
