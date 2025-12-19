@@ -2,6 +2,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
 <link rel="icon" href="launch-8kun.ico">
 <base target="_blank">
 
@@ -488,7 +489,7 @@ try
           r = r.cursorType == "Bottom" ? encodeURIComponent (r.value) : "";
         } catch (e) { r = ""; }
 
-    cursor = (r && r != cursor && twitlist.length < 75 + t_count) ? r : "";
+    cursor = (r && r != cursor && m > 5 && twitlist.length < 75 + t_count) ? r : "";
 
     if (id != this_id) cursor = ""; if (cursor) continue;
     m = next_id; while (m [0] == "0") m = m.substr (1);
